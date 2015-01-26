@@ -21,6 +21,9 @@ public class Vertex implements javax.swing.undo.UndoableEdit
     private java.awt.Shape shape;
     private ArrayList<Edge> edges;
 
+    //rajouter des statics pour les paramètres par défaut
+
+
     public void addEdge(Edge edge){
         this.edges.add(edge);
     }
