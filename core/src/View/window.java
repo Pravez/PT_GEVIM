@@ -14,7 +14,7 @@ import java.awt.event.*;
 public class window extends JFrame {
     private int width;
     private int height;
-
+    private JTabbedPane tabs = new JTabbedPane(SwingConstants.TOP); // ensemble des onglets
 
     public window(int w, int h) {
     /* Création des composants */
@@ -25,7 +25,7 @@ public class window extends JFrame {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        final JButton clic = new JButton("Cliquer");
+        final JButton clic = new JButton("Nouvel onglet");
         JPanel pan1= new JPanel();
         pan1.setBackground(Color.WHITE);
     /* Bar de menu */
@@ -42,6 +42,24 @@ public class window extends JFrame {
         JMenuItem annuler = new JMenuItem("Annuler");
         JMenuItem copier = new JMenuItem("Copier");
         JMenuItem coller = new JMenuItem("Coller");
+
+
+
+
+        // Création du premier onglet
+        JPanel onglet1 = new JPanel();
+        JLabel titreOnglet1 = new JLabel("Onglet 1");
+        onglet1.add(titreOnglet1);
+        onglet1.setPreferredSize(new Dimension(width, height-200));
+        tabs.addTab("onglet1", onglet1);
+
+
+        tabs.setOpaque(true);
+        pan1.add(tabs);
+
+        this.getContentPane().add(pan1);
+        this.setVisible(true);
+
 
 		/* Ajout de composants aux conteneurs  */
         clic.setEnabled(false);
@@ -68,7 +86,12 @@ public class window extends JFrame {
 				/* clic sur le bouton clic */
         clic.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("1 clic");
+                JPanel newTab = new JPanel();
+                int nbTabs = tabs.getTabCount()+1;
+                JLabel titleNewTab = new JLabel("Onglet "+ nbTabs );
+                newTab.add(titleNewTab);
+                tabs.addTab("Onglet"+nbTabs, newTab);
+
             }
         });
 				/* clic sur le choix Démarrer du menu fichier */
