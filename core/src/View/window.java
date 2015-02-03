@@ -47,11 +47,9 @@ public class window extends JFrame {
 
 
         // Création du premier onglet
-        JPanel onglet1 = new JPanel();
-        JLabel titreOnglet1 = new JLabel("Onglet 1");
-        onglet1.add(titreOnglet1);
-        onglet1.setPreferredSize(new Dimension(width, height-200));
-        tabs.addTab("onglet1", onglet1);
+        JPanel tmpOnglet = addTabs();
+
+        tabs.addTab(tmpOnglet.getName(), tmpOnglet);
 
 
         tabs.setOpaque(true);
@@ -86,11 +84,8 @@ public class window extends JFrame {
 				/* clic sur le bouton clic */
         clic.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JPanel newTab = new JPanel();
-                int nbTabs = tabs.getTabCount()+1;
-                JLabel titleNewTab = new JLabel("Onglet "+ nbTabs );
-                newTab.add(titleNewTab);
-                tabs.addTab("Onglet"+nbTabs, newTab);
+                JPanel tmpOnglet = addTabs();
+                tabs.addTab(tmpOnglet.getName(), tmpOnglet);
 
             }
         });
@@ -110,6 +105,47 @@ public class window extends JFrame {
                 clic.setEnabled(false);
             }
         });
+
         this.setVisible(true);
+    }
+
+
+    private JPanel addTabs()
+    {
+
+        JPanel onglet = new JPanel();
+        onglet.setName("Onglet" + tabs.getTabCount());
+        JLabel titreOnglet = new JLabel("Onglet" + tabs.getTabCount());
+        onglet.add(titreOnglet);
+        onglet.setPreferredSize(new Dimension(width, height - 200));
+        onglet.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent mouseEvent) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent mouseEvent) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {
+
+            }
+        });
+
+        return onglet;
+
     }
 }
