@@ -20,6 +20,7 @@ public class Graph {
     private String file;
     private Color defaultColor;
     private int defaultThickness;
+    private Shape defaultShape;
 
     public ArrayList<Vertex> getVertexes() {
         return vertexes;
@@ -37,35 +38,19 @@ public class Graph {
         this.edges = edges;
     }
 
-    public void addEdge(Edge e){
-        edges.add(e);
-    }
-
-    public void removeEdge(Edge e){
-        edges.remove(e);
-    }
-
-    public void addVertex(Vertex v){
-        vertexes.add(v);
-    }
-
-    public void removeVertex(Vertex v){
-        vertexes.remove(v);
-    }
-
-    public void addSelectedEdge(Edge e){
+    public void selectedEdge(Edge e){
         selectedEdges.add(e);
     }
 
-    public void removeSelectedEdge(Edge e){
+    public void unselectedEdge(Edge e){
         selectedEdges.remove(e);
     }
 
-    public void addSelectedVertex(Vertex v){
+    public void selectVertex(Vertex v){
         selectedVertexes.add(v);
     }
 
-    public void removeSelectedVertex(Vertex v){
+    public void unselectedVertex(Vertex v){
         selectedVertexes.remove(v);
     }
 
@@ -114,5 +99,22 @@ public class Graph {
         selectedVertexes = new ArrayList<Vertex>();
     }
 
+    public Graph( Graph g) {
+        edges = new ArrayList<Edge>(g.edges);
+        selectedEdges = new ArrayList<Edge>(g.selectedEdges);
+
+        vertexes = new ArrayList<Vertex>(g.vertexes);
+        selectedVertexes = new ArrayList<Vertex>(g.selectedVertexes);
+    }
+
+    public void createVertex(int x, int y){
+        Vertex vertex = new Vertex(defaultColor, defaultThickness, x, y,defaultShape);
+        vertexes.add(vertex);
+    }
+
+    public void createEdge(Vertex origin, Vertex destination ){
+        Edge edge = new Edge(defaultThickness,defaultColor,origin,destination);
+        edges.add(edge);
+    }
 
 }

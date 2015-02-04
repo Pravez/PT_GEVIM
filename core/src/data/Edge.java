@@ -61,6 +61,14 @@ public class Edge implements javax.swing.undo.UndoableEdit{
 
     private int thickness;
     private java.awt.Color color;
+
+    public Edge(int thickness, Color color, Vertex origin, Vertex destination) {
+        this.thickness = thickness;
+        this.color = color;
+        this.origin = origin;
+        this.destination = destination;
+    }
+
     private String label;
     private Vertex origin;
     private Vertex destination;
