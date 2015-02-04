@@ -108,57 +108,46 @@ public class Vertex implements javax.swing.undo.UndoableEdit
     }
 
 
-    @Override
     public void undo() throws CannotUndoException {
 
     }
 
-    @Override
     public boolean canUndo() {
         return false;
     }
 
-    @Override
     public void redo() throws CannotRedoException {
 
     }
 
-    @Override
     public boolean canRedo() {
         return false;
     }
 
-    @Override
     public void die() {
 
     }
 
-    @Override
     public boolean addEdit(UndoableEdit undoableEdit) {
         return false;
     }
 
-    @Override
     public boolean replaceEdit(UndoableEdit undoableEdit) {
         return false;
     }
 
-    @Override
     public boolean isSignificant() {
         return false;
     }
 
-    @Override
     public String getPresentationName() {
         return null;
     }
 
-    @Override
     public String getUndoPresentationName() {
         return null;
     }
 
-    @Override
     public String getRedoPresentationName() {
         return null;
     }
