@@ -1,7 +1,14 @@
 package data;
 
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
+
 import javax.swing.undo.UndoManager;
 import java.awt.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -62,7 +69,7 @@ public class Graph {
         selectedVertexes.remove(v);
     }
 
-    public void clearSelectedsItem(){
+    public void clearSelectedItem(){
         selectedEdges.clear();
         selectedVertexes.clear();
     }
@@ -133,6 +140,96 @@ public class Graph {
     public void moveSelectedVertex(int vectorX, int vectorY){
         for(Vertex vertex : selectedVertexes){
             vertex.move(vectorX,vectorY);
+        }
+    }
+
+    /**
+     * Saves the current graph to an XML doc (XML-like doc)
+     * @param fileName
+     */
+    public void saveToGraphml(String fileName){
+
+        Element racine = new Element("Vertexes");
+        org.jdom2.Document toBeSaved = new Document(racine);
+
+        for(Vertex v : vertexes){
+            racine.addContent(createDocumentElement(v));
+        }
+
+        saveXML(fileName,toBeSaved);
+    }
+
+
+    /**
+     * Creates an XML element from a vertex
+     * @param v
+     * @return
+     */
+    private Element createDocumentElement(Vertex v){
+
+        Element createdElement = new Element("vertex");
+
+        Element name = new Element("name");
+        Element color = new Element("color");
+        Element thickness = new Element("thickness");
+        Element positionX = new Element("positionX");
+        Element positionY = new Element("positionY");
+        Element shape = new Element("shape");
+        Element edges = new Element("edges");
+
+        for(Edge e : v.getEdges()){
+            Element edge = new Element("edge");
+            edge.setText(e.getLabel());
+            edges.addContent(edge);
+        }
+
+        name.setText(v.getName());
+        color.setText(v.getColor().toString());
+        thickness.setText(String.valueOf(v.getThickness()));
+        positionX.setText(String.valueOf(v.getPositionX()));
+        positionY.setText(String.valueOf(v.getPositionY()));
+        shape.setText(v.getShape().toString());
+
+        createdElement.addContent(name);
+        createdElement.addContent(color);
+        createdElement.addContent(thickness);
+        createdElement.addContent(positionX);
+        createdElement.addContent(positionY);
+        createdElement.addContent(shape);
+
+        return createdElement;
+    }
+
+    /**
+     * Shows an XML document
+     * @param document
+     */
+    private static void showXML(Document document){
+
+        XMLOutputter sortie = new XMLOutputter(Format.getPrettyFormat());
+
+        try {
+            sortie.output(document, System.out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Saves a document at the "file" destination, in XML format
+     * @param file
+     * @param document
+     */
+    private static void saveXML(String file, Document document){
+        try
+        {
+            //On modifie le format d'enregistrement (affichage)
+            XMLOutputter sortie = new XMLOutputter(Format.getPrettyFormat());
+
+            sortie.output(document, new FileOutputStream(file));
+        }
+        catch (java.io.IOException e){
+            e.printStackTrace();
         }
     }
 }
