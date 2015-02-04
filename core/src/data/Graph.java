@@ -13,6 +13,9 @@ import java.util.ArrayList;
 
 /**
  * Created by Corentin Davidenko on 04/02/15.
+ * Class to manage the interactions between edges, vertexes and users. It possesses an UndoManager to
+ * manage undo actions. It is associated to a file and has the different default settings for the vertexes
+ * and the edges.
  */
 public class Graph {
 
@@ -106,6 +109,9 @@ public class Graph {
         this.defaultThickness = defaultThickness;
     }
 
+    /**
+     * Default constructor, initializes attributes.
+     */
     public Graph() {
         edges = new ArrayList<Edge>();
         selectedEdges = new ArrayList<Edge>();
@@ -114,6 +120,10 @@ public class Graph {
         selectedVertexes = new ArrayList<Vertex>();
     }
 
+    /**
+     * Constructor with copy
+     * @param g
+     */
     public Graph( Graph g) {
         edges = new ArrayList<Edge>(g.edges);
         selectedEdges = new ArrayList<Edge>(g.selectedEdges);
@@ -122,21 +132,42 @@ public class Graph {
         selectedVertexes = new ArrayList<Vertex>(g.selectedVertexes);
     }
 
+    /**
+     * Creates a vertex with default attributes
+     * @param x
+     * @param y
+     */
     public void createVertex(int x, int y){
         Vertex vertex = new Vertex(defaultColor, defaultThickness, x, y,defaultShape);
         vertexes.add(vertex);
     }
 
+    /**
+     * Creates an edge between two vertexes
+     * @param origin
+     * @param destination
+     */
     public void createEdge(Vertex origin, Vertex destination ){
         Edge edge = new Edge(defaultThickness,defaultColor,origin,destination);
         edges.add(edge);
     }
 
+    /**
+     * Moves a vertex to x and y coordinates
+     * @param vertex
+     * @param x
+     * @param y
+     */
     public void moveVertex(Vertex vertex, int x, int y){
         vertex.setPositionX(x);
         vertex.setPositionY(y);
     }
 
+    /**
+     * Moves a vertex by a vector
+     * @param vectorX
+     * @param vectorY
+     */
     public void moveSelectedVertex(int vectorX, int vectorY){
         for(Vertex vertex : selectedVertexes){
             vertex.move(vectorX,vectorY);
