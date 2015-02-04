@@ -2,6 +2,7 @@ package controller;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.plaf.ColorUIResource;
 
 import View.Window;
 
@@ -21,7 +22,11 @@ public class Controller {
 	
     public static void main(String[] args){
     	try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+    		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+    		UIManager.put("TabbedPane.contentAreaColor ",ColorUIResource.RED);
+    		UIManager.put("TabbedPane.selected",ColorUIResource.BLUE);
+    		UIManager.put("TabbedPane.background",ColorUIResource.YELLOW);
+    		UIManager.put("TabbedPane.shadow",ColorUIResource.GREEN);
 		} catch (Exception e) { }
     	Controller controller = new Controller();
         Window window = new Window(400, 500, controller);

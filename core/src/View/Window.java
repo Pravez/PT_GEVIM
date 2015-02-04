@@ -17,7 +17,8 @@ public class Window extends JFrame {
     private int width;
     private int height;
     private Controller controller;
-    private JTabbedPane tabs = new JTabbedPane(SwingConstants.TOP); // ensemble des onglets
+    private JPanel back;
+    private JTabbedPane tabs; // ensemble des onglets
     
     public Window(int w, int h, Controller controller) {
         initWindow(w, h, controller);
@@ -26,14 +27,16 @@ public class Window extends JFrame {
 
         addNewTab(); // Création du premier onglet
         tabs.setOpaque(true);
+        tabs.setBackground(Color.GRAY);
 
         this.setVisible(true);
     }
     
     private void initBackPanel() {
-    	JPanel back = new JPanel();
-    	back.setBackground(Color.WHITE);
-    	back.add(this.tabs);
+    	back = new JPanel();
+    	back.setBackground(Color.GRAY);
+    	back.setLayout(new BorderLayout());
+    	back.add(this.tabs, BorderLayout.CENTER);
     	this.getContentPane().add(back);
     }
     
@@ -45,6 +48,7 @@ public class Window extends JFrame {
         this.setSize(this.width, this.height);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.tabs = new JTabbedPane(SwingConstants.TOP);
     }
     
 	private JMenu addMenu(String menuText) {
@@ -81,9 +85,8 @@ public class Window extends JFrame {
     	JPanel tab = new JPanel();
     	String title = "Tab " + tabs.getTabCount();
     	tab.setName(title);
-    	JLabel tabTitle = new JLabel(title);
-        tab.add(tabTitle);
-        tab.setPreferredSize(new Dimension(this.width, this.height-100));
+    	tab.setBackground(Color.GRAY);
+        tab.add(new JLabel(title));
         tab.addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent mouseEvent) {
             }
