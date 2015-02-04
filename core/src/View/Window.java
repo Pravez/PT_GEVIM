@@ -22,21 +22,19 @@ public class Window extends JFrame {
     public Window(int w, int h, Controller controller) {
         initWindow(w, h, controller);
         initMenu();
+        initBackPanel();
 
-        //final JButton clic = new JButton("Nouvel onglet");
-        JPanel pan1= new JPanel();
-        pan1.setBackground(Color.WHITE);
-
-        // Création du premier onglet
-        addNewTab();
-
+        addNewTab(); // Création du premier onglet
         tabs.setOpaque(true);
-        pan1.add(tabs);
 
-        this.getContentPane().add(pan1);
-
-		/* Ajout de composants aux conteneurs  */
-        this.getContentPane().add(pan1);
+        this.setVisible(true);
+    }
+    
+    private void initBackPanel() {
+    	JPanel back = new JPanel();
+    	back.setBackground(Color.WHITE);
+    	back.add(this.tabs);
+    	this.getContentPane().add(back);
     }
     
     private void initWindow(int width, int height, Controller controller) {
@@ -47,7 +45,6 @@ public class Window extends JFrame {
         this.setSize(this.width, this.height);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setVisible(true);
     }
     
 	private JMenu addMenu(String menuText) {

@@ -1,5 +1,8 @@
 package controller;
 
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import View.Window;
 
 // à voir pour créer des onglets : http://openclassrooms.com/courses/apprenez-a-programmer-en-java/conteneurs-sliders-et-barres-de-progression
@@ -17,6 +20,9 @@ public class Controller {
 	}
 	
     public static void main(String[] args){
+    	try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) { }
     	Controller controller = new Controller();
         Window window = new Window(400, 500, controller);
         controller.setWindow(window);
