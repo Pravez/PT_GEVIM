@@ -22,6 +22,14 @@ public class Graph {
     private int defaultThickness;
     private Shape defaultShape;
 
+    public Shape getDefaultShape() {
+        return defaultShape;
+    }
+
+    public void setDefaultShape(Shape defaultShape) {
+        this.defaultShape = defaultShape;
+    }
+
     public ArrayList<Vertex> getVertexes() {
         return vertexes;
     }
@@ -117,4 +125,14 @@ public class Graph {
         edges.add(edge);
     }
 
+    public void moveVertex(Vertex vertex, int x, int y){
+        vertex.setPositionX(x);
+        vertex.setPositionY(y);
+    }
+
+    public void moveSelectedVertex(int vectorX, int vectorY){
+        for(Vertex vertex : selectedVertexes){
+            vertex.move(vectorX,vectorY);
+        }
+    }
 }

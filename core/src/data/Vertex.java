@@ -107,6 +107,10 @@ public class Vertex implements javax.swing.undo.UndoableEdit
         this.edges = new ArrayList<Edge>();
     }
 
+    public void move(int vectorX, int vectorY){
+        this.positionX+=vectorX;
+        this.positionY+=vectorY;
+    }
 
     public void undo() throws CannotUndoException {
 
