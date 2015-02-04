@@ -25,23 +25,23 @@ public class window extends JFrame {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        final JButton clic = new JButton("Nouvel onglet");
+        //final JButton clic = new JButton("Nouvel onglet");
         JPanel pan1= new JPanel();
         pan1.setBackground(Color.WHITE);
     /* Bar de menu */
         JMenuBar mainMenu = new JMenuBar();
     /* différents menus */
-        JMenu menuFichier = new JMenu("Fichier");
-        JMenu menuEdition = new JMenu("Edition");
+        JMenu fileMenu = new JMenu("File");
+        JMenu editMenu = new JMenu("Edit");
     /* differents choix de chaque menu */
-        JMenuItem demarrer = new JMenuItem("Démarrer");
-        JMenuItem fin = new JMenuItem("Fin");
-        JMenuItem Nouveau = new JMenuItem("Nouveau");
-        JMenuItem Enregistrer = new JMenuItem("Enregistrer");
-        JMenuItem Charger = new JMenuItem("Charger");
-        JMenuItem annuler = new JMenuItem("Annuler");
-        JMenuItem copier = new JMenuItem("Copier");
-        JMenuItem coller = new JMenuItem("Coller");
+        JMenuItem New = new JMenuItem("New");
+        JMenuItem Save = new JMenuItem("Save");
+        JMenuItem Load = new JMenuItem("Load");
+        JMenuItem Close = new JMenuItem("Close");
+        JMenuItem Undo = new JMenuItem("Undo");
+        JMenuItem Redo = new JMenuItem("Redo");
+        JMenuItem Copy = new JMenuItem("Copy");
+        JMenuItem Paste = new JMenuItem("Paste");
 
 
 
@@ -60,51 +60,41 @@ public class window extends JFrame {
 
 
 		/* Ajout de composants aux conteneurs  */
-        clic.setEnabled(false);
-        pan1.add(clic);
         this.getContentPane().add(pan1);
-				/* Ajouter les choix au menu  */
-        menuFichier.add(demarrer);
-        menuFichier.add(fin);
-        menuFichier.add(Nouveau);
-        menuFichier.add(Enregistrer);
-        menuFichier.add(Charger);
 
-        menuEdition.add(annuler);
-        menuEdition.add(copier);
-        menuEdition.add(coller);
+				/* Ajouter les choix au menu  */
+        fileMenu.add(New);
+        fileMenu.add(Save);
+        fileMenu.add(Load);
+        fileMenu.add(Close);
+
+        editMenu.add(Undo);
+        editMenu.add(Redo);
+        editMenu.add(Copy);
+        editMenu.add(Paste);
 				/* Ajouter les menu sur la bar de menu */
-        mainMenu.add(menuFichier);
-        mainMenu.add(menuEdition);
+        mainMenu.add(fileMenu);
+        mainMenu.add(editMenu);
 				/* Ajouter la bar du menu à la frame */
         this.setJMenuBar(mainMenu);
 
 
 		/* Action réaliser par l'ihm */
 				/* clic sur le bouton clic */
-        clic.addActionListener(new ActionListener() {
+        New.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JPanel tmpOnglet = addTabs();
                 tabs.addTab(tmpOnglet.getName(), tmpOnglet);
+            }
+        });
+
+        Close.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
 
             }
         });
-				/* clic sur le choix Démarrer du menu fichier */
-        demarrer.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                clic.setEnabled(true);
-            }
-        });
-				/* clic sur le choix Fin du menu fichier */
-        fin.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                clic.setEnabled(false);
-            }
-        });
+
+
 
         this.setVisible(true);
     }
@@ -117,7 +107,7 @@ public class window extends JFrame {
         onglet.setName("Onglet" + tabs.getTabCount());
         JLabel titreOnglet = new JLabel("Onglet" + tabs.getTabCount());
         onglet.add(titreOnglet);
-        onglet.setPreferredSize(new Dimension(width, height - 200));
+        onglet.setPreferredSize(new Dimension(width, height-100));
         onglet.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
