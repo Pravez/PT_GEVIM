@@ -18,11 +18,13 @@ import java.awt.event.MouseListener;
  * with the user.
  */
 public class Window extends JFrame {
-    private int width;
-    private int height;
-    private Controller controller;
-    private JPanel back;
-    private JTabbedPane tabs; // ensemble des onglets
+
+	private static final long serialVersionUID = 1L;
+	private int               width;
+    private int               height;
+    private Controller        controller;
+    private JPanel            back;
+    private JTabbedPane       tabs; // ensemble des onglets
     
     public Window(int w, int h, Controller controller) {
         initWindow(w, h, controller);
@@ -54,8 +56,8 @@ public class Window extends JFrame {
      * @param controller
      */
     private void initWindow(int width, int height, Controller controller) {
-    	this.width = width;
-        this.height = height;
+    	this.width      = width;
+        this.height     = height;
         this.controller = controller;
         this.setTitle("PT - Modélisation de graphe");
         this.setSize(this.width, this.height);

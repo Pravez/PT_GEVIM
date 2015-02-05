@@ -12,18 +12,35 @@ import java.util.ArrayList;
  */
 public class Vertex implements javax.swing.undo.UndoableEdit
 {
-
-    private String name;
-    private java.awt.Color color;
-    private int thickness;
-    private int positionX;
-    private int positionY;
-    private java.awt.Shape shape;
+    private String          name;
+    private java.awt.Color  color;
+    private int             thickness;
+    private int             positionX;
+    private int             positionY;
+    private java.awt.Shape  shape;
     private ArrayList<Edge> edges;
 
     //rajouter des statics pour les paramètres par défaut
 
-
+    public Vertex(String name, Color color, int thickness, int positionX, int positionY, Shape shape) {
+        this.name      = name;
+        this.color     = color;
+        this.thickness = thickness;
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.shape     = shape;
+        this.edges     = new ArrayList<Edge>();
+    }
+    
+    public Vertex(Color color, int thickness, int positionX, int positionY, Shape shape) {
+        this.color     = color;
+        this.thickness = thickness;
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.shape     = shape;
+        this.edges     = new ArrayList<Edge>();
+    }
+    
     public void addEdge(Edge edge){
         this.edges.add(edge);
     }
@@ -33,7 +50,7 @@ public class Vertex implements javax.swing.undo.UndoableEdit
     }
 
     public ArrayList<Edge> getEdges() {
-        return edges;
+        return this.edges;
     }
 
     public void setEdges(ArrayList<Edge> edges) {
@@ -65,51 +82,32 @@ public class Vertex implements javax.swing.undo.UndoableEdit
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public Color getColor() {
-        return color;
+        return this.color;
     }
 
     public int getThickness() {
-        return thickness;
+        return this.thickness;
     }
 
     public int getPositionX() {
-        return positionX;
+        return this.positionX;
     }
 
     public int getPositionY() {
-        return positionY;
+        return this.positionY;
     }
 
     public Shape getShape() {
-        return shape;
-    }
-
-    public Vertex(Color color, int thickness, int positionX, int positionY, Shape shape) {
-        this.color = color;
-        this.thickness = thickness;
-        this.positionX = positionX;
-        this.positionY = positionY;
-        this.shape = shape;
-        this.edges = new ArrayList<Edge>();
-    }
-
-    public Vertex(String name, Color color, int thickness, int positionX, int positionY, Shape shape) {
-        this.name = name;
-        this.color = color;
-        this.thickness = thickness;
-        this.positionX = positionX;
-        this.positionY = positionY;
-        this.shape = shape;
-        this.edges = new ArrayList<Edge>();
+        return this.shape;
     }
 
     public void move(int vectorX, int vectorY){
-        this.positionX+=vectorX;
-        this.positionY+=vectorY;
+        this.positionX += vectorX;
+        this.positionY += vectorY;
     }
 
     public void undo() throws CannotUndoException {

@@ -21,18 +21,41 @@ public class Graph {
 
     protected UndoManager undo = new UndoManager();
 
-    private ArrayList<Edge> edges;
+    private ArrayList<Edge>   edges;
     private ArrayList<Vertex> vertexes;
 
-    private ArrayList<Edge> selectedEdges;
+    private ArrayList<Edge>   selectedEdges;
     private ArrayList<Vertex> selectedVertexes;
-    private String name;
-    private String file;
-    private Color defaultColor;
-    private int defaultThickness;
-    private Shape defaultShape;
+    private String            name;
+    private String            file;
+    private Color             defaultColor;
+    private int               defaultThickness;
+    private Shape             defaultShape;
+    
+    /**
+     * Default constructor, initializes attributes.
+     */
+    public Graph() {
+        this.edges            = new ArrayList<Edge>();
+        this.selectedEdges    = new ArrayList<Edge>();
 
-    public Shape getDefaultShape() {
+        this.vertexes         = new ArrayList<Vertex>();
+        this.selectedVertexes = new ArrayList<Vertex>();
+    }
+
+    /**
+     * Constructor with copy
+     * @param g
+     */
+    public Graph(Graph g) {
+    	this.edges            = new ArrayList<Edge>(g.edges);
+    	this.selectedEdges    = new ArrayList<Edge>(g.selectedEdges);
+
+    	this.vertexes         = new ArrayList<Vertex>(g.vertexes);
+    	this.selectedVertexes = new ArrayList<Vertex>(g.selectedVertexes);
+    }
+
+    public Shape getDefaultShape() { // pourquoi cela ne serait pas dans les Vertex plutôt ? Est-ce que tous les Vertex doivent avoir la même forme ?
         return defaultShape;
     }
 
@@ -110,36 +133,13 @@ public class Graph {
     }
 
     /**
-     * Default constructor, initializes attributes.
-     */
-    public Graph() {
-        edges = new ArrayList<Edge>();
-        selectedEdges = new ArrayList<Edge>();
-
-        vertexes = new ArrayList<Vertex>();
-        selectedVertexes = new ArrayList<Vertex>();
-    }
-
-    /**
-     * Constructor with copy
-     * @param g
-     */
-    public Graph( Graph g) {
-        edges = new ArrayList<Edge>(g.edges);
-        selectedEdges = new ArrayList<Edge>(g.selectedEdges);
-
-        vertexes = new ArrayList<Vertex>(g.vertexes);
-        selectedVertexes = new ArrayList<Vertex>(g.selectedVertexes);
-    }
-
-    /**
      * Creates a vertex with default attributes
      * @param x
      * @param y
      */
     public void createVertex(int x, int y){
-        Vertex vertex = new Vertex(defaultColor, defaultThickness, x, y,defaultShape);
-        vertexes.add(vertex);
+        Vertex vertex = new Vertex(this.defaultColor, this.defaultThickness, x, y, this.defaultShape);
+        this.vertexes.add(vertex);
     }
 
     /**
@@ -148,8 +148,8 @@ public class Graph {
      * @param destination
      */
     public void createEdge(Vertex origin, Vertex destination ){
-        Edge edge = new Edge(defaultThickness,defaultColor,origin,destination);
-        edges.add(edge);
+        Edge edge = new Edge(this.defaultThickness, this.defaultColor, origin, destination);
+        this.edges.add(edge);
     }
 
     /**
@@ -169,7 +169,7 @@ public class Graph {
      * @param vectorY
      */
     public void moveSelectedVertex(int vectorX, int vectorY){
-        for(Vertex vertex : selectedVertexes){
+        for(Vertex vertex : this.selectedVertexes){
             vertex.move(vectorX,vectorY);
         }
     }
@@ -180,14 +180,14 @@ public class Graph {
      */
     public void saveToGraphml(String fileName){
 
-        Element racine = new Element("Vertexes");
-        org.jdom2.Document toBeSaved = new Document(racine);
+        Element root = new Element("Vertexes");
+        org.jdom2.Document toBeSaved = new Document(root);
 
-        for(Vertex v : vertexes){
-            racine.addContent(createDocumentElement(v));
+        for(Vertex v : this.vertexes){
+            root.addContent(createDocumentElement(v));
         }
 
-        saveXML(fileName,toBeSaved);
+        saveXML(fileName, toBeSaved);
     }
 
 
@@ -237,10 +237,10 @@ public class Graph {
      */
     private static void showXML(Document document){
 
-        XMLOutputter sortie = new XMLOutputter(Format.getPrettyFormat());
+        XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
 
         try {
-            sortie.output(document, System.out);
+            out.output(document, System.out);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -255,9 +255,9 @@ public class Graph {
         try
         {
             //On modifie le format d'enregistrement (affichage)
-            XMLOutputter sortie = new XMLOutputter(Format.getPrettyFormat());
+            XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
 
-            sortie.output(document, new FileOutputStream(file));
+            out.output(document, new FileOutputStream(file));
         }
         catch (java.io.IOException e){
             e.printStackTrace();

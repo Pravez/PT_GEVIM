@@ -6,14 +6,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenuItem;
 
 public class MenuActionListener implements ActionListener {
-	private JMenuItem menuItem;
+	private JMenuItem  menuItem;
 	private Controller controller;
 	
 	/*
 	 * Constructeur de la classe MenuActionListener
 	 */
 	public MenuActionListener (JMenuItem menuItem, Controller controller) {
-		this.menuItem = menuItem;
+		this.menuItem   = menuItem;
 		this.controller = controller;
 	}
 

@@ -11,16 +11,29 @@ import java.awt.*;
 
 public class Edge implements javax.swing.undo.UndoableEdit{
 
+    private String         label;
+    private Vertex         origin;
+    private Vertex         destination;
+    private int            thickness;
+    private java.awt.Color color;
+	
     public Edge(int thickness, Color color, String label, Vertex origin, Vertex destination) {
-        this.thickness = thickness;
-        this.color = color;
-        this.label = label;
-        this.origin = origin;
+        this.thickness   = thickness;
+        this.color       = color;
+        this.label       = label;
+        this.origin      = origin;
+        this.destination = destination;
+    }
+    
+    public Edge(int thickness, Color color, Vertex origin, Vertex destination) {
+        this.thickness   = thickness;
+        this.color       = color;
+        this.origin      = origin;
         this.destination = destination;
     }
 
     public int getThickness() {
-        return thickness;
+        return this.thickness;
     }
 
     public void setThickness(int thickness) {
@@ -28,7 +41,7 @@ public class Edge implements javax.swing.undo.UndoableEdit{
     }
 
     public Color getColor() {
-        return color;
+        return this.color;
     }
 
     public void setColor(Color color) {
@@ -36,7 +49,7 @@ public class Edge implements javax.swing.undo.UndoableEdit{
     }
 
     public String getLabel() {
-        return label;
+        return this.label;
     }
 
     public void setLabel(String label) {
@@ -44,7 +57,7 @@ public class Edge implements javax.swing.undo.UndoableEdit{
     }
 
     public Vertex getOrigin() {
-        return origin;
+        return this.origin;
     }
 
     public void setOrigin(Vertex origin) {
@@ -52,26 +65,12 @@ public class Edge implements javax.swing.undo.UndoableEdit{
     }
 
     public Vertex getDestination() {
-        return destination;
+        return this.destination;
     }
 
     public void setDestination(Vertex destination) {
         this.destination = destination;
     }
-
-    private int thickness;
-    private java.awt.Color color;
-
-    public Edge(int thickness, Color color, Vertex origin, Vertex destination) {
-        this.thickness = thickness;
-        this.color = color;
-        this.origin = origin;
-        this.destination = destination;
-    }
-
-    private String label;
-    private Vertex origin;
-    private Vertex destination;
 
     public void undo() throws CannotUndoException {
 
