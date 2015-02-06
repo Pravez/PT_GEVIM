@@ -6,6 +6,7 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import javax.swing.undo.UndoManager;
+
 import java.awt.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
  */
 public class Graph {
 
-    protected UndoManager undo = new UndoManager();
+	protected UndoManager     undo = new UndoManager();
 
     private ArrayList<Edge>   edges;
     private ArrayList<Vertex> vertexes;
@@ -54,7 +55,7 @@ public class Graph {
     	this.vertexes         = new ArrayList<Vertex>(g.vertexes);
     	this.selectedVertexes = new ArrayList<Vertex>(g.selectedVertexes);
     }
-
+    
     public Shape getDefaultShape() { // pourquoi cela ne serait pas dans les Vertex plutôt ? Est-ce que tous les Vertex doivent avoir la même forme ?
         return defaultShape;
     }
@@ -101,7 +102,7 @@ public class Graph {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -109,7 +110,7 @@ public class Graph {
     }
 
     public String getFile() {
-        return file;
+        return this.file;
     }
 
     public void setFile(String file) {
@@ -117,7 +118,7 @@ public class Graph {
     }
 
     public Color getDefaultColor() {
-        return defaultColor;
+        return this.defaultColor;
     }
 
     public void setDefaultColor(Color defaultColor) {
@@ -125,7 +126,7 @@ public class Graph {
     }
 
     public int getDefaultThickness() {
-        return defaultThickness;
+        return this.defaultThickness;
     }
 
     public void setDefaultThickness(int defaultThickness) {

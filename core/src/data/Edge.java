@@ -3,13 +3,14 @@ package data;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoableEdit;
+
 import java.awt.*;
 
 /**
  * Created by cordavidenko on 26/01/15.
  */
 
-public class Edge implements javax.swing.undo.UndoableEdit{
+public class Edge implements javax.swing.undo.UndoableEdit {
 
     private String         label;
     private Vertex         origin;
@@ -31,7 +32,7 @@ public class Edge implements javax.swing.undo.UndoableEdit{
         this.origin      = origin;
         this.destination = destination;
     }
-
+    
     public int getThickness() {
         return this.thickness;
     }
