@@ -1,10 +1,9 @@
 package controller;
 
-import javax.swing.UIManager;
 import View.Window;
 import data.Graph;
-import data.Vertex;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 

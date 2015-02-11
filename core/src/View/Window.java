@@ -6,8 +6,6 @@ package View;
 
 import controller.Controller;
 import controller.MenuActionListener;
-import data.Vertex;
-import data.Edge;
 
 import javax.swing.*;
 import java.awt.*;
@@ -116,23 +114,9 @@ public class Window extends JFrame {
      * Adds a new tab to the current JPanel. The tab is another JPanel
      */
     public void addNewTab() {
-    	JPanel tab = new JPanel();
-        JComponent canvas = new JComponent() {
-                public void paintComponent(Graphics g){
-                    //super.paint(g);
-                /*for (Vertex v : controller.getGraph(0).getVertexes()) {
-                    g.drawRect(50, 50, 50, 50);
-                    g.setColor(v.getColor());
-                }*/
-                    g.setColor(Color.BLACK);
-                    g.drawLine(0,0,100,100);
-                    g.drawRect(50, 50, 50, 50);
 
-            }
+        Tab tab = new Tab(controller.getGraph(0));
 
-        };
-
-        tab.add(canvas);
     	String title = "Tab " + tabs.getTabCount();
     	tab.setName(title);
     	tab.setBackground(Color.WHITE);
@@ -142,6 +126,7 @@ public class Window extends JFrame {
             public void mouseClicked(MouseEvent mouseEvent) {
                 controller.addVertex(controller.getGraph(0),mouseEvent.getX(), mouseEvent.getY());
                 System.out.println(mouseEvent.getX() +" "+ mouseEvent.getY());
+                paintCurrentTab();
             }
 
             public void mousePressed(MouseEvent mouseEvent) {
@@ -159,4 +144,9 @@ public class Window extends JFrame {
 
     	this.tabs.addTab(title, tab);
     }
+
+    public void paintCurrentTab(){
+        tabs.getComponentAt(0).paint(this.getGraphics());
+    }
+
 }
