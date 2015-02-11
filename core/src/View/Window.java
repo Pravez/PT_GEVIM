@@ -125,8 +125,7 @@ public class Window extends JFrame {
         tab.addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent mouseEvent) {
                 controller.addVertex(controller.getGraph(0),mouseEvent.getX(), mouseEvent.getY());
-                System.out.println(mouseEvent.getX() +" "+ mouseEvent.getY());
-                paintCurrentTab();
+                repaint();
             }
 
             public void mousePressed(MouseEvent mouseEvent) {
@@ -143,10 +142,6 @@ public class Window extends JFrame {
         });
 
     	this.tabs.addTab(title, tab);
-    }
-
-    public void paintCurrentTab(){
-        tabs.getComponentAt(0).paint(this.getGraphics());
     }
 
 }

@@ -27,8 +27,6 @@ public class Tab extends JPanel {
             g.drawRect(v.getPositionX(), v.getPositionY(), 10, 10);
 
         }
-
-        g.drawRect(0,0,100,100);
     }
     /*
     A partir du graphe dessiner tout ce qu'il contient.
