@@ -35,7 +35,6 @@ public class Tab extends JPanel {
     public Tab(Graph graph) {
         super();
         this.graph = graph;
-
     }
 
     /**
