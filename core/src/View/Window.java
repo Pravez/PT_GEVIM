@@ -25,11 +25,13 @@ public class Window extends JFrame {
     private Controller        controller;
     private JPanel            back;
     private JTabbedPane       tabs; // ensemble des onglets
+    private JPopupMenu        contextMenu; //Menu contextuel au clic droit
     
     public Window(int w, int h, Controller controller) {
         initWindow(w, h, controller);
         initMenu();
         initBackPanel();
+        initContextMenu();
 
         addNewTab(); // Création du premier onglet
         tabs.setOpaque(true);
@@ -110,12 +112,21 @@ public class Window extends JFrame {
     	this.addJMenuItem(edition, "Paste");
     }
 
+    private void initContextMenu(){
+
+        contextMenu = new JPopupMenu();
+
+        contextMenu.add("Edit");
+        contextMenu.add("Delete");
+
+    }
+
     /**
      * Adds a new tab to the current JPanel. The tab is another JPanel
      */
     public void addNewTab() {
 
-        Tab tab = new Tab(controller.getGraph(0));
+        Tab tab = new Tab(controller.addNewGraph());
 
     	String title = "Tab " + tabs.getTabCount();
     	tab.setName(title);
@@ -124,8 +135,16 @@ public class Window extends JFrame {
 
         tab.addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent mouseEvent) {
-                controller.addVertex(controller.getGraph(0),mouseEvent.getX(), mouseEvent.getY());
-                repaint();
+                switch(mouseEvent.getButton()) {
+                    case MouseEvent.BUTTON1:
+                        controller.addVertex(controller.getCurrentGraph(), mouseEvent.getX(), mouseEvent.getY());
+                        repaint();
+                        break;
+
+                    case MouseEvent.BUTTON3:
+                        contextMenu.show(tabs.getSelectedComponent(), mouseEvent.getX(), mouseEvent.getY());
+                        break;
+                }
             }
 
             public void mousePressed(MouseEvent mouseEvent) {
@@ -142,6 +161,10 @@ public class Window extends JFrame {
         });
 
     	this.tabs.addTab(title, tab);
+    }
+
+    public int getCurrentTab(){
+        return tabs.getSelectedIndex();
     }
 
 }
