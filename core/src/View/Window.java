@@ -114,13 +114,18 @@ public class Window extends JFrame {
      * Adds a new tab to the current JPanel. The tab is another JPanel
      */
     public void addNewTab() {
-    	JPanel tab = new JPanel();
+
+        Tab tab = new Tab(controller.getGraph(0));
+
     	String title = "Tab " + tabs.getTabCount();
     	tab.setName(title);
-    	tab.setBackground(Color.GRAY);
+    	tab.setBackground(Color.WHITE);
         tab.add(new JLabel(title));
+
         tab.addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent mouseEvent) {
+                controller.addVertex(controller.getGraph(0),mouseEvent.getX(), mouseEvent.getY());
+                repaint();
             }
 
             public void mousePressed(MouseEvent mouseEvent) {
@@ -135,6 +140,8 @@ public class Window extends JFrame {
             public void mouseExited(MouseEvent mouseEvent) {
             }
         });
+
     	this.tabs.addTab(title, tab);
     }
+
 }
