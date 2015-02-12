@@ -3,7 +3,8 @@ package View;
 import data.Edge;
 import data.Graph;
 import data.Vertex;
-
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -30,10 +31,12 @@ public class Tab extends JPanel {
      * Constructeur du Tab, l'onglet. Un onglet est associé à un {@link data.Graph}
      * @param graph Graphe devant être associé
      */
+
     public Tab(Graph graph) {
         super();
         this.graph = graph;
         this.graph.setDefaultWidth(10);
+
     }
 
     /**
@@ -70,4 +73,5 @@ public class Tab extends JPanel {
         }
         return null;
     }
+
 }

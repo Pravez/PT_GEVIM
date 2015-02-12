@@ -6,7 +6,6 @@ package View;
 
 import controller.Controller;
 import controller.MenuActionListener;
-import data.Vertex;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +17,7 @@ import java.awt.event.MouseListener;
  * Class window handling the main frame. It is the view from the MVC pattern. Window interacts
  * with the user.
  */
-public class Window extends JFrame {
+public class Window extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private int               width;
@@ -31,6 +30,7 @@ public class Window extends JFrame {
     public Window(int w, int h, Controller controller) {
         initWindow(w, h, controller);
         initMenu();
+        initToolMenuBar();
         initBackPanel();
         initContextMenu();
 
@@ -40,6 +40,7 @@ public class Window extends JFrame {
 
         this.setVisible(true);
     }
+
 
     /**
      * Initialize the background panel : creates a new JPanel
@@ -92,6 +93,21 @@ public class Window extends JFrame {
     	item.addActionListener(new MenuActionListener(item, this.controller));
     	return item;
     }
+
+    /**
+     * Method to init the tool menu bar (undo, redo, copy, paste...)
+     */
+    private void initToolMenuBar(){
+        JToolBar toolBar = new JToolBar();
+        JButton undo = new JButton("Undo");
+        JButton redo = new JButton("Redo");
+        JButton aFaire = new JButton("A FAIRE...");
+        toolBar.add(undo);
+        toolBar.add(redo);
+        toolBar.add(aFaire);
+        super.getContentPane().add(toolBar, BorderLayout.NORTH);
+    }
+
 
     /**
      * Method to create different menus to navigate
@@ -171,6 +187,7 @@ public class Window extends JFrame {
             public void mouseExited(MouseEvent mouseEvent) {
             }
         });
+
 
     	this.tabs.addTab(title, tab);
     }

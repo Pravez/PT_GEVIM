@@ -6,7 +6,6 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import javax.swing.undo.UndoManager;
-
 import java.awt.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
