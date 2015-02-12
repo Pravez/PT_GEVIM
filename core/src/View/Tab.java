@@ -23,6 +23,7 @@ public class Tab extends JPanel {
     public Tab(Graph graph) {
         super();
         this.graph = graph;
+        this.graph.setDefaultWidth(10);
     }
 
     /**
@@ -32,8 +33,7 @@ public class Tab extends JPanel {
     public void paintComponent(Graphics g){
         for(Vertex v : graph.getVertexes()){
             g.setColor(Color.BLACK);
-            g.drawRect(v.getPositionX(), v.getPositionY(), 10, 10);
-
+            g.drawRect(v.getPositionX(), v.getPositionY(), v.getWidth(), v.getWidth());
         }
     }
 }

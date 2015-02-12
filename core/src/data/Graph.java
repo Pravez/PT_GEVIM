@@ -31,6 +31,7 @@ public class Graph {
     private String            file;
     private Color             defaultColor;
     private int               defaultThickness;
+    private int               defaultWidth;
     private Shape             defaultShape;
     
     /**
@@ -132,6 +133,14 @@ public class Graph {
     public void setDefaultThickness(int defaultThickness) {
         this.defaultThickness = defaultThickness;
     }
+    
+    public int getDefaultWidth() {
+        return this.defaultWidth;
+    }
+
+    public void setDefaultWidth(int defaultWidth) {
+        this.defaultWidth = defaultWidth;
+    }
 
     /**
      * Creates a vertex with default attributes
@@ -139,7 +148,9 @@ public class Graph {
      * @param y
      */
     public void createVertex(int x, int y){
-        Vertex vertex = new Vertex(this.defaultColor, this.defaultThickness, x, y, this.defaultShape);
+    	x -= this.defaultWidth/2;
+    	y -= this.defaultWidth/2;
+        Vertex vertex = new Vertex(this.defaultColor, this.defaultThickness, this.defaultWidth, x, y, this.defaultShape);
         this.vertexes.add(vertex);
     }
 
