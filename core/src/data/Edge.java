@@ -17,6 +17,7 @@ public class Edge {
     private int            thickness;
     private java.awt.Color color;
 
+    //rajouter des statics pour les paramètres par défaut
 
     /**
      * Edge Constructor
@@ -87,8 +88,4 @@ public class Edge {
     public void setDestination(Vertex destination) {
         this.destination = destination;
     }
-
-
-    //rajouter des statics pour les paramètres par défaut
-
 }

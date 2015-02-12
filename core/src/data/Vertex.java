@@ -10,8 +10,7 @@ import java.util.ArrayList;
  * Created by vain on 26/01/15.
  * Modified by cordavidenko on 26/01/15
  */
-public class Vertex
-{
+public class Vertex {
     private String          name;
     private java.awt.Color  color;
     private int             thickness;
