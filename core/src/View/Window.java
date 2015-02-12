@@ -6,6 +6,7 @@ package View;
 
 import controller.Controller;
 import controller.MenuActionListener;
+import data.Vertex;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,7 +34,7 @@ public class Window extends JFrame {
         initBackPanel();
         initContextMenu();
 
-        addNewTab(); // Création du premier onglet
+        //addNewTab(); // Création du premier onglet
         tabs.setOpaque(true);
         tabs.setBackground(Color.GRAY);
 
@@ -113,22 +114,21 @@ public class Window extends JFrame {
     }
 
     private void initContextMenu(){
-
         contextMenu = new JPopupMenu();
 
         contextMenu.add("Edit");
         contextMenu.add("Delete");
-
     }
 
     /**
      * Adds a new tab to the current JPanel. The tab is another JPanel
      */
     public void addNewTab() {
-
         Tab tab = new Tab(controller.addNewGraph());
+        String title = "Tab " + tabs.getTabCount();
+        
+        title = JOptionPane.showInputDialog("Saisissez le nom du nouveau graphe :", title);
 
-    	String title = "Tab " + tabs.getTabCount();
     	tab.setName(title);
     	tab.setBackground(Color.WHITE);
         tab.add(new JLabel(title));
@@ -136,21 +136,33 @@ public class Window extends JFrame {
         tab.addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent mouseEvent) {
                 switch(mouseEvent.getButton()) {
-                    case MouseEvent.BUTTON1:
+                    case MouseEvent.BUTTON1: // Clic gauche
                         controller.addVertex(controller.getCurrentGraph(), mouseEvent.getX(), mouseEvent.getY());
                         repaint();
                         break;
 
-                    case MouseEvent.BUTTON3:
-                        contextMenu.show(tabs.getSelectedComponent(), mouseEvent.getX(), mouseEvent.getY());
+                    case MouseEvent.BUTTON3: // clic droit
+                        if(((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent) != null) {
+                            contextMenu.show(tabs.getSelectedComponent(), mouseEvent.getX(), mouseEvent.getY());
+                        }
                         break;
                 }
             }
 
             public void mousePressed(MouseEvent mouseEvent) {
+                /*System.out.println("pressed");
+                Vertex vertexTmp = ((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent);
+                if(vertexTmp != null){
+
+                    System.out.println("onVezretex");
+                }*/
             }
 
             public void mouseReleased(MouseEvent mouseEvent) {
+                System.out.println("released");
+                if(((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent) != null){
+
+                }
             }
 
             public void mouseEntered(MouseEvent mouseEvent) {

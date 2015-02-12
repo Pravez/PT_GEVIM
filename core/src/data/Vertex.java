@@ -10,8 +10,7 @@ import java.util.ArrayList;
  * Created by vain on 26/01/15.
  * Modified by cordavidenko on 26/01/15
  */
-public class Vertex implements javax.swing.undo.UndoableEdit
-{
+public class Vertex {
     private String          name;
     private java.awt.Color  color;
     private int             thickness;
@@ -23,6 +22,16 @@ public class Vertex implements javax.swing.undo.UndoableEdit
 
     //rajouter des statics pour les paramètres par défaut
 
+    /**
+     * Vertex constructor
+     * @param name
+     * @param color
+     * @param thickness
+     * @param width
+     * @param positionX
+     * @param positionY
+     * @param shape
+     */
     public Vertex(String name, Color color, int thickness, int width, int positionX, int positionY, Shape shape) {
         this.name      = name;
         this.color     = color;
@@ -33,7 +42,17 @@ public class Vertex implements javax.swing.undo.UndoableEdit
         this.shape     = shape;
         this.edges     = new ArrayList<Edge>();
     }
-    
+
+
+    /**
+     * Vertex constructor
+     * @param color
+     * @param thickness
+     * @param width
+     * @param positionX
+     * @param positionY
+     * @param shape
+     */
     public Vertex(Color color, int thickness, int width, int positionX, int positionY, Shape shape) {
         this.color     = color;
         this.thickness = thickness;
@@ -116,53 +135,13 @@ public class Vertex implements javax.swing.undo.UndoableEdit
         return this.shape;
     }
 
-    public void move(int vectorX, int vectorY){
+    /**
+     * move the Vertex in function of the given vector value
+     * @param vectorX
+     * @param vectorY
+     */
+    public void move(int vectorX, int vectorY) {
         this.positionX += vectorX;
         this.positionY += vectorY;
     }
-
-    public void undo() throws CannotUndoException {
-
-    }
-
-    public boolean canUndo() {
-        return false;
-    }
-
-    public void redo() throws CannotRedoException {
-
-    }
-
-    public boolean canRedo() {
-        return false;
-    }
-
-    public void die() {
-
-    }
-
-    public boolean addEdit(UndoableEdit undoableEdit) {
-        return false;
-    }
-
-    public boolean replaceEdit(UndoableEdit undoableEdit) {
-        return false;
-    }
-
-    public boolean isSignificant() {
-        return false;
-    }
-
-    public String getPresentationName() {
-        return null;
-    }
-
-    public String getUndoPresentationName() {
-        return null;
-    }
-
-    public String getRedoPresentationName() {
-        return null;
-    }
-
 }
