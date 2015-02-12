@@ -47,8 +47,8 @@ public class Graph {
         
         this.defaultColor             = Color.BLACK;
         this.defaultSelectedColor     = Color.BLUE;
-        this.defaultThickness         = 2;
-        this.defaultSelectedThickness = 3;
+        this.defaultThickness         = 1;
+        this.defaultSelectedThickness = 2;
         this.defaultWidth             = 10;
         //this.defaultShape             = new Circle(); --> faire avec une enum plutôt
     }

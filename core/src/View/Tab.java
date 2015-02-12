@@ -3,9 +3,9 @@ package View;
 import data.Edge;
 import data.Graph;
 import data.Vertex;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -42,8 +42,12 @@ public class Tab extends JPanel {
      * @param g {@link java.awt.Graphics} à partir de quoi dessiner
      */
     public void paintComponent(Graphics g){
+    	/**/
+    	Stroke oldStroke = ((Graphics2D) g).getStroke();
+    	/**/
         for(Vertex v : graph.getVertexes()){
             g.setColor(v.getColor());
+            ((Graphics2D) g).setStroke(new BasicStroke(v.getThickness()));
             g.drawRect(v.getPositionX(), v.getPositionY(), v.getWidth(), v.getWidth());
         }
 
@@ -51,6 +55,7 @@ public class Tab extends JPanel {
             g.setColor(e.getColor());
             g.drawLine(e.getOrigin().getPositionX(), e.getOrigin().getPositionY(), e.getDestination().getPositionX(), e.getDestination().getPositionY());
         }
+        ((Graphics2D) g).setStroke(oldStroke);
     }
 
     /**
