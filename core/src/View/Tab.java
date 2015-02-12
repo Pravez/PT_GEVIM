@@ -1,5 +1,6 @@
 package View;
 
+import data.Edge;
 import data.Graph;
 import data.Vertex;
 
@@ -34,6 +35,11 @@ public class Tab extends JPanel {
         for(Vertex v : graph.getVertexes()){
             g.setColor(Color.BLACK);
             g.drawRect(v.getPositionX(), v.getPositionY(), v.getWidth(), v.getWidth());
+        }
+
+        for(Edge e : graph.getEdges()){
+            g.setColor(Color.BLACK);
+            g.drawLine(e.getOrigin().getPositionX(), e.getOrigin().getPositionY(), e.getDestination().getPositionX(), e.getDestination().getPositionY());
         }
     }
 }
