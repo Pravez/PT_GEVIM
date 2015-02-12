@@ -15,6 +15,7 @@ public class Vertex implements javax.swing.undo.UndoableEdit
     private String          name;
     private java.awt.Color  color;
     private int             thickness;
+    private int             width;
     private int             positionX;
     private int             positionY;
     private java.awt.Shape  shape;
@@ -22,19 +23,21 @@ public class Vertex implements javax.swing.undo.UndoableEdit
 
     //rajouter des statics pour les paramètres par défaut
 
-    public Vertex(String name, Color color, int thickness, int positionX, int positionY, Shape shape) {
+    public Vertex(String name, Color color, int thickness, int width, int positionX, int positionY, Shape shape) {
         this.name      = name;
         this.color     = color;
         this.thickness = thickness;
+        this.width     = width;
         this.positionX = positionX;
         this.positionY = positionY;
         this.shape     = shape;
         this.edges     = new ArrayList<Edge>();
     }
     
-    public Vertex(Color color, int thickness, int positionX, int positionY, Shape shape) {
+    public Vertex(Color color, int thickness, int width, int positionX, int positionY, Shape shape) {
         this.color     = color;
         this.thickness = thickness;
+        this.width     = width;
         this.positionX = positionX;
         this.positionY = positionY;
         this.shape     = shape;
@@ -72,6 +75,10 @@ public class Vertex implements javax.swing.undo.UndoableEdit
     public void setThickness(int thickness) {
         this.thickness = thickness;
     }
+    
+    public void setWidth(int width) {
+        this.width = width;
+    }
 
     public void setPositionX(int positionX) {
         this.positionX = positionX;
@@ -91,6 +98,10 @@ public class Vertex implements javax.swing.undo.UndoableEdit
 
     public int getThickness() {
         return this.thickness;
+    }
+    
+    public int getWidth() {
+        return this.width;
     }
 
     public int getPositionX() {
