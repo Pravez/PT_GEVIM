@@ -6,6 +6,7 @@ package View;
 
 import controller.Controller;
 import controller.MenuActionListener;
+import data.Vertex;
 
 import javax.swing.*;
 import java.awt.*;
@@ -150,9 +151,19 @@ public class Window extends JFrame {
             }
 
             public void mousePressed(MouseEvent mouseEvent) {
+                /*System.out.println("pressed");
+                Vertex vertexTmp = ((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent);
+                if(vertexTmp != null){
+
+                    System.out.println("onVezretex");
+                }*/
             }
 
             public void mouseReleased(MouseEvent mouseEvent) {
+                System.out.println("released");
+                if(((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent) != null){
+
+                }
             }
 
             public void mouseEntered(MouseEvent mouseEvent) {
