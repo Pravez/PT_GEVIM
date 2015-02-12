@@ -3,7 +3,8 @@ package View;
 import data.Edge;
 import data.Graph;
 import data.Vertex;
-
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -16,16 +17,25 @@ import java.awt.event.MouseEvent;
 public class Tab extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private Graph             graph;
+    private Graph             graph;
+
+    public Graph getGraph() {
+        return graph;
+    }
+
+    public void setGraph(Graph graph) {
+        this.graph = graph;
+    }
 
     /**
      * Constructeur du Tab, l'onglet. Un onglet est associé à un {@link data.Graph}
      * @param graph Graphe devant être associé
      */
+
     public Tab(Graph graph) {
         super();
         this.graph = graph;
-        this.graph.setDefaultWidth(10);
+
     }
 
     /**
@@ -34,12 +44,12 @@ public class Tab extends JPanel {
      */
     public void paintComponent(Graphics g){
         for(Vertex v : graph.getVertexes()){
-            g.setColor(Color.BLACK);
+            g.setColor(v.getColor());
             g.drawRect(v.getPositionX(), v.getPositionY(), v.getWidth(), v.getWidth());
         }
 
         for(Edge e : graph.getEdges()){
-            g.setColor(Color.BLACK);
+            g.setColor(e.getColor());
             g.drawLine(e.getOrigin().getPositionX(), e.getOrigin().getPositionY(), e.getDestination().getPositionX(), e.getDestination().getPositionY());
         }
     }
@@ -57,11 +67,10 @@ public class Tab extends JPanel {
 
             rect.setBounds(v.getPositionX(), v.getPositionY(), v.getWidth(), v.getWidth());
             if(rect.contains(mouseEvent.getX(), mouseEvent.getY())){
-                System.out.println("prout");
                 return v;
             }
         }
-
         return null;
     }
+
 }

@@ -17,7 +17,7 @@ import java.awt.event.MouseListener;
  * Class window handling the main frame. It is the view from the MVC pattern. Window interacts
  * with the user.
  */
-public class Window extends JFrame {
+public class Window extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private int               width;
@@ -27,18 +27,25 @@ public class Window extends JFrame {
     private JTabbedPane       tabs; // ensemble des onglets
     private JPopupMenu        contextMenu; //Menu contextuel au clic droit
     
+    /**
+     * Constructor of the Window Class
+     * @param w the width of the Window
+     * @param h the height of the Window
+     * @param controller the Controller which controls the Window
+     */
     public Window(int w, int h, Controller controller) {
         initWindow(w, h, controller);
         initMenu();
+        initToolMenuBar();
         initBackPanel();
         initContextMenu();
 
-        //addNewTab(); // Création du premier onglet
         tabs.setOpaque(true);
         tabs.setBackground(Color.GRAY);
 
         this.setVisible(true);
     }
+
 
     /**
      * Initialize the background panel : creates a new JPanel
@@ -93,6 +100,21 @@ public class Window extends JFrame {
     }
 
     /**
+     * Method to init the tool menu bar (undo, redo, copy, paste...)
+     */
+    private void initToolMenuBar(){
+        JToolBar toolBar = new JToolBar();
+        JButton undo = new JButton("Undo");
+        JButton redo = new JButton("Redo");
+        JButton aFaire = new JButton("A FAIRE...");
+        toolBar.add(undo);
+        toolBar.add(redo);
+        toolBar.add(aFaire);
+        super.getContentPane().add(toolBar, BorderLayout.NORTH);
+    }
+
+
+    /**
      * Method to create different menus to navigate
      */
     private void initMenu() {
@@ -112,6 +134,10 @@ public class Window extends JFrame {
     	this.addJMenuItem(edition, "Paste");
     }
 
+    /**
+     * Method to open the contextMenu by clicking with right button upon an object of the graph
+     * This popup menu has a button edit, and delete
+     */
     private void initContextMenu(){
         contextMenu = new JPopupMenu();
 
@@ -149,9 +175,19 @@ public class Window extends JFrame {
             }
 
             public void mousePressed(MouseEvent mouseEvent) {
+                /*System.out.println("pressed");
+                Vertex vertexTmp = ((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent);
+                if(vertexTmp != null){
+
+                    System.out.println("onVezretex");
+                }*/
             }
 
             public void mouseReleased(MouseEvent mouseEvent) {
+                System.out.println("released");
+                if(((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent) != null){
+
+                }
             }
 
             public void mouseEntered(MouseEvent mouseEvent) {
@@ -161,9 +197,14 @@ public class Window extends JFrame {
             }
         });
 
+
     	this.tabs.addTab(title, tab);
     }
 
+    /**
+     * Method to get the current used tab
+     * @return the index of the current tab
+     */
     public int getCurrentTab(){
         return tabs.getSelectedIndex();
     }

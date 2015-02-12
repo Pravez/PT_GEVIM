@@ -6,7 +6,6 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import javax.swing.undo.UndoManager;
-
 import java.awt.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -30,6 +29,8 @@ public class Graph {
     private String            name;
     private String            file;
     private Color             defaultColor;
+    private Color             defaultSelectedColor;
+    private int               defaultSelectedThickness;
     private int               defaultThickness;
     private int               defaultWidth;
     private Shape             defaultShape;
@@ -38,11 +39,18 @@ public class Graph {
      * Default constructor, initializes attributes.
      */
     public Graph() {
-        this.edges            = new ArrayList<Edge>();
-        this.selectedEdges    = new ArrayList<Edge>();
+        this.edges                    = new ArrayList<Edge>();
+        this.selectedEdges            = new ArrayList<Edge>();
 
-        this.vertexes         = new ArrayList<Vertex>();
-        this.selectedVertexes = new ArrayList<Vertex>();
+        this.vertexes                 = new ArrayList<Vertex>();
+        this.selectedVertexes         = new ArrayList<Vertex>();
+        
+        this.defaultColor             = Color.BLACK;
+        this.defaultSelectedColor     = Color.BLUE;
+        this.defaultThickness         = 2;
+        this.defaultSelectedThickness = 3;
+        this.defaultWidth             = 10;
+        //this.defaultShape             = new Circle(); --> faire avec une enum plutôt
     }
 
     /**
@@ -74,7 +82,7 @@ public class Graph {
     }
 
     public ArrayList<Edge> getEdges() {
-        return edges;
+        return this.edges;
     }
 
     public void setEdges(ArrayList<Edge> edges) {
@@ -82,24 +90,40 @@ public class Graph {
     }
 
     public void selectedEdge(Edge e){
-        selectedEdges.add(e);
+    	e.setColor(this.defaultSelectedColor);
+    	e.setThickness(this.defaultSelectedThickness);
+        this.selectedEdges.add(e);
     }
 
     public void unselectedEdge(Edge e){
-        selectedEdges.remove(e);
+    	e.setColor(this.defaultColor);
+    	e.setThickness(this.defaultThickness);
+        this.selectedEdges.remove(e);
     }
 
     public void selectVertex(Vertex v){
-        selectedVertexes.add(v);
+    	v.setColor(this.defaultSelectedColor);
+    	v.setThickness(this.defaultSelectedThickness);
+        this.selectedVertexes.add(v);
     }
 
     public void unselectedVertex(Vertex v){
-        selectedVertexes.remove(v);
+    	v.setColor(this.defaultColor);
+    	v.setThickness(this.defaultThickness);
+        this.selectedVertexes.remove(v);
     }
 
     public void clearSelectedItem(){
-        selectedEdges.clear();
-        selectedVertexes.clear();
+    	for(Vertex v : this.selectedVertexes) {
+    		v.setColor(this.defaultColor);
+        	v.setThickness(this.defaultThickness);
+    	}
+    	for(Edge e : this.selectedEdges) {
+    		e.setColor(this.defaultColor);
+        	e.setThickness(this.defaultThickness);
+    	}
+    	this.selectedVertexes.clear();
+        this.selectedEdges.clear();
     }
 
     public String getName() {
