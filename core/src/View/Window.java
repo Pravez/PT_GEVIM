@@ -142,7 +142,9 @@ public class Window extends JFrame {
                         break;
 
                     case MouseEvent.BUTTON3:
-                        contextMenu.show(tabs.getSelectedComponent(), mouseEvent.getX(), mouseEvent.getY());
+                        if(((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent) != null) {
+                            contextMenu.show(tabs.getSelectedComponent(), mouseEvent.getX(), mouseEvent.getY());
+                        }
                         break;
                 }
             }
