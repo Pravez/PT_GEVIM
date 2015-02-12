@@ -6,6 +6,7 @@ import data.Vertex;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 /**
  * Created by Corentin Davidenko on 04/02/15.
@@ -41,5 +42,26 @@ public class Tab extends JPanel {
             g.setColor(Color.BLACK);
             g.drawLine(e.getOrigin().getPositionX(), e.getOrigin().getPositionY(), e.getDestination().getPositionX(), e.getDestination().getPositionY());
         }
+    }
+
+    /**
+     * Teste si à partir des données d'un événement souris ({@link java.awt.event.MouseEvent}) un vertex est situé au dessous.
+     * @param mouseEvent Evénement souris
+     * @return Le {@link data.Vertex} s'il existe, sinon null
+     */
+    public Vertex onVertex(MouseEvent mouseEvent){
+
+        Rectangle rect = new Rectangle();
+
+        for(Vertex v : graph.getVertexes()){
+
+            rect.setBounds(v.getPositionX(), v.getPositionY(), v.getWidth(), v.getWidth());
+            if(rect.contains(mouseEvent.getX(), mouseEvent.getY())){
+                System.out.println("prout");
+                return v;
+            }
+        }
+
+        return null;
     }
 }
