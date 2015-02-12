@@ -148,10 +148,28 @@ public class Graph {
      * @param y
      */
     public void createVertex(int x, int y){
-    	x -= this.defaultWidth/2;
-    	y -= this.defaultWidth/2;
-        Vertex vertex = new Vertex(this.defaultColor, this.defaultThickness, this.defaultWidth, x, y, this.defaultShape);
-        this.vertexes.add(vertex);
+    	if (canCreateVertex(x, y)) {
+    		x -= this.defaultWidth/2;
+        	y -= this.defaultWidth/2;
+            Vertex vertex = new Vertex(this.defaultColor, this.defaultThickness, this.defaultWidth, x, y, this.defaultShape);
+            this.vertexes.add(vertex);
+    	}
+    }
+    
+    /**
+     * Verifies if we can add a Vertex at the wanted position (no collision with other vertexes)
+     * @param x
+     * @param y
+     * @return
+     */
+    private boolean canCreateVertex(int x, int y) {
+    	for (Vertex v : this.vertexes) {
+    		int margin = this.defaultWidth/2;
+    		int side   = v.getWidth() + margin*3; 
+    		if (new Rectangle(v.getPositionX() - margin, v.getPositionY() - margin, side, side).contains(new Point(x, y)))
+    			return false;
+    	}
+    	return true;
     }
 
     /**
