@@ -3,14 +3,14 @@ package controller;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import data.Vertex;
+import view.VertexView;
 
 public class VertexMouseListener implements MouseListener {
 	
 	private Controller controller;
-	private Vertex     vertex;
+	private VertexView vertex;
 
-	public VertexMouseListener(Controller controller, Vertex vertex) {
+	public VertexMouseListener(Controller controller, VertexView vertex) {
 		this.controller = controller;
 		this.vertex     = vertex;
 	}

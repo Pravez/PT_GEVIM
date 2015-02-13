@@ -1,27 +1,30 @@
-package data;
+package view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.util.ArrayList;
 
-/**
- * Created by vain on 26/01/15.
- * Modified by cordavidenko on 26/01/15
- */
+import javax.swing.JComponent;
 
-public class Vertex {
-    private String          name;
+public class VertexView extends JComponent {
+
+	private static final long serialVersionUID = 1L;
+	private String          name;
     private java.awt.Color  color;
     private int             thickness;
     private int             width;
     private int             positionX;
     private int             positionY;
     private java.awt.Shape  shape;
-    private ArrayList<Edge> edges;
+    private ArrayList<EdgeView> edges; // à virer plus tard
 
     //rajouter des statics pour les paramètres par défaut
 
     /**
-     * Vertex constructor
+     * VertexView constructor
      * @param name
      * @param color
      * @param thickness
@@ -30,7 +33,7 @@ public class Vertex {
      * @param positionY
      * @param shape
      */
-    public Vertex(String name, Color color, int thickness, int width, int positionX, int positionY, Shape shape) {
+    public VertexView(String name, Color color, int thickness, int width, int positionX, int positionY, Shape shape) {
         this.name      = name;
         this.color     = color;
         this.thickness = thickness;
@@ -38,11 +41,11 @@ public class Vertex {
         this.positionX = positionX;
         this.positionY = positionY;
         this.shape     = shape;
-        this.edges     = new ArrayList<Edge>();
+        this.edges     = new ArrayList<EdgeView>();
     }
 
     /**
-     * Vertex constructor
+     * VertexView constructor
      * @param color
      * @param thickness
      * @param width
@@ -50,29 +53,41 @@ public class Vertex {
      * @param positionY
      * @param shape
      */
-    public Vertex(Color color, int thickness, int width, int positionX, int positionY, Shape shape) {
+    public VertexView(Color color, int thickness, int width, int positionX, int positionY, Shape shape) {
         this.color     = color;
         this.thickness = thickness;
         this.width     = width;
         this.positionX = positionX;
         this.positionY = positionY;
         this.shape     = shape;
-        this.edges     = new ArrayList<Edge>();
+        this.edges     = new ArrayList<EdgeView>();
     }
     
-    public void addEdge(Edge edge){
+    @Override
+    public void paintComponent(Graphics g) {
+    	g.setFont(super.getFont());
+		
+		Graphics2D        g2d         = ((Graphics2D) g);
+		RenderingHints    renderHints = new RenderingHints (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		
+		g2d.setRenderingHints(renderHints);
+		g.setColor(this.color);
+		g.drawRect(this.positionX, this.positionY, this.width, this.width);
+    }
+    
+    public void addEdge(EdgeView edge){
         this.edges.add(edge);
     }
 
-    public void removeEdge(Edge edge){
+    public void removeEdge(EdgeView edge){
         this.edges.remove(edge);
     }
 
-    public ArrayList<Edge> getEdges() {
+    public ArrayList<EdgeView> getEdges() {
         return this.edges;
     }
 
-    public void setEdges(ArrayList<Edge> edges) {
+    public void setEdges(ArrayList<EdgeView> edges) {
         this.edges = edges;
     }
 

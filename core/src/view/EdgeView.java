@@ -1,4 +1,4 @@
-package data;
+package view;
 
 import java.awt.*;
 
@@ -6,10 +6,10 @@ import java.awt.*;
  * Created by cordavidenko on 26/01/15.
  */
 
-public class Edge {
+public class EdgeView {
     private String         label;
-    private Vertex         origin;
-    private Vertex         destination;
+    private VertexView     origin;
+    private VertexView     destination;
     private int            thickness;
     private java.awt.Color color;
 
@@ -23,7 +23,7 @@ public class Edge {
      * @param origin
      * @param destination
      */
-    public Edge(int thickness, Color color, String label, Vertex origin, Vertex destination) {
+    public EdgeView(int thickness, Color color, String label, VertexView origin, VertexView destination) {
         this.thickness   = thickness;
         this.color       = color;
         this.label       = label;
@@ -38,7 +38,7 @@ public class Edge {
      * @param origin
      * @param destination
      */
-    public Edge(int thickness, Color color, Vertex origin, Vertex destination) {
+    public EdgeView(int thickness, Color color, VertexView origin, VertexView destination) {
         this.thickness   = thickness;
         this.color       = color;
         this.origin      = origin;
@@ -69,19 +69,19 @@ public class Edge {
         this.label = label;
     }
 
-    public Vertex getOrigin() {
+    public VertexView getOrigin() {
         return this.origin;
     }
 
-    public void setOrigin(Vertex origin) {
+    public void setOrigin(VertexView origin) {
         this.origin = origin;
     }
 
-    public Vertex getDestination() {
+    public VertexView getDestination() {
         return this.destination;
     }
 
-    public void setDestination(Vertex destination) {
+    public void setDestination(VertexView destination) {
         this.destination = destination;
     }
 }

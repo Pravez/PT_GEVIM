@@ -1,38 +1,33 @@
-package data;
+package view;
 
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.output.Format;
-import org.jdom2.output.XMLOutputter;
+import data.Graph;
+import data.Observable;
 
-import view.EdgeView;
-import view.VertexView;
+import javax.swing.*;
+
 import controller.Controller;
 import controller.VertexMouseListener;
 
-import javax.swing.undo.UndoManager;
-
 import java.awt.*;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
  * Created by Corentin Davidenko on 04/02/15.
- * Class to manage the interactions between edges, vertexes and users. It possesses an UndoManager to
- * manage undo actions. It is associated to a file and has the different default settings for the vertexes
- * and the edges.
  */
-public class Graph extends Observable {
 
-	protected UndoManager     undo = new UndoManager();
-	private Controller        controller;
+public class Tab extends JPanel implements Observer {
 
+	private static final long     serialVersionUID = 1L;
+    private Graph                 graph;
+    private Controller            controller;
+    
     private ArrayList<EdgeView>   edges;
     private ArrayList<VertexView> vertexes;
-
+    
     private ArrayList<EdgeView>   selectedEdges;
     private ArrayList<VertexView> selectedVertexes;
+    
     private String            name;
     private String            file;
     private Color             defaultColor;
@@ -41,12 +36,24 @@ public class Graph extends Observable {
     private int               defaultThickness;
     private int               defaultWidth;
     private Shape             defaultShape;
-    
+
+    public Graph getGraph() {
+        return this.graph;
+    }
+
+    public void setGraph(Graph graph) {
+        this.graph = graph;
+    }
+
     /**
-     * Default constructor, initializes attributes.
+     * Constructeur du Tab, l'onglet. Un onglet est associé à un {@link data.Graph}
+     * @param graph Graphe devant être associé
      */
-    public Graph(Controller controller) {
-    	this.controller               = controller; 
+    public Tab(Graph graph, Controller controller) {
+        super();
+        this.graph                    = graph;
+        this.controller               = controller;
+        
         this.edges                    = new ArrayList<EdgeView>();
         this.selectedEdges            = new ArrayList<EdgeView>();
 
@@ -58,19 +65,57 @@ public class Graph extends Observable {
         this.defaultThickness         = 1;
         this.defaultSelectedThickness = 2;
         this.defaultWidth             = 10;
-        //this.defaultShape             = new Circle(); --> faire avec une enum plutôt
+    }
+    
+    public boolean canAddVertex(Point position) {
+    	for (VertexView v : this.vertexes) {
+    		int margin = this.defaultWidth/2;
+    		int side   = v.getWidth() + margin*3; 
+    		if (new Rectangle(v.getPositionX() - margin, v.getPositionY() - margin, side, side).contains(position))
+    			return false;
+    	}
+    	return true;
     }
 
     /**
-     * Constructor with copy
-     * @param g
+     * Méthode de dessin des éléments dans un onglet, à partir des données d'un {@link data.Graph}
+     * @param g {@link java.awt.Graphics} à partir de quoi dessiner
      */
-    public Graph(Graph g) {
-    	this.edges            = new ArrayList<EdgeView>(g.edges);
-    	this.selectedEdges    = new ArrayList<EdgeView>(g.selectedEdges);
+    public void paintComponent(Graphics g){
+    	/**/
+    	Stroke oldStroke = ((Graphics2D) g).getStroke();
+    	for (VertexView v : graph.getVertexes()) {
+    		v.paintComponent(g);
+    	}
+    	/**/
+        /*for(Vertex v : graph.getVertexes()){
+            g.setColor(v.getColor());
+            ((Graphics2D) g).setStroke(new BasicStroke(v.getThickness()));
+            g.drawRect(v.getPositionX(), v.getPositionY(), v.getWidth(), v.getWidth());
+        }
+			*/
+        for(EdgeView e : graph.getEdges()){
+            g.setColor(e.getColor());
+            g.drawLine(e.getOrigin().getPositionX(), e.getOrigin().getPositionY(), e.getDestination().getPositionX(), e.getDestination().getPositionY());
+        }
+        ((Graphics2D) g).setStroke(oldStroke);
+    }
 
-    	this.vertexes         = new ArrayList<VertexView>(g.vertexes);
-    	this.selectedVertexes = new ArrayList<VertexView>(g.selectedVertexes);
+    /**
+     * Teste si à partir des données d'un événement souris ({@link java.awt.event.MouseEvent}) un vertex est situé au dessous.
+     * @param mouseEvent Evénement souris
+     * @return Le {@link data.Vertex} s'il existe, sinon null
+     */
+    public VertexView onVertex(MouseEvent mouseEvent){
+        Rectangle rect = new Rectangle();
+
+        for(VertexView v : this.vertexes) {
+            rect.setBounds(v.getPositionX(), v.getPositionY(), v.getWidth(), v.getWidth());
+            if(rect.contains(mouseEvent.getX(), mouseEvent.getY())){
+                return v;
+            }
+        }
+        return null;
     }
     
     public Shape getDefaultShape() { // pourquoi cela ne serait pas dans les Vertex plutôt ? Est-ce que tous les Vertex doivent avoir la même forme ?
@@ -179,32 +224,14 @@ public class Graph extends Observable {
      * @param x
      * @param y
      */
-    public void createVertex(int x, int y){
-    	if (canCreateVertex(x, y)) {
-    		x -= this.defaultWidth/2;
-        	y -= this.defaultWidth/2;
-        	VertexView vertex = new VertexView(this.defaultColor, this.defaultThickness, this.defaultWidth, x, y, this.defaultShape);
-            vertex.addMouseListener(new VertexMouseListener(this.controller, vertex));
-            this.vertexes.add(vertex);
-    	}
+    public void addVertex(Point position){
+		position.x -= this.defaultWidth/2;
+		position.y -= this.defaultWidth/2;
+    	VertexView vertex = new VertexView(this.defaultColor, this.defaultThickness, this.defaultWidth, position.x, position.y, this.defaultShape);
+        vertex.addMouseListener(new VertexMouseListener(this.controller, vertex));
+        this.vertexes.add(vertex);
     }
     
-    /**
-     * Verifies if we can add a Vertex at the wanted position (no collision with other vertexes)
-     * @param x
-     * @param y
-     * @return
-     */
-    private boolean canCreateVertex(int x, int y) {
-    	for (VertexView v : this.vertexes) {
-    		int margin = this.defaultWidth/2;
-    		int side   = v.getWidth() + margin*3; 
-    		if (new Rectangle(v.getPositionX() - margin, v.getPositionY() - margin, side, side).contains(new Point(x, y)))
-    			return false;
-    	}
-    	return true;
-    }
-
     /**
      * Creates an edge between two vertexes
      * @param origin
@@ -237,104 +264,9 @@ public class Graph extends Observable {
         }
     }
 
-    /**
-     * Saves the current graph to an XML doc (XML-like doc)
-     * @param fileName
-     */
-    public void saveToGraphml(String fileName){
-
-        Element root = new Element("Vertexes");
-        org.jdom2.Document toBeSaved = new Document(root);
-
-        for(VertexView v : this.vertexes){
-            root.addContent(createDocumentElement(v));
-        }
-
-        saveXML(fileName, toBeSaved);
-    }
-
-    /**
-     * Creates an XML element from a vertex
-     * @param v
-     * @return
-     */
-    private Element createDocumentElement(VertexView v){
-
-        Element createdElement = new Element("vertex");
-
-        Element name = new Element("name");
-        Element color = new Element("color");
-        Element thickness = new Element("thickness");
-        Element positionX = new Element("positionX");
-        Element positionY = new Element("positionY");
-        Element shape = new Element("shape");
-        Element edges = new Element("edges");
-
-        for(EdgeView e : v.getEdges()){
-            Element edge = new Element("edge");
-            edge.setText(e.getLabel());
-            edges.addContent(edge);
-        }
-
-        name.setText(v.getName());
-        color.setText(v.getColor().toString());
-        thickness.setText(String.valueOf(v.getThickness()));
-        positionX.setText(String.valueOf(v.getPositionX()));
-        positionY.setText(String.valueOf(v.getPositionY()));
-        shape.setText(v.getShape().toString());
-
-        createdElement.addContent(name);
-        createdElement.addContent(color);
-        createdElement.addContent(thickness);
-        createdElement.addContent(positionX);
-        createdElement.addContent(positionY);
-        createdElement.addContent(shape);
-
-        return createdElement;
-    }
-
-    /**
-     * Shows an XML document
-     * @param document
-     */
-    private static void showXML(Document document){
-
-        XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
-
-        try {
-            out.output(document, System.out);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Saves a document at the "file" destination, in XML format
-     * @param file
-     * @param document
-     */
-    private static void saveXML(String file, Document document){
-        try
-        {
-            //On modifie le format d'enregistrement (affichage)
-            XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
-
-            out.output(document, new FileOutputStream(file));
-        }
-        catch (java.io.IOException e){
-            e.printStackTrace();
-        }
-    }
-
 	@Override
-	public void setChanged() {
+	public void update(Observable observable, Object object) {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public Object getState() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

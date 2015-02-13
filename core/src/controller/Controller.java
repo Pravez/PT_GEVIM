@@ -1,16 +1,17 @@
 package controller;
 
-import View.Window;
 import data.Graph;
-import data.Vertex;
 
 import javax.swing.*;
 
+import view.VertexView;
+import view.Window;
+
+import java.awt.Point;
 import java.util.ArrayList;
 
 
 // à voir pour créer des onglets : http://openclassrooms.com/courses/apprenez-a-programmer-en-java/conteneurs-sliders-et-barres-de-progression
-
 
 /**
  * Created by quelemonnier on 26/01/15.
@@ -34,8 +35,10 @@ public class Controller {
 	 * @param x La position x sur le graphe du vertex
 	 * @param y La position y sur le graphe du vertex
 	 */
-	public void addVertex(Graph g, int x, int y){
-		g.createVertex(x,y);
+	public void addVertex(Graph g, Point position){
+		if (this.window.getCurrentTab2().canAddVertex(position)) {
+			g.createVertex(position.x, position.y);
+		}
 	}
 
 	/**
@@ -44,7 +47,7 @@ public class Controller {
 	 */
 	public Graph getCurrentGraph(){
 		if(graphs.size() > 0){
-			return getGraph(window.getCurrentTab());
+			return getGraph(this.window.getCurrentTab());
 		}
 		return null;
 	}
@@ -63,8 +66,9 @@ public class Controller {
 	 * @return Le graphe nouvellement crée
 	 */
 	public Graph addNewGraph(){
-		graphs.add(new Graph(this));
-		return graphs.get(graphs.size()-1);
+		Graph graph = new Graph(this);
+		graphs.add(graph);
+		return graph;
 	}
 
     public static void main(String[] args){
@@ -81,7 +85,8 @@ public class Controller {
 		switch (type) {
 		case "New":
 			//if (JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment lancer une nouvelle partie ?", "Nouvelle Partie", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION)
-			this.window.addNewTab();
+			Graph graph = addNewGraph();
+			this.window.addNewTab(graph);
 			break;
 			
 		case "Close":
@@ -92,7 +97,7 @@ public class Controller {
 		}
 	}
 
-	public void notifyVertexSelected(Vertex selectedVertext) {
+	public void notifyVertexSelected(VertexView selectedVertext) {
 		getCurrentGraph().selectVertex(selectedVertext);
 		System.out.println("Selected");
 	}
