@@ -37,7 +37,7 @@ public class Controller {
 	 */
 	public void addVertex(Graph g, Point position){
 		if (this.window.getCurrentTab2().canAddVertex(position)) {
-			g.createVertex(position.x, position.y);
+			g.createVertex(position);
 		}
 	}
 
@@ -66,7 +66,7 @@ public class Controller {
 	 * @return Le graphe nouvellement crée
 	 */
 	public Graph addNewGraph(){
-		Graph graph = new Graph(this);
+		Graph graph = new Graph();
 		graphs.add(graph);
 		return graph;
 	}
@@ -98,7 +98,11 @@ public class Controller {
 	}
 
 	public void notifyVertexSelected(VertexView selectedVertext) {
-		getCurrentGraph().selectVertex(selectedVertext);
-		System.out.println("Selected");
+		this.window.getCurrentTab2().clearSelectedItem();
+		this.window.getCurrentTab2().selectVertex(selectedVertext);
+	}
+	
+	public void notifyVertexAddToSelection(VertexView selectedVertex) {
+		this.window.getCurrentTab2().selectVertex(selectedVertex);
 	}
 }

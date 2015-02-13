@@ -6,14 +6,13 @@ package view;
 
 import controller.Controller;
 import controller.MenuActionListener;
+import controller.TabMouseListener;
 
 import javax.swing.*;
 
 import data.Graph;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 /**
  * Created by Alexis Dufrenne
@@ -28,7 +27,6 @@ public class Window extends JFrame{
     private Controller        controller;
     private JPanel            back;
     private JTabbedPane       tabs; // ensemble des onglets
-    private JPopupMenu        contextMenu; //Menu contextuel au clic droit
     
     /**
      * Constructor of the Window Class
@@ -41,7 +39,6 @@ public class Window extends JFrame{
         initMenu();
         initToolMenuBar();
         initBackPanel();
-        initContextMenu();
 
         tabs.setOpaque(true);
         tabs.setBackground(Color.GRAY);
@@ -137,17 +134,6 @@ public class Window extends JFrame{
     }
 
     /**
-     * Method to open the contextMenu by clicking with right button upon an object of the graph
-     * This popup menu has a button edit, and delete
-     */
-    private void initContextMenu(){
-        contextMenu = new JPopupMenu();
-
-        contextMenu.add("Edit");
-        contextMenu.add("Delete");
-    }
-
-    /**
      * Adds a new tab to the current JPanel. The tab is another JPanel
      */
     public void addNewTab(Graph graph) {
@@ -159,41 +145,10 @@ public class Window extends JFrame{
 
     	tab.setName(title);
     	tab.setBackground(Color.GRAY);
+    	tab.setLayout(null);
         tab.add(new JLabel(title));
         
-        tab.addMouseListener(new MouseListener() {
-            public void mouseClicked(MouseEvent mouseEvent) {
-                switch(mouseEvent.getButton()) {
-                    case MouseEvent.BUTTON1: // Clic gauche
-                        controller.addVertex(controller.getCurrentGraph(), mouseEvent.getPoint());
-                        repaint();
-                        break;
-
-                    case MouseEvent.BUTTON3: // clic droit
-                        if(((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent) != null) {
-                            contextMenu.show(tabs.getSelectedComponent(), mouseEvent.getX(), mouseEvent.getY());
-                            //controller.notifyVertexSelected((Vertex)tabs.getSelectedComponent());
-                        }
-                        break;
-                }
-            }
-
-            public void mousePressed(MouseEvent mouseEvent) {
-                /*System.out.println("pressed");
-                Vertex vertexTmp = ((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent);
-                if(vertexTmp != null){
-                    System.out.println("onVezretex");
-                }*/
-            }
-
-            public void mouseReleased(MouseEvent mouseEvent) {
-                if(((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent) != null){ }
-            }
-
-            public void mouseEntered(MouseEvent mouseEvent) { }
-
-            public void mouseExited(MouseEvent mouseEvent) { }
-        });
+        tab.addMouseListener(new TabMouseListener(this.controller, tab, graph));
                
     	this.tabs.addTab(title, tab);
     }

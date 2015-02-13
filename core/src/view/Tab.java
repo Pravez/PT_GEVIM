@@ -2,21 +2,33 @@ package view;
 
 import data.Graph;
 import data.Observable;
+import data.Vertex;
 
 import javax.swing.*;
 
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
+
+import view.VertexView.Shape;
 import controller.Controller;
 import controller.VertexMouseListener;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
  * Created by Corentin Davidenko on 04/02/15.
  */
 
-public class Tab extends JPanel implements Observer {
+public class Tab extends JComponent implements Observer {
 
 	private static final long     serialVersionUID = 1L;
     private Graph                 graph;
@@ -28,14 +40,14 @@ public class Tab extends JPanel implements Observer {
     private ArrayList<EdgeView>   selectedEdges;
     private ArrayList<VertexView> selectedVertexes;
     
-    private String            name;
-    private String            file;
-    private Color             defaultColor;
-    private Color             defaultSelectedColor;
-    private int               defaultSelectedThickness;
-    private int               defaultThickness;
-    private int               defaultWidth;
-    private Shape             defaultShape;
+    private String                name;
+    private String                file;
+    private Color                 defaultColor;
+    private Color                 defaultSelectedColor;
+    private int                   defaultThickness;
+    private int                   defaultSelectedThickness;
+    private int                   defaultWidth;
+    private Shape                 defaultShape;
 
     public Graph getGraph() {
         return this.graph;
@@ -65,13 +77,14 @@ public class Tab extends JPanel implements Observer {
         this.defaultThickness         = 1;
         this.defaultSelectedThickness = 2;
         this.defaultWidth             = 10;
+        this.defaultShape             = Shape.SQUARE;
     }
     
     public boolean canAddVertex(Point position) {
     	for (VertexView v : this.vertexes) {
     		int margin = this.defaultWidth/2;
     		int side   = v.getWidth() + margin*3; 
-    		if (new Rectangle(v.getPositionX() - margin, v.getPositionY() - margin, side, side).contains(position))
+    		if (new Rectangle(v.getPosition().x - margin, v.getPosition().y - margin, side, side).contains(position))
     			return false;
     	}
     	return true;
@@ -82,23 +95,13 @@ public class Tab extends JPanel implements Observer {
      * @param g {@link java.awt.Graphics} à partir de quoi dessiner
      */
     public void paintComponent(Graphics g){
-    	/**/
-    	Stroke oldStroke = ((Graphics2D) g).getStroke();
-    	for (VertexView v : graph.getVertexes()) {
+    	for (VertexView v : this.vertexes) {
     		v.paintComponent(g);
     	}
-    	/**/
-        /*for(Vertex v : graph.getVertexes()){
-            g.setColor(v.getColor());
-            ((Graphics2D) g).setStroke(new BasicStroke(v.getThickness()));
-            g.drawRect(v.getPositionX(), v.getPositionY(), v.getWidth(), v.getWidth());
+
+        for(EdgeView e : this.edges){
+            e.paintComponent(g);
         }
-			*/
-        for(EdgeView e : graph.getEdges()){
-            g.setColor(e.getColor());
-            g.drawLine(e.getOrigin().getPositionX(), e.getOrigin().getPositionY(), e.getDestination().getPositionX(), e.getDestination().getPositionY());
-        }
-        ((Graphics2D) g).setStroke(oldStroke);
     }
 
     /**
@@ -110,7 +113,7 @@ public class Tab extends JPanel implements Observer {
         Rectangle rect = new Rectangle();
 
         for(VertexView v : this.vertexes) {
-            rect.setBounds(v.getPositionX(), v.getPositionY(), v.getWidth(), v.getWidth());
+            rect.setBounds(v.getPosition().x, v.getPosition().y, v.getWidth(), v.getWidth());
             if(rect.contains(mouseEvent.getX(), mouseEvent.getY())){
                 return v;
             }
@@ -144,36 +147,30 @@ public class Tab extends JPanel implements Observer {
 
     public void selectedEdge(EdgeView e){
     	e.setColor(this.defaultSelectedColor);
-    	e.setThickness(this.defaultSelectedThickness);
         this.selectedEdges.add(e);
     }
 
     public void unselectedEdge(EdgeView e){
     	e.setColor(this.defaultColor);
-    	e.setThickness(this.defaultThickness);
         this.selectedEdges.remove(e);
     }
 
     public void selectVertex(VertexView v){
-    	v.setColor(this.defaultSelectedColor);
-    	v.setThickness(this.defaultSelectedThickness);
+    	v.updateHover(true);
         this.selectedVertexes.add(v);
     }
 
     public void unselectedVertex(VertexView v){
-    	v.setColor(this.defaultColor);
-    	v.setThickness(this.defaultThickness);
+    	v.updateHover(false);
         this.selectedVertexes.remove(v);
     }
 
     public void clearSelectedItem(){
     	for(VertexView v : this.selectedVertexes) {
-    		v.setColor(this.defaultColor);
-        	v.setThickness(this.defaultThickness);
+    		v.updateHover(false);
     	}
     	for(EdgeView e : this.selectedEdges) {
     		e.setColor(this.defaultColor);
-        	e.setThickness(this.defaultThickness);
     	}
     	this.selectedVertexes.clear();
         this.selectedEdges.clear();
@@ -202,14 +199,6 @@ public class Tab extends JPanel implements Observer {
     public void setDefaultColor(Color defaultColor) {
         this.defaultColor = defaultColor;
     }
-
-    public int getDefaultThickness() {
-        return this.defaultThickness;
-    }
-
-    public void setDefaultThickness(int defaultThickness) {
-        this.defaultThickness = defaultThickness;
-    }
     
     public int getDefaultWidth() {
         return this.defaultWidth;
@@ -225,11 +214,12 @@ public class Tab extends JPanel implements Observer {
      * @param y
      */
     public void addVertex(Point position){
-		position.x -= this.defaultWidth/2;
-		position.y -= this.defaultWidth/2;
-    	VertexView vertex = new VertexView(this.defaultColor, this.defaultThickness, this.defaultWidth, position.x, position.y, this.defaultShape);
+		int x = position.x - this.defaultWidth/2;
+		int y = position.y - this.defaultWidth/2;
+    	VertexView vertex = new VertexView(this.defaultColor, this.defaultSelectedColor, this.defaultWidth, new Point(x, y), this.defaultShape);
         vertex.addMouseListener(new VertexMouseListener(this.controller, vertex));
         this.vertexes.add(vertex);
+        super.add(vertex);
     }
     
     /**
@@ -238,8 +228,9 @@ public class Tab extends JPanel implements Observer {
      * @param destination
      */
     public void createEdge(VertexView origin, VertexView destination ){
-    	EdgeView edge = new EdgeView(this.defaultThickness, this.defaultColor, origin, destination);
+    	EdgeView edge = new EdgeView(this.defaultThickness, this.defaultSelectedThickness, this.defaultColor, this.defaultSelectedColor, origin, destination);
         this.edges.add(edge);
+        super.add(edge);
     }
 
     /**
@@ -248,9 +239,8 @@ public class Tab extends JPanel implements Observer {
      * @param x
      * @param y
      */
-    public void moveVertex(VertexView vertex, int x, int y){
-        vertex.setPositionX(x);
-        vertex.setPositionY(y);
+    public void moveVertex(VertexView vertex, Point position){
+        vertex.setPosition(position);
     }
 
     /**
@@ -258,15 +248,118 @@ public class Tab extends JPanel implements Observer {
      * @param vectorX
      * @param vectorY
      */
-    public void moveSelectedVertex(int vectorX, int vectorY){
+    public void moveSelectedVertexes(int vectorX, int vectorY){
         for(VertexView vertex : this.selectedVertexes){
-            vertex.move(vectorX,vectorY);
+            vertex.move2(vectorX, vectorY);
         }
     }
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void update(Observable observable, Object object) {
-		// TODO Auto-generated method stub
-		
+		this.vertexes.clear();
+		super.removeAll();
+		for (Vertex v : (ArrayList<Vertex>)object) {
+			addVertex(v.getPosition());
+		}
+		this.repaint();
+		/** A modifier pour n'ajouter que ceux qui sont dans la fenêtre **/
 	}
+	
+	/**
+     * Saves the current graph to an XML doc (XML-like doc)
+     * @param fileName
+     */
+    public void saveToGraphml(String fileName) {
+
+        Element root = new Element("Vertexes");
+        org.jdom2.Document toBeSaved = new Document(root);
+
+        for(VertexView v : this.vertexes) {
+            root.addContent(createVertexDocumentElement(v));
+        }
+        
+        for(EdgeView e : this.edges) {
+        	root.addContent(createEdgeDocumentElement(e));
+        }
+
+        saveXML(fileName, toBeSaved);
+    }
+
+    /**
+     * Creates an XML element from a vertex
+     * @param v
+     * @return
+     */
+    private Element createVertexDocumentElement(VertexView v) {
+
+        Element createdElement = new Element("vertex");
+
+        Element name      = new Element("name");
+        Element color     = new Element("color");
+        Element thickness = new Element("thickness");
+        Element positionX = new Element("positionX");
+        Element positionY = new Element("positionY");
+        Element shape     = new Element("shape");
+
+        name.setText(v.getName());
+        color.setText(v.getColor().toString());
+        positionX.setText(String.valueOf(v.getPosition().x));
+        positionY.setText(String.valueOf(v.getPosition().y));
+        shape.setText(v.getShape().toString());
+
+        createdElement.addContent(name);
+        createdElement.addContent(color);
+        createdElement.addContent(thickness);
+        createdElement.addContent(positionX);
+        createdElement.addContent(positionY);
+        createdElement.addContent(shape);
+
+        return createdElement;
+    }
+    
+    private Element createEdgeDocumentElement(EdgeView e) {
+    	Element createdElement = new Element("edge");
+    	
+    	Element name = new Element("name");
+    	
+        name.setText(e.getLabel());
+        
+        createdElement.addContent(name);
+        
+        return createdElement;
+    }
+
+    /**
+     * Shows an XML document
+     * @param document
+     */
+    private static void showXML(Document document){
+
+        XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
+
+        try {
+            out.output(document, System.out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Saves a document at the "file" destination, in XML format
+     * @param file
+     * @param document
+     */
+    private static void saveXML(String file, Document document){
+        try
+        {
+            //On modifie le format d'enregistrement (affichage)
+            XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
+
+            out.output(document, new FileOutputStream(file));
+        }
+        catch (java.io.IOException e){
+            e.printStackTrace();
+        }
+    }	
 }

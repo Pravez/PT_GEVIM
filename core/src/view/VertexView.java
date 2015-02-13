@@ -3,23 +3,22 @@ package view;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.RenderingHints;
-import java.awt.Shape;
-import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
 public class VertexView extends JComponent {
 
 	private static final long serialVersionUID = 1L;
-	private String          name;
-    private java.awt.Color  color;
-    private int             thickness;
-    private int             width;
-    private int             positionX;
-    private int             positionY;
-    private java.awt.Shape  shape;
-    private ArrayList<EdgeView> edges; // à virer plus tard
+	private String         name;
+    private java.awt.Color color;
+    private java.awt.Color defaultColor;
+    private java.awt.Color hoverColor; 
+    private int            width;
+    private Point          position;
+    private Shape          shape;
+    public static enum     Shape { SQUARE, CIRCLE };
 
     //rajouter des statics pour les paramètres par défaut
 
@@ -27,40 +26,33 @@ public class VertexView extends JComponent {
      * VertexView constructor
      * @param name
      * @param color
-     * @param thickness
+     * @param hoverColor
      * @param width
-     * @param positionX
-     * @param positionY
+     * @param position
      * @param shape
      */
-    public VertexView(String name, Color color, int thickness, int width, int positionX, int positionY, Shape shape) {
-        this.name      = name;
-        this.color     = color;
-        this.thickness = thickness;
-        this.width     = width;
-        this.positionX = positionX;
-        this.positionY = positionY;
-        this.shape     = shape;
-        this.edges     = new ArrayList<EdgeView>();
+    public VertexView(String name, Color color, Color hoverColor, int width, Point position, Shape shape) {
+    	this(color, hoverColor, width, position, shape);
+        this.name = name;
     }
 
     /**
      * VertexView constructor
      * @param color
-     * @param thickness
+     * @param hoverColor
      * @param width
-     * @param positionX
-     * @param positionY
+     * @param position
      * @param shape
      */
-    public VertexView(Color color, int thickness, int width, int positionX, int positionY, Shape shape) {
-        this.color     = color;
-        this.thickness = thickness;
-        this.width     = width;
-        this.positionX = positionX;
-        this.positionY = positionY;
-        this.shape     = shape;
-        this.edges     = new ArrayList<EdgeView>();
+    public VertexView(Color color, Color hoverColor, int width, Point position, Shape shape) {
+    	this.defaultColor = color;
+        this.color        = color;
+        this.hoverColor   = hoverColor;
+        this.width        = width;
+        this.position     = position;
+        this.shape        = shape;
+        super.setSize(this.width, this.width);
+        super.setBounds(this.position.x, this.position.y, this.width, this.width);
     }
     
     @Override
@@ -72,25 +64,19 @@ public class VertexView extends JComponent {
 		
 		g2d.setRenderingHints(renderHints);
 		g.setColor(this.color);
-		g.drawRect(this.positionX, this.positionY, this.width, this.width);
+		
+		switch (this.shape) {
+		case SQUARE :
+			g.fillRect(this.position.x, this.position.y, this.width, this.width);
+			break;
+		case CIRCLE :
+			g.fillOval(this.position.x, this.position.y, this.width, this.width);
+			break;
+		default:
+			break;
+		}
     }
     
-    public void addEdge(EdgeView edge){
-        this.edges.add(edge);
-    }
-
-    public void removeEdge(EdgeView edge){
-        this.edges.remove(edge);
-    }
-
-    public ArrayList<EdgeView> getEdges() {
-        return this.edges;
-    }
-
-    public void setEdges(ArrayList<EdgeView> edges) {
-        this.edges = edges;
-    }
-
     public void setShape(Shape shape) {
         this.shape = shape;
     }
@@ -102,21 +88,17 @@ public class VertexView extends JComponent {
     public void setColor(Color color) {
         this.color = color;
     }
-
-    public void setThickness(int thickness) {
-        this.thickness = thickness;
+    
+    public void setHoverColor(Color color) {
+    	this.hoverColor = color;
     }
     
     public void setWidth(int width) {
         this.width = width;
     }
-
-    public void setPositionX(int positionX) {
-        this.positionX = positionX;
-    }
-
-    public void setPositionY(int positionY) {
-        this.positionY = positionY;
+   
+    public void setPosition(Point position) {
+    	this.position = position;
     }
 
     public String getName() {
@@ -126,21 +108,17 @@ public class VertexView extends JComponent {
     public Color getColor() {
         return this.color;
     }
-
-    public int getThickness() {
-        return this.thickness;
+    
+    public Color getHoverColor() {
+        return this.hoverColor;
     }
     
     public int getWidth() {
         return this.width;
     }
 
-    public int getPositionX() {
-        return this.positionX;
-    }
-
-    public int getPositionY() {
-        return this.positionY;
+    public Point getPosition() {
+        return this.position;
     }
 
     public Shape getShape() {
@@ -152,8 +130,14 @@ public class VertexView extends JComponent {
      * @param vectorX
      * @param vectorY
      */
-    public void move(int vectorX, int vectorY) {
-        this.positionX += vectorX;
-        this.positionY += vectorY;
+    public void move2(int vectorX, int vectorY) {
+    	System.out.println("Vertex moved");
+        this.position.x += vectorX;
+        this.position.y += vectorY;
     }
+    
+    public void updateHover(boolean isHover) {
+		this.color = (isHover) ? this.hoverColor : this.defaultColor;
+		this.repaint();
+	}
 }

@@ -10,53 +10,26 @@ import java.util.ArrayList;
 
 public class Vertex {
     private String          name;
-    private java.awt.Color  color;
-    private int             thickness;
-    private int             width;
-    private int             positionX;
-    private int             positionY;
-    private java.awt.Shape  shape;
-    private ArrayList<Edge> edges;
-
-    //rajouter des statics pour les paramètres par défaut
+    private Point           position;
+    private ArrayList<Edge> edges; // plus tard il n'y aura plus d'Edges, que un lien vers les autres vertex qu'il connait
 
     /**
      * Vertex constructor
      * @param name
-     * @param color
-     * @param thickness
-     * @param width
-     * @param positionX
-     * @param positionY
-     * @param shape
+     * @param position
      */
-    public Vertex(String name, Color color, int thickness, int width, int positionX, int positionY, Shape shape) {
+    public Vertex(String name, Point position) {
         this.name      = name;
-        this.color     = color;
-        this.thickness = thickness;
-        this.width     = width;
-        this.positionX = positionX;
-        this.positionY = positionY;
-        this.shape     = shape;
+        this.position  = position;
         this.edges     = new ArrayList<Edge>();
     }
 
     /**
      * Vertex constructor
-     * @param color
-     * @param thickness
-     * @param width
-     * @param positionX
-     * @param positionY
-     * @param shape
+     * @param position
      */
-    public Vertex(Color color, int thickness, int width, int positionX, int positionY, Shape shape) {
-        this.color     = color;
-        this.thickness = thickness;
-        this.width     = width;
-        this.positionX = positionX;
-        this.positionY = positionY;
-        this.shape     = shape;
+    public Vertex(Point position) {
+        this.position  = position;
         this.edges     = new ArrayList<Edge>();
     }
     
@@ -76,60 +49,20 @@ public class Vertex {
         this.edges = edges;
     }
 
-    public void setShape(Shape shape) {
-        this.shape = shape;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    public void setThickness(int thickness) {
-        this.thickness = thickness;
-    }
-    
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public void setPositionX(int positionX) {
-        this.positionX = positionX;
-    }
-
-    public void setPositionY(int positionY) {
-        this.positionY = positionY;
+    public void setPosition(Point position) {
+        this.position = position;
     }
 
     public String getName() {
         return this.name;
     }
 
-    public Color getColor() {
-        return this.color;
-    }
-
-    public int getThickness() {
-        return this.thickness;
-    }
-    
-    public int getWidth() {
-        return this.width;
-    }
-
-    public int getPositionX() {
-        return this.positionX;
-    }
-
-    public int getPositionY() {
-        return this.positionY;
-    }
-
-    public Shape getShape() {
-        return this.shape;
+    public Point getPosition() {
+        return this.position;
     }
 
     /**
@@ -138,7 +71,7 @@ public class Vertex {
      * @param vectorY
      */
     public void move(int vectorX, int vectorY) {
-        this.positionX += vectorX;
-        this.positionY += vectorY;
+        this.position.x += vectorX;
+        this.position.y += vectorY;
     }
 }

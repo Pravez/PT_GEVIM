@@ -3,6 +3,8 @@ package controller;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JPopupMenu;
+
 import view.VertexView;
 
 public class VertexMouseListener implements MouseListener {
@@ -17,16 +19,25 @@ public class VertexMouseListener implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("Mouse Clicked on Vertex");
-		this.controller.notifyVertexSelected(this.vertex);
 		switch(e.getButton()) {
 	        case MouseEvent.BUTTON1: // Clic gauche
+	        	if (e.isControlDown()) {
+	        		this.controller.notifyVertexAddToSelection(this.vertex);
+	        	} else {
+	        		this.controller.notifyVertexSelected(this.vertex);
+	        	}
 	            break;
 	
-	        case MouseEvent.BUTTON3: // clic droit
-	            /*if(((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent) != null) {
-	                contextMenu.show(tabs.getSelectedComponent(), mouseEvent.getX(), mouseEvent.getY());
-	            }*/
+	        case MouseEvent.BUTTON3: // Clic droit
+	        	if (e.isControlDown()) {
+	        		this.controller.notifyVertexAddToSelection(this.vertex);
+	        	} else {
+	        		this.controller.notifyVertexSelected(this.vertex);
+	        	}
+	            JPopupMenu contextMenu = new JPopupMenu();
+	            contextMenu.add("Edit");
+	            contextMenu.add("Delete");
+	            contextMenu.show(this.vertex, e.getX(), e.getY());
 	            break;
             default:
             	break;
@@ -35,7 +46,6 @@ public class VertexMouseListener implements MouseListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		System.out.println("Mouse entered on vertex");
 	}
 
 	@Override
