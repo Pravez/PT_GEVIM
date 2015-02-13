@@ -6,6 +6,8 @@ import data.Vertex;
 
 import javax.swing.*;
 
+import controller.Controller;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -13,11 +15,11 @@ import java.awt.event.MouseEvent;
  * Created by Corentin Davidenko on 04/02/15.
  */
 
-
 public class Tab extends JPanel {
 
 	private static final long serialVersionUID = 1L;
     private Graph             graph;
+    private Controller        controller;
 
     public Graph getGraph() {
         return graph;
@@ -32,9 +34,10 @@ public class Tab extends JPanel {
      * @param graph Graphe devant être associé
      */
 
-    public Tab(Graph graph) {
+    public Tab(Graph graph, Controller controller) {
         super();
-        this.graph = graph;
+        this.graph      = graph;
+        this.controller = controller;
     }
 
     /**
@@ -44,13 +47,16 @@ public class Tab extends JPanel {
     public void paintComponent(Graphics g){
     	/**/
     	Stroke oldStroke = ((Graphics2D) g).getStroke();
+    	for (Vertex v : graph.getVertexes()) {
+    		v.paintComponent(g);
+    	}
     	/**/
-        for(Vertex v : graph.getVertexes()){
+        /*for(Vertex v : graph.getVertexes()){
             g.setColor(v.getColor());
             ((Graphics2D) g).setStroke(new BasicStroke(v.getThickness()));
             g.drawRect(v.getPositionX(), v.getPositionY(), v.getWidth(), v.getWidth());
         }
-
+			*/
         for(Edge e : graph.getEdges()){
             g.setColor(e.getColor());
             g.drawLine(e.getOrigin().getPositionX(), e.getOrigin().getPositionY(), e.getDestination().getPositionX(), e.getDestination().getPositionY());
@@ -64,11 +70,9 @@ public class Tab extends JPanel {
      * @return Le {@link data.Vertex} s'il existe, sinon null
      */
     public Vertex onVertex(MouseEvent mouseEvent){
-
         Rectangle rect = new Rectangle();
 
-        for(Vertex v : graph.getVertexes()){
-
+        for(Vertex v : graph.getVertexes()) {
             rect.setBounds(v.getPositionX(), v.getPositionY(), v.getWidth(), v.getWidth());
             if(rect.contains(mouseEvent.getX(), mouseEvent.getY())){
                 return v;
@@ -76,5 +80,4 @@ public class Tab extends JPanel {
         }
         return null;
     }
-
 }

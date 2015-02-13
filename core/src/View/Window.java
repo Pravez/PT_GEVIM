@@ -8,6 +8,7 @@ import controller.Controller;
 import controller.MenuActionListener;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -46,7 +47,6 @@ public class Window extends JFrame{
         this.setVisible(true);
     }
 
-
     /**
      * Initialize the background panel : creates a new JPanel
      */
@@ -56,6 +56,7 @@ public class Window extends JFrame{
     	back.setLayout(new BorderLayout());
     	back.add(this.tabs, BorderLayout.CENTER);
     	this.getContentPane().add(back);
+    	this.getContentPane().setBackground(Color.GRAY);
     }
 
     /**
@@ -113,7 +114,6 @@ public class Window extends JFrame{
         super.getContentPane().add(toolBar, BorderLayout.NORTH);
     }
 
-
     /**
      * Method to create different menus to navigate
      */
@@ -149,15 +149,15 @@ public class Window extends JFrame{
      * Adds a new tab to the current JPanel. The tab is another JPanel
      */
     public void addNewTab() {
-        Tab tab = new Tab(controller.addNewGraph());
+        Tab tab = new Tab(this.controller.addNewGraph(), this.controller);
         String title = "Tab " + tabs.getTabCount();
         
         title = JOptionPane.showInputDialog("Saisissez le nom du nouveau graphe :", title);
 
     	tab.setName(title);
-    	tab.setBackground(Color.WHITE);
+    	tab.setBackground(Color.GRAY);
         tab.add(new JLabel(title));
-
+        
         tab.addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent mouseEvent) {
                 switch(mouseEvent.getButton()) {
@@ -169,6 +169,7 @@ public class Window extends JFrame{
                     case MouseEvent.BUTTON3: // clic droit
                         if(((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent) != null) {
                             contextMenu.show(tabs.getSelectedComponent(), mouseEvent.getX(), mouseEvent.getY());
+                            //controller.notifyVertexSelected((Vertex)tabs.getSelectedComponent());
                         }
                         break;
                 }
@@ -178,26 +179,20 @@ public class Window extends JFrame{
                 /*System.out.println("pressed");
                 Vertex vertexTmp = ((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent);
                 if(vertexTmp != null){
-
                     System.out.println("onVezretex");
                 }*/
             }
 
             public void mouseReleased(MouseEvent mouseEvent) {
                 System.out.println("released");
-                if(((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent) != null){
-
-                }
+                if(((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent) != null){ }
             }
 
-            public void mouseEntered(MouseEvent mouseEvent) {
-            }
+            public void mouseEntered(MouseEvent mouseEvent) { }
 
-            public void mouseExited(MouseEvent mouseEvent) {
-            }
+            public void mouseExited(MouseEvent mouseEvent) { }
         });
-
-
+               
     	this.tabs.addTab(title, tab);
     }
 
@@ -208,5 +203,4 @@ public class Window extends JFrame{
     public int getCurrentTab(){
         return tabs.getSelectedIndex();
     }
-
 }

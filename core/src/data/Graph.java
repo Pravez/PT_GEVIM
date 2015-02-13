@@ -5,7 +5,11 @@ import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import controller.Controller;
+import controller.VertexMouseListener;
+
 import javax.swing.undo.UndoManager;
+
 import java.awt.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,6 +24,7 @@ import java.util.ArrayList;
 public class Graph {
 
 	protected UndoManager     undo = new UndoManager();
+	private Controller        controller;
 
     private ArrayList<Edge>   edges;
     private ArrayList<Vertex> vertexes;
@@ -38,7 +43,8 @@ public class Graph {
     /**
      * Default constructor, initializes attributes.
      */
-    public Graph() {
+    public Graph(Controller controller) {
+    	this.controller               = controller; 
         this.edges                    = new ArrayList<Edge>();
         this.selectedEdges            = new ArrayList<Edge>();
 
@@ -176,6 +182,7 @@ public class Graph {
     		x -= this.defaultWidth/2;
         	y -= this.defaultWidth/2;
             Vertex vertex = new Vertex(this.defaultColor, this.defaultThickness, this.defaultWidth, x, y, this.defaultShape);
+            vertex.addMouseListener(new VertexMouseListener(this.controller, vertex));
             this.vertexes.add(vertex);
     	}
     }
@@ -243,7 +250,6 @@ public class Graph {
 
         saveXML(fileName, toBeSaved);
     }
-
 
     /**
      * Creates an XML element from a vertex

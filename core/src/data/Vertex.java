@@ -3,11 +3,14 @@ package data;
 import java.awt.*;
 import java.util.ArrayList;
 
+import javax.swing.JComponent;
+
 /**
  * Created by vain on 26/01/15.
  * Modified by cordavidenko on 26/01/15
  */
-public class Vertex {
+@SuppressWarnings("serial")
+public class Vertex extends JComponent {
     private String          name;
     private java.awt.Color  color;
     private int             thickness;
@@ -40,7 +43,6 @@ public class Vertex {
         this.edges     = new ArrayList<Edge>();
     }
 
-
     /**
      * Vertex constructor
      * @param color
@@ -58,6 +60,18 @@ public class Vertex {
         this.positionY = positionY;
         this.shape     = shape;
         this.edges     = new ArrayList<Edge>();
+    }
+    
+    @Override
+    public void paintComponent(Graphics g) {
+    	g.setFont(super.getFont());
+		
+		Graphics2D        g2d         = ((Graphics2D) g);
+		RenderingHints    renderHints = new RenderingHints (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		
+		g2d.setRenderingHints(renderHints);
+		g.setColor(this.color);
+		g.drawRect(this.positionX, this.positionY, this.width, this.width);
     }
     
     public void addEdge(Edge edge){

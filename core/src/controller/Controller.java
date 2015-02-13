@@ -2,8 +2,10 @@ package controller;
 
 import View.Window;
 import data.Graph;
+import data.Vertex;
 
 import javax.swing.*;
+
 import java.util.ArrayList;
 
 
@@ -26,7 +28,6 @@ public class Controller {
 		this.window = window;
 	}
 
-
 	/**
 	 * Ajoute un nouveau {@link data.Vertex} au {@link data.Graph} en question
 	 * @param g Le graphe auquel le vertex doit être ajouté
@@ -45,7 +46,6 @@ public class Controller {
 		if(graphs.size() > 0){
 			return getGraph(window.getCurrentTab());
 		}
-
 		return null;
 	}
 
@@ -63,11 +63,9 @@ public class Controller {
 	 * @return Le graphe nouvellement crée
 	 */
 	public Graph addNewGraph(){
-		graphs.add(new Graph());
+		graphs.add(new Graph(this));
 		return graphs.get(graphs.size()-1);
 	}
-
-
 
     public static void main(String[] args){
     	try {
@@ -94,4 +92,8 @@ public class Controller {
 		}
 	}
 
+	public void notifyVertexSelected(Vertex selectedVertext) {
+		getCurrentGraph().selectVertex(selectedVertext);
+		System.out.println("Selected");
+	}
 }
