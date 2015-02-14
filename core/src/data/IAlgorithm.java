@@ -1,13 +1,13 @@
 package data;
 
 /**
- * Created by Alexis Dufrenne
- * Interface IAlgorithm. All algorithms which modifies the graph will implements this interface.
+ * @author Alexis Dufrenne
+ * Interface IAlgorithm, tous les algorithmes qui modifieront un Graph implémenterons cette interface
  */
 public interface IAlgorithm {
 	/**
-	 * Run the algorithm on a specific graph.
-	 * @param graph
+	 * Méthode pour faire tourner l'algorithme sur un Graph
+	 * @param graph le Graph sur lequel faire tourner l'algorithme
 	 */
 	public abstract void run(Graph graph);
 }

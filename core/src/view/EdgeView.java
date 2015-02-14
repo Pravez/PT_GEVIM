@@ -6,8 +6,8 @@ import javax.swing.JComponent;
 
 /**
  * Created by cordavidenko on 26/01/15.
+ * Classe EdgeView, Edge affiché dans le Tab
  */
-
 public class EdgeView extends JComponent {
 
 	private static final long serialVersionUID = 1L;
@@ -24,12 +24,14 @@ public class EdgeView extends JComponent {
     //rajouter des statics pour les paramètres par défaut
 
     /**
-     * Edge Constructor
-     * @param thickness
-     * @param color
-     * @param label
-     * @param origin
-     * @param destination
+     * Constructeur de la classe EdgeView
+     * @param label nom de l'EdgeView
+     * @param thickness l'épaisseur du trait
+     * @param hoverThickness l'épaisseur du trait lorsque l'EdgeView est sélectionné
+     * @param color la couleur de l'EdgeView
+     * @param hoverColor la couleur de l'EdgeView lorsque l'EdgeView est sélectionné
+     * @param origin le VertexView d'origine
+     * @param destination le VertexView de destination
      */
     public EdgeView(String label, int thickness, int hoverThickness, Color color, Color hoverColor, VertexView origin, VertexView destination) {
         this(thickness, hoverThickness, color, hoverColor, origin, destination);
@@ -37,11 +39,13 @@ public class EdgeView extends JComponent {
     }
 
     /**
-     * Edge Constructor without label
-     * @param thickness
-     * @param color
-     * @param origin
-     * @param destination
+     * Constructeur de la classe EdgeView
+     * @param thickness l'épaisseur du trait
+     * @param hoverThickness l'épaisseur du trait lorsque l'EdgeView est sélectionné
+     * @param color la couleur de l'EdgeView
+     * @param hoverColor la couleur de l'EdgeView lorsque l'EdgeView est sélectionné
+     * @param origin le VertexView d'origine
+     * @param destination le VertexView de destination
      */
     public EdgeView(int thickness, int hoverThickness, Color color, Color hoverColor, VertexView origin, VertexView destination) {
         this.thickness        = thickness;
@@ -55,6 +59,11 @@ public class EdgeView extends JComponent {
         /** Set bounds et setSize pour les Mouse Listeners **/
     }
     
+    /**
+     * Override de la méthode paintComponent pour dessiner l'EdgeView dans le Tab
+     * (non-Javadoc)
+     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+     */
     @Override
     public void paintComponent(Graphics g) {
     	g.setFont(super.getFont());
@@ -70,62 +79,122 @@ public class EdgeView extends JComponent {
 		((Graphics2D) g).setStroke(oldStroke);
     }
     
+    /**
+     * Getter de l'épaisseur de l'EdgeView
+     * @return l'épaisseur de l'EdgeView
+     */
     public int getThickness() {
         return this.thickness;
     }
 
+    /**
+     * Setter de l'épaisseur de l'EdgeView
+     * @param thickness la nouvelle épaisseur
+     */
     public void setThickness(int thickness) {
         this.thickness = thickness;
     }
     
+    /**
+     * Getter de l'épaisseur de l'EdgeView lorsque l'EdgeView est sélectionné
+     * @return l'épaisseur lorsque l'EdgeView est sélectionné
+     */
     public int getHoverThickness() {
         return this.thickness;
     }
 
+    /**
+     * Setter de l'épaisseur de l'EdgeView lorsque l'EdgeView est sélectionné
+     * @param thickness la nouvelle épaisseur lorsque l'EdgeView est sélectionné
+     */
     public void setHoverThickness(int thickness) {
         this.hoverThickness = thickness;
     }
 
+    /**
+     * Getter de la couleur de l'EdgeView
+     * @return la couleur de l'EdgeView
+     */
     public Color getColor() {
         return this.color;
     }
 
+    /**
+     * Setter de la couleur de l'EdgeView
+     * @param color la nouvelle couleur de l'EdgeView
+     */
     public void setColor(Color color) {
         this.color = color;
     }
     
+    /**
+     * Getter de la couleur de l'EdgeView lorsque l'EdgeView est sélectionné
+     * @return la couleur de l'EdgeView lorsque l'EdgeView est sélectionné
+     */
     public Color getHoverColor() {
         return this.hoverColor;
     }
 
+    /**
+     * Setter de la couleur de l'EdgeView lorsque l'EdgeView est sélectionné
+     * @param color la nouvelle couleur de l'EdgeView lorsque l'EdgeView est sélectionné
+     */
     public void setHoverColor(Color color) {
         this.hoverColor = color;
     }
 
+    /**
+     * Getter du nom de l'EdgeView
+     * @return le nom de l'EdgeView
+     */
     public String getLabel() {
         return this.label;
     }
 
+    /**
+     * Setter du nom de l'EdgeView
+     * @param label le nouveau nom de l'EdgeView
+     */
     public void setLabel(String label) {
         this.label = label;
     }
 
+    /**
+     * Getter du VertexView d'origine de l'EdgeView
+     * @return le VertexView d'origine
+     */
     public VertexView getOrigin() {
         return this.origin;
     }
 
+    /**
+     * Setter du VertexView d'origine de l'EdgeView
+     * @param origin le nouveau VertexView d'origine
+     */
     public void setOrigin(VertexView origin) {
         this.origin = origin;
     }
 
+    /**
+     * Getter du VertexView de destination de l'EdgeView
+     * @return le VertexView de destination
+     */
     public VertexView getDestination() {
         return this.destination;
     }
 
+    /**
+     * Setter du VertexView de destination de l'EdgeView
+     * @param origin le nouveau VertexView de destination
+     */
     public void setDestination(VertexView destination) {
         this.destination = destination;
     }
     
+    /**
+     * Méthode appelée pour mettre à jour les paramètres d'affichage de l'EdgeView s'il est sélectionné ou non
+     * @param isHover boolean si l'EdgeView est sélectionné ou non
+     */
     public void updateHover(boolean isHover) {
 		this.color     = (isHover) ? this.hoverColor     : this.defaultColor;
 		this.thickness = (isHover) ? this.hoverThickness : this.defaultThickness;

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 /**
  * Created by quelemonnier on 26/01/15.
+ * Classe Controller, contrôleur principal de l'application
  */
 public class Controller {
 	
@@ -71,6 +72,10 @@ public class Controller {
 		return graph;
 	}
 
+	/**
+	 * Main du logiciel de visualisation de graphes
+	 * @param args
+	 */
     public static void main(String[] args){
     	try {
     		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -81,6 +86,10 @@ public class Controller {
         controller.setWindow(window);
     }
 
+    /**
+     * Méthode appelée lorsqu'un bouton du menu a été activé par l'utilisateur, agit en fonction du bouton
+     * @param type le nom du bouton activé (sa fonction)
+     */
 	public void notifyMenuItemActivated(String type) {
 		switch (type) {
 		case "New":
@@ -97,11 +106,21 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Méthode appelée lorsqu'un VertexView a été sélectionné :
+	 *   - vide la liste des VertexView sélectionnés
+	 *   - ajoute le VertexView à la liste des VertexView sélectionnés
+	 * @param selectedVertext le VertexView sélectionné
+	 */
 	public void notifyVertexSelected(VertexView selectedVertext) {
 		this.window.getCurrentTab2().clearSelectedItem();
 		this.window.getCurrentTab2().selectVertex(selectedVertext);
 	}
 	
+	/**
+	 * Méthode appelée lorsqu'un VerteView sélectionné doit être ajouté à la liste des VertexView sélectionnés
+	 * @param selectedVertex le VertexView sélectionné à ajouter
+	 */
 	public void notifyVertexAddToSelection(VertexView selectedVertex) {
 		this.window.getCurrentTab2().selectVertex(selectedVertex);
 	}

@@ -15,9 +15,9 @@ import data.Graph;
 import java.awt.*;
 
 /**
- * Created by Alexis Dufrenne
- * Class window handling the main frame. It is the view from the MVC pattern. Window interacts
- * with the user.
+ * @author Alexis Dufrenne
+ * Classe Window gérant la fenêtre principale de l'application. C'est la Vue principale du pattern MVC, 
+ * elle interagit avec l'utilisateur
  */
 public class Window extends JFrame{
 
@@ -29,10 +29,10 @@ public class Window extends JFrame{
     private JTabbedPane       tabs; // ensemble des onglets
     
     /**
-     * Constructor of the Window Class
-     * @param w the width of the Window
-     * @param h the height of the Window
-     * @param controller the Controller which controls the Window
+     * Constructeur de la classe Window
+     * @param w la largeur de la fenêtre
+     * @param h la hauteur de la fenêtre
+     * @param controller le Controller qui gère l'application
      */
     public Window(int w, int h, Controller controller) {
         initWindow(w, h, controller);

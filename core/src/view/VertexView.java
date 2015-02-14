@@ -8,6 +8,10 @@ import java.awt.RenderingHints;
 
 import javax.swing.JComponent;
 
+/**
+ * @author Alexis Dufrenne
+ * Classe VertexView, Vertex affiché dans le Tab
+ */
 public class VertexView extends JComponent {
 
 	private static final long serialVersionUID = 1L;
@@ -23,13 +27,13 @@ public class VertexView extends JComponent {
     //rajouter des statics pour les paramètres par défaut
 
     /**
-     * VertexView constructor
-     * @param name
-     * @param color
-     * @param hoverColor
-     * @param width
-     * @param position
-     * @param shape
+     * Constructeur de la classe VertexView
+     * @param name nom du VertexView
+     * @param color couleur du VertexView
+     * @param hoverColor couleur du VertexView lorsqu'il est sélectionné
+     * @param width largeur du VertexView
+     * @param position position du VertexView
+     * @param shape forme du VertexView
      */
     public VertexView(String name, Color color, Color hoverColor, int width, Point position, Shape shape) {
     	this(color, hoverColor, width, position, shape);
@@ -37,12 +41,12 @@ public class VertexView extends JComponent {
     }
 
     /**
-     * VertexView constructor
-     * @param color
-     * @param hoverColor
-     * @param width
-     * @param position
-     * @param shape
+     * Constructeur de la classe VertexView
+     * @param color couleur du VertexView
+     * @param hoverColor couleur du VertexView lorsqu'il est sélectionné
+     * @param width largeur du VertexView
+     * @param position position du VertexView
+     * @param shape forme du VertexView
      */
     public VertexView(Color color, Color hoverColor, int width, Point position, Shape shape) {
     	this.defaultColor = color;
@@ -55,6 +59,11 @@ public class VertexView extends JComponent {
         super.setBounds(this.position.x, this.position.y, this.width, this.width);
     }
     
+    /**
+     * Override de la méthode paintComponent pour dessiner le VertexView dans le Tab
+     * (non-Javadoc)
+     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+     */
     @Override
     public void paintComponent(Graphics g) {
     	g.setFont(super.getFont());
@@ -77,58 +86,106 @@ public class VertexView extends JComponent {
 		}
     }
     
+    /**
+     * Setter de la forme du VertexView
+     * @param shape nouvelle forme du VertexView
+     */
     public void setShape(Shape shape) {
         this.shape = shape;
     }
 
+    /**
+     * Setter du nom du VertexView
+     * @param name nouveau nom du VertexView
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Setter de la couleur du VertexView
+     * @param color nouvelle couleur du VertexView
+     */
     public void setColor(Color color) {
         this.color = color;
     }
     
+    /**
+     * Setter de la couleur du VertexView lorsqu'il est sélectionné
+     * @param color nouvelle couleur du VertexView lorsqu'il est sélectionné
+     */
     public void setHoverColor(Color color) {
     	this.hoverColor = color;
     }
     
+    /**
+     * Setter de la largeur du VertexView
+     * @param width nouvelle largeur du VertexView
+     */
     public void setWidth(int width) {
         this.width = width;
     }
    
+    /**
+     * Setter de la position du VertexView
+     * @param position nouvelle position
+     */
     public void setPosition(Point position) {
     	this.position = position;
     }
 
+    /**
+     * Getter du nom du VertexView
+     * @return le nom du VertexView
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Getter de la couleur du VertexView
+     * @return la couleur du VertexView
+     */
     public Color getColor() {
         return this.color;
     }
     
+    /**
+     * Getter de la couleur du VertexView lorsqu'il est sélectionné
+     * @return la couleur du VertexView lorsqu'il est sélectionné
+     */
     public Color getHoverColor() {
         return this.hoverColor;
     }
     
+    /**
+     * Getter de la largeur du VertexView
+     * @return la largeur du VertexView
+     */
     public int getWidth() {
         return this.width;
     }
 
+    /**
+     * Getter de la position du VertexView
+     * @return la position du VertexView
+     */
     public Point getPosition() {
         return this.position;
     }
 
+    /**
+     * Getter de la forme du VertexView
+     * @return la forme du VertexView
+     */
     public Shape getShape() {
         return this.shape;
     }
 
     /**
-     * move the Vertex in function of the given vector value
-     * @param vectorX
-     * @param vectorY
+     * Méthode permettant de déplacer le VertexView dans une certaine direction
+     * @param vectorX la direction du vecteur de déplacement en abscisse
+     * @param vectorY la direction du vecteur de déplacement en ordonnée
      */
     public void move2(int vectorX, int vectorY) {
     	System.out.println("Vertex moved");
@@ -136,6 +193,10 @@ public class VertexView extends JComponent {
         this.position.y += vectorY;
     }
     
+    /**
+     * Méthode appelée pour mettre à jour les paramètres d'affichage du VertexView s'il est sélectionné ou non
+     * @param isHover boolean si le VertexView est sélectionné ou non
+     */
     public void updateHover(boolean isHover) {
 		this.color = (isHover) ? this.hoverColor : this.defaultColor;
 		this.repaint();

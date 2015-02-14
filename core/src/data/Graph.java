@@ -22,81 +22,111 @@ public class Graph extends Observable {
     private String            file;
     
     /**
-     * Default constructor, initializes attributes.
+     * Constructeur de la classe Graph
      */
     public Graph() {
-        this.edges                    = new ArrayList<Edge>();
-        this.vertexes                 = new ArrayList<Vertex>();
+        this.edges    = new ArrayList<Edge>();
+        this.vertexes = new ArrayList<Vertex>();
     }
 
     /**
-     * Constructor with copy
+     * Constructeur par copie de la classe Graph
      * @param g
      */
     public Graph(Graph g) {
-    	this.edges            = new ArrayList<Edge>(g.edges);
-    	this.vertexes         = new ArrayList<Vertex>(g.vertexes);
+    	this.edges    = new ArrayList<Edge>(g.edges);
+    	this.vertexes = new ArrayList<Vertex>(g.vertexes);
     }
 
+    /**
+     * Getter de la liste des Vertex du Graph
+     * @return la liste des Vertex
+     */
     public ArrayList<Vertex> getVertexes() {
         return vertexes;
     }
 
+    /**
+     * Setter de la liste des Vertex du graph
+     * @param vertexes la nouvelle liste de Vertex
+     */
     public void setVertexes(ArrayList<Vertex> vertexes) {
         this.vertexes = vertexes;
     }
 
+    /**
+     * Getter de la liste des Edge du Graph
+     * @return la liste des Edge
+     */
     public ArrayList<Edge> getEdges() {
         return this.edges;
     }
 
+    /**
+     * Setter de la liste des Edge du graph
+     * @param edges la nouvelle liste de Edge
+     */
     public void setEdges(ArrayList<Edge> edges) {
         this.edges = edges;
     }
 
+    /**
+     * Getter du nom du Graph
+     * @return le nom du Graph
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Setter du nom du Graph
+     * @param name le nouveau nom du Graph
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Getter du fichier du Graph
+     * @return le nom du fichier du Graph
+     */
     public String getFile() {
         return this.file;
     }
 
+    /**
+     * Setter du fichier du Graph
+     * @param file le nouveau nom du fichier du Graph
+     */
     public void setFile(String file) {
         this.file = file;
     }
 
     /**
-     * Creates a vertex with default attributes
-     * @param x
-     * @param y
+     * Méthode pour ajouter un Vertex au Graph
+     * @param position la position du Vertex à créer
      */
-    public void createVertex(Point position){
+    public void createVertex(Point position) {
     	Vertex vertex = new Vertex(position);
         this.vertexes.add(vertex);
         this.setChanged();
     }
 
     /**
-     * Creates an edge between two vertexes
-     * @param origin
-     * @param destination
+     * Méthode pour ajouter un Edge au Graph 
+     * @param origin le Vertex d'origine de l'Edge
+     * @param destination le Vertex de destination de l'Edge
      */
-    public void createEdge(Vertex origin, Vertex destination ){
+    public void createEdge(Vertex origin, Vertex destination) {
     	Edge edge = new Edge(origin, destination);
         this.edges.add(edge);
         this.setChanged();
     }
 
     /**
-     * Moves a vertex to x and y coordinates
-     * @param vertex
-     * @param x
-     * @param y
+     * Méthode pour changer la position d'un Vertex du Graph
+     * @param vertex le Vertex à déplacer
+     * @param destination les coordonnées de destination
      */
     public void moveVertex(Vertex vertex, Point destination){
         vertex.setPosition(destination);
@@ -104,9 +134,10 @@ public class Graph extends Observable {
     }
 
     /**
-     * Moves a vertex by a vector
-     * @param vectorX
-     * @param vectorY
+     * Méthode pour déplacer une liste de Vertex dans une certaine direction
+     * @param vertexes la liste des Vertex à déplacer
+     * @param vectorX la direction du vecteur de déplacement en abscisse
+     * @param vectorY la direction du vecteur de déplacement en ordonnée
      */
     public void moveVertexes(ArrayList<Vertex> vertexes, int vectorX, int vectorY){
         for(Vertex vertex : vertexes){
@@ -115,12 +146,19 @@ public class Graph extends Observable {
         this.setChanged();
     }
 
+    /**
+     * (non-Javadoc)
+     * @see data.Observable#setChanged()
+     */
 	@Override
 	public void setChanged() {
 		this.notifyObservers(this.vertexes);
-		
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * @see data.Observable#getState()
+	 */
 	@Override
 	public Object getState() {
 		return this.vertexes;

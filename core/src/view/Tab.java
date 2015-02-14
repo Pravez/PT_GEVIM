@@ -25,9 +25,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Created by Corentin Davidenko on 04/02/15.
+ * Created by Corentin Davidenko on 04/02/15
+ * Classe Tab, onglet affichant un graphe dans l'application, est un Observer de la classe Graph
  */
-
 public class Tab extends JComponent implements Observer {
 
 	private static final long     serialVersionUID = 1L;
@@ -49,17 +49,26 @@ public class Tab extends JComponent implements Observer {
     private int                   defaultWidth;
     private Shape                 defaultShape;
 
+    /**
+     * Getter du Graph
+     * @return le Graph
+     */
     public Graph getGraph() {
         return this.graph;
     }
 
+    /**
+     * Setter du Graph
+     * @param graph le nouveau Graph
+     */
     public void setGraph(Graph graph) {
         this.graph = graph;
     }
 
     /**
      * Constructeur du Tab, l'onglet. Un onglet est associé à un {@link data.Graph}
-     * @param graph Graphe devant être associé
+     * @param graph le Graph observé
+     * @param controller le Controller de l'application
      */
     public Tab(Graph graph, Controller controller) {
         super();
@@ -80,6 +89,11 @@ public class Tab extends JComponent implements Observer {
         this.defaultShape             = Shape.SQUARE;
     }
     
+    /**
+     * Méthode permettant de savoir si l'on peut ajouter un VertexView à la position désirée
+     * @param position la position du VertexView à ajouter
+     * @return un boolean avec le résultat
+     */
     public boolean canAddVertex(Point position) {
     	for (VertexView v : this.vertexes) {
     		int margin = this.defaultWidth/2;
@@ -121,50 +135,93 @@ public class Tab extends JComponent implements Observer {
         return null;
     }
     
+    /**
+     * Getter de la forme par défaut des VertexView
+     * @return la forme par défaut des VertexView
+     */
     public Shape getDefaultShape() { // pourquoi cela ne serait pas dans les Vertex plutôt ? Est-ce que tous les Vertex doivent avoir la même forme ?
         return defaultShape;
     }
 
+    /**
+     * Setter de la forme par défaut des VertexView
+     * @param defaultShape la nouvelle forme des VertexView
+     */
     public void setDefaultShape(Shape defaultShape) {
         this.defaultShape = defaultShape;
     }
 
+    /**
+     * Getter de la liste des VertexView du Tab
+     * @return la liste des VertexView
+     */
     public ArrayList<VertexView> getVertexes() {
         return vertexes;
     }
 
+    /**
+     * Setter de la liste des VertexView du Tab
+     * @param vertexes la nouvelle liste des VertexView
+     */
     public void setVertexes(ArrayList<VertexView> vertexes) {
         this.vertexes = vertexes;
     }
 
+    /**
+     * Getter de la liste des EdgeView du Tab
+     * @return la liste des EdgeView
+     */
     public ArrayList<EdgeView> getEdges() {
         return this.edges;
     }
 
+    /**
+     * Setter de la liste des EdgeView du Tab
+     * @param edges la nouvelle liste des EdgeView
+     */
     public void setEdges(ArrayList<EdgeView> edges) {
         this.edges = edges;
     }
 
+    /**
+     * Méthode pour ajouter un EdgeView à la liste des EdgeView sélectionnés
+     * @param e le EdgeView à ajouter à la liste
+     */
     public void selectedEdge(EdgeView e){
     	e.setColor(this.defaultSelectedColor);
         this.selectedEdges.add(e);
     }
 
+    /**
+     * Méthode pour déselectionner un EdgeView de la liste des EdgeView sélectionnés
+     * @param e le EdgeView à retirer de la liste
+     */
     public void unselectedEdge(EdgeView e){
     	e.setColor(this.defaultColor);
         this.selectedEdges.remove(e);
     }
 
+    /**
+     * Méthode pour ajouter un VertexView à la liste des VertexView sélectionnés
+     * @param v le VertexView à ajouter à la liste
+     */
     public void selectVertex(VertexView v){
     	v.updateHover(true);
         this.selectedVertexes.add(v);
     }
 
+    /**
+     * Méthode pour déselectionner un VertexView de la liste des VertexView sélectionnés
+     * @param v le VertexView à retirer de la liste
+     */
     public void unselectedVertex(VertexView v){
     	v.updateHover(false);
         this.selectedVertexes.remove(v);
     }
 
+    /**
+     * Méthode pour déselectionner tous les VertexView et EdgeView sélectionnés
+     */
     public void clearSelectedItem(){
     	for(VertexView v : this.selectedVertexes) {
     		v.updateHover(false);
@@ -176,42 +233,73 @@ public class Tab extends JComponent implements Observer {
         this.selectedEdges.clear();
     }
 
+    /**
+     * Getter du nom du Tab
+     * @return le nom du Tab
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Setter du nom du Tab
+     * @param name le nouveau nom du Tab
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Getter du nom du fichier du Tab
+     * @return le nom du fichier du Tab
+     */
     public String getFile() {
         return this.file;
     }
 
+    /**
+     * Setter du nom du fichier du Tab
+     * @param file le nouveau nom du fichier du Tab
+     */
     public void setFile(String file) {
         this.file = file;
     }
 
+    /**
+     * Getter de la couleur par défaut des VertexView et des EdgeView
+     * @return la couleur par défaut
+     */
     public Color getDefaultColor() {
         return this.defaultColor;
     }
 
+    /**
+     * Setter de la couleur par défaut des VertexView et des EdgeView
+     * @param defaultColor la nouvelle couleur par défaut
+     */
     public void setDefaultColor(Color defaultColor) {
         this.defaultColor = defaultColor;
     }
     
+    /**
+     * Getter de la largeur par défaut des VertexView
+     * @return la largeur par défaut
+     */
     public int getDefaultWidth() {
         return this.defaultWidth;
     }
 
+    /**
+     * Setter de la largeur par défaut des VertexView
+     * @param defaultWidth la nouvelle largeur par défaut
+     */
     public void setDefaultWidth(int defaultWidth) {
         this.defaultWidth = defaultWidth;
     }
 
     /**
-     * Creates a vertex with default attributes
-     * @param x
-     * @param y
+     * Méthode permettant d'ajouter un VertexView à la position désirée
+     * @param position position du VertexView à créer
      */
     public void addVertex(Point position){
 		int x = position.x - this.defaultWidth/2;
@@ -223,9 +311,9 @@ public class Tab extends JComponent implements Observer {
     }
     
     /**
-     * Creates an edge between two vertexes
-     * @param origin
-     * @param destination
+     * Méthode permettant d'ajouter un EdgeView
+     * @param origin le VertexView d'origine de l'EdgeView
+     * @param destination le VertexView de destination de l'EdgeView
      */
     public void createEdge(VertexView origin, VertexView destination ){
     	EdgeView edge = new EdgeView(this.defaultThickness, this.defaultSelectedThickness, this.defaultColor, this.defaultSelectedColor, origin, destination);
@@ -234,19 +322,18 @@ public class Tab extends JComponent implements Observer {
     }
 
     /**
-     * Moves a vertex to x and y coordinates
-     * @param vertex
-     * @param x
-     * @param y
+     * Méthode pour changer la position d'un VertexView du Tab
+     * @param vertex le VertexView à déplacer
+     * @param position les coordonnées de destination
      */
     public void moveVertex(VertexView vertex, Point position){
         vertex.setPosition(position);
     }
 
     /**
-     * Moves a vertex by a vector
-     * @param vectorX
-     * @param vectorY
+     * Méthode pour déplacer la liste de VertexView sélectionnés dans une certaine direction
+     * @param vectorX la direction du vecteur de déplacement en abscisse
+     * @param vectorY la direction du vecteur de déplacement en ordonnée
      */
     public void moveSelectedVertexes(int vectorX, int vectorY){
         for(VertexView vertex : this.selectedVertexes){
@@ -254,6 +341,11 @@ public class Tab extends JComponent implements Observer {
         }
     }
 
+    /**
+     * Méthode pour supprimer la liste des VertexView et en recréer à partir des données du Graph observé
+     * (non-Javadoc)
+     * @see view.Observer#update(data.Observable, java.lang.Object)
+     */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void update(Observable observable, Object object) {
@@ -287,7 +379,7 @@ public class Tab extends JComponent implements Observer {
     }
 
     /**
-     * Creates an XML element from a vertex
+     * Creates an XML element from a VertexView
      * @param v
      * @return
      */
@@ -318,6 +410,11 @@ public class Tab extends JComponent implements Observer {
         return createdElement;
     }
     
+    /**
+     * Creates an XML element from a EdgeView
+     * @param e
+     * @return
+     */
     private Element createEdgeDocumentElement(EdgeView e) {
     	Element createdElement = new Element("edge");
     	
