@@ -33,24 +33,16 @@ public class Controller {
 	/**
 	 * Ajoute un nouveau {@link data.Vertex} au {@link data.Graph} en question
 	 * @param g Le graphe auquel le vertex doit être ajouté
-	 * @param x La position x sur le graphe du vertex
-	 * @param y La position y sur le graphe du vertex
+	 * @param position La position sur le graphe du vertex
 	 */
 	public void addVertex(Graph g, Point position){
-		if (this.window.getCurrentTab2().canAddVertex(position)) {
+		if (this.window.getCurrentTab().canAddVertex(position)) {
 			g.createVertex(position);
 		}
 	}
 
-	/**
-	 * Méthode qui renvoie le {@link data.Graph} courant à partir de l'onglet courant du JTabbedPane de la window
-	 * @return Le graphe courant
-	 */
-	public Graph getCurrentGraph(){
-		if(graphs.size() > 0){
-			return getGraph(this.window.getCurrentTab());
-		}
-		return null;
+	public void removeVertex(Graph g, Object o){
+		g.getVertexes().remove(o);
 	}
 
 	/**
@@ -77,11 +69,12 @@ public class Controller {
 	 * @param args
 	 */
     public static void main(String[] args){
+
     	try {
     		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) { }
+
     	Controller controller = new Controller();
-		//controller.graphs.add(new Graph());
 		Window window = new Window(800, 640, controller);
         controller.setWindow(window);
     }
@@ -113,8 +106,8 @@ public class Controller {
 	 * @param selectedVertext le VertexView sélectionné
 	 */
 	public void notifyVertexSelected(VertexView selectedVertext) {
-		this.window.getCurrentTab2().clearSelectedItem();
-		this.window.getCurrentTab2().selectVertex(selectedVertext);
+		this.window.getCurrentTab().clearSelectedItem();
+		this.window.getCurrentTab().selectVertex(selectedVertext);
 	}
 	
 	/**
@@ -122,6 +115,25 @@ public class Controller {
 	 * @param selectedVertex le VertexView sélectionné à ajouter
 	 */
 	public void notifyVertexAddToSelection(VertexView selectedVertex) {
-		this.window.getCurrentTab2().selectVertex(selectedVertex);
+		this.window.getCurrentTab().selectVertex(selectedVertex);
+	}
+
+	/**
+	 * Méthode appellée lorsqu'un item d'un menu contextuel a été sollicité. Elle associé à son nom une action.
+	 * @param text le nom de l'item source
+	 */
+	public void notifyContextMenuItemActivated(String text) {
+		switch(text){
+			case "Edit":
+					this.window.getCurrentTab().getSelectedVertexes().get(0).modifyVertexView();
+				break;
+
+			case "Delete":
+					//PROBLEME, A VOIR AVEC ALEXIS SUR LA MANIERE DE DESSINER
+				break;
+
+			default:
+				break;
+		}
 	}
 }

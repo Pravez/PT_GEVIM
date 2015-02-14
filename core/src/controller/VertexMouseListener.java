@@ -3,7 +3,7 @@ package controller;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.JPopupMenu;
+import javax.swing.*;
 
 import view.VertexView;
 
@@ -27,9 +27,25 @@ public class VertexMouseListener implements MouseListener {
 	}
 
 	/**
-	 * Méthode appelée lorsque l'on clique sur un VertexView
-	 * (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 * Initialize a Popup menu with MenuItems
+	 * @param menuItems the MenuItems to be present in the popUp menu
+	 * @return The popup menu created
+	 */
+	public JPopupMenu initNewPopupMenu(String [] menuItems){
+		JPopupMenu jpm = new JPopupMenu();
+
+		for(String s : menuItems){
+			JMenuItem jmi = new JMenuItem(s);
+			jmi.addActionListener(new ContextMenuActionListener(jmi, controller));
+			jpm.add(jmi);
+		}
+
+		return jpm;
+	}
+
+	/**
+	 * Méthode récupérant le clic d'une souris
+	 * @param e
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -48,9 +64,9 @@ public class VertexMouseListener implements MouseListener {
 	        	} else {
 	        		this.controller.notifyVertexSelected(this.vertex);
 	        	}
-	            JPopupMenu contextMenu = new JPopupMenu();
-	            contextMenu.add("Edit");
-	            contextMenu.add("Delete");
+
+				//Création du menu contextuel avec Edit et Delete comme options.
+				JPopupMenu contextMenu = initNewPopupMenu(new String[]{"Edit", "Delete"});
 	            contextMenu.show(this.vertex, e.getX(), e.getY());
 	            break;
             default:

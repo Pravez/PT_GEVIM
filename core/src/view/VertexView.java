@@ -22,6 +22,9 @@ public class VertexView extends JComponent {
     private int            width;
     private Point          position;
     private Shape          shape;
+
+
+
     public static enum     Shape { SQUARE, CIRCLE };
 
     //rajouter des statics pour les paramètres par défaut
@@ -201,4 +204,21 @@ public class VertexView extends JComponent {
 		this.color = (isHover) ? this.hoverColor : this.defaultColor;
 		this.repaint();
 	}
+
+    /**
+     * Méthode appellée pour invoquer un JDialog permettant de modifier les informations d'un VertexView dans le détail.
+     */
+    public void modifyVertexView(){
+        VertexViewEditor edit = new VertexViewEditor(this);
+
+        VertexView newVertex = edit.getModifiedVertex();
+
+        this.width = newVertex.getWidth();
+        this.position = newVertex.getPosition();
+        this.name = newVertex.getName();
+
+        this.repaint();
+        //PROBLEME : N'EST ENREGISTRE QUE TEMPORAIREMENT JUSQU'AU PROCHAIN update()
+        //ET N'EST PAS ACTUALISE COMME IL LE FAUDRAIT.
+    }
 }

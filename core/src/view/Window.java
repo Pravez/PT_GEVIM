@@ -87,10 +87,10 @@ public class Window extends JFrame{
 	}
 
     /**
-     * Creates a menu with menu items
-     * @param menu
-     * @param label
-     * @return
+     * Adds to a menu a JMenuItem with a listener
+     * @param menu menu to add the item
+     * @param label label of the item
+     * @return the JMenuItem created
      */
     private JMenuItem addJMenuItem(JMenu menu, String label) {
     	JMenuItem item = new JMenuItem(label);
@@ -157,11 +157,8 @@ public class Window extends JFrame{
      * Method to get the current used tab
      * @return the index of the current tab
      */
-    public int getCurrentTab(){
-    	return tabs.getSelectedIndex();
-    }
     
-    public Tab getCurrentTab2(){
+    public Tab getCurrentTab(){
     	return (Tab)tabs.getComponentAt(tabs.getSelectedIndex());	
     }
 }

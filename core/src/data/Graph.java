@@ -113,9 +113,9 @@ public class Graph extends Observable {
     }
 
     /**
-     * Méthode pour ajouter un Edge au Graph 
-     * @param origin le Vertex d'origine de l'Edge
-     * @param destination le Vertex de destination de l'Edge
+     * Creates an edge between two vertexes
+     * @param origin
+     * @param destination
      */
     public void createEdge(Vertex origin, Vertex destination) {
     	Edge edge = new Edge(origin, destination);

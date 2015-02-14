@@ -210,6 +210,10 @@ public class Tab extends JComponent implements Observer {
         this.selectedVertexes.add(v);
     }
 
+    public ArrayList<VertexView> getSelectedVertexes(){
+        return this.selectedVertexes;
+    }
+
     /**
      * Méthode pour déselectionner un VertexView de la liste des VertexView sélectionnés
      * @param v le VertexView à retirer de la liste
@@ -349,6 +353,12 @@ public class Tab extends JComponent implements Observer {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void update(Observable observable, Object object) {
+
+        ///AAAAAAAAAAAAAATTENTION, CETTE METHODE N'A PAS LIEU D'ETRE
+        //LA SUPPRESSION DE TOUS LES VERTEXVIEW RECURRENTE A CHAQUE update() EMPECHE
+        //TOUTE EDITION DU GRAPHE.
+
+
 		this.vertexes.clear();
 		super.removeAll();
 		for (Vertex v : (ArrayList<Vertex>)object) {
@@ -357,7 +367,12 @@ public class Tab extends JComponent implements Observer {
 		this.repaint();
 		/** A modifier pour n'ajouter que ceux qui sont dans la fenêtre **/
 	}
-	
+
+
+
+
+
+    //REGION GRAPHML
 	/**
      * Saves the current graph to an XML doc (XML-like doc)
      * @param fileName
@@ -458,5 +473,7 @@ public class Tab extends JComponent implements Observer {
         catch (java.io.IOException e){
             e.printStackTrace();
         }
-    }	
+    }
+
+    //END REGION
 }
