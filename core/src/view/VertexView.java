@@ -162,7 +162,5 @@ public class VertexView extends JComponent {
         this.vertex.setLabel(newVertex.getLabel());
 
         this.repaint();
-        //PROBLEME : N'EST ENREGISTRE QUE TEMPORAIREMENT JUSQU'AU PROCHAIN update()
-        //ET N'EST PAS ACTUALISE COMME IL LE FAUDRAIT.
     }
 }

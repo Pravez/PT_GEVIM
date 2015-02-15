@@ -7,6 +7,8 @@ import data.Vertex;
 import java.awt.*;
 import java.awt.event.*;
 
+import static data.Vertex.Shape.*;
+
 /**
  * Created by Paul Breton
  * Class to edit a VertexView with all its informations
@@ -14,15 +16,20 @@ import java.awt.event.*;
 public class VertexViewEditor extends JDialog {
 
 	private static final long serialVersionUID = 1L;
+
 	private JPanel     contentPane;
+    private JPanel vertexColoration;
+
     private JButton    buttonOK;
     private JButton    buttonCancel;
+
     private JTextField vertexName;
     private JTextField vertexX;
     private JTextField vertexY;
-    private JTextField vertexColor;
     private JTextField vertexWidth;
+
     private JComboBox  vertexShape;
+
 
     private Vertex     vertex;
 
@@ -31,6 +38,7 @@ public class VertexViewEditor extends JDialog {
      * @param v le vecteur utilisé
      */
     public VertexViewEditor(Vertex v) {
+
 
         setContentPane(this.contentPane);
         setModal(true);
@@ -66,16 +74,59 @@ public class VertexViewEditor extends JDialog {
 
         this.vertex = v;
 
+        this.vertexWidth.setText(String.valueOf(this.vertex.getSize()));
         this.vertexX.setText(String.valueOf(this.vertex.getPosition().x));
         this.vertexY.setText(String.valueOf(this.vertex.getPosition().y));
-        this.vertexColor.setText(Integer.toHexString(this.vertex.getColor().getRGB()));
-        this.vertexName.setText(String.valueOf(this.vertex.getLabel()));
-        this.vertexWidth.setText(String.valueOf(this.vertex.getSize()));
-        if(this.vertex.getShape() == Vertex.Shape.CIRCLE) {
-        	this.vertexShape.setSelectedIndex(1);
-        } else {
-        	this.vertexShape.setSelectedIndex(0);
+
+        if(this.vertex.getLabel()!=null) this.vertexName.setText(String.valueOf(this.vertex.getLabel()));
+        else this.vertexName.setText("");
+
+        switch(this.vertex.getShape()){
+            case CIRCLE:
+                this.vertexShape.setSelectedIndex(1);
+                break;
+            case CROSS:
+                this.vertexShape.setSelectedIndex(3);
+                break;
+            case TRIANGLE:
+                this.vertexShape.setSelectedIndex(2);
+                break;
+            case SQUARE:
+                this.vertexShape.setSelectedIndex(0);
+                break;
+            default:
+                break;
+
         }
+
+        //Setting the color
+        vertexColoration.setBackground(this.vertex.getColor());
+        vertexColoration.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                onColor();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent mouseEvent) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent mouseEvent) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {
+
+            }
+        });
 
         this.pack();
         this.setVisible(true);
@@ -88,12 +139,25 @@ public class VertexViewEditor extends JDialog {
     	this.vertex.setLabel(this.vertexName.getText());
     	this.vertex.setSize(Integer.parseInt(this.vertexWidth.getText()));
     	this.vertex.setPosition(new Point(Integer.parseInt(this.vertexX.getText()), Integer.parseInt(this.vertexY.getText())));
-        //this.vertex.setColor(Color.decode("#"+this.vertexColor.getText()));
-        if(this.vertexShape.getSelectedItem() == "Circle") {
-        	this.vertex.setShape(Vertex.Shape.CIRCLE);
-        } else {
-        	this.vertex.setShape(Vertex.Shape.SQUARE);
+        this.vertex.setColor(this.vertexColoration.getBackground());
+
+        switch((String)this.vertexShape.getSelectedItem()){
+            case "Circle":
+                this.vertex.setShape(CIRCLE);
+                break;
+            case "Square":
+                this.vertex.setShape(SQUARE);
+                break;
+            case "Cross":
+                this.vertex.setShape(CROSS);
+                break;
+            case "Triangle":
+                this.vertex.setShape(TRIANGLE);
+                break;
+            default:
+                break;
         }
+
         dispose();
     }
 
@@ -105,6 +169,13 @@ public class VertexViewEditor extends JDialog {
         dispose();
     }
 
+    private void onColor(){
+
+        ColorChooser cc = new ColorChooser(this.vertex.getColor());
+        this.vertexColoration.setBackground(cc.getColor());
+
+    }
+
     /**
      * Renvoie les données du Vertex qui a été modifié
      * @return le Vertex modifié
@@ -112,4 +183,5 @@ public class VertexViewEditor extends JDialog {
     public Vertex getModifiedVertex(){
         return this.vertex;
     }
+
 }
