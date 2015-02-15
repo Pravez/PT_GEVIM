@@ -171,7 +171,7 @@ public class VertexViewEditor extends JDialog {
 
     private void onColor(){
 
-        ColorChooser cc = new ColorChooser(this.vertex.getColor());
+        ColorChooser cc = new ColorChooser(this.vertexColoration.getBackground());
         this.vertexColoration.setBackground(cc.getColor());
 
     }
