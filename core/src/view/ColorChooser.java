@@ -11,6 +11,8 @@ import java.util.Collection;
 public class ColorChooser extends JDialog {
 
     private JPanel contentPane;
+    private JPanel colorPane;
+    private JPanel buttonsPane;
     private JColorChooser colorchooser;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -29,8 +31,14 @@ public class ColorChooser extends JDialog {
 
     public void initComponents(Color bg){
 
+        this.setTitle("Color chooser");
+
         contentPane = new JPanel();
+        buttonsPane = new JPanel(new GridLayout(1,2));
+        colorPane = new JPanel();
+
         this.setContentPane(contentPane);
+
 
         colorchooser = new JColorChooser(bg);
         this.currentColor = bg;
@@ -39,9 +47,11 @@ public class ColorChooser extends JDialog {
         buttonOK = new JButton("Ok");
         buttonCancel = new JButton("Cancel");
 
-        contentPane.add(colorchooser);
-        contentPane.add(buttonOK);
-        contentPane.add(buttonCancel);
+        contentPane.add(colorPane);
+        contentPane.add(buttonsPane);
+        colorPane.add(colorchooser);
+        buttonsPane.add(buttonOK);
+        buttonsPane.add(buttonCancel);
 
 
 
