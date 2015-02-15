@@ -404,20 +404,20 @@ public class Tab extends JComponent implements Observer {
         Element thickness = new Element("thickness");
         Element positionX = new Element("positionX");
         Element positionY = new Element("positionY");
-        //Element shape     = new Element("shape");
+        Element shape     = new Element("shape");
 
         name.setText(v.getLabel());
         color.setText(v.getColor().toString());
         positionX.setText(String.valueOf(v.getPosition().x));
         positionY.setText(String.valueOf(v.getPosition().y));
-        //shape.setText(v.getShape().toString());
+        shape.setText(v.getShape().toString());
 
         createdElement.addContent(name);
         createdElement.addContent(color);
         createdElement.addContent(thickness);
         createdElement.addContent(positionX);
         createdElement.addContent(positionY);
-        //createdElement.addContent(shape);
+        createdElement.addContent(shape);
 
         return createdElement;
     }

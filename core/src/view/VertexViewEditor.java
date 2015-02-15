@@ -22,7 +22,7 @@ public class VertexViewEditor extends JDialog {
     private JTextField vertexY;
     private JTextField vertexColor;
     private JTextField vertexWidth;
-    //private JComboBox  vertexShape;
+    private JComboBox  vertexShape;
 
     private Vertex     vertex;
 
@@ -71,11 +71,11 @@ public class VertexViewEditor extends JDialog {
         this.vertexColor.setText(Integer.toHexString(this.vertex.getColor().getRGB()));
         this.vertexName.setText(String.valueOf(this.vertex.getLabel()));
         this.vertexWidth.setText(String.valueOf(this.vertex.getSize()));
-        /*if(this.vertex.getShape() == VertexView.Shape.CIRCLE) {
+        if(this.vertex.getShape() == Vertex.Shape.CIRCLE) {
         	this.vertexShape.setSelectedIndex(1);
         } else {
         	this.vertexShape.setSelectedIndex(0);
-        }*/
+        }
 
         this.pack();
         this.setVisible(true);
@@ -89,11 +89,11 @@ public class VertexViewEditor extends JDialog {
     	this.vertex.setSize(Integer.parseInt(this.vertexWidth.getText()));
     	this.vertex.setPosition(new Point(Integer.parseInt(this.vertexX.getText()), Integer.parseInt(this.vertexY.getText())));
         //this.vertex.setColor(Color.decode("#"+this.vertexColor.getText()));
-        /*if(this.vertexShape.getSelectedItem() == "Circle") {
-        	this.vertex.setShape(VertexView.Shape.CIRCLE);
+        if(this.vertexShape.getSelectedItem() == "Circle") {
+        	this.vertex.setShape(Vertex.Shape.CIRCLE);
         } else {
-        	this.vertex.setShape(VertexView.Shape.SQUARE);
-        }*/
+        	this.vertex.setShape(Vertex.Shape.SQUARE);
+        }
         dispose();
     }
 
