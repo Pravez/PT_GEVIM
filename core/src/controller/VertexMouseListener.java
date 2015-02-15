@@ -80,8 +80,7 @@ public class VertexMouseListener implements MouseListener {
 	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
 	 */
 	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
+	public void mouseEntered(MouseEvent e) { }
 
 	/**
 	 * Méthode appelée lorsque le curseur de la souris quitte la zone du VertexView
@@ -89,8 +88,7 @@ public class VertexMouseListener implements MouseListener {
 	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
 	 */
 	@Override
-	public void mouseExited(MouseEvent e) {
-	}
+	public void mouseExited(MouseEvent e) { }
 
 	/**
 	 * Méthode appelée lorsque l'on presse un bouton de la souris sur le VertexView
@@ -99,6 +97,7 @@ public class VertexMouseListener implements MouseListener {
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
+		System.out.println("Mouse pressed on VertexView");
 	}
 
 	/**
@@ -108,5 +107,7 @@ public class VertexMouseListener implements MouseListener {
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		System.out.println("Mouse released on VertexView");
+		// ici appeler la méthode pour créer un nouveau vertex avec un edge entre les deux
 	}
 }

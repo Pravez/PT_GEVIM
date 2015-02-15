@@ -8,29 +8,46 @@ import java.util.ArrayList;
  * Modified by cordavidenko on 26/01/15
  * Classe Vertex, sommet du Graph
  */
-public class Vertex {
-    private String          name;
+public class Vertex extends GraphElement {
+
     private Point           position;
-    private ArrayList<Edge> edges; // plus tard il n'y aura plus d'Edges, que un lien vers les autres vertex qu'il connait
+    private int             size;
+    private Shape           shape;
+    private ArrayList<Edge> edges;
+    
+    public static enum Shape { SQUARE, CIRCLE, TRIANGLE, CROSS };
 
     /**
      * Constructeur de la classe Vertex
-     * @param name le nom du Vertex
+     * @param label l'étiquette du Vertex
+     * @param value la valeur du Vertex
+     * @param color la couleur du Vertex
      * @param position la position du Vertex
+     * @param size la taille du Vertex
+     * @param shape la forme du Vertex
      */
-    public Vertex(String name, Point position) {
-        this.name      = name;
-        this.position  = position;
-        this.edges     = new ArrayList<Edge>();
+    public Vertex(String label, int value, Color color, Point position, int size, Shape shape) {
+    	super(label, value, color);
+        this.position = position;
+        this.size     = size;
+        this.shape    = shape;
+        this.edges    = new ArrayList<Edge>();
     }
 
     /**
      * Constructeur de la classe Vertex
+     * @param value la valeur du Vertex
+     * @param color la couleur du Vertex
      * @param position la position du Vertex
+     * @param size la taille du Vertex
+     * @param shape la forme du Vertex
      */
-    public Vertex(Point position) {
-        this.position  = position;
-        this.edges     = new ArrayList<Edge>();
+    public Vertex(int value, Color color, Point position, int size, Shape shape) {
+    	super(value, color);
+        this.position = position;
+        this.size     = size;
+        this.shape    = shape;
+        this.edges    = new ArrayList<Edge>();
     }
     
     /**
@@ -66,14 +83,6 @@ public class Vertex {
     }
 
     /**
-     * Setter du nom du Vertex
-     * @param name le nouveau nom
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
      * Setter de la position du Vertex
      * @param position la nouvelle position
      */
@@ -82,19 +91,43 @@ public class Vertex {
     }
 
     /**
-     * Getter du nom du Vertex
-     * @return le nom du Vertex
+     * Getter de la position du Vertex
+     * @return la position du Vertex
      */
-    public String getName() {
-        return this.name;
+    public Point getPosition() {
+        return this.position;
+    }
+    
+    /**
+     * Setter de la position du Vertex
+     * @param position la nouvelle position
+     */
+    public void setSize(int size) {
+        this.size = size;
     }
 
     /**
      * Getter de la position du Vertex
      * @return la position du Vertex
      */
-    public Point getPosition() {
-        return this.position;
+    public int getSize() {
+        return this.size;
+    }
+    
+    /**
+     * Setter de la forme du Vertex
+     * @param shape la nouvelle forme
+     */
+    public void setShape(Shape shape) {
+        this.shape = shape;
+    }
+
+    /**
+     * Getter de la forme du Vertex
+     * @return la forme du Vertex
+     */
+    public Shape getShape() {
+        return this.shape;
     }
 
     /**

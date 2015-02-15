@@ -1,6 +1,9 @@
 package view;
 
 import javax.swing.*;
+
+import data.Vertex;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -19,15 +22,15 @@ public class VertexViewEditor extends JDialog {
     private JTextField vertexY;
     private JTextField vertexColor;
     private JTextField vertexWidth;
-    private JComboBox  vertexShape;
+    //private JComboBox  vertexShape;
 
-    private VertexView vertex;
+    private Vertex     vertex;
 
     /**
      * Constructeur qui prend les données d'un {@link view.VertexView} et les associe à chaque champ du JDialog
      * @param v le vecteur utilisé
      */
-    public VertexViewEditor(VertexView v) {
+    public VertexViewEditor(Vertex v) {
 
         setContentPane(this.contentPane);
         setModal(true);
@@ -66,13 +69,13 @@ public class VertexViewEditor extends JDialog {
         this.vertexX.setText(String.valueOf(this.vertex.getPosition().x));
         this.vertexY.setText(String.valueOf(this.vertex.getPosition().y));
         this.vertexColor.setText(Integer.toHexString(this.vertex.getColor().getRGB()));
-        this.vertexName.setText(String.valueOf(this.vertex.getName()));
-        this.vertexWidth.setText(String.valueOf(this.vertex.getWidth()));
-        if(this.vertex.getShape() == VertexView.Shape.CIRCLE) {
+        this.vertexName.setText(String.valueOf(this.vertex.getLabel()));
+        this.vertexWidth.setText(String.valueOf(this.vertex.getSize()));
+        /*if(this.vertex.getShape() == VertexView.Shape.CIRCLE) {
         	this.vertexShape.setSelectedIndex(1);
         } else {
         	this.vertexShape.setSelectedIndex(0);
-        }
+        }*/
 
         this.pack();
         this.setVisible(true);
@@ -82,15 +85,15 @@ public class VertexViewEditor extends JDialog {
      * Méthode appellée à l'appui du bouton OK, qui enregistre toutes les données modifiées.
      */
     private void onOK() {
-    	this.vertex.setName(this.vertexName.getText());
-    	this.vertex.setWidth(Integer.parseInt(this.vertexWidth.getText()));
+    	this.vertex.setLabel(this.vertexName.getText());
+    	this.vertex.setSize(Integer.parseInt(this.vertexWidth.getText()));
     	this.vertex.setPosition(new Point(Integer.parseInt(this.vertexX.getText()), Integer.parseInt(this.vertexY.getText())));
         //this.vertex.setColor(Color.decode("#"+this.vertexColor.getText()));
-        if(this.vertexShape.getSelectedItem() == "Circle") {
+        /*if(this.vertexShape.getSelectedItem() == "Circle") {
         	this.vertex.setShape(VertexView.Shape.CIRCLE);
         } else {
         	this.vertex.setShape(VertexView.Shape.SQUARE);
-        }
+        }*/
         dispose();
     }
 
@@ -103,10 +106,10 @@ public class VertexViewEditor extends JDialog {
     }
 
     /**
-     * Renvoie les données du VertexView qui a été modifié
-     * @return le VertexView modifié
+     * Renvoie les données du Vertex qui a été modifié
+     * @return le Vertex modifié
      */
-    public VertexView getModifiedVertex(){
+    public Vertex getModifiedVertex(){
         return this.vertex;
     }
 }

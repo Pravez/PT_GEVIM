@@ -1,5 +1,6 @@
 package view;
 
+import data.Edge;
 import data.Graph;
 import data.Observable;
 import data.Vertex;
@@ -11,7 +12,6 @@ import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
-import view.VertexView.Shape;
 import controller.Controller;
 import controller.VertexMouseListener;
 
@@ -46,8 +46,8 @@ public class Tab extends JComponent implements Observer {
     private Color                 defaultSelectedColor;
     private int                   defaultThickness;
     private int                   defaultSelectedThickness;
-    private int                   defaultWidth;
-    private Shape                 defaultShape;
+    private int                   defaultSize;
+    private Vertex.Shape          defaultShape;
 
     /**
      * Getter du Graph
@@ -85,8 +85,8 @@ public class Tab extends JComponent implements Observer {
         this.defaultSelectedColor     = Color.BLUE;
         this.defaultThickness         = 1;
         this.defaultSelectedThickness = 2;
-        this.defaultWidth             = 10;
-        this.defaultShape             = Shape.CROSS;
+        this.defaultSize              = 10;
+        this.defaultShape             = Vertex.Shape.CROSS;
     }
     
     /**
@@ -96,7 +96,7 @@ public class Tab extends JComponent implements Observer {
      */
     public boolean canAddVertex(Point position) {
     	for (VertexView v : this.vertexes) {
-    		int margin = this.defaultWidth/2;
+    		int margin = this.defaultSize/2;
     		int side   = v.getWidth() + margin*3; 
     		if (new Rectangle(v.getPosition().x - margin, v.getPosition().y - margin, side, side).contains(position))
     			return false;
@@ -139,7 +139,7 @@ public class Tab extends JComponent implements Observer {
      * Getter de la forme par défaut des VertexView
      * @return la forme par défaut des VertexView
      */
-    public Shape getDefaultShape() { // pourquoi cela ne serait pas dans les Vertex plutôt ? Est-ce que tous les Vertex doivent avoir la même forme ?
+    public Vertex.Shape getDefaultShape() { // pourquoi cela ne serait pas dans les Vertex plutôt ? Est-ce que tous les Vertex doivent avoir la même forme ?
         return defaultShape;
     }
 
@@ -147,7 +147,7 @@ public class Tab extends JComponent implements Observer {
      * Setter de la forme par défaut des VertexView
      * @param defaultShape la nouvelle forme des VertexView
      */
-    public void setDefaultShape(Shape defaultShape) {
+    public void setDefaultShape(Vertex.Shape defaultShape) {
         this.defaultShape = defaultShape;
     }
 
@@ -286,43 +286,42 @@ public class Tab extends JComponent implements Observer {
     }
     
     /**
-     * Getter de la largeur par défaut des VertexView
-     * @return la largeur par défaut
+     * Getter de la taille par défaut des VertexView
+     * @return la taille par défaut
      */
-    public int getDefaultWidth() {
-        return this.defaultWidth;
+    public int getDefaultSize() {
+        return this.defaultSize;
     }
 
     /**
-     * Setter de la largeur par défaut des VertexView
-     * @param defaultWidth la nouvelle largeur par défaut
+     * Setter de la taille par défaut des VertexView
+     * @param defaultSize la nouvelle taille par défaut
      */
-    public void setDefaultWidth(int defaultWidth) {
-        this.defaultWidth = defaultWidth;
+    public void setDefaultWidth(int defaultSize) {
+        this.defaultSize = defaultSize;
     }
 
     /**
      * Méthode permettant d'ajouter un VertexView à la position désirée
-     * @param position position du VertexView à créer
+     * @param vertex le modèle Vertex du VertexView
      */
-    public void addVertex(Point position){
-		int x = position.x - this.defaultWidth/2;
-		int y = position.y - this.defaultWidth/2;
-    	VertexView vertex = new VertexView(this.defaultColor, this.defaultSelectedColor, this.defaultWidth, new Point(x, y), this.defaultShape);
-        vertex.addMouseListener(new VertexMouseListener(this.controller, vertex));
-        this.vertexes.add(vertex);
-        super.add(vertex);
+    public void addVertex(Vertex vertex){
+    	VertexView vertexView = new VertexView(vertex, this.defaultSelectedColor);
+    	vertexView.addMouseListener(new VertexMouseListener(this.controller, vertexView));
+        this.vertexes.add(vertexView);
+        super.add(vertexView);
     }
     
     /**
      * Méthode permettant d'ajouter un EdgeView
+     * @param edge le modèle Edge de l'EdgeView
      * @param origin le VertexView d'origine de l'EdgeView
      * @param destination le VertexView de destination de l'EdgeView
      */
-    public void createEdge(VertexView origin, VertexView destination ){
-    	EdgeView edge = new EdgeView(this.defaultThickness, this.defaultSelectedThickness, this.defaultColor, this.defaultSelectedColor, origin, destination);
-        this.edges.add(edge);
-        super.add(edge);
+    public void createEdge(Edge edge, VertexView origin, VertexView destination ){
+    	EdgeView edgeView = new EdgeView(edge, this.defaultSelectedThickness, this.defaultSelectedColor, origin, destination);
+        this.edges.add(edgeView);
+        super.add(edgeView);
     }
 
     /**
@@ -339,11 +338,12 @@ public class Tab extends JComponent implements Observer {
      * @param vectorX la direction du vecteur de déplacement en abscisse
      * @param vectorY la direction du vecteur de déplacement en ordonnée
      */
-    public void moveSelectedVertexes(int vectorX, int vectorY){
+    /*public void moveSelectedVertexes(int vectorX, int vectorY){
         for(VertexView vertex : this.selectedVertexes){
             vertex.move2(vectorX, vectorY);
         }
-    }
+    }*/ 
+    /** Cette méthode devrait être remplacée par une méthode déplaçant directement les Vertex dans le Graph ? **/
 
     /**
      * Méthode pour supprimer la liste des VertexView et en recréer à partir des données du Graph observé
@@ -362,14 +362,11 @@ public class Tab extends JComponent implements Observer {
 		this.vertexes.clear();
 		super.removeAll();
 		for (Vertex v : (ArrayList<Vertex>)object) {
-			addVertex(v.getPosition());
+			addVertex(v);
 		}
 		this.repaint();
 		/** A modifier pour n'ajouter que ceux qui sont dans la fenêtre **/
 	}
-
-
-
 
 
     //REGION GRAPHML
@@ -382,11 +379,11 @@ public class Tab extends JComponent implements Observer {
         Element root = new Element("Vertexes");
         org.jdom2.Document toBeSaved = new Document(root);
 
-        for(VertexView v : this.vertexes) {
+        for(Vertex v : this.graph.getVertexes()) {
             root.addContent(createVertexDocumentElement(v));
         }
         
-        for(EdgeView e : this.edges) {
+        for(Edge e : this.graph.getEdges()) {
         	root.addContent(createEdgeDocumentElement(e));
         }
 
@@ -398,7 +395,7 @@ public class Tab extends JComponent implements Observer {
      * @param v
      * @return
      */
-    private Element createVertexDocumentElement(VertexView v) {
+    private Element createVertexDocumentElement(Vertex v) {
 
         Element createdElement = new Element("vertex");
 
@@ -407,20 +404,20 @@ public class Tab extends JComponent implements Observer {
         Element thickness = new Element("thickness");
         Element positionX = new Element("positionX");
         Element positionY = new Element("positionY");
-        Element shape     = new Element("shape");
+        //Element shape     = new Element("shape");
 
-        name.setText(v.getName());
+        name.setText(v.getLabel());
         color.setText(v.getColor().toString());
         positionX.setText(String.valueOf(v.getPosition().x));
         positionY.setText(String.valueOf(v.getPosition().y));
-        shape.setText(v.getShape().toString());
+        //shape.setText(v.getShape().toString());
 
         createdElement.addContent(name);
         createdElement.addContent(color);
         createdElement.addContent(thickness);
         createdElement.addContent(positionX);
         createdElement.addContent(positionY);
-        createdElement.addContent(shape);
+        //createdElement.addContent(shape);
 
         return createdElement;
     }
@@ -430,7 +427,7 @@ public class Tab extends JComponent implements Observer {
      * @param e
      * @return
      */
-    private Element createEdgeDocumentElement(EdgeView e) {
+    private Element createEdgeDocumentElement(Edge e) {
     	Element createdElement = new Element("edge");
     	
     	Element name = new Element("name");

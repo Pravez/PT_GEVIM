@@ -104,21 +104,28 @@ public class Graph extends Observable {
 
     /**
      * Méthode pour ajouter un Vertex au Graph
+     * @param value la valeur du Vertex à créer
+     * @param color la couleur du Vertex à créer
      * @param position la position du Vertex à créer
+     * @param size la taille du Vertex à créer
+     * @param shape la forme du Vertex à créer
      */
-    public void createVertex(Point position) {
-    	Vertex vertex = new Vertex(position);
+    public void createVertex(int value, Color color, Point position, int size, Vertex.Shape shape) {
+    	Vertex vertex = new Vertex(value, color, position, size, shape);
         this.vertexes.add(vertex);
         this.setChanged();
     }
 
     /**
      * Creates an edge between two vertexes
-     * @param origin
-     * @param destination
+     * @param value la valeur de l'Edge à créer
+     * @param color la couleur de l'Edge à créer
+     * @param origin le Vertex d'origine de l'Edge à créer
+     * @param destination le Vertex de destination de l'Edge à créer
+     * @param thickness l'épaisseur de l'Edge à créer
      */
-    public void createEdge(Vertex origin, Vertex destination) {
-    	Edge edge = new Edge(origin, destination);
+    public void createEdge(int value, Color color, Vertex origin, Vertex destination, int thickness) {
+    	Edge edge = new Edge(value, color, origin, destination, thickness);
         this.edges.add(edge);
         this.setChanged();
     }

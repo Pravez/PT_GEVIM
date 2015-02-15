@@ -4,6 +4,8 @@ import java.awt.*;
 
 import javax.swing.JComponent;
 
+import data.Edge;
+
 /**
  * Created by cordavidenko on 26/01/15.
  * Classe EdgeView, Edge affiché dans le Tab
@@ -11,51 +13,32 @@ import javax.swing.JComponent;
 public class EdgeView extends JComponent {
 
 	private static final long serialVersionUID = 1L;
-	private String         label;
-    private VertexView     origin;
-    private VertexView     destination;
-    private int            thickness;
-    private int            defaultThickness;
-    private int            hoverThickness;
-    private java.awt.Color color;
-    private java.awt.Color defaultColor;
-    private java.awt.Color hoverColor;
+	private Edge       edge;
+    private VertexView origin;
+    private VertexView destination;
+    private int        thickness;
+    private int        hoverThickness;
+    private Color      color;
+    private Color      hoverColor;
 
     //rajouter des statics pour les paramètres par défaut
 
     /**
      * Constructeur de la classe EdgeView
-     * @param label nom de l'EdgeView
-     * @param thickness l'épaisseur du trait
+     * @param edge le modèle Edge qui est affiché
      * @param hoverThickness l'épaisseur du trait lorsque l'EdgeView est sélectionné
-     * @param color la couleur de l'EdgeView
      * @param hoverColor la couleur de l'EdgeView lorsque l'EdgeView est sélectionné
      * @param origin le VertexView d'origine
      * @param destination le VertexView de destination
      */
-    public EdgeView(String label, int thickness, int hoverThickness, Color color, Color hoverColor, VertexView origin, VertexView destination) {
-        this(thickness, hoverThickness, color, hoverColor, origin, destination);
-        this.label       = label;
-    }
-
-    /**
-     * Constructeur de la classe EdgeView
-     * @param thickness l'épaisseur du trait
-     * @param hoverThickness l'épaisseur du trait lorsque l'EdgeView est sélectionné
-     * @param color la couleur de l'EdgeView
-     * @param hoverColor la couleur de l'EdgeView lorsque l'EdgeView est sélectionné
-     * @param origin le VertexView d'origine
-     * @param destination le VertexView de destination
-     */
-    public EdgeView(int thickness, int hoverThickness, Color color, Color hoverColor, VertexView origin, VertexView destination) {
-        this.thickness        = thickness;
-        this.defaultThickness = thickness;
-        this.hoverThickness   = hoverThickness;
-        this.color            = color;
-        this.defaultColor     = color;
-        this.hoverColor       = hoverColor;
-        this.origin           = origin;
-        this.destination      = destination;
+    public EdgeView(Edge edge, int hoverThickness, Color hoverColor, VertexView origin, VertexView destination) {
+    	this.edge           = edge;
+    	this.thickness      = edge.getThickness();
+        this.hoverThickness = hoverThickness;
+        this.color          = edge.getColor();
+        this.hoverColor     = hoverColor;
+        this.origin         = origin;
+        this.destination    = destination;
         /** Set bounds et setSize pour les Mouse Listeners **/
     }
     
@@ -144,22 +127,6 @@ public class EdgeView extends JComponent {
     }
 
     /**
-     * Getter du nom de l'EdgeView
-     * @return le nom de l'EdgeView
-     */
-    public String getLabel() {
-        return this.label;
-    }
-
-    /**
-     * Setter du nom de l'EdgeView
-     * @param label le nouveau nom de l'EdgeView
-     */
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    /**
      * Getter du VertexView d'origine de l'EdgeView
      * @return le VertexView d'origine
      */
@@ -196,8 +163,8 @@ public class EdgeView extends JComponent {
      * @param isHover boolean si l'EdgeView est sélectionné ou non
      */
     public void updateHover(boolean isHover) {
-		this.color     = (isHover) ? this.hoverColor     : this.defaultColor;
-		this.thickness = (isHover) ? this.hoverThickness : this.defaultThickness;
+		this.color     = (isHover) ? this.hoverColor     : this.edge.getColor();
+		this.thickness = (isHover) ? this.hoverThickness : this.edge.getThickness();
 		this.repaint();
 	}
 }

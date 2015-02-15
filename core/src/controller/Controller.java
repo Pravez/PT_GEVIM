@@ -1,12 +1,14 @@
 package controller;
 
 import data.Graph;
+import data.Vertex;
 
 import javax.swing.*;
 
 import view.VertexView;
 import view.Window;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -33,11 +35,15 @@ public class Controller {
 	/**
 	 * Ajoute un nouveau {@link data.Vertex} au {@link data.Graph} en question
 	 * @param g Le graphe auquel le vertex doit être ajouté
-	 * @param position La position sur le graphe du vertex
+	 * @param value la valeur du Vertex à ajouter
+     * @param color la couleur du Vertex à ajouter
+     * @param position la position du Vertex à ajouter
+     * @param size la taille du Vertex à ajouter
+     * @param shape la forme du Vertex à ajouter
 	 */
-	public void addVertex(Graph g, Point position){
+	public void addVertex(Graph g, int value, Color color, Point position, int size, Vertex.Shape shape){
 		if (this.window.getCurrentTab().canAddVertex(position)) {
-			g.createVertex(position);
+			g.createVertex(value, color, position, size, shape);
 		}
 	}
 

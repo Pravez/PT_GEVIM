@@ -28,7 +28,6 @@ public class TabMouseListener implements MouseListener {
 		this.graph      = graph;
 	}
 
-
 	/**
 	 * Méthode appelée lors d'un clic sur le Tab
 	 * (non-Javadoc)
@@ -38,7 +37,8 @@ public class TabMouseListener implements MouseListener {
 	public void mouseClicked(MouseEvent mouseEvent) {
 		switch(mouseEvent.getButton()) {
         case MouseEvent.BUTTON1: // Clic gauche
-            this.controller.addVertex(this.graph, mouseEvent.getPoint());
+            this.controller.addVertex(this.graph, 0, this.tab.getDefaultColor(), mouseEvent.getPoint(), this.tab.getDefaultSize(), this.tab.getDefaultShape()); 
+            // 0 à changer par la suite --> value du Vertex
             this.tab.repaint();
             break;
 
@@ -53,8 +53,7 @@ public class TabMouseListener implements MouseListener {
 	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
 	 */
 	@Override
-	public void mouseEntered(MouseEvent mouseEvent) {
-	}
+	public void mouseEntered(MouseEvent mouseEvent) { }
 
 	/**
 	 * Méthode appelée lorsque le curseur de la souris quitte la zone du Tab
@@ -62,8 +61,7 @@ public class TabMouseListener implements MouseListener {
 	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
 	 */
 	@Override
-	public void mouseExited(MouseEvent mouseEvent) {
-	}
+	public void mouseExited(MouseEvent mouseEvent) { }
 
 	/**
 	 * Méthode appelée lorsque l'on presse un bouton de la souris sur le Tab
@@ -72,6 +70,7 @@ public class TabMouseListener implements MouseListener {
 	 */
 	@Override
 	public void mousePressed(MouseEvent mouseEvent) {
+		System.out.println("Mouse pressed on Tab");
 		 /*System.out.println("pressed");
         Vertex vertexTmp = ((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent);
         if(vertexTmp != null){
@@ -86,6 +85,7 @@ public class TabMouseListener implements MouseListener {
 	 */
 	@Override
 	public void mouseReleased(MouseEvent mouseEvent) {
+		System.out.println("Mouse released on Tab");
 		//if(((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent) != null){ }
 	}
 }
