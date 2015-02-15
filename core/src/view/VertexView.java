@@ -1,10 +1,13 @@
 package view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.RenderingHints;
+import java.awt.Stroke;
 
 import javax.swing.JComponent;
 
@@ -23,9 +26,7 @@ public class VertexView extends JComponent {
     private Point          position;
     private Shape          shape;
 
-
-
-    public static enum     Shape { SQUARE, CIRCLE };
+    public static enum     Shape { SQUARE, CIRCLE, TRIANGLE, CROSS };
 
     //rajouter des statics pour les paramètres par défaut
 
@@ -83,6 +84,20 @@ public class VertexView extends JComponent {
 			break;
 		case CIRCLE :
 			g.fillOval(this.position.x, this.position.y, this.width, this.width);
+			break;
+		case TRIANGLE :
+			int center = this.position.x + this.width/2;
+			int right  = this.position.x + this.width;
+			int bottom = this.position.y + this.width;
+			g.fillPolygon(new Polygon(new int[] {center, right, this.position.x}, new int[] {this.position.y, bottom, bottom}, 3));
+			break;
+		case CROSS :
+			Stroke oldStroke = ((Graphics2D) g).getStroke();
+			int thickness = this.width/3;
+			((Graphics2D) g).setStroke(new BasicStroke(thickness));
+			g.drawLine(this.position.x, this.position.y, this.position.x + this.width, this.position.y + this.width);
+			g.drawLine(this.position.x, this.position.y + this.width, this.position.x + this.width, this.position.y);
+			((Graphics2D) g).setStroke(oldStroke);
 			break;
 		default:
 			break;

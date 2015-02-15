@@ -86,7 +86,7 @@ public class Tab extends JComponent implements Observer {
         this.defaultThickness         = 1;
         this.defaultSelectedThickness = 2;
         this.defaultWidth             = 10;
-        this.defaultShape             = Shape.SQUARE;
+        this.defaultShape             = Shape.CROSS;
     }
     
     /**

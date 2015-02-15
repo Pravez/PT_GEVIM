@@ -10,15 +10,16 @@ import java.awt.event.*;
  */
 public class VertexViewEditor extends JDialog {
 
-    private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
+	private static final long serialVersionUID = 1L;
+	private JPanel     contentPane;
+    private JButton    buttonOK;
+    private JButton    buttonCancel;
     private JTextField vertexName;
     private JTextField vertexX;
     private JTextField vertexY;
     private JTextField vertexColor;
     private JTextField vertexWidth;
-    private JComboBox vertexShape;
+    private JComboBox  vertexShape;
 
     private VertexView vertex;
 
@@ -28,23 +29,23 @@ public class VertexViewEditor extends JDialog {
      */
     public VertexViewEditor(VertexView v) {
 
-        setContentPane(contentPane);
+        setContentPane(this.contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
+        getRootPane().setDefaultButton(this.buttonOK);
 
-        buttonOK.addActionListener(new ActionListener() {
+        this.buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
             }
         });
 
-        buttonCancel.addActionListener(new ActionListener() {
+        this.buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
         });
 
-// call onCancel() when cross is clicked
+        // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -52,49 +53,44 @@ public class VertexViewEditor extends JDialog {
             }
         });
 
-// call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
+        // call onCancel() on ESCAPE
+        this.contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
 
-        vertex = v;
+        this.vertex = v;
 
-        vertexX.setText(String.valueOf(vertex.getPosition().x));
-        vertexY.setText(String.valueOf(vertex.getPosition().y));
-        vertexColor.setText(Integer.toHexString(vertex.getColor().getRGB()));
-        vertexName.setText(String.valueOf(vertex.getName()));
-        vertexWidth.setText(String.valueOf(vertex.getWidth()));
-        if(vertex.getShape() == VertexView.Shape.CIRCLE){
-            vertexShape.setSelectedIndex(1);
-        }else{
-            vertexShape.setSelectedIndex(0);
+        this.vertexX.setText(String.valueOf(this.vertex.getPosition().x));
+        this.vertexY.setText(String.valueOf(this.vertex.getPosition().y));
+        this.vertexColor.setText(Integer.toHexString(this.vertex.getColor().getRGB()));
+        this.vertexName.setText(String.valueOf(this.vertex.getName()));
+        this.vertexWidth.setText(String.valueOf(this.vertex.getWidth()));
+        if(this.vertex.getShape() == VertexView.Shape.CIRCLE) {
+        	this.vertexShape.setSelectedIndex(1);
+        } else {
+        	this.vertexShape.setSelectedIndex(0);
         }
 
         this.pack();
         this.setVisible(true);
-
-
     }
 
     /**
      * Méthode appellée à l'appui du bouton OK, qui enregistre toutes les données modifiées.
      */
     private void onOK() {
-
-        vertex.setName(vertexName.getText());
-        vertex.setWidth(Integer.parseInt(vertexWidth.getText()));
-        vertex.setPosition(new Point(Integer.parseInt(vertexX.getText()), Integer.parseInt(vertexY.getText())));
-        //vertex.setColor(Color.decode("#"+vertexColor.getText()));
-        if(vertexShape.getSelectedItem() == "Circle"){
-            vertex.setShape(VertexView.Shape.CIRCLE);
-        }else{
-            vertex.setShape(VertexView.Shape.SQUARE);
+    	this.vertex.setName(this.vertexName.getText());
+    	this.vertex.setWidth(Integer.parseInt(this.vertexWidth.getText()));
+    	this.vertex.setPosition(new Point(Integer.parseInt(this.vertexX.getText()), Integer.parseInt(this.vertexY.getText())));
+        //this.vertex.setColor(Color.decode("#"+this.vertexColor.getText()));
+        if(this.vertexShape.getSelectedItem() == "Circle") {
+        	this.vertex.setShape(VertexView.Shape.CIRCLE);
+        } else {
+        	this.vertex.setShape(VertexView.Shape.SQUARE);
         }
-
-
         dispose();
     }
 
@@ -102,7 +98,7 @@ public class VertexViewEditor extends JDialog {
      * Méthode appellée à l'appui du Cancel, qui quitte le JDialog sans rien enregistrer
      */
     private void onCancel() {
-// add your code here if necessary
+    	// add your code here if necessary
         dispose();
     }
 
@@ -111,6 +107,6 @@ public class VertexViewEditor extends JDialog {
      * @return le VertexView modifié
      */
     public VertexView getModifiedVertex(){
-        return vertex;
+        return this.vertex;
     }
 }
