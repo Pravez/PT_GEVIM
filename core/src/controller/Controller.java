@@ -135,7 +135,10 @@ public class Controller {
 				break;
 
 			case "Delete":
-					//PROBLEME, A VOIR AVEC ALEXIS SUR LA MANIERE DE DESSINER
+					for(VertexView v : this.window.getCurrentTab().getSelectedVertexes()){
+						this.getGraph(this.window.getCurrentTabIndex()).getVertexes().remove(v.getVertex());
+						this.window.getCurrentTab().getVertexes().remove(v);
+					}
 				break;
 
 			default:

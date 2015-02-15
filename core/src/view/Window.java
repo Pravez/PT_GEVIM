@@ -161,4 +161,6 @@ public class Window extends JFrame{
     public Tab getCurrentTab(){
     	return (Tab)tabs.getComponentAt(tabs.getSelectedIndex());	
     }
+
+    public int getCurrentTabIndex(){ return tabs.getSelectedIndex(); }
 }

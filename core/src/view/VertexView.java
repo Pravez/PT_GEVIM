@@ -163,4 +163,8 @@ public class VertexView extends JComponent {
 
         this.repaint();
     }
+
+    public Vertex getVertex() {
+        return vertex;
+    }
 }
