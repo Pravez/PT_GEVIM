@@ -36,23 +36,19 @@ public class Controller {
 	/**
 	 * Ajoute un nouveau {@link data.Vertex} au {@link data.Graph} en question
 	 * @param g Le graphe auquel le vertex doit être ajouté
-	 * @param value la valeur du Vertex à ajouter
      * @param color la couleur du Vertex à ajouter
      * @param position la position du Vertex à ajouter
      * @param size la taille du Vertex à ajouter
      * @param shape la forme du Vertex à ajouter
 	 */
-	public void addVertex(Graph g, int value, Color color, Point position, int size, Vertex.Shape shape){
+	public void addVertex(Graph g, Color color, Point position, int size, Vertex.Shape shape){
 		if (this.window.getCurrentTab().canAddVertex(position)) {
-			g.createVertex(value, color, position, size, shape);
+			g.createVertex(color, position, size, shape);
 		}
 	}
 
 	public void addEdge (Vertex src, Vertex dst){
-		this.window.getCurrentTab().getGraph().createEdge(0,
-				this.window.getCurrentTab().getDefaultColor(),
-				src, dst,
-				this.window.getCurrentTab().getDefaultThickness());
+		this.window.getCurrentTab().getGraph().createEdge(this.window.getCurrentTab().getDefaultColor(),src, dst,this.window.getCurrentTab().getDefaultThickness());
 	}
 
 	public void removeVertex(Graph g, Object o){

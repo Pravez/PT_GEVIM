@@ -37,8 +37,7 @@ public class TabMouseListener implements MouseListener {
 	public void mouseClicked(MouseEvent mouseEvent) {
 		switch(mouseEvent.getButton()) {
         case MouseEvent.BUTTON1: // Clic gauche
-            this.controller.addVertex(this.graph, 0, this.tab.getDefaultColor(), mouseEvent.getPoint(), this.tab.getDefaultSize(), this.tab.getDefaultShape()); 
-            // 0 à changer par la suite --> value du Vertex
+            this.controller.addVertex(this.graph, this.tab.getDefaultColor(), mouseEvent.getPoint(), this.tab.getDefaultSize(), this.tab.getDefaultShape());
             this.tab.repaint();
             break;
 
