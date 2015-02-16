@@ -2,14 +2,11 @@ package controller;
 
 import data.Graph;
 import data.Vertex;
-
-import javax.swing.*;
-
 import view.VertexView;
 import view.Window;
 
-import java.awt.Color;
-import java.awt.Point;
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 
@@ -131,7 +128,7 @@ public class Controller {
 	public void notifyContextMenuItemActivated(String text) {
 		switch(text){
 			case "Edit":
-					this.window.getCurrentTab().getSelectedVertexes().get(0).modifyVertexView();
+					this.window.getCurrentTab().modifySelectedVertex();
 				break;
 
 			case "Delete":

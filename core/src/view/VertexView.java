@@ -1,17 +1,9 @@
 package view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Polygon;
-import java.awt.RenderingHints;
-import java.awt.Stroke;
-
-import javax.swing.JComponent;
-
 import data.Vertex;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author Alexis Dufrenne
@@ -146,7 +138,7 @@ public class VertexView extends JComponent {
      */
     public void updateHover(boolean isHover) {
 		this.color = (isHover) ? this.hoverColor : this.vertex.getColor();
-		this.repaint();
+		//this.repaint();
 	}
 
     /**
@@ -160,8 +152,6 @@ public class VertexView extends JComponent {
         this.vertex.setSize(newVertex.getSize());
         this.vertex.setPosition(newVertex.getPosition());
         this.vertex.setLabel(newVertex.getLabel());
-
-        this.repaint();
     }
 
     public Vertex getVertex() {

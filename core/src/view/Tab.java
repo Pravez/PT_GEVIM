@@ -1,24 +1,18 @@
 package view;
 
+import controller.Controller;
+import controller.VertexMouseListener;
 import data.Edge;
 import data.Graph;
 import data.Observable;
 import data.Vertex;
-
-import javax.swing.*;
-
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
-import controller.Controller;
-import controller.VertexMouseListener;
-
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Rectangle;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -208,6 +202,12 @@ public class Tab extends JComponent implements Observer {
     public void selectVertex(VertexView v){
     	v.updateHover(true);
         this.selectedVertexes.add(v);
+        this.repaint();
+    }
+
+    public void modifySelectedVertex(){
+        selectedVertexes.get(0).modifyVertexView();
+        this.repaint();
     }
 
     public ArrayList<VertexView> getSelectedVertexes(){
@@ -353,11 +353,6 @@ public class Tab extends JComponent implements Observer {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void update(Observable observable, Object object) {
-
-        ///AAAAAAAAAAAAAATTENTION, CETTE METHODE N'A PAS LIEU D'ETRE
-        //LA SUPPRESSION DE TOUS LES VERTEXVIEW RECURRENTE A CHAQUE update() EMPECHE
-        //TOUTE EDITION DU GRAPHE.
-
 
 		this.vertexes.clear();
 		super.removeAll();
