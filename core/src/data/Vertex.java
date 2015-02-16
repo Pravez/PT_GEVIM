@@ -99,8 +99,8 @@ public class Vertex extends GraphElement {
     }
     
     /**
-     * Setter de la position du Vertex
-     * @param position la nouvelle position
+     * Setter de la taille du Vertex
+     * @param size la nouvelle taille
      */
     public void setSize(int size) {
         this.size = size;

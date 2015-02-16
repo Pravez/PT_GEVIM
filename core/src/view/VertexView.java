@@ -14,7 +14,7 @@ public class VertexView extends JComponent {
 	private static final long serialVersionUID = 1L;
 	private Vertex vertex;
     private Color  color;
-    private Color  hoverColor; 
+    private Color  hoverColor;
 
     //rajouter des statics pour les paramètres par défaut
 

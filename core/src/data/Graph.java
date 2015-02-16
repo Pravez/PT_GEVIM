@@ -1,10 +1,8 @@
 package data;
 
 import javax.swing.undo.UndoManager;
-
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Created by Corentin Davidenko on 04/02/15.
@@ -152,6 +150,25 @@ public class Graph extends Observable {
             vertex.move(vectorX,vectorY);
         }
         this.setChanged();
+    }
+
+    /**
+     * Supprime une edge
+     * @param edge edge qui doit être supprimée
+     */
+    public void removeEdge(Edge edge){
+        this.edges.remove(edge);
+    }
+
+    /**
+     * Supprime un vertex, ainsi que toutes ses edges associées
+     * @param vertex vertex qui sera supprimé
+     */
+    public void removeVertex(Vertex vertex){
+        for(Edge e : vertex.getEdges()){
+            this.removeEdge(e);
+        }
+        this.vertexes.remove(vertex);
     }
 
     /**

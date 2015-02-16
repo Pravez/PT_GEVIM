@@ -49,9 +49,9 @@ public class Controller {
 
 	public void addEdge (Vertex src, Vertex dst){
 		this.window.getCurrentTab().getGraph().createEdge(0,
-															this.window.getCurrentTab().getDefaultColor(),
-															src, dst,
-															this.window.getCurrentTab().getDefaultThickness());
+				this.window.getCurrentTab().getDefaultColor(),
+				src, dst,
+				this.window.getCurrentTab().getDefaultThickness());
 	}
 
 	public void removeVertex(Graph g, Object o){
@@ -154,15 +154,16 @@ public class Controller {
 
 			case "Delete":
 					for(VertexView v : this.window.getCurrentTab().getSelectedVertexes()){
-						this.getGraph(this.window.getCurrentTabIndex()).getVertexes().remove(v.getVertex());
-						this.window.getCurrentTab().getVertexes().remove(v);
+						this.getGraph(this.window.getCurrentTabIndex()).removeVertex(v.getVertex());
 					}
-					this.window.getCurrentTab().repaint();
+				this.getGraph(this.window.getCurrentTabIndex()).setChanged();
+
 				break;
 
 			default:
 				break;
 		}
+		this.window.getCurrentTab().repaint();
 	}
 
 	/**

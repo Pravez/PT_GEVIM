@@ -372,6 +372,7 @@ public class Tab extends JComponent implements Observer {
 	public void update(Observable observable, Object object) {
 
 		this.vertexes.clear();
+        this.edges.clear();
 		super.removeAll();
 		for (Vertex v : (ArrayList<Vertex>)((Object[])object)[0]) {
 			addVertex(v);

@@ -26,6 +26,8 @@ public class Edge extends GraphElement {
         this.origin      = origin;
         this.destination = destination;
         this.thickness   = thickness;
+        origin.addEdge(this);
+        destination.addEdge(this);
     }
 
     /**
@@ -41,6 +43,8 @@ public class Edge extends GraphElement {
         this.origin      = origin;
         this.destination = destination;
         this.thickness   = thickness;
+        origin.addEdge(this);
+        destination.addEdge(this);
     }
 
     /**
