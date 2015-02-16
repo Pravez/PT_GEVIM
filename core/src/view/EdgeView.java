@@ -1,10 +1,9 @@
 package view;
 
-import java.awt.*;
-
-import javax.swing.JComponent;
-
 import data.Edge;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by cordavidenko on 26/01/15.
@@ -152,7 +151,7 @@ public class EdgeView extends JComponent {
 
     /**
      * Setter du VertexView de destination de l'EdgeView
-     * @param origin le nouveau VertexView de destination
+     * @param destination le nouveau VertexView de destination
      */
     public void setDestination(VertexView destination) {
         this.destination = destination;
