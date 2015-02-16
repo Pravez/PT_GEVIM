@@ -7,7 +7,9 @@ import java.awt.Color;
  * Classe Edge, arête entre deux Vertex, partie du modèle de l'application
  */
 public class Edge extends GraphElement {
-	
+
+    private static int CURRENT_VALUE = 0;
+
     private Vertex origin;
     private Vertex destination;
     private int    thickness;
@@ -15,36 +17,36 @@ public class Edge extends GraphElement {
     /**
      * Constructeur de la classe Edge
      * @param label l'étiquette de l'Edge
-     * @param value la valeur de l'Edge
      * @param color la couleur de l'Edge
      * @param origin le Vertex d'origine de l'Edge
      * @param destination le Vertex de destination de l'Edge
      * @param thickness l'épaisseur de l'Edge
      */
-    public Edge(String label, int value, Color color, Vertex origin, Vertex destination, int thickness) {
-    	super(label, value, color);
+    public Edge(String label, Color color, Vertex origin, Vertex destination, int thickness) {
+    	super(label, CURRENT_VALUE, color);
         this.origin      = origin;
         this.destination = destination;
         this.thickness   = thickness;
         origin.addEdge(this);
         destination.addEdge(this);
+        CURRENT_VALUE++;
     }
 
     /**
      * Constructeur de la classe Edge
-     * @param value la valeur de l'Edge
      * @param color la couleur de l'Edge
      * @param origin le Vertex d'origine de l'Edge
      * @param destination le Vertex de destination de l'Edge
      * @param thickness l'épaisseur de l'Edge
      */
-    public Edge(int value, Color color, Vertex origin, Vertex destination, int thickness) {
-    	super(value, color);
+    public Edge(Color color, Vertex origin, Vertex destination, int thickness) {
+    	super(CURRENT_VALUE, color);
         this.origin      = origin;
         this.destination = destination;
         this.thickness   = thickness;
         origin.addEdge(this);
         destination.addEdge(this);
+        CURRENT_VALUE++;
     }
 
     /**
