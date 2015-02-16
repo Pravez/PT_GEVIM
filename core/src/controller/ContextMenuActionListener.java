@@ -21,11 +21,10 @@ public class ContextMenuActionListener implements ActionListener {
     }
 
     /**
-     * Override de la fonction actionPerformed retournant le texte du bouton sur lequel on clique
+     * Override de la fonction actionPerformed retournant l'action du bouton sur lequel on clique
      * (non-Javadoc)
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
     public void actionPerformed(ActionEvent e) {
-        this.controller.notifyContextMenuItemActivated(menuItem.getText());
-    }
+        this.controller.notifyContextMenuItemActivated(menuItem.getActionCommand());    }
 }

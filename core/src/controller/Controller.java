@@ -6,6 +6,7 @@ import view.VertexView;
 import view.Window;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -18,8 +19,11 @@ import java.util.ArrayList;
  */
 public class Controller {
 	
-	private Window window;
+	private Window           window;
 	private ArrayList<Graph> graphs = new ArrayList<Graph>();
+	private State            state;
+	
+	public static enum State { SELECTION, ZOOM_IN, ZOOM_OUT, CREATE };
 
 	/**
 	 * Configure la Window du controller (associe la vue au controleur)
@@ -46,6 +50,22 @@ public class Controller {
 
 	public void removeVertex(Graph g, Object o){
 		g.getVertexes().remove(o);
+	}
+	
+	/**
+	 * Getter de l'état du Controller, de son mode : SELECTION, CREATION, ZOOM_IN, ZOOM_OUT, ...
+	 * @return l'état du Controller
+	 */
+	public State getState() {
+		return this.state;
+	}
+	
+	/**
+	 * Setter de l'état du Controller, de son mode
+	 * @param state le nouvel état
+	 */
+	public void setState(State state) {
+		this.state = state;
 	}
 
 	/**
@@ -141,5 +161,15 @@ public class Controller {
 			default:
 				break;
 		}
+	}
+
+	public void notifyToolBarItemActivated(String text) {
+		// TODO Auto-generated method stub
+	}
+
+	public void notifyToolBarContextActivated(String actionCommand) {
+		this.state = State.valueOf(actionCommand);
+		// TODO Auto-generated method stub
+		
 	}
 }

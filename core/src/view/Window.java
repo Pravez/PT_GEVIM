@@ -7,6 +7,8 @@ package view;
 import controller.Controller;
 import controller.MenuActionListener;
 import controller.TabMouseListener;
+import controller.ToolBarButtonActionListener;
+import controller.ToolBarContextActionListener;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -107,7 +109,8 @@ public class Window extends JFrame{
     private void initToolMenuBar(){
         JToolBar toolBar = new JToolBar();
         toolBar.setFloatable(false);
-        addToolBarImageButton(toolBar, "cursor.png");
+        addToolBarImageButton(toolBar, "cursor.png", Controller.State.SELECTION.name(), true);
+        addToolBarImageButton(toolBar, "zoom.png", Controller.State.ZOOM_IN.name(), false);
         addToolBarButton(toolBar, "Undo");
         addToolBarButton(toolBar, "Redo");
         addToolBarButton(toolBar, "A FAIRE...");
@@ -118,14 +121,18 @@ public class Window extends JFrame{
      * Méthode privée pour ajouter un bouton avec une image dans un toolBar
      * @param toolBar le toolBar qui va contenir le bouton
      * @param fileName le nom du fichier de l'image à charger
+     * @param selectedState l'état du bouton, s'il est sélectionné
      */
-    private void addToolBarImageButton(JToolBar toolBar, String fileName) {
+    private void addToolBarImageButton(JToolBar toolBar, String fileName, String actionCommand, boolean selectedState) {
     	Image img = Toolkit.getDefaultToolkit().getImage(fileName);
     	JButton imageButton = new JButton();
     	imageButton.setIcon(new ImageIcon(img.getScaledInstance(20,  20, Image.SCALE_SMOOTH)));
     	imageButton.setBounds(0, 0, 20, 20);
     	imageButton.setMargin(new Insets(0, 0, 0, 0));
     	imageButton.setBorder(null);
+    	imageButton.setSelected(selectedState);
+    	imageButton.setActionCommand(actionCommand);
+    	imageButton.addActionListener(new ToolBarContextActionListener(this.controller, imageButton));
     	toolBar.add(imageButton);
     }
     
@@ -136,6 +143,7 @@ public class Window extends JFrame{
      */
     private void addToolBarButton(JToolBar toolBar, String buttonName) {
     	JButton button = new JButton(buttonName);
+    	button.addActionListener(new ToolBarButtonActionListener(this.controller, button));
     	toolBar.add(button);
     }
 
