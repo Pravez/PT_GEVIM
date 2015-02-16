@@ -114,6 +114,9 @@ public class Controller {
 			
 		case "Close":
 			break;
+
+		case "Save":
+			this.window.getCurrentTab().saveToGraphml("test.gml");
 			
 		default:
 			break;
