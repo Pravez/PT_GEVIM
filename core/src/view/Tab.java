@@ -208,7 +208,6 @@ public class Tab extends JComponent implements Observer {
 
     public void modifySelectedVertex(){
         selectedVertexes.get(0).modifyVertexView();
-        this.repaint();
     }
 
     public ArrayList<VertexView> getSelectedVertexes(){
