@@ -16,7 +16,7 @@ public class ToolBarButtonActionListener implements ActionListener {
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(ActionEvent e) {
 		this.controller.notifyToolBarItemActivated(this.button.getText());
 	}
 }

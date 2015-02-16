@@ -31,6 +31,7 @@ public class Window extends JFrame{
     private Controller        controller;
     private JPanel            back;
     private JTabbedPane       tabs; // ensemble des onglets
+    private JToolBar          toolBar;
     
     /**
      * Constructeur de la classe Window
@@ -107,7 +108,7 @@ public class Window extends JFrame{
      * Method to init the tool menu bar (undo, redo, copy, paste...)
      */
     private void initToolMenuBar(){
-        JToolBar toolBar = new JToolBar();
+        toolBar = new JToolBar();
         toolBar.setFloatable(false);
         addToolBarImageButton(toolBar, "cursor.png", Controller.State.SELECTION.name(), true);
         addToolBarImageButton(toolBar, "zoom.png", Controller.State.ZOOM_IN.name(), false);
@@ -197,4 +198,16 @@ public class Window extends JFrame{
     }
 
     public int getCurrentTabIndex(){ return tabs.getSelectedIndex(); }
+
+	public void setState(Controller.State state, JButton button) {
+		System.out.println(state);
+		for (Component c : this.toolBar.getComponents()) {
+			if (((JButton) c).getActionCommand() == state.name()) {
+				((JButton) c).setSelected(true);
+				System.out.println("selected !");
+			} else {
+				((JButton) c).setSelected(false);
+			}
+		}
+	}
 }

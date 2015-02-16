@@ -65,14 +65,6 @@ public class Controller {
 	public State getState() {
 		return this.state;
 	}
-	
-	/**
-	 * Setter de l'état du Controller, de son mode
-	 * @param state le nouvel état
-	 */
-	public void setState(State state) {
-		this.state = state;
-	}
 
 	/**
 	 * Renvoie le {@link data.Graph} situé à l'indice numGraph
@@ -169,13 +161,20 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Méthode appelée lors d'un clic sur un bouton du JToolBar de la Window
+	 * @param text le nom du bouton
+	 */
 	public void notifyToolBarItemActivated(String text) {
 		// TODO Auto-generated method stub
 	}
 
-	public void notifyToolBarContextActivated(String actionCommand) {
-		this.state = State.valueOf(actionCommand);
-		// TODO Auto-generated method stub
-		
+	/**
+	 * Méthode appelée lorsqu'un bouton de contexte du JToolBar de la Window est sélectionné
+	 * @param button le bouton correspondant
+	 */
+	public void notifyToolBarContextActivated(JButton button) {
+		this.state = State.valueOf(button.getActionCommand());
+		this.window.setState(this.state, button);		
 	}
 }
