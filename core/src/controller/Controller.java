@@ -150,16 +150,16 @@ public class Controller {
 				break;
 
 			case "Delete":
-					for(VertexView v : this.window.getCurrentTab().getSelectedVertexes()){
+					for(VertexView v : this.window.getCurrentTab().getSelectedVertexes()) {
 						this.getGraph(this.window.getCurrentTabIndex()).getVertexes().remove(v.getVertex());
 						this.window.getCurrentTab().getVertexes().remove(v);
 					}
-					this.window.getCurrentTab().repaint();
 				break;
 
 			default:
 				break;
 		}
+		this.window.getCurrentTab().repaint();
 	}
 
 	/**
