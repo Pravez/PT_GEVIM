@@ -55,17 +55,17 @@ public class VertexMouseListener implements MouseListener {
 		switch(e.getButton()) {
 	        case MouseEvent.BUTTON1: // Clic gauche
 	        	if (e.isControlDown()) {
-	        		this.controller.notifyVertexAddToSelection(this.vertex);
+	        		this.controller.notifyElementAddToSelection(this.vertex);
 	        	} else {
-	        		this.controller.notifyVertexSelected(this.vertex);
+	        		this.controller.notifyElementSelected(this.vertex);
 	        	}
 	            break;
 
 	        case MouseEvent.BUTTON3: // Clic droit
 	        	if (e.isControlDown()) {
-	        		this.controller.notifyVertexAddToSelection(this.vertex);
+	        		this.controller.notifyElementAddToSelection(this.vertex);
 	        	} else {
-	        		this.controller.notifyVertexSelected(this.vertex);
+	        		this.controller.notifyElementSelected(this.vertex);
 	        	}
 
 				//Création du menu contextuel avec Edit et Delete comme options.

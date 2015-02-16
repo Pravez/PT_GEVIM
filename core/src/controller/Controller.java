@@ -1,12 +1,15 @@
 package controller;
 
 import data.Graph;
+import data.GraphElement;
 import data.Vertex;
 import view.EdgeView;
+import view.IElementView;
 import view.VertexView;
 import view.Window;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -22,6 +25,11 @@ public class Controller {
 	private Window window;
 	private ArrayList<Graph> graphs = new ArrayList<Graph>();
 	private State            state;
+	
+	public Controller() {
+		this.state  = State.SELECTION;
+		this.graphs = new ArrayList<Graph>();
+	}
 
 	public static enum State { SELECTION, ZOOM_IN, ZOOM_OUT, CREATE };
 
@@ -31,6 +39,7 @@ public class Controller {
 	 */
 	public void setWindow(Window window) {
 		this.window = window;
+		this.window.setState(this.state);	
 	}
 
 	/**
@@ -130,41 +139,37 @@ public class Controller {
 	}
 
 	/**
-	 * Méthode appelée lorsqu'un VertexView a été sélectionné :
+	 * Méthode appelée lorsqu'un IElementView a été sélectionné :
 	 *   - vide la liste des objets sélectionnés
-	 *   - ajoute le VertexView à la liste des VertexView sélectionnés
-	 * @param selectedVertext le VertexView sélectionné
+	 *   - ajoute le IElementView à la liste des IElementView sélectionnés
+	 * @param selectedElement le IElementView sélectionné
 	 */
-	public void notifyVertexSelected(VertexView selectedVertext) {
-		this.window.getCurrentTab().clearSelectedItem();
-		this.window.getCurrentTab().selectVertex(selectedVertext);
+	public void notifyElementSelected(IElementView selectedElement) {
+		this.window.getCurrentTab().clearSelectedElements();
+		this.window.getCurrentTab().selectElement(selectedElement);
 	}
 	
 	/**
-	 * Méthode appelée lorsqu'un VerteView sélectionné doit être ajouté à la liste des VertexView sélectionnés
-	 * @param selectedVertex le VertexView sélectionné à ajouter
+	 * Méthode appelée lorsqu'un IElementView sélectionné doit être ajouté à la liste des VertexView sélectionnés
+	 * @param selectedElement le IElementView sélectionné à ajouter
 	 */
-	public void notifyVertexAddToSelection(VertexView selectedVertex) {
-		this.window.getCurrentTab().selectVertex(selectedVertex);
+	public void notifyElementAddToSelection(IElementView selectedElement) {
+		this.window.getCurrentTab().selectElement(selectedElement);
 	}
-
+	
 	/**
-	 * Méthode appelée lorsqu'un EdgeView a été sélectionné :
-	 *   - vide la liste des objets sélectionnés
-	 *   - ajoute le EdgeView à la liste des VertexView sélectionnés
-	 * @param selectedEdge le EdgeView sélectionné
+	 * Méthode appelée pour retirer un IElementView de la liste des IElementView sélectionnés
+	 * @param element le IElementView sélectionné à retirer de la liste
 	 */
-	public void notifyEdgeSelected(EdgeView selectedEdge) {
-		this.window.getCurrentTab().clearSelectedItem();
-		this.window.getCurrentTab().selectEdge(selectedEdge);
+	public void notifyElementRemoveFromSelection(IElementView element) {
+		this.window.getCurrentTab().selectElement(element);
 	}
-
+	
 	/**
-	 * Méthode appelée lorsqu'un EdgeView sélectionné doit être ajouté à la liste des EdgeView sélectionnés
-	 * @param selectedEdge le EdgeView sélectionné à ajouter
+	 * Méthode appelée pour vider la liste des IElementView sélectionnés
 	 */
-	public void notifyEdgeAddToSelection(EdgeView selectedEdge) {
-		this.window.getCurrentTab().selectEdge(selectedEdge);
+	public void notifyElementClearSelection() {
+		this.window.getCurrentTab().clearSelectedElements();
 	}
 
 	/**
@@ -176,36 +181,26 @@ public class Controller {
 
 		switch(text){
 			case "Edit":
-				if(source.getClass() == VertexView.class) {
-					this.window.getCurrentTab().modifySelectedVertex();
-				} else if(source.getClass() == EdgeView.class) {
-					this.window.getCurrentTab().modifySelectedEdge();
-				}
+				this.window.getCurrentTab().modifySelectedElement();
 
 				break;
 
 			case "Delete":
 				if(source.getClass() == VertexView.class) {
-
-					for (VertexView v : this.window.getCurrentTab().getSelectedVertexes()) {
-						this.getGraph(this.window.getCurrentTabIndex()).removeVertex(v.getVertex());
+					for (IElementView element : this.window.getCurrentTab().getSelectedElements()) {
+						this.getGraph(this.window.getCurrentTabIndex()).removeVertex(((VertexView) element).getVertex());
 					}
-
 				} else if(source.getClass() == EdgeView.class) {
-
-					for(EdgeView e : this.window.getCurrentTab().getSelectedEdges()){
-						this.getGraph(this.window.getCurrentTabIndex()).removeEdge(e.getEdge());
+					for(IElementView element : this.window.getCurrentTab().getSelectedElements()){
+						this.getGraph(this.window.getCurrentTabIndex()).removeEdge(((EdgeView) element).getEdge());
 					}
 				}
-
 				this.getGraph(this.window.getCurrentTabIndex()).setChanged();
-
 				break;
 
 			default:
 				break;
 		}
-
 		this.window.getCurrentTab().repaint();
 	}
 
@@ -223,6 +218,6 @@ public class Controller {
 	 */
 	public void notifyToolBarContextActivated(JButton button) {
 		this.state = State.valueOf(button.getActionCommand());
-		this.window.setState(this.state, button);		
+		this.window.setState(this.state);		
 	}
 }

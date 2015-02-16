@@ -5,19 +5,16 @@ import data.Edge;
 import javax.swing.*;
 import java.awt.*;
 
-import static java.lang.Math.acos;
-import static java.lang.Math.cos;
 import static java.lang.Math.sqrt;
 
 /**
  * Created by cordavidenko on 26/01/15.
  * Classe EdgeView, Edge affiché dans le Tab
  */
-public class EdgeView extends JComponent {
+public class EdgeView extends JComponent implements IElementView {
 
 	private static final long serialVersionUID = 1L;
-
-    private Edge       edge;
+	private Edge       edge;
     private VertexView origin;
     private VertexView destination;
     private int        thickness;
@@ -221,17 +218,17 @@ public class EdgeView extends JComponent {
      * Méthode appelée pour mettre à jour les paramètres d'affichage de l'EdgeView s'il est sélectionné ou non
      * @param isHover boolean si l'EdgeView est sélectionné ou non
      */
+    @Override
     public void updateHover(boolean isHover) {
 		this.color     = (isHover) ? this.hoverColor     : this.edge.getColor();
 		this.thickness = (isHover) ? this.hoverThickness : this.edge.getThickness();
 		this.repaint();
 	}
 
-    public void modifyEdgeView() {
-
+    @Override
+    public void modify() {
         //EdgeViewEditor edit = new EdgeViewEditor(this.edge);
 
         //EdgeView newVertex = edit.getModifiedEdge();
-
     }
 }

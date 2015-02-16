@@ -35,15 +35,21 @@ public class TabMouseListener implements MouseListener {
 	 */
 	@Override
 	public void mouseClicked(MouseEvent mouseEvent) {
-		switch(mouseEvent.getButton()) {
-        case MouseEvent.BUTTON1: // Clic gauche
-            this.controller.addVertex(this.graph, this.tab.getDefaultColor(), mouseEvent.getPoint(), this.tab.getDefaultSize(), this.tab.getDefaultShape());
-            this.tab.repaint();
-            break;
-
-        case MouseEvent.BUTTON3: // clic droit
-            break;
+		switch(this.controller.getState()) {
+		case SELECTION:
+			break;
+		case CREATE:
+			if (mouseEvent.getButton() == MouseEvent.BUTTON1) { // Clic gauche
+				this.controller.addVertex(this.graph, this.tab.getDefaultColor(), mouseEvent.getPoint(), this.tab.getDefaultSize(), this.tab.getDefaultShape());
+	            this.tab.repaint();
+			}
+			break;
+		case ZOOM_IN:
+			break;
+		case ZOOM_OUT:
+			break;
 		}
+        //MouseEvent.BUTTON3: // clic droit
 	}
 
 	/**

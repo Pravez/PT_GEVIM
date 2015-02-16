@@ -3,13 +3,14 @@ package view;
 import data.Vertex;
 
 import javax.swing.*;
+
 import java.awt.*;
 
 /**
  * @author Alexis Dufrenne
  * Classe VertexView, Vertex affiché dans le Tab
  */
-public class VertexView extends JComponent {
+public class VertexView extends JComponent implements IElementView {
 
 	private static final long serialVersionUID = 1L;
 	private Vertex vertex;
@@ -144,6 +145,7 @@ public class VertexView extends JComponent {
      * Méthode appelée pour mettre à jour les paramètres d'affichage du VertexView s'il est sélectionné ou non
      * @param isHover boolean si le VertexView est sélectionné ou non
      */
+    @Override
     public void updateHover(boolean isHover) {
 		this.color = (isHover) ? this.hoverColor : this.vertex.getColor();
 	}
@@ -151,7 +153,8 @@ public class VertexView extends JComponent {
     /**
      * Méthode appellée pour invoquer un JDialog permettant de modifier les informations d'un VertexView dans le détail.
      */
-    public void modifyVertexView(){
+    @Override
+    public void modify(){
         VertexViewEditor edit = new VertexViewEditor(this.vertex);
 
         Vertex newVertex = edit.getModifiedVertex();

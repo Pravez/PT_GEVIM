@@ -52,17 +52,17 @@ public class EdgeMouseListener implements MouseListener {
 		switch(e.getButton()) {
 	        case MouseEvent.BUTTON1: // Clic gauche
 	        	if (e.isControlDown()) {
-	        		this.controller.notifyEdgeAddToSelection(this.edge);
+	        		this.controller.notifyElementAddToSelection(this.edge);
 	        	} else {
-	        		this.controller.notifyEdgeSelected(this.edge);
+	        		this.controller.notifyElementSelected(this.edge);
 	        	}
 	            break;
 
 	        case MouseEvent.BUTTON3: // Clic droit
 	        	if (e.isControlDown()) {
-	        		this.controller.notifyEdgeAddToSelection(this.edge);
+	        		this.controller.notifyElementAddToSelection(this.edge);
 	        	} else {
-	        		this.controller.notifyEdgeSelected(this.edge);
+	        		this.controller.notifyElementSelected(this.edge);
 	        	}
 
 				//Création du menu contextuel avec Edit et Delete comme options.

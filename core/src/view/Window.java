@@ -209,7 +209,7 @@ public class Window extends JFrame{
 
     public int getCurrentTabIndex(){ return tabs.getSelectedIndex(); }
 
-	public void setState(Controller.State state, JButton button) {
+	public void setState(Controller.State state) {
         System.out.println(state);
         for (Component c : this.toolBar.getComponents()) {
             if (((JButton) c).getActionCommand() == state.name()) {

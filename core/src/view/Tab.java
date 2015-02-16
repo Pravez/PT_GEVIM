@@ -5,14 +5,17 @@ import controller.EdgeMouseListener;
 import controller.VertexMouseListener;
 import data.Edge;
 import data.Graph;
+import data.GraphElement;
 import data.Observable;
 import data.Vertex;
+
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.io.FileOutputStream;
@@ -33,8 +36,7 @@ public class Tab extends JComponent implements Observer {
     private ArrayList<EdgeView>   edges;
     private ArrayList<VertexView> vertexes;
     
-    private ArrayList<EdgeView>   selectedEdges;
-    private ArrayList<VertexView> selectedVertexes;
+    private ArrayList<IElementView> selectedElements;
     
     private String                name;
     private String                file;
@@ -72,10 +74,8 @@ public class Tab extends JComponent implements Observer {
         this.controller               = controller;
         
         this.edges                    = new ArrayList<EdgeView>();
-        this.selectedEdges            = new ArrayList<EdgeView>();
-
         this.vertexes                 = new ArrayList<VertexView>();
-        this.selectedVertexes         = new ArrayList<VertexView>();
+        this.selectedElements         = new ArrayList<IElementView>();
         
         this.defaultColor             = Color.BLACK;
         this.defaultSelectedColor     = Color.BLUE;
@@ -191,68 +191,39 @@ public class Tab extends JComponent implements Observer {
     }
 
     /**
-     * Méthode pour ajouter un EdgeView à la liste des EdgeView sélectionnés
-     * @param e le EdgeView à ajouter à la liste
+     * Méthode pour déselectionner un IElementView de la liste des IElementView sélectionnés
+     * @param element le IElementView à retirer de la liste
      */
-    public void selectEdge(EdgeView e){
-    	e.setColor(this.defaultSelectedColor);
-        this.selectedEdges.add(e);
+    public void unselectedElement(IElementView element){
+    	element.updateHover(false);
+        this.selectedElements.remove(element);
     }
 
     /**
-     * Méthode pour déselectionner un EdgeView de la liste des EdgeView sélectionnés
-     * @param e le EdgeView à retirer de la liste
+     * Méthode pour ajouter un IElementView à la liste des IElementView sélectionnés
+     * @param element le IElementView à ajouter à la liste
      */
-    public void unselectedEdge(EdgeView e){
-    	e.setColor(this.defaultColor);
-        this.selectedEdges.remove(e);
+    public void selectElement(IElementView element){
+    	element.updateHover(true);
+        this.selectedElements.add(element);
     }
 
-    /**
-     * Méthode pour ajouter un VertexView à la liste des VertexView sélectionnés
-     * @param v le VertexView à ajouter à la liste
-     */
-    public void selectVertex(VertexView v){
-    	v.updateHover(true);
-        this.selectedVertexes.add(v);
-        this.repaint();
+    public void modifySelectedElement() {
+    	selectedElements.get(0).modify(); 
     }
 
-    public void modifySelectedVertex(){
-        selectedVertexes.get(0).modifyVertexView();
-    }
-
-    public void modifySelectedEdge(){ selectedEdges.get(0).modifyEdgeView(); }
-
-    public ArrayList<VertexView> getSelectedVertexes(){
-        return this.selectedVertexes;
-    }
-
-    public ArrayList<EdgeView> getSelectedEdges() {
-        return selectedEdges;
-    }
-
-    /**
-     * Méthode pour déselectionner un VertexView de la liste des VertexView sélectionnés
-     * @param v le VertexView à retirer de la liste
-     */
-    public void unselectedVertex(VertexView v){
-    	v.updateHover(false);
-        this.selectedVertexes.remove(v);
+    public ArrayList<IElementView> getSelectedElements(){
+        return this.selectedElements;
     }
 
     /**
      * Méthode pour déselectionner tous les VertexView et EdgeView sélectionnés
      */
-    public void clearSelectedItem(){
-    	for(VertexView v : this.selectedVertexes) {
+    public void clearSelectedElements(){
+    	for(IElementView v : this.selectedElements) {
     		v.updateHover(false);
     	}
-    	for(EdgeView e : this.selectedEdges) {
-    		e.setColor(this.defaultColor);
-    	}
-    	this.selectedVertexes.clear();
-        this.selectedEdges.clear();
+        this.selectedElements.clear();
     }
 
     /**
@@ -545,7 +516,6 @@ public class Tab extends JComponent implements Observer {
             e.printStackTrace();
         }
     }
-
 
 
     //END REGION
