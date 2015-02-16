@@ -8,11 +8,13 @@ import controller.Controller;
 import controller.MenuActionListener;
 import controller.TabMouseListener;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import data.Graph;
 
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * @author Alexis Dufrenne
@@ -104,13 +106,37 @@ public class Window extends JFrame{
      */
     private void initToolMenuBar(){
         JToolBar toolBar = new JToolBar();
-        JButton undo = new JButton("Undo");
-        JButton redo = new JButton("Redo");
-        JButton aFaire = new JButton("A FAIRE...");
-        toolBar.add(undo);
-        toolBar.add(redo);
-        toolBar.add(aFaire);
+        toolBar.setFloatable(false);
+        addToolBarImageButton(toolBar, "cursor.png");
+        addToolBarButton(toolBar, "Undo");
+        addToolBarButton(toolBar, "Redo");
+        addToolBarButton(toolBar, "A FAIRE...");
         super.getContentPane().add(toolBar, BorderLayout.NORTH);
+    }
+    
+    /**
+     * Méthode privée pour ajouter un bouton avec une image dans un toolBar
+     * @param toolBar le toolBar qui va contenir le bouton
+     * @param fileName le nom du fichier de l'image à charger
+     */
+    private void addToolBarImageButton(JToolBar toolBar, String fileName) {
+    	Image img = Toolkit.getDefaultToolkit().getImage(fileName);
+    	JButton imageButton = new JButton();
+    	imageButton.setIcon(new ImageIcon(img.getScaledInstance(20,  20, Image.SCALE_SMOOTH)));
+    	imageButton.setBounds(0, 0, 20, 20);
+    	imageButton.setMargin(new Insets(0, 0, 0, 0));
+    	imageButton.setBorder(null);
+    	toolBar.add(imageButton);
+    }
+    
+    /**
+     * Méthode privée pour ajouter un bouton avec du texte dans un toolBar
+     * @param toolBar le toolBar qui va contenir le bouton
+     * @param buttonName le nom du bouton
+     */
+    private void addToolBarButton(JToolBar toolBar, String buttonName) {
+    	JButton button = new JButton(buttonName);
+    	toolBar.add(button);
     }
 
     /**
