@@ -44,6 +44,13 @@ public class Controller {
 		}
 	}
 
+	public void addEdge (Vertex src, Vertex dst){
+		this.window.getCurrentTab().getGraph().createEdge(0,
+															this.window.getCurrentTab().getDefaultColor(),
+															src, dst,
+															this.window.getCurrentTab().getDefaultSize());
+	}
+
 	public void removeVertex(Graph g, Object o){
 		g.getVertexes().remove(o);
 	}

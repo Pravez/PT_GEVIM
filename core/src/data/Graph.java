@@ -4,6 +4,7 @@ import javax.swing.undo.UndoManager;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Created by Corentin Davidenko on 04/02/15.
@@ -159,7 +160,7 @@ public class Graph extends Observable {
      */
 	@Override
 	public void setChanged() {
-		this.notifyObservers(this.vertexes);
+		this.notifyObservers(new Object[]{this.vertexes, this.edges});
 	}
 
 	/**

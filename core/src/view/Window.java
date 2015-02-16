@@ -157,7 +157,7 @@ public class Window extends JFrame{
      * Method to get the current used tab
      * @return the index of the current tab
      */
-    
+
     public Tab getCurrentTab(){
     	return (Tab)tabs.getComponentAt(tabs.getSelectedIndex());	
     }

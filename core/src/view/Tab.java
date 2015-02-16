@@ -17,6 +17,7 @@ import java.awt.event.MouseEvent;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 /**
  * Created by Corentin Davidenko on 04/02/15
@@ -318,7 +319,7 @@ public class Tab extends JComponent implements Observer {
      * @param origin le VertexView d'origine de l'EdgeView
      * @param destination le VertexView de destination de l'EdgeView
      */
-    public void createEdge(Edge edge, VertexView origin, VertexView destination ){
+    public void addEdge(Edge edge, VertexView origin, VertexView destination ){
     	EdgeView edgeView = new EdgeView(edge, this.defaultSelectedThickness, this.defaultSelectedColor, origin, destination);
         this.edges.add(edgeView);
         super.add(edgeView);
@@ -356,9 +357,23 @@ public class Tab extends JComponent implements Observer {
 
 		this.vertexes.clear();
 		super.removeAll();
-		for (Vertex v : (ArrayList<Vertex>)object) {
+		for (Vertex v : (ArrayList<Vertex>)((Object[])object)[0]) {
 			addVertex(v);
 		}
+
+        for (Edge e : (ArrayList<Edge>)((Object[])object)[1]){
+            VertexView src= null, dst = null;
+            ListIterator<VertexView> search = vertexes.listIterator();
+
+            while (search.hasNext() && (src == null || dst == null)){
+                VertexView tmp = search.next();
+                if (tmp.getVertex() == e.getOrigin()) src = tmp;
+                else if (tmp.getVertex() == e.getDestination()) dst = tmp;
+            }
+            if ( src != null && dst != null) addEdge(e, src, dst);
+
+        }
+
 		this.repaint();
 		/** A modifier pour n'ajouter que ceux qui sont dans la fenêtre **/
 	}

@@ -5,6 +5,8 @@ import java.awt.event.MouseListener;
 
 import javax.swing.*;
 
+import data.Graph;
+import sun.invoke.util.VerifyType;
 import view.VertexView;
 
 /**
@@ -15,6 +17,9 @@ public class VertexMouseListener implements MouseListener {
 	
 	private Controller controller;
 	private VertexView vertex;
+
+	private static VertexView underMouseVertex = null;
+
 
 	/**
 	 * Constructeur de la classe VertexMouseListener
@@ -57,7 +62,7 @@ public class VertexMouseListener implements MouseListener {
 	        		this.controller.notifyVertexSelected(this.vertex);
 	        	}
 	            break;
-	
+
 	        case MouseEvent.BUTTON3: // Clic droit
 	        	if (e.isControlDown()) {
 	        		this.controller.notifyVertexAddToSelection(this.vertex);
@@ -80,7 +85,9 @@ public class VertexMouseListener implements MouseListener {
 	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
 	 */
 	@Override
-	public void mouseEntered(MouseEvent e) { }
+	public void mouseEntered(MouseEvent e) {
+		underMouseVertex = vertex;
+	}
 
 	/**
 	 * Méthode appelée lorsque le curseur de la souris quitte la zone du VertexView
@@ -88,7 +95,9 @@ public class VertexMouseListener implements MouseListener {
 	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
 	 */
 	@Override
-	public void mouseExited(MouseEvent e) { }
+	public void mouseExited(MouseEvent e) {
+		underMouseVertex = null;
+	}
 
 	/**
 	 * Méthode appelée lorsque l'on presse un bouton de la souris sur le VertexView
@@ -96,7 +105,7 @@ public class VertexMouseListener implements MouseListener {
 	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
 	 */
 	@Override
-	public void mousePressed(MouseEvent e) {
+	public void mousePressed(MouseEvent e)  {
 		System.out.println("Mouse pressed on VertexView");
 	}
 
@@ -109,5 +118,11 @@ public class VertexMouseListener implements MouseListener {
 	public void mouseReleased(MouseEvent e) {
 		System.out.println("Mouse released on VertexView");
 		// ici appeler la méthode pour créer un nouveau vertex avec un edge entre les deux
+
+		if ( underMouseVertex!=null && underMouseVertex!= vertex){
+			System.out.println("Create an Edge please !");
+			this.controller.addEdge(vertex.getVertex(), underMouseVertex.getVertex());
+		}
+
 	}
 }
