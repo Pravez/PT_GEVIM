@@ -5,6 +5,10 @@ import data.Edge;
 import javax.swing.*;
 import java.awt.*;
 
+import static java.lang.Math.acos;
+import static java.lang.Math.cos;
+import static java.lang.Math.sqrt;
+
 /**
  * Created by cordavidenko on 26/01/15.
  * Classe EdgeView, Edge affiché dans le Tab
@@ -38,7 +42,26 @@ public class EdgeView extends JComponent {
         this.hoverColor     = hoverColor;
         this.origin         = origin;
         this.destination    = destination;
-        /** Set bounds et setSize pour les Mouse Listeners **/
+    }
+
+    @Override
+    public boolean contains(int x, int y) {
+        int radius = 4;
+        int length = (int) sqrt((this.origin.getPosition().x - this.destination.getPosition().x) * (this.origin.getPosition().x - this.destination.getPosition().x) +
+                          (this.origin.getPosition().y - this.destination.getPosition().y) * (this.origin.getPosition().y - this.destination.getPosition().y));
+
+        double angle = acos((this.destination.getPosition().x - this.origin.getPosition().x)/length);
+
+        int vector_y = (int) (cos(angle) * radius);
+        int vector_x = (int) sqrt(radius*radius - vector_y*vector_y);
+        vector_y = vector_y < 0 ? -vector_y : vector_y;
+        vector_x = vector_x < 0 ? -vector_x : vector_x;
+
+        Point p1 = new Point(this.origin.getPosition().x + vector_x, this.origin.getPosition().y + vector_y);
+        Point p2 = new Point(this.origin.getPosition().x - vector_x, this.origin.getPosition().y - vector_y);
+        Point p3 = new Point(this.destination.getPosition().x - vector_x, this.destination.getPosition().y - vector_y);
+        Point p4 = new Point(this.destination.getPosition().x + vector_x, this.destination.getPosition().y + vector_y);
+        return new Polygon(new int[] { p1.x, p2.x, p3.x, p4.x }, new int[] { p1.y, p2.y, p3.y, p4.y }, 4).contains(x, y);
     }
     
     /**
@@ -55,6 +78,26 @@ public class EdgeView extends JComponent {
 		RenderingHints    renderHints = new RenderingHints (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		
 		g2d.setRenderingHints(renderHints);
+        /** **/
+        g.setColor(Color.RED);
+        int radius = 10;
+        int length = (int) sqrt((this.origin.getPosition().x - this.destination.getPosition().x) * (this.origin.getPosition().x - this.destination.getPosition().x) +
+                (this.origin.getPosition().y - this.destination.getPosition().y) * (this.origin.getPosition().y - this.destination.getPosition().y));
+
+        double angle = acos((this.destination.getPosition().x - this.origin.getPosition().x)/length);
+
+        int vector_y = (int) (cos(angle) * radius);
+        int vector_x = (int) sqrt(radius*radius - vector_y*vector_y);
+
+        vector_y = vector_y < 0 ? -vector_y : vector_y;
+        vector_x = vector_x < 0 ? -vector_x : vector_x;
+
+        Point p1 = new Point(this.origin.getPosition().x + vector_x, this.origin.getPosition().y + vector_y);
+        Point p2 = new Point(this.origin.getPosition().x - vector_x, this.origin.getPosition().y - vector_y);
+        Point p3 = new Point(this.destination.getPosition().x - vector_x, this.destination.getPosition().y - vector_y);
+        Point p4 = new Point(this.destination.getPosition().x + vector_x, this.destination.getPosition().y + vector_y);
+        ((Graphics2D) g).fill(new Polygon(new int[]{p1.x, p2.x, p3.x, p4.x}, new int[]{p1.y, p2.y, p3.y, p4.y}, 4));
+        /** **/
 		g.setColor(this.color);
 		((Graphics2D) g).setStroke(new BasicStroke(this.thickness));
 		g.drawLine(this.origin.getPosition().x, this.origin.getPosition().y, this.destination.getPosition().x, this.destination.getPosition().y);

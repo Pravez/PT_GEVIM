@@ -81,6 +81,7 @@ public class EdgeMouseListener implements MouseListener {
 	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
+		System.out.println("Mouse entered on edge");
 	}
 
 	/**

@@ -27,8 +27,16 @@ public class VertexView extends JComponent {
     	this.vertex     = vertex;
         this.color      = vertex.getColor();
         this.hoverColor = hoverColor;
-        super.setSize(this.vertex.getSize(), this.vertex.getSize());
-        super.setBounds(this.vertex.getPosition().x - this.vertex.getSize()/2, this.vertex.getPosition().y - this.vertex.getSize()/2, this.vertex.getSize(), this.vertex.getSize());
+        //super.setSize(this.vertex.getSize(), this.vertex.getSize());
+        //super.setBounds(this.vertex.getPosition().x - this.vertex.getSize()/2, this.vertex.getPosition().y - this.vertex.getSize()/2, this.vertex.getSize(), this.vertex.getSize());
+    }
+
+    @Override
+    public boolean contains(int x, int y) {
+        int size = this.vertex.getSize();
+        int posx = this.vertex.getPosition().x - size/2;
+        int posy = this.vertex.getPosition().y - size/2;
+        return new Rectangle(posx, posy, size, size).contains(x, y);
     }
     
     /**
@@ -138,7 +146,6 @@ public class VertexView extends JComponent {
      */
     public void updateHover(boolean isHover) {
 		this.color = (isHover) ? this.hoverColor : this.vertex.getColor();
-		//this.repaint();
 	}
 
     /**
