@@ -104,8 +104,12 @@ public class Controller {
 		switch (type) {
 		case "New":
 			//if (JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment lancer une nouvelle partie ?", "Nouvelle Partie", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION)
-			Graph graph = addNewGraph();
-			this.window.addNewTab(graph);
+			String title = "Tab " + this.window.getTabCount();
+			title = JOptionPane.showInputDialog("Saisissez le nom du nouveau graphe :", title);
+			if (title != null) {
+				Graph graph = addNewGraph();
+				this.window.addNewTab(graph, title);
+			}
 			break;
 			
 		case "Close":

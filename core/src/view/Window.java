@@ -172,12 +172,9 @@ public class Window extends JFrame{
     /**
      * Adds a new tab to the current JPanel. The tab is another JPanel
      */
-    public void addNewTab(Graph graph) {
+    public void addNewTab(Graph graph, String title) {
         Tab tab = new Tab(graph, this.controller);
         graph.addObserver(tab);
-        String title = "Tab " + tabs.getTabCount();
-        
-        title = JOptionPane.showInputDialog("Saisissez le nom du nouveau graphe :", title);
 
     	tab.setName(title);
     	tab.setBackground(Color.GRAY);
@@ -190,10 +187,17 @@ public class Window extends JFrame{
     }
 
     /**
+     * Getter du nombre de Tab ouverts
+     * @return le nombre de Tab
+     */
+    public int getTabCount() {
+        return this.tabs.getTabCount();
+    }
+
+    /**
      * Method to get the current used tab
      * @return the index of the current tab
      */
-    
     public Tab getCurrentTab(){
     	return (Tab)tabs.getComponentAt(tabs.getSelectedIndex());	
     }
