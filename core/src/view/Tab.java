@@ -80,7 +80,7 @@ public class Tab extends JComponent implements Observer {
         this.defaultSelectedColor     = Color.BLUE;
         this.defaultThickness         = 1;
         this.defaultSelectedThickness = 2;
-        this.defaultSize              = 10;
+        this.defaultSize              = 20;
         this.defaultShape             = Vertex.Shape.CROSS;
     }
     
@@ -298,8 +298,24 @@ public class Tab extends JComponent implements Observer {
      * Setter de la taille par défaut des VertexView
      * @param defaultSize la nouvelle taille par défaut
      */
-    public void setDefaultWidth(int defaultSize) {
+    public void setDefaultSize(int defaultSize) {
         this.defaultSize = defaultSize;
+    }
+
+    /**
+     * Getter de l'épaisseur par défaut des EdgeView
+     * @return l'épaisseur par défaut
+     */
+    public int getDefaultThickness() {
+        return this.defaultThickness;
+    }
+
+    /**
+     * Setter de l'épaisseur par défaut des EdgeView
+     * @param defaultThickness la nouvelle épaisseur par défaut
+     */
+    public void setDefaultThickness(int defaultThickness) {
+        this.defaultThickness = defaultThickness;
     }
 
     /**

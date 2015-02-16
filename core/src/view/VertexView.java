@@ -28,7 +28,7 @@ public class VertexView extends JComponent {
         this.color      = vertex.getColor();
         this.hoverColor = hoverColor;
         super.setSize(this.vertex.getSize(), this.vertex.getSize());
-        super.setBounds(this.vertex.getPosition().x, this.vertex.getPosition().y, this.vertex.getSize(), this.vertex.getSize());
+        super.setBounds(this.vertex.getPosition().x - this.vertex.getSize()/2, this.vertex.getPosition().y - this.vertex.getSize()/2, this.vertex.getSize(), this.vertex.getSize());
     }
     
     /**

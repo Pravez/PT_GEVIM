@@ -51,7 +51,7 @@ public class Controller {
 		this.window.getCurrentTab().getGraph().createEdge(0,
 															this.window.getCurrentTab().getDefaultColor(),
 															src, dst,
-															this.window.getCurrentTab().getDefaultSize());
+															this.window.getCurrentTab().getDefaultThickness());
 	}
 
 	public void removeVertex(Graph g, Object o){
