@@ -52,7 +52,7 @@ public class EdgeMouseListener implements MouseListener {
 		switch(e.getButton()) {
 	        case MouseEvent.BUTTON1: // Clic gauche
 	        	if (e.isControlDown()) {
-	        		this.controller.notifyElementAddToSelection(this.edge);
+	        		this.controller.notifyHandleElementSelected(this.edge);
 	        	} else {
 	        		this.controller.notifyElementSelected(this.edge);
 	        	}
@@ -60,7 +60,7 @@ public class EdgeMouseListener implements MouseListener {
 
 	        case MouseEvent.BUTTON3: // Clic droit
 	        	if (e.isControlDown()) {
-	        		this.controller.notifyElementAddToSelection(this.edge);
+	        		this.controller.notifyHandleElementSelected(this.edge);
 	        	} else {
 	        		this.controller.notifyElementSelected(this.edge);
 	        	}

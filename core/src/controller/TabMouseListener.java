@@ -37,6 +37,7 @@ public class TabMouseListener implements MouseListener {
 	public void mouseClicked(MouseEvent mouseEvent) {
 		switch(this.controller.getState()) {
 		case SELECTION:
+			this.controller.notifyClearSelection();
 			break;
 		case CREATE:
 			if (mouseEvent.getButton() == MouseEvent.BUTTON1) { // Clic gauche
@@ -75,14 +76,11 @@ public class TabMouseListener implements MouseListener {
 	 */
 	@Override
 	public void mousePressed(MouseEvent mouseEvent) {
-		System.out.println("Mouse pressed on Tab");
 		 /*System.out.println("pressed");
         Vertex vertexTmp = ((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent);
         if(vertexTmp != null){
             System.out.println("onVezretex");
         }*/
-
-
 	}
 
 	/**
@@ -92,7 +90,6 @@ public class TabMouseListener implements MouseListener {
 	 */
 	@Override
 	public void mouseReleased(MouseEvent mouseEvent) {
-		System.out.println("Mouse released on Tab");
 		//if(((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent) != null){ }
 	}
 }

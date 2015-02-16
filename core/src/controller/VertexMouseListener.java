@@ -55,7 +55,7 @@ public class VertexMouseListener implements MouseListener {
 		switch(e.getButton()) {
 	        case MouseEvent.BUTTON1: // Clic gauche
 	        	if (e.isControlDown()) {
-	        		this.controller.notifyElementAddToSelection(this.vertex);
+	        		this.controller.notifyHandleElementSelected(this.vertex);
 	        	} else {
 	        		this.controller.notifyElementSelected(this.vertex);
 	        	}
@@ -63,7 +63,7 @@ public class VertexMouseListener implements MouseListener {
 
 	        case MouseEvent.BUTTON3: // Clic droit
 	        	if (e.isControlDown()) {
-	        		this.controller.notifyElementAddToSelection(this.vertex);
+	        		this.controller.notifyHandleElementSelected(this.vertex);
 	        	} else {
 	        		this.controller.notifyElementSelected(this.vertex);
 	        	}
@@ -104,7 +104,6 @@ public class VertexMouseListener implements MouseListener {
 	 */
 	@Override
 	public void mousePressed(MouseEvent e)  {
-		System.out.println("Mouse pressed on VertexView");
 	}
 
 	/**
@@ -114,9 +113,7 @@ public class VertexMouseListener implements MouseListener {
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		System.out.println("Mouse released on VertexView");
 		// ici appeler la méthode pour créer un nouveau vertex avec un edge entre les deux
-
 		if ( underMouseVertex!=null && underMouseVertex!= vertex){
 			System.out.println("Create an Edge please !");
 			if (this.vertex.getPosition().x < underMouseVertex.getPosition().x) {
@@ -125,6 +122,5 @@ public class VertexMouseListener implements MouseListener {
 				this.controller.addEdge(underMouseVertex.getVertex(), vertex.getVertex());
 			}
 		}
-
 	}
 }

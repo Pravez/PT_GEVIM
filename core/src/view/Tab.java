@@ -36,7 +36,7 @@ public class Tab extends JComponent implements Observer {
     private ArrayList<EdgeView>   edges;
     private ArrayList<VertexView> vertexes;
     
-    private ArrayList<IElementView> selectedElements;
+    private ArrayList<ElementView> selectedElements;
     
     private String                name;
     private String                file;
@@ -75,7 +75,7 @@ public class Tab extends JComponent implements Observer {
         
         this.edges                    = new ArrayList<EdgeView>();
         this.vertexes                 = new ArrayList<VertexView>();
-        this.selectedElements         = new ArrayList<IElementView>();
+        this.selectedElements         = new ArrayList<ElementView>();
         
         this.defaultColor             = Color.BLACK;
         this.defaultSelectedColor     = Color.BLUE;
@@ -191,39 +191,43 @@ public class Tab extends JComponent implements Observer {
     }
 
     /**
-     * Méthode pour déselectionner un IElementView de la liste des IElementView sélectionnés
-     * @param element le IElementView à retirer de la liste
+     * Méthode pour déselectionner un ElementView de la liste des ElementView sélectionnés
+     * @param element le ElementView à retirer de la liste
      */
-    public void unselectedElement(IElementView element){
+    public void unselectElement(ElementView element){
     	element.updateHover(false);
         this.selectedElements.remove(element);
+        this.repaint();
     }
 
     /**
-     * Méthode pour ajouter un IElementView à la liste des IElementView sélectionnés
-     * @param element le IElementView à ajouter à la liste
+     * Méthode pour ajouter un ElementView à la liste des ElementView sélectionnés
+     * @param element le ElementView à ajouter à la liste
      */
-    public void selectElement(IElementView element){
+    public void selectElement(ElementView element){
     	element.updateHover(true);
         this.selectedElements.add(element);
+        this.repaint();
     }
 
     public void modifySelectedElement() {
-    	selectedElements.get(0).modify(); 
+    	selectedElements.get(0).modify();
+    	this.repaint();
     }
 
-    public ArrayList<IElementView> getSelectedElements(){
+    public ArrayList<ElementView> getSelectedElements(){
         return this.selectedElements;
     }
 
     /**
-     * Méthode pour déselectionner tous les VertexView et EdgeView sélectionnés
+     * Méthode pour déselectionner tous les ElementView sélectionnés
      */
     public void clearSelectedElements(){
-    	for(IElementView v : this.selectedElements) {
-    		v.updateHover(false);
+    	for(ElementView element : this.selectedElements) {
+    		element.updateHover(false);
     	}
         this.selectedElements.clear();
+        this.repaint();
     }
 
     /**

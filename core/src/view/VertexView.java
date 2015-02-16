@@ -2,15 +2,13 @@ package view;
 
 import data.Vertex;
 
-import javax.swing.*;
-
 import java.awt.*;
 
 /**
  * @author Alexis Dufrenne
  * Classe VertexView, Vertex affiché dans le Tab
  */
-public class VertexView extends JComponent implements IElementView {
+public class VertexView extends ElementView {
 
 	private static final long serialVersionUID = 1L;
 	private Vertex vertex;

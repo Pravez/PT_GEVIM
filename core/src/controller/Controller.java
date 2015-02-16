@@ -4,7 +4,7 @@ import data.Graph;
 import data.GraphElement;
 import data.Vertex;
 import view.EdgeView;
-import view.IElementView;
+import view.ElementView;
 import view.VertexView;
 import view.Window;
 
@@ -139,36 +139,43 @@ public class Controller {
 	}
 
 	/**
-	 * Méthode appelée lorsqu'un IElementView a été sélectionné :
+	 * Méthode appelée lorsqu'un ElementView a été sélectionné :
 	 *   - vide la liste des objets sélectionnés
-	 *   - ajoute le IElementView à la liste des IElementView sélectionnés
-	 * @param selectedElement le IElementView sélectionné
+	 *   - ajoute le ElementView à la liste des ElementView sélectionnés
+	 * @param selectedElement le ElementView sélectionné
 	 */
-	public void notifyElementSelected(IElementView selectedElement) {
+	public void notifyElementSelected(ElementView selectedElement) {
 		this.window.getCurrentTab().clearSelectedElements();
 		this.window.getCurrentTab().selectElement(selectedElement);
 	}
 	
 	/**
-	 * Méthode appelée lorsqu'un IElementView sélectionné doit être ajouté à la liste des VertexView sélectionnés
-	 * @param selectedElement le IElementView sélectionné à ajouter
+	 * Méthode appelée lorsqu'un ElementView est sélectionné
+	 * - s'il n'est pas sélectionné, il est ajouté à la liste des ElementView sélectionnés
+	 * - s'il est déjà sélectionné, il est retiré de la liste des ElementView sélectionnés
+	 * @param selectedElement le ElementView sélectionné à ajouter
 	 */
-	public void notifyElementAddToSelection(IElementView selectedElement) {
-		this.window.getCurrentTab().selectElement(selectedElement);
+	public void notifyHandleElementSelected(ElementView selectedElement) {
+		if (this.window.getCurrentTab().getSelectedElements().contains(selectedElement)) {
+			this.window.getCurrentTab().unselectElement(selectedElement);
+		} else {
+			this.window.getCurrentTab().selectElement(selectedElement);
+		}
 	}
 	
 	/**
-	 * Méthode appelée pour retirer un IElementView de la liste des IElementView sélectionnés
-	 * @param element le IElementView sélectionné à retirer de la liste
+	 * Méthode appelée pour retirer un ElementView de la liste des ElementView sélectionnés
+	 * @param element le ElementView sélectionné à retirer de la liste
 	 */
-	public void notifyElementRemoveFromSelection(IElementView element) {
+	public void notifyElementRemoveFromSelection(ElementView element) {
+		/// Attention, méthode jamais appelée
 		this.window.getCurrentTab().selectElement(element);
 	}
 	
 	/**
 	 * Méthode appelée pour vider la liste des IElementView sélectionnés
 	 */
-	public void notifyElementClearSelection() {
+	public void notifyClearSelection() {
 		this.window.getCurrentTab().clearSelectedElements();
 	}
 
@@ -187,11 +194,11 @@ public class Controller {
 
 			case "Delete":
 				if(source.getClass() == VertexView.class) {
-					for (IElementView element : this.window.getCurrentTab().getSelectedElements()) {
+					for (ElementView element : this.window.getCurrentTab().getSelectedElements()) {
 						this.getGraph(this.window.getCurrentTabIndex()).removeVertex(((VertexView) element).getVertex());
 					}
 				} else if(source.getClass() == EdgeView.class) {
-					for(IElementView element : this.window.getCurrentTab().getSelectedElements()){
+					for(ElementView element : this.window.getCurrentTab().getSelectedElements()){
 						this.getGraph(this.window.getCurrentTabIndex()).removeEdge(((EdgeView) element).getEdge());
 					}
 				}
