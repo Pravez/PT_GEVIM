@@ -104,12 +104,12 @@ public class Tab extends JComponent implements Observer {
      * @param g {@link java.awt.Graphics} à partir de quoi dessiner
      */
     public void paintComponent(Graphics g){
-    	for (VertexView v : this.vertexes) {
-    		v.paintComponent(g);
-    	}
-
         for(EdgeView e : this.edges){
             e.paintComponent(g);
+        }
+
+        for (VertexView v : this.vertexes) {
+            v.paintComponent(g);
         }
     }
 
@@ -393,7 +393,6 @@ public class Tab extends JComponent implements Observer {
 		/** A modifier pour n'ajouter que ceux qui sont dans la fenêtre **/
 	}
 
-
     //REGION GRAPHML
 	/**
      * Saves the current graph to an XML doc (XML-like doc)
@@ -401,17 +400,26 @@ public class Tab extends JComponent implements Observer {
      */
     public void saveToGraphml(String fileName) {
 
-        Element root = new Element("Vertexes");
-        org.jdom2.Document toBeSaved = new Document(root);
+        Element graphml = new Element("graphml");
+        graphml.setAttribute("axmlns", "http://graphml.graphdrawing.org/xmlns");
+
+
+        Element graphXML = new Element("graph");
+        graphXML.setAttribute("id", "0");
+        graphXML.setAttribute("edgedefault", "directed");
+
+
+        org.jdom2.Document toBeSaved = new Document(graphXML);
 
         for(Vertex v : this.graph.getVertexes()) {
-            root.addContent(createVertexDocumentElement(v));
+            graphXML.addContent(createVertexDocumentElement(v));
         }
         
         for(Edge e : this.graph.getEdges()) {
-        	root.addContent(createEdgeDocumentElement(e));
+            graphXML.addContent(createEdgeDocumentElement(e));
         }
 
+        showXML(toBeSaved);
         saveXML(fileName, toBeSaved);
     }
 
@@ -422,30 +430,39 @@ public class Tab extends JComponent implements Observer {
      */
     private Element createVertexDocumentElement(Vertex v) {
 
-        Element createdElement = new Element("vertex");
+        Element createdElement = new Element("node");
+        createdElement.setAttribute("id",String.valueOf(v.getValue()));
 
-        Element name      = new Element("name");
-        Element color     = new Element("color");
-        Element thickness = new Element("thickness");
-        Element positionX = new Element("positionX");
-        Element positionY = new Element("positionY");
-        Element shape     = new Element("shape");
+        Element name = new Element("data");
+        name.setAttribute("key","name");
+        Element color     = new Element("data");
+        color.setAttribute("key","color");
+        Element size = new Element("data");
+        size.setAttribute("key","size");
+        Element positionX = new Element("data");
+        positionX.setAttribute("key", "positionX");
+        Element positionY = new Element("data");
+        positionY.setAttribute("key", "positionY");
+        Element shape     = new Element("data");
+        shape.setAttribute("key", "shape");
 
         name.setText(v.getLabel());
-        color.setText(v.getColor().toString());
+        color.setText(String.valueOf(v.getColor().getRGB()));
         positionX.setText(String.valueOf(v.getPosition().x));
         positionY.setText(String.valueOf(v.getPosition().y));
         shape.setText(v.getShape().toString());
 
         createdElement.addContent(name);
         createdElement.addContent(color);
-        createdElement.addContent(thickness);
+        createdElement.addContent(size);
         createdElement.addContent(positionX);
         createdElement.addContent(positionY);
         createdElement.addContent(shape);
 
         return createdElement;
     }
+
+
     
     /**
      * Creates an XML element from a EdgeView
@@ -453,14 +470,26 @@ public class Tab extends JComponent implements Observer {
      * @return
      */
     private Element createEdgeDocumentElement(Edge e) {
-    	Element createdElement = new Element("edge");
-    	
-    	Element name = new Element("name");
-    	
-        name.setText(e.getLabel());
-        
-        createdElement.addContent(name);
-        
+
+        Element createdElement = new Element("edge");
+        createdElement.setAttribute("id",String.valueOf(e.getValue()));
+
+        Element origin = new Element("data");
+        origin.setAttribute("key","origin");
+        Element destination = new Element("data");
+        destination.setAttribute("key", "destination");
+        Element thickness = new Element("data");
+        thickness.setAttribute("key", "thickness");
+
+        origin.setText(String.valueOf(e.getOrigin().getValue()));
+        destination.setText(String.valueOf(e.getDestination().getValue()));
+        thickness.setText(String.valueOf(e.getThickness()));
+
+
+        createdElement.addContent(origin);
+        createdElement.addContent(destination);
+        createdElement.addContent(thickness);
+
         return createdElement;
     }
 
