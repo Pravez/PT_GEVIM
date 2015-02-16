@@ -186,7 +186,9 @@ public class Window extends JFrame{
     	tab.setLayout(null);
         tab.add(new JLabel(title));
         
-        tab.addMouseListener(new TabMouseListener(this.controller, tab, graph));
+        TabMouseListener listener = new TabMouseListener(this.controller, tab, graph);
+        tab.addMouseListener(listener);
+        tab.addMouseMotionListener(listener);
                
     	this.tabs.addTab(title, tab);
     }

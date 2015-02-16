@@ -5,7 +5,6 @@ import controller.EdgeMouseListener;
 import controller.VertexMouseListener;
 import data.Edge;
 import data.Graph;
-import data.GraphElement;
 import data.Observable;
 import data.Vertex;
 
@@ -46,6 +45,10 @@ public class Tab extends JComponent implements Observer {
     private int                   defaultSelectedThickness;
     private int                   defaultSize;
     private Vertex.Shape          defaultShape;
+    
+    /** Sélection par zone **/
+    private Rectangle selectionZone;
+    private Color     selectionColor;
 
     /**
      * Getter du Graph
@@ -83,6 +86,9 @@ public class Tab extends JComponent implements Observer {
         this.defaultSelectedThickness = 2;
         this.defaultSize              = 15;
         this.defaultShape             = Vertex.Shape.SQUARE;
+        
+        this.selectionColor           = Color.CYAN;
+        this.selectionZone            = null;
     }
     
     /**
@@ -105,6 +111,10 @@ public class Tab extends JComponent implements Observer {
      * @param g {@link java.awt.Graphics} à partir de quoi dessiner
      */
     public void paintComponent(Graphics g){
+    	if (this.selectionZone != null) {
+    		g.setColor(this.selectionColor);
+    		g.fillRect(this.selectionZone.x, this.selectionZone.y, this.selectionZone.width, this.selectionZone.height);
+    	}
         for(EdgeView e : this.edges){
             e.paintComponent(g);
         }
@@ -520,6 +530,33 @@ public class Tab extends JComponent implements Observer {
             e.printStackTrace();
         }
     }
+
+	public void launchSelectionZone(Point origin, Point position) {
+		int x      = origin.x > position.x ? position.x : origin.x;
+		int y      = origin.y > position.y ? position.y : origin.y;
+		int width  = origin.x - position.x < 0 ? position.x - origin.x : origin.x - position.x;
+		int height = origin.y - position.y < 0 ? position.y - origin.y : origin.y - position.y;
+		this.selectionZone = new Rectangle(x, y, width, height);
+		this.repaint();
+	}
+
+	public void handleSelectionZone() {
+		// Ici, ajouter les ElementView à la sélection
+		clearSelectedElements();
+		for (VertexView v : this.vertexes) {
+			if (this.selectionZone.contains(v.getPosition())) {
+				selectElement(v);
+			}
+		}
+		for (EdgeView e : this.edges) {
+			if (this.selectionZone.contains(e.getOrigin().getPosition()) && this.selectionZone.contains(e.getDestination().getPosition())) {
+				selectElement(e);
+			}
+		}
+		
+		this.selectionZone = null;
+		this.repaint();
+	}
 
 
     //END REGION

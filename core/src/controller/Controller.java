@@ -227,4 +227,12 @@ public class Controller {
 		this.state = State.valueOf(button.getActionCommand());
 		this.window.setState(this.state);		
 	}
+
+	public void notifyDragging(Point origin, Point position) {
+		this.window.getCurrentTab().launchSelectionZone(origin, position);
+	}
+
+	public void notifyEndDragging() {
+		this.window.getCurrentTab().handleSelectionZone();
+	}
 }

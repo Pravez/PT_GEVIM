@@ -1,7 +1,9 @@
 package controller;
 
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import view.Tab;
 import data.Graph;
@@ -10,11 +12,13 @@ import data.Graph;
  * @author Alexis Dufrenne
  * Classe TabMouseListener, écouteur des événements souris survenant au niveau des Tab
  */
-public class TabMouseListener implements MouseListener {
+public class TabMouseListener implements MouseListener, MouseMotionListener {
 	
 	private Controller controller;
 	private Tab        tab;
 	private Graph      graph;
+	private boolean    dragging;
+	private Point      initDrag;
 	
 	/**
 	 * Constructeur de la classe TabMouseListener
@@ -76,11 +80,7 @@ public class TabMouseListener implements MouseListener {
 	 */
 	@Override
 	public void mousePressed(MouseEvent mouseEvent) {
-		 /*System.out.println("pressed");
-        Vertex vertexTmp = ((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent);
-        if(vertexTmp != null){
-            System.out.println("onVezretex");
-        }*/
+		this.initDrag = new Point(mouseEvent.getX(), mouseEvent.getY());
 	}
 
 	/**
@@ -90,6 +90,21 @@ public class TabMouseListener implements MouseListener {
 	 */
 	@Override
 	public void mouseReleased(MouseEvent mouseEvent) {
+		if (this.dragging) {
+			this.controller.notifyEndDragging();
+			this.dragging = false;
+		}
 		//if(((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent) != null){ }
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent mouseEvent) {
+		this.dragging = true;
+		this.controller.notifyDragging(this.initDrag, mouseEvent.getPoint());
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent mouseEvent) {
+		// appelée à chaque mouvement de la souris
 	}
 }
