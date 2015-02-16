@@ -3,7 +3,6 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Collection;
 
 /**
  * Created by paubreton on 15/02/15.

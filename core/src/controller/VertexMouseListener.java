@@ -5,8 +5,6 @@ import java.awt.event.MouseListener;
 
 import javax.swing.*;
 
-import data.Graph;
-import sun.invoke.util.VerifyType;
 import view.VertexView;
 
 /**
@@ -121,7 +119,11 @@ public class VertexMouseListener implements MouseListener {
 
 		if ( underMouseVertex!=null && underMouseVertex!= vertex){
 			System.out.println("Create an Edge please !");
-			this.controller.addEdge(vertex.getVertex(), underMouseVertex.getVertex());
+			if (this.vertex.getPosition().x < underMouseVertex.getPosition().x) {
+				this.controller.addEdge(vertex.getVertex(), underMouseVertex.getVertex());
+			} else {
+				this.controller.addEdge(underMouseVertex.getVertex(), vertex.getVertex());
+			}
 		}
 
 	}

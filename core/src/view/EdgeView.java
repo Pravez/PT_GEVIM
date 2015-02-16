@@ -44,23 +44,35 @@ public class EdgeView extends JComponent {
         this.destination    = destination;
     }
 
+    /**
+     * Override de la fonction contains pour savoir si le point est contenu par l'EdgeView
+     * Est utilisé par le MouseListener pour savoir si l'on clique sur l'EdgeView
+     * (non-Javadoc)
+     * @see javax.swing.JComponent#contains(int, int)
+     */
     @Override
     public boolean contains(int x, int y) {
-        int radius = 4;
-        int length = (int) sqrt((this.origin.getPosition().x - this.destination.getPosition().x) * (this.origin.getPosition().x - this.destination.getPosition().x) +
-                          (this.origin.getPosition().y - this.destination.getPosition().y) * (this.origin.getPosition().y - this.destination.getPosition().y));
-
-        double angle = acos((this.destination.getPosition().x - this.origin.getPosition().x)/length);
-
-        int vector_y = (int) (cos(angle) * radius);
+    	// La largeur de la zone autour de l'EdgeView
+    	int radius = this.edge.getThickness() > 10 ? this.edge.getThickness() : 10;
+    	// la distance entre le point d'origine et le point de destination de l'EdgeView
+        int length = (int) sqrt((this.destination.getPosition().x - this.origin.getPosition().x) * (this.destination.getPosition().x - this.origin.getPosition().x) +
+                          (this.destination.getPosition().y - this.origin.getPosition().y) * (this.destination.getPosition().y - this.origin.getPosition().y));
+        // la distance en abscisse entre les points d'origine et de destination
+        int length_x = this.destination.getPosition().x - this.origin.getPosition().x;
+        // le déplacement vers le haut pour le premier point de la zone
+        int vector_y = (int) (1.0 * length_x * radius / length);
+        // le déplacement vers la droite pour le premier point de la zone
         int vector_x = (int) sqrt(radius*radius - vector_y*vector_y);
-        vector_y = vector_y < 0 ? -vector_y : vector_y;
-        vector_x = vector_x < 0 ? -vector_x : vector_x;
+        
+        if (this.destination.getPosition().y > this.origin.getPosition().y) { // si le point de destination est plus bas
+        	vector_x = -vector_x; // on inverse le vecteur en abscisse
+        }
 
+        // on instancie les différents points de la zone autour de l'EdgeView
         Point p1 = new Point(this.origin.getPosition().x + vector_x, this.origin.getPosition().y + vector_y);
-        Point p2 = new Point(this.origin.getPosition().x - vector_x, this.origin.getPosition().y - vector_y);
+        Point p2 = new Point(this.destination.getPosition().x + vector_x, this.destination.getPosition().y + vector_y);
         Point p3 = new Point(this.destination.getPosition().x - vector_x, this.destination.getPosition().y - vector_y);
-        Point p4 = new Point(this.destination.getPosition().x + vector_x, this.destination.getPosition().y + vector_y);
+        Point p4 = new Point(this.origin.getPosition().x - vector_x, this.origin.getPosition().y - vector_y);
         return new Polygon(new int[] { p1.x, p2.x, p3.x, p4.x }, new int[] { p1.y, p2.y, p3.y, p4.y }, 4).contains(x, y);
     }
     
@@ -78,24 +90,23 @@ public class EdgeView extends JComponent {
 		RenderingHints    renderHints = new RenderingHints (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		
 		g2d.setRenderingHints(renderHints);
-        /** **/
+        /** A virer, juste pour tester la zone de sélection de l'EdgeView ! **/
         g.setColor(Color.RED);
-        int radius = 10;
-        int length = (int) sqrt((this.origin.getPosition().x - this.destination.getPosition().x) * (this.origin.getPosition().x - this.destination.getPosition().x) +
-                (this.origin.getPosition().y - this.destination.getPosition().y) * (this.origin.getPosition().y - this.destination.getPosition().y));
-
-        double angle = acos((this.destination.getPosition().x - this.origin.getPosition().x)/length);
-
-        int vector_y = (int) (cos(angle) * radius);
+        int radius = this.edge.getThickness() > 10 ? this.edge.getThickness() : 10;
+        int length = (int) sqrt((this.destination.getPosition().x - this.origin.getPosition().x) * (this.destination.getPosition().x - this.origin.getPosition().x) +
+                          (this.destination.getPosition().y - this.origin.getPosition().y) * (this.destination.getPosition().y - this.origin.getPosition().y));
+        int length_x = this.destination.getPosition().x - this.origin.getPosition().x;
+        int vector_y = (int) (1.0 * length_x * radius / length);
         int vector_x = (int) sqrt(radius*radius - vector_y*vector_y);
-
-        vector_y = vector_y < 0 ? -vector_y : vector_y;
-        vector_x = vector_x < 0 ? -vector_x : vector_x;
+        
+        if (this.destination.getPosition().y > this.origin.getPosition().y) {
+        	vector_x = -vector_x;
+        }
 
         Point p1 = new Point(this.origin.getPosition().x + vector_x, this.origin.getPosition().y + vector_y);
-        Point p2 = new Point(this.origin.getPosition().x - vector_x, this.origin.getPosition().y - vector_y);
+        Point p2 = new Point(this.destination.getPosition().x + vector_x, this.destination.getPosition().y + vector_y);
         Point p3 = new Point(this.destination.getPosition().x - vector_x, this.destination.getPosition().y - vector_y);
-        Point p4 = new Point(this.destination.getPosition().x + vector_x, this.destination.getPosition().y + vector_y);
+        Point p4 = new Point(this.origin.getPosition().x - vector_x, this.origin.getPosition().y - vector_y);
         ((Graphics2D) g).fill(new Polygon(new int[]{p1.x, p2.x, p3.x, p4.x}, new int[]{p1.y, p2.y, p3.y, p4.y}, 4));
         /** **/
 		g.setColor(this.color);

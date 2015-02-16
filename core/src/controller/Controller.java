@@ -3,7 +3,6 @@ package controller;
 import data.Graph;
 import data.Vertex;
 import view.EdgeView;
-import view.Tab;
 import view.VertexView;
 import view.Window;
 
