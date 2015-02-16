@@ -9,15 +9,18 @@ import java.awt.event.ActionListener;
  * Classe écoutant les JMenuItem d'un JPopupMenu et associant des actions à ces derniers
  */
 public class ContextMenuActionListener implements ActionListener {
+
     private JMenuItem menuItem;
     private Controller controller;
+    private Object source;
 
     /**
      * Constructeur de la classe ContextMenuActionListener
      */
-    public ContextMenuActionListener (JMenuItem menuItem, Controller controller) {
+    public ContextMenuActionListener (JMenuItem menuItem, Controller controller, Object source) {
         this.menuItem   = menuItem;
         this.controller = controller;
+        this.source = source;
     }
 
     /**
@@ -26,5 +29,5 @@ public class ContextMenuActionListener implements ActionListener {
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
     public void actionPerformed(ActionEvent e) {
-        this.controller.notifyContextMenuItemActivated(menuItem.getActionCommand());    }
+        this.controller.notifyContextMenuItemActivated(menuItem.getActionCommand(), this.source);    }
 }

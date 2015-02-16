@@ -39,7 +39,7 @@ public class VertexViewEditor extends JDialog {
      */
     public VertexViewEditor(Vertex v) {
 
-        setTitle("Vertex Edition");
+        setTitle("Vertex Editor");
 
         setContentPane(this.contentPane);
         setModal(true);

@@ -130,6 +130,17 @@ public class Tab extends JComponent implements Observer {
         }
         return null;
     }
+
+    public VertexView getVertexAt(Point position){
+
+        for(VertexView v : this.vertexes){
+            if(v.getPosition() == position){
+                return v;
+            }
+        }
+
+        return null;
+    }
     
     /**
      * Getter de la forme par défaut des VertexView
@@ -211,8 +222,14 @@ public class Tab extends JComponent implements Observer {
         selectedVertexes.get(0).modifyVertexView();
     }
 
+    public void modifySelectedEdge(){ selectedEdges.get(0).modifyEdgeView(); }
+
     public ArrayList<VertexView> getSelectedVertexes(){
         return this.selectedVertexes;
+    }
+
+    public ArrayList<EdgeView> getSelectedEdges() {
+        return selectedEdges;
     }
 
     /**
@@ -478,7 +495,7 @@ public class Tab extends JComponent implements Observer {
         createdElement.setAttribute("id",String.valueOf(e.getValue()));
 
         Element origin = new Element("data");
-        origin.setAttribute("key","origin");
+        origin.setAttribute("key", "origin");
         Element destination = new Element("data");
         destination.setAttribute("key", "destination");
         Element thickness = new Element("data");
@@ -528,6 +545,8 @@ public class Tab extends JComponent implements Observer {
             e.printStackTrace();
         }
     }
+
+
 
     //END REGION
 }

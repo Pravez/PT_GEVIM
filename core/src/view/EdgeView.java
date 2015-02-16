@@ -16,7 +16,8 @@ import static java.lang.Math.sqrt;
 public class EdgeView extends JComponent {
 
 	private static final long serialVersionUID = 1L;
-	private Edge       edge;
+
+    private Edge       edge;
     private VertexView origin;
     private VertexView destination;
     private int        thickness;
@@ -52,6 +53,7 @@ public class EdgeView extends JComponent {
      */
     @Override
     public boolean contains(int x, int y) {
+
     	// La largeur de la zone autour de l'EdgeView
     	int radius = this.edge.getThickness() > 10 ? this.edge.getThickness() : 10;
     	// la distance entre le point d'origine et le point de destination de l'EdgeView
@@ -210,6 +212,10 @@ public class EdgeView extends JComponent {
     public void setDestination(VertexView destination) {
         this.destination = destination;
     }
+
+    public Edge getEdge() {
+        return edge;
+    }
     
     /**
      * Méthode appelée pour mettre à jour les paramètres d'affichage de l'EdgeView s'il est sélectionné ou non
@@ -220,4 +226,12 @@ public class EdgeView extends JComponent {
 		this.thickness = (isHover) ? this.hoverThickness : this.edge.getThickness();
 		this.repaint();
 	}
+
+    public void modifyEdgeView() {
+
+        //EdgeViewEditor edit = new EdgeViewEditor(this.edge);
+
+        //EdgeView newVertex = edit.getModifiedEdge();
+
+    }
 }

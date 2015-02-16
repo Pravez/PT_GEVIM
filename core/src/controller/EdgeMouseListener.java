@@ -23,7 +23,7 @@ public class EdgeMouseListener implements MouseListener {
 	 */
 	public EdgeMouseListener(Controller controller, EdgeView edge) {
 		this.controller = controller;
-		this.edge     = edge;
+		this.edge       = edge;
 	}
 
 	/**
@@ -36,7 +36,7 @@ public class EdgeMouseListener implements MouseListener {
 
 		for(String s : menuItems){
 			JMenuItem jmi = new JMenuItem(s);
-			jmi.addActionListener(new ContextMenuActionListener(jmi, controller));
+			jmi.addActionListener(new ContextMenuActionListener(jmi, controller, this.edge));
 			jpm.add(jmi);
 		}
 
@@ -59,15 +59,15 @@ public class EdgeMouseListener implements MouseListener {
 	            break;
 
 	        case MouseEvent.BUTTON3: // Clic droit
-	        	/*if (e.isControlDown()) {
-	        		this.controller.notifyVertexAddToSelection(this.vertex);
+	        	if (e.isControlDown()) {
+	        		this.controller.notifyEdgeAddToSelection(this.edge);
 	        	} else {
-	        		this.controller.notifyVertexSelected(this.vertex);
+	        		this.controller.notifyEdgeSelected(this.edge);
 	        	}
 
 				//Création du menu contextuel avec Edit et Delete comme options.
 				JPopupMenu contextMenu = initNewPopupMenu(new String[]{"Edit", "Delete"});
-	            contextMenu.show(this.vertex, e.getX(), e.getY());*/
+	            contextMenu.show(this.edge, e.getX(), e.getY());
 	            break;
             default:
             	break;

@@ -170,17 +170,34 @@ public class Controller {
 	/**
 	 * Méthode appellée lorsqu'un item d'un menu contextuel a été sollicité. Elle associé à son nom une action.
 	 * @param text le nom de l'item source
+	 * @param source
 	 */
-	public void notifyContextMenuItemActivated(String text) {
+	public void notifyContextMenuItemActivated(String text, Object source) {
+
 		switch(text){
 			case "Edit":
+				if(source.getClass() == VertexView.class) {
 					this.window.getCurrentTab().modifySelectedVertex();
+				} else if(source.getClass() == EdgeView.class) {
+					this.window.getCurrentTab().modifySelectedEdge();
+				}
+
 				break;
 
 			case "Delete":
-					for(VertexView v : this.window.getCurrentTab().getSelectedVertexes()){
+				if(source.getClass() == VertexView.class) {
+
+					for (VertexView v : this.window.getCurrentTab().getSelectedVertexes()) {
 						this.getGraph(this.window.getCurrentTabIndex()).removeVertex(v.getVertex());
 					}
+
+				} else if(source.getClass() == EdgeView.class) {
+
+					for(EdgeView e : this.window.getCurrentTab().getSelectedEdges()){
+						this.getGraph(this.window.getCurrentTabIndex()).removeEdge(e.getEdge());
+					}
+				}
+
 				this.getGraph(this.window.getCurrentTabIndex()).setChanged();
 
 				break;
@@ -188,6 +205,7 @@ public class Controller {
 			default:
 				break;
 		}
+
 		this.window.getCurrentTab().repaint();
 	}
 

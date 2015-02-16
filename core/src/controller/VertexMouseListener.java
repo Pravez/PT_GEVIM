@@ -39,7 +39,7 @@ public class VertexMouseListener implements MouseListener {
 
 		for(String s : menuItems){
 			JMenuItem jmi = new JMenuItem(s);
-			jmi.addActionListener(new ContextMenuActionListener(jmi, controller));
+			jmi.addActionListener(new ContextMenuActionListener(jmi, controller, vertex));
 			jpm.add(jmi);
 		}
 
