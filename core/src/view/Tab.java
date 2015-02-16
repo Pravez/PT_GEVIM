@@ -80,8 +80,8 @@ public class Tab extends JComponent implements Observer {
         this.defaultSelectedColor     = Color.BLUE;
         this.defaultThickness         = 1;
         this.defaultSelectedThickness = 2;
-        this.defaultSize              = 20;
-        this.defaultShape             = Vertex.Shape.CROSS;
+        this.defaultSize              = 15;
+        this.defaultShape             = Vertex.Shape.SQUARE;
     }
     
     /**

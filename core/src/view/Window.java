@@ -111,6 +111,7 @@ public class Window extends JFrame{
         toolBar = new JToolBar();
         toolBar.setFloatable(false);
         addToolBarImageButton(toolBar, "cursor.png", Controller.State.SELECTION.name(), true);
+        addToolBarImageButton(toolBar, "edit.png", Controller.State.CREATE.name(), false);
         addToolBarImageButton(toolBar, "zoom.png", Controller.State.ZOOM_IN.name(), false);
         addToolBarButton(toolBar, "Undo");
         addToolBarButton(toolBar, "Redo");

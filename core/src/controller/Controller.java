@@ -154,6 +154,7 @@ public class Controller {
 						this.getGraph(this.window.getCurrentTabIndex()).getVertexes().remove(v.getVertex());
 						this.window.getCurrentTab().getVertexes().remove(v);
 					}
+					this.window.getCurrentTab().repaint();
 				break;
 
 			default:
