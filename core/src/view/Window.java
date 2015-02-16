@@ -10,13 +10,11 @@ import controller.TabMouseListener;
 import controller.ToolBarButtonActionListener;
 import controller.ToolBarContextActionListener;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import data.Graph;
 
 import java.awt.*;
-import java.io.IOException;
 
 /**
  * @author Alexis Dufrenne
@@ -30,6 +28,9 @@ public class Window extends JFrame{
     private int               height;
     private Controller        controller;
     private JPanel            back;
+
+
+
     private JTabbedPane       tabs; // ensemble des onglets
     private JToolBar          toolBar;
     
@@ -42,11 +43,15 @@ public class Window extends JFrame{
     public Window(int w, int h, Controller controller) {
         initWindow(w, h, controller);
         initMenu();
-        initToolMenuBar();
         initBackPanel();
+        initToolMenuBar();
 
         tabs.setOpaque(true);
         tabs.setBackground(Color.GRAY);
+
+        //Partie undo-redo, en cours d'implémentation
+        /*UndoPanel undoRedo = new UndoPanel();
+        super.getContentPane().add(undoRedo, BorderLayout.NORTH);*/
 
         this.setVisible(true);
     }
@@ -205,14 +210,18 @@ public class Window extends JFrame{
     public int getCurrentTabIndex(){ return tabs.getSelectedIndex(); }
 
 	public void setState(Controller.State state, JButton button) {
-		System.out.println(state);
-		for (Component c : this.toolBar.getComponents()) {
-			if (((JButton) c).getActionCommand() == state.name()) {
-				((JButton) c).setSelected(true);
-				System.out.println("selected !");
-			} else {
-				((JButton) c).setSelected(false);
-			}
-		}
-	}
+        System.out.println(state);
+        for (Component c : this.toolBar.getComponents()) {
+            if (((JButton) c).getActionCommand() == state.name()) {
+                ((JButton) c).setSelected(true);
+                System.out.println("selected !");
+            } else {
+                ((JButton) c).setSelected(false);
+            }
+        }
+    }
+
+    public JTabbedPane getTabs() {
+        return tabs;
+    }
 }

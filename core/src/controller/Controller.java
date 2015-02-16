@@ -3,6 +3,7 @@ package controller;
 import data.Graph;
 import data.Vertex;
 import view.EdgeView;
+import view.Tab;
 import view.VertexView;
 import view.Window;
 
@@ -104,7 +105,6 @@ public class Controller {
 	public void notifyMenuItemActivated(String type) {
 		switch (type) {
 		case "New":
-			//if (JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment lancer une nouvelle partie ?", "Nouvelle Partie", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION)
 			String title = "Tab " + this.window.getTabCount();
 			title = JOptionPane.showInputDialog("Saisissez le nom du nouveau graphe :", title);
 			if (title != null) {
@@ -114,6 +114,12 @@ public class Controller {
 			break;
 			
 		case "Close":
+			//Attention, la fermeture ne libère probablement pas toute la mémoire ...
+			if (JOptionPane.showConfirmDialog(this.window,"Souhaitez vous vraiment quitter ? (Vous devriez peut-être sauvegarder ...?)", "Fermer le programme", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION){
+				this.graphs.clear();
+				this.window.getTabs().removeAll();
+				this.window.dispose();
+			}
 			break;
 
 		case "Save":
