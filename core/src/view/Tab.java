@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controller;
+import controller.EdgeMouseListener;
 import controller.VertexMouseListener;
 import data.Edge;
 import data.Graph;
@@ -182,7 +183,7 @@ public class Tab extends JComponent implements Observer {
      * Méthode pour ajouter un EdgeView à la liste des EdgeView sélectionnés
      * @param e le EdgeView à ajouter à la liste
      */
-    public void selectedEdge(EdgeView e){
+    public void selectEdge(EdgeView e){
     	e.setColor(this.defaultSelectedColor);
         this.selectedEdges.add(e);
     }
@@ -336,6 +337,7 @@ public class Tab extends JComponent implements Observer {
      */
     public void addEdge(Edge edge, VertexView origin, VertexView destination ){
     	EdgeView edgeView = new EdgeView(edge, this.defaultSelectedThickness, this.defaultSelectedColor, origin, destination);
+        edgeView.addMouseListener(new EdgeMouseListener(this.controller, edgeView));
         this.edges.add(edgeView);
         super.add(edgeView);
     }

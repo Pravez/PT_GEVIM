@@ -2,6 +2,7 @@ package controller;
 
 import data.Graph;
 import data.Vertex;
+import view.EdgeView;
 import view.VertexView;
 import view.Window;
 
@@ -21,7 +22,7 @@ public class Controller {
 	private Window window;
 	private ArrayList<Graph> graphs = new ArrayList<Graph>();
 	private State            state;
-	
+
 	public static enum State { SELECTION, ZOOM_IN, ZOOM_OUT, CREATE };
 
 	/**
@@ -125,7 +126,7 @@ public class Controller {
 
 	/**
 	 * Méthode appelée lorsqu'un VertexView a été sélectionné :
-	 *   - vide la liste des VertexView sélectionnés
+	 *   - vide la liste des objets sélectionnés
 	 *   - ajoute le VertexView à la liste des VertexView sélectionnés
 	 * @param selectedVertext le VertexView sélectionné
 	 */
@@ -140,6 +141,25 @@ public class Controller {
 	 */
 	public void notifyVertexAddToSelection(VertexView selectedVertex) {
 		this.window.getCurrentTab().selectVertex(selectedVertex);
+	}
+
+	/**
+	 * Méthode appelée lorsqu'un EdgeView a été sélectionné :
+	 *   - vide la liste des objets sélectionnés
+	 *   - ajoute le EdgeView à la liste des VertexView sélectionnés
+	 * @param selectedEdge le EdgeView sélectionné
+	 */
+	public void notifyEdgeSelected(EdgeView selectedEdge) {
+		this.window.getCurrentTab().clearSelectedItem();
+		this.window.getCurrentTab().selectEdge(selectedEdge);
+	}
+
+	/**
+	 * Méthode appelée lorsqu'un EdgeView sélectionné doit être ajouté à la liste des EdgeView sélectionnés
+	 * @param selectedEdge le EdgeView sélectionné à ajouter
+	 */
+	public void notifyEdgeAddToSelection(EdgeView selectedEdge) {
+		this.window.getCurrentTab().selectEdge(selectedEdge);
 	}
 
 	/**
