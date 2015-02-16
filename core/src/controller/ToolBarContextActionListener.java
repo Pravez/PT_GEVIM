@@ -16,7 +16,7 @@ public class ToolBarContextActionListener implements ActionListener {
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		this.controller.notifyToolBarContextActivated(this.button.getActionCommand());
+	public void actionPerformed(ActionEvent e) {
+		this.controller.notifyToolBarContextActivated(this.button);
 	}
 }
