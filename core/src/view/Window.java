@@ -10,11 +10,9 @@ import controller.TabMouseListener;
 import controller.ToolBarButtonActionListener;
 import controller.ToolBarContextActionListener;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import data.Graph;
-import undoRedo.UndoPanel;
 
 import java.awt.*;
 import java.io.IOException;
@@ -43,13 +41,15 @@ public class Window extends JFrame{
     public Window(int w, int h, Controller controller) {
         initWindow(w, h, controller);
         initMenu();
-       // initToolMenuBar();
-        UndoPanel undoRedo = new UndoPanel();
+        initBackPanel();
+        initToolMenuBar();
+
         tabs.setOpaque(true);
         tabs.setBackground(Color.GRAY);
 
-        initBackPanel();
-        super.getContentPane().add(undoRedo, BorderLayout.NORTH);
+        //Partie undo-redo, en cours d'implémentation
+        /*UndoPanel undoRedo = new UndoPanel();
+        super.getContentPane().add(undoRedo, BorderLayout.NORTH);*/
 
         this.setVisible(true);
     }
