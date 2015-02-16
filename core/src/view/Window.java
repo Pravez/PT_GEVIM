@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import data.Graph;
+import undoRedo.UndoPanel;
 
 import java.awt.*;
 import java.io.IOException;
@@ -42,11 +43,13 @@ public class Window extends JFrame{
     public Window(int w, int h, Controller controller) {
         initWindow(w, h, controller);
         initMenu();
-        initToolMenuBar();
-        initBackPanel();
-
+       // initToolMenuBar();
+        UndoPanel undoRedo = new UndoPanel();
         tabs.setOpaque(true);
         tabs.setBackground(Color.GRAY);
+
+        initBackPanel();
+        super.getContentPane().add(undoRedo, BorderLayout.NORTH);
 
         this.setVisible(true);
     }
