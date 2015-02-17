@@ -170,6 +170,7 @@ public class Graph extends Observable {
             }
     	}
         this.elements.remove(element);
+        this.setChanged();
     }
 
     /**

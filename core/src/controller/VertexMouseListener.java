@@ -56,28 +56,30 @@ public class VertexMouseListener implements MouseListener, MouseMotionListener {
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		switch(e.getButton()) {
-	        case MouseEvent.BUTTON1: // Clic gauche
-	        	if (e.isControlDown()) {
-	        		this.controller.notifyHandleElementSelected(this.vertex);
-	        	} else {
-	        		this.controller.notifyElementSelected(this.vertex);
-	        	}
-	            break;
+		if(this.controller.getState()== Controller.State.SELECTION) {
+			switch (e.getButton()) {
+				case MouseEvent.BUTTON1: // Clic gauche
+					if (e.isControlDown()) {
+						this.controller.notifyHandleElementSelected(this.vertex);
+					} else {
+						this.controller.notifyElementSelected(this.vertex);
+					}
+					break;
 
-	        case MouseEvent.BUTTON3: // Clic droit
-	        	if (e.isControlDown()) {
-	        		this.controller.notifyHandleElementSelected(this.vertex);
-	        	} else {
-	        		this.controller.notifyElementSelected(this.vertex);
-	        	}
+				case MouseEvent.BUTTON3: // Clic droit
+					if (e.isControlDown()) {
+						this.controller.notifyHandleElementSelected(this.vertex);
+					} else {
+						this.controller.notifyElementSelected(this.vertex);
+					}
 
-				//Création du menu contextuel avec Edit et Delete comme options.
-				JPopupMenu contextMenu = initNewPopupMenu(new String[]{"Edit", "Delete"});
-	            contextMenu.show(this.vertex, e.getX(), e.getY());
-	            break;
-            default:
-            	break;
+					//Création du menu contextuel avec Edit et Delete comme options.
+					JPopupMenu contextMenu = initNewPopupMenu(new String[]{"Edit", "Delete"});
+					contextMenu.show(this.vertex, e.getX(), e.getY());
+					break;
+				default:
+					break;
+			}
 		}
 	}
 

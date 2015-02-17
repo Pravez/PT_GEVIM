@@ -192,10 +192,12 @@ public class Controller {
 			break;
 		case "Delete":
 			this.getGraph(this.window.getCurrentTabIndex()).removeGraphElement(source.getGraphElement());
+
 			break;
 		default:
 			break;
 		}
+
 		this.window.getCurrentTab().repaint();
 	}
 
@@ -213,7 +215,8 @@ public class Controller {
 	 */
 	public void notifyToolBarContextActivated(JButton button) {
 		this.state = State.valueOf(button.getActionCommand());
-		this.window.setState(this.state);		
+		this.window.setState(this.state);
+		this.window.getCurrentTab().clearSelectedElements();
 	}
 
 	public void notifyDragging(Point origin, Point position) {

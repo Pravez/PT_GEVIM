@@ -99,8 +99,10 @@ public class TabMouseListener implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseDragged(MouseEvent mouseEvent) {
-		this.dragging = true;
-		this.controller.notifyDragging(this.initDrag, mouseEvent.getPoint());
+		if(this.controller.getState() == Controller.State.SELECTION) {
+			this.dragging = true;
+			this.controller.notifyDragging(this.initDrag, mouseEvent.getPoint());
+		}
 	}
 
 	@Override
