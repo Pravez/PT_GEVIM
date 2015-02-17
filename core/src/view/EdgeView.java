@@ -1,6 +1,8 @@
 package view;
 
 import data.Edge;
+import data.GraphElement;
+import data.Graph;
 
 import java.awt.*;
 
@@ -88,25 +90,6 @@ public class EdgeView extends ElementView {
 		RenderingHints    renderHints = new RenderingHints (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		
 		g2d.setRenderingHints(renderHints);
-        /** A virer, juste pour tester la zone de sélection de l'EdgeView ! **/
-        g.setColor(Color.RED);
-        int radius = this.edge.getThickness() > 10 ? this.edge.getThickness() : 10;
-        int length = (int) sqrt((this.destination.getPosition().x - this.origin.getPosition().x) * (this.destination.getPosition().x - this.origin.getPosition().x) +
-                          (this.destination.getPosition().y - this.origin.getPosition().y) * (this.destination.getPosition().y - this.origin.getPosition().y));
-        int length_x = this.destination.getPosition().x - this.origin.getPosition().x;
-        int vector_y = (int) (1.0 * length_x * radius / length);
-        int vector_x = (int) sqrt(radius*radius - vector_y*vector_y);
-        
-        if (this.destination.getPosition().y > this.origin.getPosition().y) {
-        	vector_x = -vector_x;
-        }
-
-        Point p1 = new Point(this.origin.getPosition().x + vector_x, this.origin.getPosition().y + vector_y);
-        Point p2 = new Point(this.destination.getPosition().x + vector_x, this.destination.getPosition().y + vector_y);
-        Point p3 = new Point(this.destination.getPosition().x - vector_x, this.destination.getPosition().y - vector_y);
-        Point p4 = new Point(this.origin.getPosition().x - vector_x, this.origin.getPosition().y - vector_y);
-        ((Graphics2D) g).fill(new Polygon(new int[]{p1.x, p2.x, p3.x, p4.x}, new int[]{p1.y, p2.y, p3.y, p4.y}, 4));
-        /** **/
 		g.setColor(this.color);
 		((Graphics2D) g).setStroke(new BasicStroke(this.thickness));
 		g.drawLine(this.origin.getPosition().x, this.origin.getPosition().y, this.destination.getPosition().x, this.destination.getPosition().y);
@@ -225,9 +208,14 @@ public class EdgeView extends ElementView {
 	}
 
     @Override
-    public void modify() {
-        //EdgeViewEditor edit = new EdgeViewEditor(this.edge);
+    public void modify(Graph graph) {
+        EdgeViewEditor edit = new EdgeViewEditor(this.edge, graph);
 
-        //EdgeView newVertex = edit.getModifiedEdge();
+        Edge newEdge = edit.getModifiedEdge();
     }
+
+	@Override
+	public GraphElement getGraphElement() {
+		return this.edge;
+	}
 }

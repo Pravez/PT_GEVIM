@@ -141,4 +141,9 @@ public class Vertex extends GraphElement {
         this.position.x += vectorX;
         this.position.y += vectorY;
     }
+
+	@Override
+	public boolean isVertex() {
+		return true;
+	}
 }

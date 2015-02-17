@@ -1,5 +1,8 @@
 package view;
 
+import data.Graph;
+import data.GraphElement;
+
 import javax.swing.JComponent;
 
 public abstract class ElementView extends JComponent {
@@ -8,5 +11,6 @@ public abstract class ElementView extends JComponent {
 	/** Regrouper color et hoverColor ? **/
 	
 	public abstract void updateHover(boolean isHover);
-	public abstract void modify();
+	public abstract void modify(Graph graph);
+	public abstract GraphElement getGraphElement();
 }

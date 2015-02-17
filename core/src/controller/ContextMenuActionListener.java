@@ -1,6 +1,9 @@
 package controller;
 
 import javax.swing.*;
+
+import view.ElementView;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,12 +15,12 @@ public class ContextMenuActionListener implements ActionListener {
 
     private JMenuItem menuItem;
     private Controller controller;
-    private Object source;
+    private ElementView source;
 
     /**
      * Constructeur de la classe ContextMenuActionListener
      */
-    public ContextMenuActionListener (JMenuItem menuItem, Controller controller, Object source) {
+    public ContextMenuActionListener (JMenuItem menuItem, Controller controller, ElementView source) {
         this.menuItem   = menuItem;
         this.controller = controller;
         this.source = source;

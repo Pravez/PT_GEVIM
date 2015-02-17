@@ -6,7 +6,7 @@ import java.awt.Color;
  * @author Alexis Dufrenne
  * Classe GraphElement, les Vertex et les Edge héritent de cette classe qui regroupe les éléments communs
  */
-public class GraphElement {
+public abstract class GraphElement {
 	
 	private String label;
 	private int    value;
@@ -80,4 +80,10 @@ public class GraphElement {
 	public void setColor(Color color) {
 		this.color = color;
 	}
+	
+	/**
+	 * Méthode pour savoir si le GraphElement est un Vertex ou non
+	 * @return le résultat sous la forme d'un booléen
+	 */
+	public abstract boolean isVertex();
 }

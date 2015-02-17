@@ -96,4 +96,9 @@ public class Edge extends GraphElement {
     public void setThickness(int thickness) {
     	this.thickness = thickness;
     }
+
+	@Override
+	public boolean isVertex() {
+		return false;
+	}
 }

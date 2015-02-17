@@ -5,13 +5,13 @@ import data.Graph;
 import data.Vertex;
 
 import javax.swing.*;
-import javax.swing.text.Position;
 import java.awt.*;
 import java.awt.event.*;
 
 public class EdgeViewEditor extends JDialog {
 
-    private JPanel contentPane;
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
     private JTextField edgeThickness;

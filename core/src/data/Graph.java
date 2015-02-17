@@ -14,8 +14,7 @@ public class Graph extends Observable {
 
 	protected UndoManager     undo = new UndoManager();
 
-    private ArrayList<Edge>   edges;
-    private ArrayList<Vertex> vertexes;
+    private ArrayList<GraphElement> elements;
 
     private String            name;
     private String            file;
@@ -24,8 +23,7 @@ public class Graph extends Observable {
      * Constructeur de la classe Graph
      */
     public Graph() {
-        this.edges    = new ArrayList<Edge>();
-        this.vertexes = new ArrayList<Vertex>();
+        this.elements = new ArrayList<GraphElement>();
     }
 
     /**
@@ -33,24 +31,23 @@ public class Graph extends Observable {
      * @param g
      */
     public Graph(Graph g) {
-    	this.edges    = new ArrayList<Edge>(g.edges);
-    	this.vertexes = new ArrayList<Vertex>(g.vertexes);
+    	this.elements    = new ArrayList<GraphElement>(g.elements);
     }
 
     /**
-     * Getter de la liste des Vertex du Graph
-     * @return la liste des Vertex
+     * Getter de la liste des GraphElement du Graph
+     * @return la liste des GraphElement
      */
-    public ArrayList<Vertex> getVertexes() {
-        return vertexes;
+    public ArrayList<GraphElement> getGraphElements() {
+        return this.elements;
     }
 
     /**
-     * Setter de la liste des Vertex du graph
-     * @param vertexes la nouvelle liste de Vertex
+     * Setter de la liste des GraphElement du graph
+     * @param elements la nouvelle liste de GraphElement
      */
-    public void setVertexes(ArrayList<Vertex> vertexes) {
-        this.vertexes = vertexes;
+    public void setGraphElements(ArrayList<GraphElement> elements) {
+        this.elements = elements;
     }
 
     /**
@@ -58,15 +55,27 @@ public class Graph extends Observable {
      * @return la liste des Edge
      */
     public ArrayList<Edge> getEdges() {
-        return this.edges;
+    	ArrayList<Edge> edges = new ArrayList<Edge>();
+    	for(GraphElement element : this.elements) {
+    		if (!element.isVertex()) {
+    			edges.add((Edge) element);
+    		}
+    	}
+        return edges;
     }
 
     /**
-     * Setter de la liste des Edge du graph
-     * @param edges la nouvelle liste de Edge
+     * Getter de la liste des Vertex du Graph
+     * @return la liste des Vertex
      */
-    public void setEdges(ArrayList<Edge> edges) {
-        this.edges = edges;
+    public ArrayList<Vertex> getVertexes() {
+    	ArrayList<Vertex> vertexes = new ArrayList<Vertex>();
+    	for(GraphElement element : this.elements) {
+    		if (element.isVertex()) {
+    			vertexes.add((Vertex) element);
+    		}
+    	}
+        return vertexes;
     }
 
     /**
@@ -110,7 +119,7 @@ public class Graph extends Observable {
      */
     public void createVertex(Color color, Point position, int size, Vertex.Shape shape) {
     	Vertex vertex = new Vertex(color, position, size, shape);
-        this.vertexes.add(vertex);
+        this.elements.add(vertex);
         this.setChanged();
     }
 
@@ -123,7 +132,7 @@ public class Graph extends Observable {
      */
     public void createEdge(Color color, Vertex origin, Vertex destination, int thickness) {
     	Edge edge = new Edge(color, origin, destination, thickness);
-        this.edges.add(edge);
+        this.elements.add(edge);
         this.setChanged();
     }
 
@@ -149,24 +158,18 @@ public class Graph extends Observable {
         }
         this.setChanged();
     }
-
+    
     /**
-     * Supprime une edge
-     * @param edge edge qui doit être supprimée
+     * Supprime un GraphElement
+     * @param element GraphElement qui doit être supprimé
      */
-    public void removeEdge(Edge edge){
-        this.edges.remove(edge);
-    }
-
-    /**
-     * Supprime un vertex, ainsi que toutes ses edges associées
-     * @param vertex vertex qui sera supprimé
-     */
-    public void removeVertex(Vertex vertex){
-        for(Edge e : vertex.getEdges()){
-            this.removeEdge(e);
-        }
-        this.vertexes.remove(vertex);
+    public void removeGraphElement(GraphElement element) {
+    	if (element.isVertex()) {
+    		for(Edge e : ((Vertex) element).getEdges()){
+                this.elements.remove(e);
+            }
+    	}
+        this.elements.remove(element);
     }
 
     /**
@@ -175,7 +178,7 @@ public class Graph extends Observable {
      */
 	@Override
 	public void setChanged() {
-		this.notifyObservers(new Object[]{this.vertexes, this.edges});
+		this.notifyObservers(this.elements);
 	}
 
 	/**
@@ -184,6 +187,6 @@ public class Graph extends Observable {
 	 */
 	@Override
 	public Object getState() {
-		return this.vertexes;
+		return this.elements;
 	}
 }

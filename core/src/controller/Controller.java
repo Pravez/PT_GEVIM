@@ -1,11 +1,8 @@
 package controller;
 
 import data.Graph;
-import data.GraphElement;
 import data.Vertex;
-import view.EdgeView;
 import view.ElementView;
-import view.VertexView;
 import view.Window;
 
 import javax.swing.*;
@@ -182,31 +179,18 @@ public class Controller {
 	/**
 	 * Méthode appellée lorsqu'un item d'un menu contextuel a été sollicité. Elle associé à son nom une action.
 	 * @param text le nom de l'item source
-	 * @param source
+	 * @param source l'ElementView ayant activé le menu contextuel
 	 */
-	public void notifyContextMenuItemActivated(String text, Object source) {
-
+	public void notifyContextMenuItemActivated(String text, ElementView source) {
 		switch(text){
-			case "Edit":
-				this.window.getCurrentTab().modifySelectedElement();
-
-				break;
-
-			case "Delete":
-				if(source.getClass() == VertexView.class) {
-					for (ElementView element : this.window.getCurrentTab().getSelectedElements()) {
-						this.getGraph(this.window.getCurrentTabIndex()).removeVertex(((VertexView) element).getVertex());
-					}
-				} else if(source.getClass() == EdgeView.class) {
-					for(ElementView element : this.window.getCurrentTab().getSelectedElements()){
-						this.getGraph(this.window.getCurrentTabIndex()).removeEdge(((EdgeView) element).getEdge());
-					}
-				}
-				this.getGraph(this.window.getCurrentTabIndex()).setChanged();
-				break;
-
-			default:
-				break;
+		case "Edit":
+			this.window.getCurrentTab().modifySelectedElement();
+			break;
+		case "Delete":
+			this.getGraph(this.window.getCurrentTabIndex()).removeGraphElement(source.getGraphElement());
+			break;
+		default:
+			break;
 		}
 		this.window.getCurrentTab().repaint();
 	}
