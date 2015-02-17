@@ -225,15 +225,27 @@ public class Tab extends JComponent implements Observer {
         this.repaint();
     }
 
+    /**
+     * Méthode pour modifier le premier élément sélectionné
+     */
     public void modifySelectedElement() {
+    	/// A modifier --> soit modifier tous, soit le premier qui est un VertexView
     	selectedElements.get(0).modify(this.graph);
     	this.repaint();
     }
 
+    /**
+     * Modifier pour récupérer la liste des ElementView sélectionnés
+     * @return la liste des ElementView sélectionnés
+     */
     public ArrayList<ElementView> getSelectedElements(){
         return this.selectedElements;
     }
     
+    /**
+     * Méthode pour déplacer les ElementView sélectionnés
+     * @param vector le décalage à effectuer pour chaque élément par rapport à leur position
+     */
     public void moveSelectedElements(Point vector) {
     	for (ElementView element : this.selectedElements) {
     		if (element.getGraphElement().isVertex()) {
@@ -252,6 +264,52 @@ public class Tab extends JComponent implements Observer {
         this.selectedElements.clear();
         this.repaint();
     }
+    
+    /**
+     * Méthode pour définir la zone de sélection par rapport à la position initiale de la souris et la position courante :
+     * - définit la zone de sélection
+     * - appelle la méthode pour sélectionner les ELementView dans la zone de sélection
+     * @param origin le point d'origine de la zone de sélection
+     * @param position la position courante de la souris
+     */
+    public void launchSelectionZone(Point origin, Point position) {
+		int x      = origin.x > position.x ? position.x : origin.x;
+		int y      = origin.y > position.y ? position.y : origin.y;
+		int width  = origin.x - position.x < 0 ? position.x - origin.x : origin.x - position.x;
+		int height = origin.y - position.y < 0 ? position.y - origin.y : origin.y - position.y;
+		this.selectionZone = new Rectangle(x, y, width, height);
+		selectElementsInZone();
+		this.repaint();
+	}
+	
+    /**
+     * Méthode pour sélectionner les ElementView présents dans la zone de sélection
+     */
+	public void selectElementsInZone() {
+		clearSelectedElements();
+		for (VertexView v : this.vertexes) {
+			if (this.selectionZone.contains(v.getPosition())) {
+				selectElement(v);
+			}
+		}
+		for (EdgeView e : this.edges) {
+			if (this.selectionZone.contains(e.getOrigin().getPosition()) && this.selectionZone.contains(e.getDestination().getPosition())) {
+				selectElement(e);
+			}
+		}
+	}
+
+	/**
+	 * Méthode pour clore la sélection d'ElementView :
+	 * - sélectionne les ElementView dans la zone de sélection
+	 * - détruit la zone de sélection
+	 * - redessine la feuille de dessin
+	 */
+	public void handleSelectionZone() {
+		selectElementsInZone();
+		this.selectionZone = null;
+		this.repaint();
+	}
 
     /**
      * Getter du nom du Tab
@@ -369,18 +427,6 @@ public class Tab extends JComponent implements Observer {
     }
 
     /**
-     * Méthode pour déplacer la liste de VertexView sélectionnés dans une certaine direction
-     * @param vectorX la direction du vecteur de déplacement en abscisse
-     * @param vectorY la direction du vecteur de déplacement en ordonnée
-     */
-    /*public void moveSelectedVertexes(int vectorX, int vectorY){
-        for(VertexView vertex : this.selectedVertexes){
-            vertex.move2(vectorX, vectorY);
-        }
-    }*/ 
-    /** Cette méthode devrait être remplacée par une méthode déplaçant directement les Vertex dans le Graph ? **/
-
-    /**
      * Méthode pour supprimer la liste des VertexView et en recréer à partir des données du Graph observé
      * (non-Javadoc)
      * @see view.Observer#update(data.Observable, java.lang.Object)
@@ -388,7 +434,6 @@ public class Tab extends JComponent implements Observer {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void update(Observable observable, Object object) {
-
 		this.vertexes.clear();
         this.edges.clear();
 		super.removeAll();
@@ -544,37 +589,6 @@ public class Tab extends JComponent implements Observer {
             e.printStackTrace();
         }
     }
-
-	public void launchSelectionZone(Point origin, Point position) {
-		int x      = origin.x > position.x ? position.x : origin.x;
-		int y      = origin.y > position.y ? position.y : origin.y;
-		int width  = origin.x - position.x < 0 ? position.x - origin.x : origin.x - position.x;
-		int height = origin.y - position.y < 0 ? position.y - origin.y : origin.y - position.y;
-		this.selectionZone = new Rectangle(x, y, width, height);
-		selectElementsInZone();
-		this.repaint();
-	}
-	
-	public void selectElementsInZone() {
-		clearSelectedElements();
-		for (VertexView v : this.vertexes) {
-			if (this.selectionZone.contains(v.getPosition())) {
-				selectElement(v);
-			}
-		}
-		for (EdgeView e : this.edges) {
-			if (this.selectionZone.contains(e.getOrigin().getPosition()) && this.selectionZone.contains(e.getDestination().getPosition())) {
-				selectElement(e);
-			}
-		}
-	}
-
-	public void handleSelectionZone() {
-		selectElementsInZone();
-		this.selectionZone = null;
-		this.repaint();
-	}
-
 
     //END REGION
 }
