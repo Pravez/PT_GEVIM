@@ -6,7 +6,6 @@ import view.ElementView;
 import view.Window;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.util.ArrayList;
 
