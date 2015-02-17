@@ -3,7 +3,6 @@ package controller;
 import data.Graph;
 import data.Vertex;
 import view.ElementView;
-import view.VertexView;
 import view.Window;
 
 import javax.swing.*;

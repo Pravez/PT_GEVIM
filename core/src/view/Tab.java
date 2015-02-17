@@ -18,7 +18,6 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
