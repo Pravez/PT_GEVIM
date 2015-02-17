@@ -3,9 +3,11 @@ package controller;
 import data.Graph;
 import data.Vertex;
 import view.ElementView;
+import view.VertexView;
 import view.Window;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -174,6 +176,10 @@ public class Controller {
 	public void notifyClearSelection() {
 		this.window.getCurrentTab().clearSelectedElements();
 	}
+	
+	public void notifyRepaintTab() {
+		this.window.getCurrentTab().repaint();
+	}
 
 	/**
 	 * Méthode appellée lorsqu'un item d'un menu contextuel a été sollicité. Elle associé à son nom une action.
@@ -217,5 +223,11 @@ public class Controller {
 
 	public void notifyEndDragging() {
 		this.window.getCurrentTab().handleSelectionZone();
+	}
+
+	public void notifyMoveElement(ElementView element, Point destination) {
+		if (element.getGraphElement().isVertex()) {
+			this.window.getCurrentTab().getGraph().moveVertex((Vertex) element.getGraphElement(), destination);	
+		}
 	}
 }

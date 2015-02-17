@@ -5,6 +5,7 @@ import controller.EdgeMouseListener;
 import controller.VertexMouseListener;
 import data.Edge;
 import data.Graph;
+import data.GraphElement;
 import data.Observable;
 import data.Vertex;
 
@@ -17,6 +18,7 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -326,7 +328,9 @@ public class Tab extends JComponent implements Observer {
      */
     public void addVertex(Vertex vertex){
     	VertexView vertexView = new VertexView(vertex, this.defaultSelectedColor);
-    	vertexView.addMouseListener(new VertexMouseListener(this.controller, vertexView));
+    	VertexMouseListener listener = new VertexMouseListener(this.controller, vertexView);
+    	vertexView.addMouseListener(listener);
+    	vertexView.addMouseMotionListener(listener);
         this.vertexes.add(vertexView);
         super.add(vertexView);
     }
@@ -377,23 +381,22 @@ public class Tab extends JComponent implements Observer {
 		this.vertexes.clear();
         this.edges.clear();
 		super.removeAll();
-		for (Vertex v : (ArrayList<Vertex>)((Object[])object)[0]) {
-			addVertex(v);
+		// pour chaque GraphElement du Graph
+		for (GraphElement element : (ArrayList<GraphElement>)object) {
+			if (element.isVertex()) {
+				addVertex((Vertex)element);
+			} else {
+				VertexView src= null, dst = null;
+	            ListIterator<VertexView> search = vertexes.listIterator();
+
+	            while (search.hasNext() && (src == null || dst == null)){
+	                VertexView tmp = search.next();
+	                if (tmp.getVertex() == ((Edge) element).getOrigin()) src = tmp;
+	                else if (tmp.getVertex() == ((Edge) element).getDestination()) dst = tmp;
+	            }
+	            if ( src != null && dst != null) addEdge((Edge) element, src, dst);
+			}
 		}
-
-        for (Edge e : (ArrayList<Edge>)((Object[])object)[1]){
-            VertexView src= null, dst = null;
-            ListIterator<VertexView> search = vertexes.listIterator();
-
-            while (search.hasNext() && (src == null || dst == null)){
-                VertexView tmp = search.next();
-                if (tmp.getVertex() == e.getOrigin()) src = tmp;
-                else if (tmp.getVertex() == e.getDestination()) dst = tmp;
-            }
-            if ( src != null && dst != null) addEdge(e, src, dst);
-
-        }
-
 		this.repaint();
 		/** A modifier pour n'ajouter que ceux qui sont dans la fenêtre **/
 	}

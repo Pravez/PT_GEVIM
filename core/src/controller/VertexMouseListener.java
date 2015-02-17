@@ -1,7 +1,9 @@
 package controller;
 
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.*;
 
@@ -11,10 +13,11 @@ import view.VertexView;
  * @author Alexis Dufrenne
  * Classe VertexMouseListener, écouteur des événements souris survenant au niveau des VertexView
  */
-public class VertexMouseListener implements MouseListener {
+public class VertexMouseListener implements MouseListener, MouseMotionListener {
 	
 	private Controller controller;
 	private VertexView vertex;
+	private boolean    dragging;
 
 	private static VertexView underMouseVertex = null;
 
@@ -103,8 +106,7 @@ public class VertexMouseListener implements MouseListener {
 	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
 	 */
 	@Override
-	public void mousePressed(MouseEvent e)  {
-	}
+	public void mousePressed(MouseEvent e) { }
 
 	/**
 	 * Méthode appelée lorsque l'on relâche le bouton pressé de la souris sur le VertexView
@@ -113,6 +115,10 @@ public class VertexMouseListener implements MouseListener {
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		if (this.dragging && this.controller.getState() != Controller.State.CREATE) {
+			/// Pertinent ?? Utiliser la même chose que dans mouseDragged ?
+			this.controller.notifyMoveElement(this.vertex, new Point(e.getX(), e.getY()));
+		}
 		// ici appeler la méthode pour créer un nouveau vertex avec un edge entre les deux
 		if ( underMouseVertex!=null && underMouseVertex!= vertex){
 			System.out.println("Create an Edge please !");
@@ -122,5 +128,18 @@ public class VertexMouseListener implements MouseListener {
 				this.controller.addEdge(underMouseVertex.getVertex(), vertex.getVertex());
 			}
 		}
+		this.dragging = false;
 	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		this.dragging = true;
+		if (this.controller.getState() != Controller.State.CREATE) {
+			this.vertex.setPosition(new Point(e.getX(), e.getY()));
+			this.controller.notifyRepaintTab();
+		}
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) { }
 }
