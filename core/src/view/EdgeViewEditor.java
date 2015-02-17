@@ -5,7 +5,6 @@ import data.Graph;
 import data.Vertex;
 
 import javax.swing.*;
-import javax.swing.text.Position;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -30,6 +29,7 @@ public class EdgeViewEditor extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+        this.setVisible(true);
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

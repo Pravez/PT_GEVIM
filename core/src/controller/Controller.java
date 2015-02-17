@@ -1,15 +1,12 @@
 package controller;
 
 import data.Graph;
-import data.GraphElement;
 import data.Vertex;
-import view.EdgeView;
 import view.ElementView;
 import view.VertexView;
 import view.Window;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -193,14 +190,8 @@ public class Controller {
 				break;
 
 			case "Delete":
-				if(source.getClass() == VertexView.class) {
-					for (ElementView element : this.window.getCurrentTab().getSelectedElements()) {
-						this.getGraph(this.window.getCurrentTabIndex()).removeVertex(((VertexView) element).getVertex());
-					}
-				} else if(source.getClass() == EdgeView.class) {
-					for(ElementView element : this.window.getCurrentTab().getSelectedElements()){
-						this.getGraph(this.window.getCurrentTabIndex()).removeEdge(((EdgeView) element).getEdge());
-					}
+				for (ElementView element : this.window.getCurrentTab().getSelectedElements()) {
+					this.getGraph(this.window.getCurrentTabIndex()).removeVertex(((VertexView) element).getVertex());
 				}
 				this.getGraph(this.window.getCurrentTabIndex()).setChanged();
 				break;

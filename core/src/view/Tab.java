@@ -221,7 +221,7 @@ public class Tab extends JComponent implements Observer {
     }
 
     public void modifySelectedElement() {
-    	selectedElements.get(0).modify();
+    	selectedElements.get(0).modify(this.graph);
     	this.repaint();
     }
 

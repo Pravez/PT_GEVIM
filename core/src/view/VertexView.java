@@ -1,5 +1,7 @@
 package view;
 
+import data.Graph;
+import data.GraphElement;
 import data.Vertex;
 
 import java.awt.*;
@@ -150,9 +152,10 @@ public class VertexView extends ElementView {
 
     /**
      * Méthode appellée pour invoquer un JDialog permettant de modifier les informations d'un VertexView dans le détail.
+     * @param graph
      */
     @Override
-    public void modify(){
+    public void modify(Graph graph){
         VertexViewEditor edit = new VertexViewEditor(this.vertex);
 
         Vertex newVertex = edit.getModifiedVertex();
@@ -162,7 +165,13 @@ public class VertexView extends ElementView {
         this.vertex.setLabel(newVertex.getLabel());
     }
 
+    @Override
+    public GraphElement getAssociatedGraphElement() {
+        return this.vertex;
+    }
+
     public Vertex getVertex() {
         return vertex;
     }
+
 }

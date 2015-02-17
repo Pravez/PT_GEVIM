@@ -1,6 +1,8 @@
 package view;
 
 import data.Edge;
+import data.Graph;
+import data.GraphElement;
 
 import java.awt.*;
 
@@ -225,9 +227,14 @@ public class EdgeView extends ElementView {
 	}
 
     @Override
-    public void modify() {
-        //EdgeViewEditor edit = new EdgeViewEditor(this.edge);
+    public void modify(Graph graph) {
+        EdgeViewEditor edit = new EdgeViewEditor(this.edge, graph);
 
-        //EdgeView newVertex = edit.getModifiedEdge();
+        Edge newVertex = edit.getModifiedEdge();
+    }
+
+    @Override
+    public GraphElement getAssociatedGraphElement() {
+        return this.edge;
     }
 }
