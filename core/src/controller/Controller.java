@@ -230,14 +230,40 @@ public class Controller {
 			this.window.getCurrentTab().clearSelectedElements();
 	}
 
+	/**
+	 * Méthode appellée lors d'un drag de l'utilisateur sur un onglet
+	 * @param origin Le point initial d'où a commencé le drag
+	 * @param position Le point actuel où en est le drag
+	 */
 	public void notifyDragging(Point origin, Point position) {
 		this.window.getCurrentTab().launchSelectionZone(origin, position);
 	}
 
+	/**
+	 * Méthode appellée au début d'un drag d'un vertex vers un autre, pour dessiner une "pseudo-edge" temporaire qui n'est qu'une
+	 * succession de points sans consistance.
+	 * @param origin Le point d'origine de l'Edge temporaire
+	 * @param position Le point de destination de l'Edge.
+	 */
+	public void notifyDraggingEdge(Point origin, Point position) {
+		this.window.getCurrentTab().launchTemporarilyEdge(origin, position);
+	}
+
+	public void notifyEndDraggingEdge(){
+		this.window.getCurrentTab().endTemporarilyEdge();
+	}
+
+	/**
+	 * Méthode notifiant la fin du dragging de l'utilisateur
+	 */
 	public void notifyEndDragging() {
 		this.window.getCurrentTab().handleSelectionZone();
 	}
-	
+
+	/**
+	 * Méthode faisant appel à déplacer des éléments sur un Onglet, suivant un certain point.
+	 * @param vector Le point vers lequel doivent se déplacer les éléments
+	 */
 	public void notifyMoveSelectedElements(Point vector) {
 		this.window.getCurrentTab().moveSelectedElements(vector);
 	}

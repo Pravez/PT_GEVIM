@@ -14,10 +14,12 @@ import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import javax.sound.sampled.Line;
 import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Line2D;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,6 +53,11 @@ public class Tab extends JComponent implements Observer {
     private Rectangle selectionZone;
     private Color     selectionColor;
     private Color     selectionBorderColor;
+
+    /** Edge temporaire **/
+    private Point originEdge;
+    private Point destinationEdge;
+    private Color edgeColor;
 
     /**
      * Getter du Graph
@@ -92,6 +99,10 @@ public class Tab extends JComponent implements Observer {
         this.selectionColor           = new Color(172, 211, 244);
         this.selectionBorderColor     = new Color(107, 153, 189);
         this.selectionZone            = null;
+
+        this.originEdge               = null;
+        this.destinationEdge          = null;
+        this.edgeColor                = new Color(0,0,0);
     }
     
     /**
@@ -120,6 +131,10 @@ public class Tab extends JComponent implements Observer {
     		g.setColor(this.selectionBorderColor);
     		g.drawRect(this.selectionZone.x, this.selectionZone.y, this.selectionZone.width, this.selectionZone.height);
     	}
+        if(this.originEdge != null && this.destinationEdge != null){
+            g.setColor(this.edgeColor);
+            g.drawLine(this.originEdge.x, this.originEdge.y, this.destinationEdge.x, this.destinationEdge.y);
+        }
         for(EdgeView e : this.edges){
             e.paintComponent(g);
         }
@@ -281,6 +296,26 @@ public class Tab extends JComponent implements Observer {
 		selectElementsInZone();
 		this.repaint();
 	}
+
+    /**
+     * Méthode appellée pour dessiner une Edge temporaire qui n'a pas de substance, pour donner un aperçu à l'utilisateur.
+     * @param origin Point depuis lequel part cet Edge temporaire
+     * @param position Point jusqu'où elle va
+     */
+    public void launchTemporarilyEdge(Point origin, Point position) {
+        this.originEdge = origin;
+        this.destinationEdge = position;
+        this.repaint();
+    }
+
+    /**
+     * Méthode signifiant la fin de l'Edge temporaire et la détruisant
+     */
+    public void endTemporarilyEdge() {
+        this.originEdge = null;
+        this.destinationEdge = null;
+        this.repaint();
+    }
 	
     /**
      * Méthode pour sélectionner les ElementView présents dans la zone de sélection
@@ -589,6 +624,9 @@ public class Tab extends JComponent implements Observer {
             e.printStackTrace();
         }
     }
+
+
+
 
     //END REGION
 }

@@ -127,6 +127,7 @@ public class VertexMouseListener implements MouseListener, MouseMotionListener {
 				this.controller.addEdge(underMouseVertex.getVertex(), vertex.getVertex());
 			}
 		}
+		this.controller.notifyEndDraggingEdge();
 		this.dragging = false;
 	}
 
@@ -137,6 +138,8 @@ public class VertexMouseListener implements MouseListener, MouseMotionListener {
 			this.controller.notifyMoveSelectedElements(new Point(e.getX() - initDrag.x, e.getY() - initDrag.y));
 			this.controller.notifyRepaintTab();
 			this.initDrag = new Point(e.getX(), e.getY());
+		} else if (this.controller.getState() == Controller.State.CREATE){
+			this.controller.notifyDraggingEdge(this.vertex.getPosition(), e.getPoint());
 		}
 	}
 
