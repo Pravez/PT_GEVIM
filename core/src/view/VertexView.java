@@ -172,4 +172,8 @@ public class VertexView extends ElementView {
 	public GraphElement getGraphElement() {
 		return this.vertex;
 	}
+
+	public void move(Point vector) {
+		this.vertex.setPosition(new Point(this.vertex.getPosition().x + vector.x, this.vertex.getPosition().y + vector.y));		
+	}
 }

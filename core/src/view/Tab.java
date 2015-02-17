@@ -234,6 +234,14 @@ public class Tab extends JComponent implements Observer {
     public ArrayList<ElementView> getSelectedElements(){
         return this.selectedElements;
     }
+    
+    public void moveSelectedElements(Point vector) {
+    	for (ElementView element : this.selectedElements) {
+    		if (element.getGraphElement().isVertex()) {
+    			((VertexView)element).move(vector);
+    		}
+    	}
+    }
 
     /**
      * Méthode pour déselectionner tous les ElementView sélectionnés
@@ -544,11 +552,11 @@ public class Tab extends JComponent implements Observer {
 		int width  = origin.x - position.x < 0 ? position.x - origin.x : origin.x - position.x;
 		int height = origin.y - position.y < 0 ? position.y - origin.y : origin.y - position.y;
 		this.selectionZone = new Rectangle(x, y, width, height);
+		selectElementsInZone();
 		this.repaint();
 	}
-
-	public void handleSelectionZone() {
-		// Ici, ajouter les ElementView à la sélection
+	
+	public void selectElementsInZone() {
 		clearSelectedElements();
 		for (VertexView v : this.vertexes) {
 			if (this.selectionZone.contains(v.getPosition())) {
@@ -560,7 +568,10 @@ public class Tab extends JComponent implements Observer {
 				selectElement(e);
 			}
 		}
-		
+	}
+
+	public void handleSelectionZone() {
+		selectElementsInZone();
 		this.selectionZone = null;
 		this.repaint();
 	}

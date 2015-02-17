@@ -224,6 +224,10 @@ public class Controller {
 	public void notifyEndDragging() {
 		this.window.getCurrentTab().handleSelectionZone();
 	}
+	
+	public void notifyMoveSelectedElements(Point vector) {
+		this.window.getCurrentTab().moveSelectedElements(vector);
+	}
 
 	public void notifyMoveElement(ElementView element, Point destination) {
 		if (element.getGraphElement().isVertex()) {
