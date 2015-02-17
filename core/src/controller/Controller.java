@@ -54,7 +54,7 @@ public class Controller {
 	}
 
 	public void addEdge (Vertex src, Vertex dst){
-		this.window.getCurrentTab().getGraph().createEdge(this.window.getCurrentTab().getDefaultColor(),src, dst,this.window.getCurrentTab().getDefaultThickness());
+		this.window.getCurrentTab().getGraph().createEdge(this.window.getCurrentTab().getDefaultColor(), src, dst, this.window.getCurrentTab().getDefaultThickness());
 	}
 
 	public void removeVertex(Graph g, Object o){
@@ -120,11 +120,19 @@ public class Controller {
 			
 		case "Close":
 			//Attention, la fermeture ne libère probablement pas toute la mémoire ...
-			if (JOptionPane.showConfirmDialog(this.window,"Souhaitez vous vraiment quitter ? (Vous devriez peut-être sauvegarder ...?)", "Fermer le programme", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION){
-				this.graphs.clear();
-				this.window.getTabs().removeAll();
-				this.window.dispose();
+			if(this.window.getTabCount() > 0) {
+				if (JOptionPane.showConfirmDialog(this.window, "Souhaitez vous fermer ce graphe ? (Vous devriez peut-être sauvegarder ...?)", "Fermer le graphe", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
+					this.graphs.remove(this.graphs.get(this.window.getCurrentTabIndex()));
+					this.window.getTabs().remove(this.window.getCurrentTab());
+				}
+			}else {
+				if (JOptionPane.showConfirmDialog(this.window, "Souhaitez vous vraiment quitter ?", "Fermer le programme", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
+					this.graphs.clear();
+					this.window.getTabs().removeAll();
+					this.window.dispose();
+				}
 			}
+
 			break;
 
 		case "Save":
@@ -186,19 +194,20 @@ public class Controller {
 	 * @param source l'ElementView ayant activé le menu contextuel
 	 */
 	public void notifyContextMenuItemActivated(String text, ElementView source) {
-		switch(text){
-		case "Edit":
-			this.window.getCurrentTab().modifySelectedElement();
-			break;
-		case "Delete":
-			this.getGraph(this.window.getCurrentTabIndex()).removeGraphElement(source.getGraphElement());
+			switch (text) {
+				case "Edit":
+					this.window.getCurrentTab().modifySelectedElement();
+					break;
+				case "Delete":
+					this.getGraph(this.window.getCurrentTabIndex()).removeGraphElement(source.getGraphElement());
 
-			break;
-		default:
-			break;
-		}
+					break;
+				default:
+					break;
+			}
 
-		this.window.getCurrentTab().repaint();
+			this.window.getCurrentTab().repaint();
+
 	}
 
 	/**
@@ -216,7 +225,9 @@ public class Controller {
 	public void notifyToolBarContextActivated(JButton button) {
 		this.state = State.valueOf(button.getActionCommand());
 		this.window.setState(this.state);
-		this.window.getCurrentTab().clearSelectedElements();
+
+		if(this.window.getTabCount() > 0)
+			this.window.getCurrentTab().clearSelectedElements();
 	}
 
 	public void notifyDragging(Point origin, Point position) {

@@ -212,6 +212,9 @@ public class EdgeView extends ElementView {
         EdgeViewEditor edit = new EdgeViewEditor(this.edge, graph);
 
         Edge newEdge = edit.getModifiedEdge();
+
+        this.edge.setThickness(newEdge.getThickness());
+        this.edge.setColor(newEdge.getColor());
     }
 
 	@Override

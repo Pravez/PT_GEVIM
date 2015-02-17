@@ -24,21 +24,22 @@ public class EdgeViewEditor extends JDialog {
 
     public EdgeViewEditor(Edge edge, Graph graph) {
 
-        initComponents(edge, graph);
         this.setTitle("Edge editor");
+
+        initComponents(edge, graph);
+
 
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-        this.setVisible(true);
 
-        buttonOK.addActionListener(new ActionListener() {
+        this.buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
             }
         });
 
-        buttonCancel.addActionListener(new ActionListener() {
+        this.buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
@@ -56,6 +57,9 @@ public class EdgeViewEditor extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        this.pack();
+        this.setVisible(true);
     }
 
     private void initComponents(Edge edge, Graph graph) {
@@ -111,10 +115,10 @@ public class EdgeViewEditor extends JDialog {
 
     private void onOK() {
 
-        /*this.edgeView.setColor(this.edgeViewColor.getBackground());
-        this.edgeView.setThickness(Integer.parseInt(this.edgeThickness.getText()));
+        this.edge.setColor(this.edgeViewColor.getBackground());
+        this.edge.setThickness(Integer.parseInt(this.edgeThickness.getText()));
 
-        this.edgeView.setOrigin(((Tab)this.edgeView.getParent()).getVertexAt(getPointFromString((String) this.originVertex.getSelectedItem())));
+        /*this.edgeView.setOrigin(((Tab)this.edgeView.getParent()).getVertexAt(getPointFromString((String) this.originVertex.getSelectedItem())));
         this.edgeView.setDestination(((Tab) this.edgeView.getParent()).getVertexAt(getPointFromString((String) this.destinationVertex.getSelectedItem())));
 
 */
@@ -130,37 +134,6 @@ public class EdgeViewEditor extends JDialog {
         ColorChooser cc = new ColorChooser(this.edgeViewColor.getBackground());
         this.edgeViewColor.setBackground(cc.getColor());
 
-    }
-
-    private Point getPointFromString(String string){
-
-        String position = string;
-        position.replace("(", "");
-        position.replace(")", "");
-        char[] positionArray = position.toCharArray();
-
-        int firstParameter=0;
-        int secondParameter=0;
-        String toBeParsed = "";
-
-        for(int i=0; i<positionArray.length;i++){
-
-            if(positionArray[i] != ','){
-
-                toBeParsed+=positionArray[i];
-            } else if(i != positionArray.length) {
-
-                firstParameter = Integer.parseInt(toBeParsed);
-                toBeParsed = "";
-            }else {
-                secondParameter = Integer.parseInt(toBeParsed);
-            }
-
-        }
-
-        Point createdPoint = new Point(firstParameter, secondParameter);
-
-        return createdPoint;
     }
 
     public Edge getModifiedEdge(){ return this.edge; }

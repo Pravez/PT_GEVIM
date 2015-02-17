@@ -59,6 +59,10 @@ public class EdgeMouseListener implements MouseListener {
 	        	} else {
 	        		this.controller.notifyElementSelected(this.edge);
 	        	}
+			} else if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
+				//Création du menu contextuel avec Edit et Delete comme options.
+				JPopupMenu contextMenu = initNewPopupMenu(new String[]{"Edit", "Delete"});
+				contextMenu.show(this.edge, e.getX(), e.getY());
 			}
 			break;
 		case ZOOM_IN:
@@ -66,11 +70,7 @@ public class EdgeMouseListener implements MouseListener {
 		case ZOOM_OUT:
 			break;
 		}
-		if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
-			//Création du menu contextuel avec Edit et Delete comme options.
-			JPopupMenu contextMenu = initNewPopupMenu(new String[]{"Edit", "Delete"});
-            contextMenu.show(this.edge, e.getX(), e.getY());
-		}
+
 	}
 
 	/**

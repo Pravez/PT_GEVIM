@@ -56,30 +56,26 @@ public class VertexMouseListener implements MouseListener, MouseMotionListener {
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(this.controller.getState()== Controller.State.SELECTION) {
-			switch (e.getButton()) {
-				case MouseEvent.BUTTON1: // Clic gauche
+		switch(controller.getState()){
+			case SELECTION:
+				if(e.getButton() == MouseEvent.BUTTON1) {
 					if (e.isControlDown()) {
 						this.controller.notifyHandleElementSelected(this.vertex);
 					} else {
 						this.controller.notifyElementSelected(this.vertex);
 					}
-					break;
-
-				case MouseEvent.BUTTON3: // Clic droit
-					if (e.isControlDown()) {
-						this.controller.notifyHandleElementSelected(this.vertex);
-					} else {
-						this.controller.notifyElementSelected(this.vertex);
-					}
-
+				}else if (e.getButton() == MouseEvent.BUTTON3) {
 					//Création du menu contextuel avec Edit et Delete comme options.
 					JPopupMenu contextMenu = initNewPopupMenu(new String[]{"Edit", "Delete"});
 					contextMenu.show(this.vertex, e.getX(), e.getY());
-					break;
-				default:
-					break;
-			}
+				}
+				break;
+			case ZOOM_IN:
+				break;
+			case ZOOM_OUT:
+				break;
+			case CREATE:
+				break;
 		}
 	}
 
