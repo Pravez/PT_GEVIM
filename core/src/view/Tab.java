@@ -51,6 +51,7 @@ public class Tab extends JComponent implements Observer {
     /** Sélection par zone **/
     private Rectangle selectionZone;
     private Color     selectionColor;
+    private Color     selectionBorderColor;
 
     /**
      * Getter du Graph
@@ -89,7 +90,8 @@ public class Tab extends JComponent implements Observer {
         this.defaultSize              = 15;
         this.defaultShape             = Vertex.Shape.SQUARE;
         
-        this.selectionColor           = Color.CYAN;
+        this.selectionColor           = new Color(172, 211, 244);
+        this.selectionBorderColor     = new Color(107, 153, 189);
         this.selectionZone            = null;
     }
     
@@ -116,6 +118,8 @@ public class Tab extends JComponent implements Observer {
     	if (this.selectionZone != null) {
     		g.setColor(this.selectionColor);
     		g.fillRect(this.selectionZone.x, this.selectionZone.y, this.selectionZone.width, this.selectionZone.height);
+    		g.setColor(this.selectionBorderColor);
+    		g.drawRect(this.selectionZone.x, this.selectionZone.y, this.selectionZone.width, this.selectionZone.height);
     	}
         for(EdgeView e : this.edges){
             e.paintComponent(g);
