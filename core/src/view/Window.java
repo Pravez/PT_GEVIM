@@ -23,8 +23,6 @@ public class Window extends JFrame{
     private Controller        controller;
     private JPanel            back;
 
-
-
     private JTabbedPane       tabs; // ensemble des onglets
     private JToolBar          toolBar;
     
@@ -229,11 +227,9 @@ public class Window extends JFrame{
     public int getCurrentTabIndex(){ return tabs.getSelectedIndex(); }
 
 	public void setState(Controller.State state) {
-        System.out.println(state);
         for (Component c : this.toolBar.getComponents()) {
             if (((JButton) c).getActionCommand() == state.name()) {
                 ((JButton) c).setSelected(true);
-                System.out.println("selected !");
             } else {
                 ((JButton) c).setSelected(false);
             }
