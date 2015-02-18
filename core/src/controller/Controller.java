@@ -172,20 +172,17 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * Méthode appelée lorsque l'on gère une sélection :
+	 * - si l'élément n'est pas dans la sélection, on vide les ElementView sélectionné et on met le nouveau ElementView
+	 * - sinon on ne fait rien
+	 * @param selectedElement
+	 */
 	public void notifyHandleElement(ElementView selectedElement) {
 		if (!this.window.getCurrentTab().getSelectedElements().contains(selectedElement)) {
 			this.window.getCurrentTab().clearSelectedElements();
 			this.window.getCurrentTab().selectElement(selectedElement);
 		}
-	}
-	
-	/**
-	 * Méthode appelée pour retirer un ElementView de la liste des ElementView sélectionnés
-	 * @param element le ElementView sélectionné à retirer de la liste
-	 */
-	public void notifyElementRemoveFromSelection(ElementView element) {
-		/// Attention, méthode jamais appelée
-		this.window.getCurrentTab().selectElement(element);
 	}
 	
 	/**
@@ -195,6 +192,9 @@ public class Controller {
 		this.window.getCurrentTab().clearSelectedElements();
 	}
 	
+	/**
+	 * Méthode appelée pour demander de rafficher le Tab en cours
+	 */
 	public void notifyRepaintTab() {
 		this.window.getCurrentTab().repaint();
 	}
@@ -307,11 +307,5 @@ public class Controller {
 	 */
 	public void notifyMoveSelectedElements(Point vector) {
 		this.window.getCurrentTab().moveSelectedElements(vector);
-	}
-
-	public void notifyMoveElement(ElementView element, Point destination) {
-		if (element.getGraphElement().isVertex()) {
-			this.window.getCurrentTab().getGraph().moveVertex((Vertex) element.getGraphElement(), destination);	
-		}
 	}
 }

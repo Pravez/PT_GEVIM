@@ -42,7 +42,7 @@ public class VertexMouseListener implements MouseListener, MouseMotionListener {
 		if (e.isControlDown()) {
 			this.controller.notifyHandleElementSelected(this.vertex);
 		} else {
-			this.controller.notifyElementSelected(this.vertex);
+			this.controller.notifyHandleElement(this.vertex);
 		}
 	}
 
@@ -139,6 +139,9 @@ public class VertexMouseListener implements MouseListener, MouseMotionListener {
 	public void mouseReleased(MouseEvent e) {
 		if (this.dragging && this.controller.getState() != Controller.State.CREATE) {
 			this.controller.notifyMoveSelectedElements(new Point(e.getX() - initDrag.x, e.getY() - initDrag.y));
+		}
+		if (this.controller.getState() == Controller.State.SELECTION && !e.isControlDown()) {
+			this.controller.notifyHandleElement(this.vertex);
 		}
 		if (underMouseVertex != null && underMouseVertex != vertex){
 			if (this.vertex.getPosition().x < underMouseVertex.getPosition().x) {
