@@ -49,6 +49,13 @@ public class Edge extends GraphElement {
         CURRENT_VALUE++;
     }
 
+    public Edge(Edge element) {
+        super(element);
+        this.origin = element.origin;
+        this.destination = element.destination;
+        this.thickness = element.thickness;
+    }
+
     /**
      * Getter du Vertex d'origine de l'Edge
      * @return le Vertex d'origine

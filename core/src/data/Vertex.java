@@ -16,7 +16,7 @@ public class Vertex extends GraphElement {
     private int             size;
     private Shape           shape;
     private ArrayList<Edge> edges;
-    
+
     public static enum Shape { SQUARE, CIRCLE, TRIANGLE, CROSS };
 
     /**
@@ -34,6 +34,14 @@ public class Vertex extends GraphElement {
         this.shape    = shape;
         this.edges    = new ArrayList<Edge>();
         CURRENT_VALUE++;
+    }
+
+    public Vertex(Vertex element) {
+        super(element);
+        this.position = element.position;
+        this.size = element.size;
+        this.shape = element.shape;
+        this.edges = element.edges;
     }
 
     /**
