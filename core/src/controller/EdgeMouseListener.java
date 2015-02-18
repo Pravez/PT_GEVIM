@@ -15,7 +15,6 @@ public class EdgeMouseListener implements MouseListener {
 	private Controller controller;
 	private EdgeView edge;
 
-
 	/**
 	 * Constructeur de la classe VertexMouseListener
 	 * @param controller le Controller
@@ -79,9 +78,7 @@ public class EdgeMouseListener implements MouseListener {
 	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
 	 */
 	@Override
-	public void mouseEntered(MouseEvent e) {
-		System.out.println("Mouse entered on edge");
-	}
+	public void mouseEntered(MouseEvent e) { }
 
 	/**
 	 * Méthode appelée lorsque le curseur de la souris quitte la zone du VertexView
@@ -89,8 +86,7 @@ public class EdgeMouseListener implements MouseListener {
 	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
 	 */
 	@Override
-	public void mouseExited(MouseEvent e) {
-	}
+	public void mouseExited(MouseEvent e) { }
 
 	/**
 	 * Méthode appelée lorsque l'on presse un bouton de la souris sur le VertexView
@@ -98,9 +94,7 @@ public class EdgeMouseListener implements MouseListener {
 	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
 	 */
 	@Override
-	public void mousePressed(MouseEvent e)  {
-		System.out.println("Mouse pressed on EdgeView");
-	}
+	public void mousePressed(MouseEvent e) { }
 
 	/**
 	 * Méthode appelée lorsque l'on relâche le bouton pressé de la souris sur le VertexView
@@ -108,6 +102,5 @@ public class EdgeMouseListener implements MouseListener {
 	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
 	 */
 	@Override
-	public void mouseReleased(MouseEvent e) {
-	}
+	public void mouseReleased(MouseEvent e) { }
 }

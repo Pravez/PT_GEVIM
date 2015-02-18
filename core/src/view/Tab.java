@@ -268,6 +268,14 @@ public class Tab extends JComponent implements Observer {
     		}
     	}
     }
+    
+    /**
+     * Méthode pour savoir si la liste des ElementView sélectionnés est vide ou non
+     * @return le résultat sous la forme d'un booléen
+     */
+    public boolean selectedElementsIsEmpty() {
+    	return this.selectedElements.isEmpty();
+    }
 
     /**
      * Méthode pour déselectionner tous les ElementView sélectionnés

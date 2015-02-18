@@ -168,6 +168,13 @@ public class Controller {
 		}
 	}
 	
+	public void notifyHandleElement(ElementView selectedElement) {
+		if (!this.window.getCurrentTab().getSelectedElements().contains(selectedElement)) {
+			this.window.getCurrentTab().clearSelectedElements();
+			this.window.getCurrentTab().selectElement(selectedElement);
+		}
+	}
+	
 	/**
 	 * Méthode appelée pour retirer un ElementView de la liste des ElementView sélectionnés
 	 * @param element le ElementView sélectionné à retirer de la liste
@@ -194,20 +201,20 @@ public class Controller {
 	 * @param source l'ElementView ayant activé le menu contextuel
 	 */
 	public void notifyContextMenuItemActivated(String text, ElementView source) {
-			switch (text) {
-				case "Edit":
-					this.window.getCurrentTab().modifySelectedElement();
-					break;
-				case "Delete":
-					this.getGraph(this.window.getCurrentTabIndex()).removeGraphElement(source.getGraphElement());
-
-					break;
-				default:
-					break;
-			}
-
-			this.window.getCurrentTab().repaint();
-
+		switch (text) {
+			case "Edit":
+				this.window.getCurrentTab().modifySelectedElement();
+				break;
+			case "Delete":
+				for (ElementView e : this.window.getCurrentTab().getSelectedElements()) {
+					this.getGraph(this.window.getCurrentTabIndex()).removeGraphElement(e.getGraphElement());
+				}
+				this.window.getCurrentTab().clearSelectedElements();
+				break;
+			default:
+				break;
+		}
+		this.window.getCurrentTab().repaint();
 	}
 
 	/**
@@ -215,7 +222,22 @@ public class Controller {
 	 * @param text le nom du bouton
 	 */
 	public void notifyToolBarItemActivated(String text) {
-		// TODO Auto-generated method stub
+		switch(text){
+			case "New":
+				String title = "Tab " + this.window.getTabCount();
+				title = JOptionPane.showInputDialog("Saisissez le nom du nouveau graphe :", title);
+				if (title != null) {
+					Graph graph = addNewGraph();
+					this.window.addNewTab(graph, title);
+				}
+				break;
+			case "Copy":
+				break;
+			case "Paste":
+				break;
+			default:
+				break;
+		}
 	}
 
 	/**

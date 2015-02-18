@@ -22,7 +22,6 @@ public class VertexMouseListener implements MouseListener, MouseMotionListener {
 
 	private static VertexView underMouseVertex = null;
 
-
 	/**
 	 * Constructeur de la classe VertexMouseListener
 	 * @param controller le Controller
@@ -31,6 +30,21 @@ public class VertexMouseListener implements MouseListener, MouseMotionListener {
 	public VertexMouseListener(Controller controller, VertexView vertex) {
 		this.controller = controller;
 		this.vertex     = vertex;
+		this.initDrag   = new Point();
+	}
+	
+	/**
+	 * Méthode pour gérer la sélection d'un Vertex : 
+	 * - soit on l'ajoute à la sélection si la touche Ctrl est enfoncée
+	 * - soit on désire le sélectionner
+	 * @param e MouseEvent pour récupérer l'événement isControlDown
+	 */
+	public void manageSelection(MouseEvent e) {
+		if (e.isControlDown()) {
+			this.controller.notifyHandleElementSelected(this.vertex);
+		} else {
+			this.controller.notifyElementSelected(this.vertex);
+		}
 	}
 
 	/**
@@ -58,13 +72,8 @@ public class VertexMouseListener implements MouseListener, MouseMotionListener {
 	public void mouseClicked(MouseEvent e) {
 		switch(controller.getState()){
 			case SELECTION:
-				if(e.getButton() == MouseEvent.BUTTON1) {
-					if (e.isControlDown()) {
-						this.controller.notifyHandleElementSelected(this.vertex);
-					} else {
-						this.controller.notifyElementSelected(this.vertex);
-					}
-				}else if (e.getButton() == MouseEvent.BUTTON3) {
+				if (e.getButton() == MouseEvent.BUTTON3) {
+					this.controller.notifyHandleElement(this.vertex);
 					//Création du menu contextuel avec Edit et Delete comme options.
 					JPopupMenu contextMenu = initNewPopupMenu(new String[]{"Edit", "Delete"});
 					contextMenu.show(this.vertex, e.getX(), e.getY());
@@ -107,6 +116,19 @@ public class VertexMouseListener implements MouseListener, MouseMotionListener {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		this.initDrag = new Point(e.getX(), e.getY());
+		switch(controller.getState()){
+		case SELECTION:
+			if (e.getButton() == MouseEvent.BUTTON1) {
+				manageSelection(e);
+			}
+			break;
+		case ZOOM_IN:
+			break;
+		case ZOOM_OUT:
+			break;
+		case CREATE:
+			break;
+		}
 	}
 
 	/**
@@ -119,8 +141,7 @@ public class VertexMouseListener implements MouseListener, MouseMotionListener {
 		if (this.dragging && this.controller.getState() != Controller.State.CREATE) {
 			this.controller.notifyMoveSelectedElements(new Point(e.getX() - initDrag.x, e.getY() - initDrag.y));
 		}
-		if ( underMouseVertex!=null && underMouseVertex!= vertex){
-			System.out.println("Create an Edge please !");
+		if (underMouseVertex != null && underMouseVertex != vertex){
 			if (this.vertex.getPosition().x < underMouseVertex.getPosition().x) {
 				this.controller.addEdge(vertex.getVertex(), underMouseVertex.getVertex());
 			} else {
@@ -131,6 +152,11 @@ public class VertexMouseListener implements MouseListener, MouseMotionListener {
 		this.dragging = false;
 	}
 
+	/**
+	 * Méthode appelée lorsqu'on déplace la souris en ayant le bouton enfoncé
+	 * (non-Javadoc)
+	 * @see java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		this.dragging = true;
