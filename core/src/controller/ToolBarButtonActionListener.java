@@ -1,9 +1,8 @@
 package controller;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
 
 public class ToolBarButtonActionListener implements ActionListener {
 	
@@ -17,6 +16,6 @@ public class ToolBarButtonActionListener implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.controller.notifyToolBarItemActivated(this.button.getText());
+		this.controller.notifyToolBarItemActivated(this.button.getName());
 	}
 }

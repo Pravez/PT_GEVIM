@@ -215,7 +215,22 @@ public class Controller {
 	 * @param text le nom du bouton
 	 */
 	public void notifyToolBarItemActivated(String text) {
-		// TODO Auto-generated method stub
+		switch(text){
+			case "New":
+				String title = "Tab " + this.window.getTabCount();
+				title = JOptionPane.showInputDialog("Saisissez le nom du nouveau graphe :", title);
+				if (title != null) {
+					Graph graph = addNewGraph();
+					this.window.addNewTab(graph, title);
+				}
+				break;
+			case "Copy":
+				break;
+			case "Paste":
+				break;
+			default:
+				break;
+		}
 	}
 
 	/**
