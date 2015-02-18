@@ -224,8 +224,16 @@ public class Window extends JFrame{
     	return (Tab)tabs.getComponentAt(tabs.getSelectedIndex());	
     }
 
+    /**
+     * Méthode retournant l'indice du Tab courant de la Window
+     * @return l'indice du Tab
+     */
     public int getCurrentTabIndex(){ return tabs.getSelectedIndex(); }
 
+    /**
+     * Méthode pour changer le mode de la fenêtre par rapport à celui du Controller : met à jour les boutons de mode
+     * @param state l'état / mode du Controller
+     */
 	public void setState(Controller.State state) {
         for (Component c : this.toolBar.getComponents()) {
             if (((JButton) c).getActionCommand() == state.name()) {
@@ -236,6 +244,10 @@ public class Window extends JFrame{
         }
     }
 
+	/**
+	 * Getter du JTabbedPane contenant les Tab de la Window
+	 * @return le JTabbedPane tabs
+	 */
     public JTabbedPane getTabs() {
         return tabs;
     }

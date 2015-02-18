@@ -171,6 +171,11 @@ public class VertexMouseListener implements MouseListener, MouseMotionListener {
 		}
 	}
 
+	/**
+	 * Méthode appelée au déplacement de la souris
+	 * (non-Javadoc)
+	 * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseMoved(MouseEvent e) { }
 }

@@ -57,11 +57,22 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Méthode permettant d'ajouter une Edge au Graph courant
+	 * @param src le Vertex de départ de l'Edge
+	 * @param dst le Vertex de destination de l'Edge
+	 */
 	public void addEdge (Vertex src, Vertex dst){
 		this.window.getCurrentTab().getGraph().createEdge(this.window.getCurrentTab().getDefaultColor(), src, dst, this.window.getCurrentTab().getDefaultThickness());
 	}
 
+	/**
+	 * Méthode permettant de retirer un Vertex d'un Graph
+	 * @param g le Graph
+	 * @param o le Vertex en Object
+	 */
 	public void removeVertex(Graph g, Object o){
+		// Non utilisée pour l'instant
 		g.getVertexes().remove(o);
 	}
 	

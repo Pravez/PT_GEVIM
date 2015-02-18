@@ -14,12 +14,9 @@ import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
-import javax.sound.sampled.Line;
 import javax.swing.*;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Line2D;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -143,35 +140,7 @@ public class Tab extends JComponent implements Observer {
             v.paintComponent(g);
         }
     }
-
-    /**
-     * Teste si à partir des données d'un événement souris ({@link java.awt.event.MouseEvent}) un vertex est situé au dessous.
-     * @param mouseEvent Evénement souris
-     * @return Le {@link data.Vertex} s'il existe, sinon null
-     */
-    public VertexView onVertex(MouseEvent mouseEvent){
-        Rectangle rect = new Rectangle();
-
-        for(VertexView v : this.vertexes) {
-            rect.setBounds(v.getPosition().x, v.getPosition().y, v.getWidth(), v.getWidth());
-            if(rect.contains(mouseEvent.getX(), mouseEvent.getY())){
-                return v;
-            }
-        }
-        return null;
-    }
-
-    public VertexView getVertexAt(Point position){
-
-        for(VertexView v : this.vertexes){
-            if(v.getPosition() == position){
-                return v;
-            }
-        }
-
-        return null;
-    }
-    
+   
     /**
      * Getter de la forme par défaut des VertexView
      * @return la forme par défaut des VertexView
@@ -326,7 +295,7 @@ public class Tab extends JComponent implements Observer {
     }
 	
     /**
-     * Méthode pour sélectionner les ElementView présents dans la zone de sélection
+     * Méthode pour sélectionner les ElementView présents dans la zone de sélection en la vidant au préalable
      */
 	public void selectElementsInZone() {
 		clearSelectedElements();
