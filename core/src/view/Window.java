@@ -4,16 +4,10 @@
 
 package view;
 
-import controller.Controller;
-import controller.MenuActionListener;
-import controller.TabMouseListener;
-import controller.ToolBarButtonActionListener;
-import controller.ToolBarContextActionListener;
-
-import javax.swing.*;
-
+import controller.*;
 import data.Graph;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -115,9 +109,12 @@ public class Window extends JFrame{
     private void initToolMenuBar(){
         toolBar = new JToolBar();
         toolBar.setFloatable(false);
-        addToolBarImageButton(toolBar, "cursor.png", Controller.State.SELECTION.name(), true);
-        addToolBarImageButton(toolBar, "edit.png", Controller.State.CREATE.name(), false);
-        addToolBarImageButton(toolBar, "zoom.png", Controller.State.ZOOM_IN.name(), false);
+        addToolBarButtonWithImage(toolBar, "New", "new.png");
+        addToolBarImageButtonWithAction(toolBar, "cursor.png", Controller.State.SELECTION.name(), true);
+        addToolBarImageButtonWithAction(toolBar, "edit.png", Controller.State.CREATE.name(), false);
+        addToolBarImageButtonWithAction(toolBar, "zoom.png", Controller.State.ZOOM_IN.name(), false);
+        addToolBarButtonWithImage(toolBar, "Copy", "copy.png");
+        addToolBarButtonWithImage(toolBar, "Paste", "paste.png");
         addToolBarButton(toolBar, "Undo");
         addToolBarButton(toolBar, "Redo");
         addToolBarButton(toolBar, "A FAIRE...");
@@ -128,9 +125,10 @@ public class Window extends JFrame{
      * Méthode privée pour ajouter un bouton avec une image dans un toolBar
      * @param toolBar le toolBar qui va contenir le bouton
      * @param fileName le nom du fichier de l'image à charger
+     * @param actionCommand la commande qui sera appellée lors du clic sur le bouton
      * @param selectedState l'état du bouton, s'il est sélectionné
      */
-    private void addToolBarImageButton(JToolBar toolBar, String fileName, String actionCommand, boolean selectedState) {
+    private void addToolBarImageButtonWithAction(JToolBar toolBar, String fileName, String actionCommand, boolean selectedState) {
     	Image img = Toolkit.getDefaultToolkit().getImage(fileName);
     	JButton imageButton = new JButton();
     	imageButton.setIcon(new ImageIcon(img.getScaledInstance(20,  20, Image.SCALE_SMOOTH)));
@@ -152,6 +150,25 @@ public class Window extends JFrame{
     	JButton button = new JButton(buttonName);
     	button.addActionListener(new ToolBarButtonActionListener(this.controller, button));
     	toolBar.add(button);
+    }
+
+    /**
+     * Méthode privée pour ajouter un bouton n'influant pas sur les états d'édition, avec une image
+     * @param toolBar La {@link javax.swing.JToolBar} à qui ajouter le bouton
+     * @param buttonName Le nom du bouton
+     * @param fileName Le lien vers l'image du bouton
+     */
+    private void addToolBarButtonWithImage(JToolBar toolBar, String buttonName, String fileName){
+        Image img = Toolkit.getDefaultToolkit().getImage(fileName);
+        JButton imageButton = new JButton();
+        imageButton.setIcon(new ImageIcon(img.getScaledInstance(20,  20, Image.SCALE_SMOOTH)));
+        imageButton.setBounds(0, 0, 20, 20);
+        imageButton.setMargin(new Insets(0, 0, 0, 0));
+        imageButton.setBorder(null);
+        imageButton.addActionListener(new ToolBarButtonActionListener(this.controller, imageButton));
+        imageButton.setName(buttonName);
+        imageButton.setSelected(false);
+        toolBar.add(imageButton);
     }
 
     /**
