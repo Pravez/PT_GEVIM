@@ -1,6 +1,7 @@
 package controller;
 
 import data.Graph;
+import data.GraphElement;
 import data.Vertex;
 import view.ElementView;
 import view.Window;
@@ -22,10 +23,13 @@ public class Controller {
 	private Window window;
 	private ArrayList<Graph> graphs = new ArrayList<Graph>();
 	private State            state;
+
+	private ArrayList<GraphElement> copiedElements;
 	
 	public Controller() {
 		this.state  = State.SELECTION;
 		this.graphs = new ArrayList<Graph>();
+		copiedElements = new ArrayList<GraphElement>();
 	}
 
 	public static enum State { SELECTION, ZOOM_IN, ZOOM_OUT, CREATE };
@@ -211,6 +215,15 @@ public class Controller {
 				}
 				this.window.getCurrentTab().clearSelectedElements();
 				break;
+			case "Copy":
+				copiedElements.clear();
+				for(ElementView elementView : this.window.getCurrentTab().getSelectedElements()){
+					copiedElements.add(elementView.getGraphElement());
+				}
+				break;
+			case "Paste":
+
+				break;
 			default:
 				break;
 		}
@@ -232,8 +245,14 @@ public class Controller {
 				}
 				break;
 			case "Copy":
+				copiedElements.clear();
+				for(ElementView elementView : this.window.getCurrentTab().getSelectedElements()){
+					copiedElements.add(elementView.getGraphElement());
+				}
 				break;
 			case "Paste":
+				this.graphs.get(this.window.getCurrentTabIndex()).getGraphElements().addAll(this.copiedElements);
+				this.graphs.get(this.window.getCurrentTabIndex()).setChanged();
 				break;
 			default:
 				break;

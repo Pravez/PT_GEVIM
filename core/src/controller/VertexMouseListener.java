@@ -1,13 +1,12 @@
 package controller;
 
-import java.awt.Point;
+import view.VertexView;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-
-import javax.swing.*;
-
-import view.VertexView;
 
 /**
  * @author Alexis Dufrenne
@@ -75,7 +74,7 @@ public class VertexMouseListener implements MouseListener, MouseMotionListener {
 				if (e.getButton() == MouseEvent.BUTTON3) {
 					this.controller.notifyHandleElement(this.vertex);
 					//Création du menu contextuel avec Edit et Delete comme options.
-					JPopupMenu contextMenu = initNewPopupMenu(new String[]{"Edit", "Delete"});
+					JPopupMenu contextMenu = initNewPopupMenu(new String[]{"Edit", "Delete", "Copy", "Paste"});
 					contextMenu.show(this.vertex, e.getX(), e.getY());
 				}
 				break;

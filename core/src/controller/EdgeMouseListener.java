@@ -60,7 +60,7 @@ public class EdgeMouseListener implements MouseListener {
 	        	}
 			} else if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
 				//Création du menu contextuel avec Edit et Delete comme options.
-				JPopupMenu contextMenu = initNewPopupMenu(new String[]{"Edit", "Delete"});
+				JPopupMenu contextMenu = initNewPopupMenu(new String[]{"Edit", "Delete", "Copy", "Paste"});
 				contextMenu.show(this.edge, e.getX(), e.getY());
 			}
 			break;
