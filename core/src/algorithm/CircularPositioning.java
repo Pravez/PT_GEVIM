@@ -11,12 +11,10 @@ import java.util.ArrayList;
  */
 public class CircularPositioning implements IAlgorithm {
 
-    private int height;
-    private int width;
+    private Rectangle viewRectangle;
 
-    public CircularPositioning(Dimension size) {
-        this.height = size.height;
-        this.width = size.width;
+    public CircularPositioning(Point position, Dimension size) {
+        this.viewRectangle = new Rectangle(position, size);
     }
 
     @Override
@@ -24,9 +22,9 @@ public class CircularPositioning implements IAlgorithm {
         ArrayList<Vertex> vertexes = graph.getVertexes();
 
         for (double i = 0; i< vertexes.size(); i++){
-            double x = Math.cos((i /(double)vertexes.size()) * 2.0*Math.PI)*(Math.min(height,width)*0.5) +width/2;
-            double y = Math.sin((i/(double)vertexes.size())*2.0*Math.PI)*( Math.min(height,width)*0.5)+height/2;
-            vertexes.get((int)i).setPosition(new Point((int) x, (int)y ));
+            double x = Math.cos((i /(double)vertexes.size()) * 2.0*Math.PI)*(Math.min(this.viewRectangle.height,this.viewRectangle.width)*0.5) +this.viewRectangle.width/2;
+            double y = Math.sin((i/(double)vertexes.size())*2.0*Math.PI)*( Math.min(this.viewRectangle.height,this.viewRectangle.width)*0.5)+this.viewRectangle.height/2;
+            vertexes.get((int)i).setPosition(new Point((int) x+this.viewRectangle.x, (int)y+this.viewRectangle.y ));
         }
         graph.setChanged();
     }

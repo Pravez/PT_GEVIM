@@ -156,10 +156,10 @@ public class Controller {
 			break;
 
 			case "random positioning":
-				new RandomPositioning(window.getCurrentTab().getSize()).run(window.getCurrentTab().getGraph());
+				new RandomPositioning(window.getCurrentTabViewPort().getViewPosition(),window.getCurrentTabViewPort().getExtentSize()).run(window.getCurrentTab().getGraph());
 				break;
 			case "circular positioning":
-				new CircularPositioning(window.getCurrentTab().getSize()).run(window.getCurrentTab().getGraph());
+				new CircularPositioning(window.getCurrentTabViewPort().getViewPosition(),window.getCurrentTabViewPort().getExtentSize()).run(window.getCurrentTab().getGraph());
 				break;
 			default:
 			break;

@@ -41,14 +41,14 @@ public class Tab extends JComponent implements Observer {
     private Vertex.Shape          defaultShape;
     
     /** Sélection par zone **/
-    private Rectangle selectionZone;
-    private Color     selectionColor;
-    private Color     selectionBorderColor;
+    private Rectangle             selectionZone;
+    private Color                 selectionColor;
+    private Color                 selectionBorderColor;
 
     /** Edge temporaire **/
-    private Point originEdge;
-    private Point destinationEdge;
-    private Color edgeColor;
+    private Point                 originEdge;
+    private Point                 destinationEdge;
+    private Color                 edgeColor;
 
     /**
      * Getter du Graph
@@ -95,7 +95,7 @@ public class Tab extends JComponent implements Observer {
         this.destinationEdge          = null;
         this.edgeColor                = new Color(0,0,0);
     }
-    
+
     /**
      * Méthode permettant de savoir si l'on peut ajouter un VertexView à la position désirée
      * @param position la position du VertexView à ajouter

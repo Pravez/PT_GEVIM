@@ -25,7 +25,7 @@ public class Window extends JFrame{
 
     private JTabbedPane       tabs; // ensemble des onglets
     private JToolBar          toolBar;
-    
+
     /**
      * Constructeur de la classe Window
      * @param w la largeur de la fenêtre
@@ -204,12 +204,15 @@ public class Window extends JFrame{
     	tab.setBackground(Color.GRAY);
     	tab.setLayout(null);
         tab.add(new JLabel(title));
-        
+        tab.setPreferredSize(new Dimension(2000,2000));
+
         TabMouseListener listener = new TabMouseListener(this.controller, tab, graph);
         tab.addMouseListener(listener);
         tab.addMouseMotionListener(listener);
-               
-    	this.tabs.addTab(title, tab);
+
+        JScrollPane pane = new JScrollPane(tab);
+
+    	this.tabs.addTab(title, pane);
     }
 
     /**
@@ -225,7 +228,11 @@ public class Window extends JFrame{
      * @return the index of the current tab
      */
     public Tab getCurrentTab(){
-    	return (Tab)tabs.getComponentAt(tabs.getSelectedIndex());	
+    	return (Tab)((JScrollPane)tabs.getComponentAt(tabs.getSelectedIndex())).getViewport().getComponent(0);
+    }
+
+    public JViewport getCurrentTabViewPort(){
+        return ((JScrollPane)tabs.getComponentAt(tabs.getSelectedIndex())).getViewport();
     }
 
     /**
@@ -255,4 +262,5 @@ public class Window extends JFrame{
     public JTabbedPane getTabs() {
         return tabs;
     }
+
 }

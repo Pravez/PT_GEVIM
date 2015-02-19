@@ -11,19 +11,17 @@ import java.util.Random;
  */
 public class RandomPositioning implements IAlgorithm {
 
-    private int height;
-    private int width;
+    private Rectangle viewRectangle;
 
-    public RandomPositioning(Dimension size) {
-        this.height = size.height;
-        this.width = size.width;
+    public RandomPositioning(Point position, Dimension size) {
+        this.viewRectangle = new Rectangle(position,size);
     }
 
     @Override
     public void run(Graph graph) {
         Random r = new Random();
         for(Vertex v : graph.getVertexes()){
-            v.setPosition(new Point(r.nextInt(width), r.nextInt(height)));
+            v.setPosition(new Point(r.nextInt(this.viewRectangle.width)+this.viewRectangle.x, r.nextInt(this.viewRectangle.height)+this.viewRectangle.y));
         }
         graph.setChanged();
     }
