@@ -173,6 +173,14 @@ public class Graph extends Observable {
         this.setChanged();
     }
 
+    public GraphElement copyElement(GraphElement element){
+        if(element.isVertex()){
+            return new Vertex((Vertex)element);
+        } else {
+            return new Edge((Edge)element);
+        }
+    }
+
     /**
      * (non-Javadoc)
      * @see data.Observable#setChanged()

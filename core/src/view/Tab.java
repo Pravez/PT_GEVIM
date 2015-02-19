@@ -3,19 +3,13 @@ package view;
 import controller.Controller;
 import controller.EdgeMouseListener;
 import controller.VertexMouseListener;
-import data.Edge;
-import data.Graph;
-import data.GraphElement;
-import data.Observable;
-import data.Vertex;
-
+import data.*;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -140,7 +134,7 @@ public class Tab extends JComponent implements Observer {
             v.paintComponent(g);
         }
     }
-   
+
     /**
      * Getter de la forme par défaut des VertexView
      * @return la forme par défaut des VertexView

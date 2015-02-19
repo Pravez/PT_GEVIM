@@ -7,7 +7,6 @@ import view.ElementView;
 import view.Window;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -229,8 +228,9 @@ public class Controller {
 			case "Copy":
 				copiedElements.clear();
 				for(ElementView elementView : this.window.getCurrentTab().getSelectedElements()){
-					copiedElements.add(elementView.getGraphElement());
+					copiedElements.add(this.getGraph(this.window.getCurrentTabIndex()).copyElement(elementView.getGraphElement()));
 				}
+
 				break;
 			case "Paste":
 
@@ -258,7 +258,7 @@ public class Controller {
 			case "Copy":
 				copiedElements.clear();
 				for(ElementView elementView : this.window.getCurrentTab().getSelectedElements()){
-					copiedElements.add(elementView.getGraphElement());
+					copiedElements.add(this.getGraph(this.window.getCurrentTabIndex()).copyElement(elementView.getGraphElement()));
 				}
 				break;
 			case "Paste":

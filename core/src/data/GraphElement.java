@@ -32,7 +32,13 @@ public abstract class GraphElement {
 		this.value    = value;
 		this.color    = color;
 	}
-	
+
+	public GraphElement(GraphElement graphElement) {
+		this.label = graphElement.label;
+		this.value = graphElement.value;
+		this.color = graphElement.color;
+	}
+
 	/**
 	 * Getter de l'étiquette de l'élément
 	 * @return l'étiquette
