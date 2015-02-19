@@ -1,4 +1,6 @@
-package data;
+package algorithm;
+
+import data.Graph;
 
 /**
  * @author Alexis Dufrenne

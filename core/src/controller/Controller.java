@@ -1,5 +1,7 @@
 package controller;
 
+import algorithm.CircularPositioning;
+import algorithm.RandomPositioning;
 import data.Graph;
 import data.GraphElement;
 import data.Vertex;
@@ -156,8 +158,15 @@ public class Controller {
 
 		case "Save":
 			this.window.getCurrentTab().saveToGraphml("test.gml");
-			
-		default:
+			break;
+
+			case "random positioning":
+				new RandomPositioning(window.getCurrentTab().getSize()).run(window.getCurrentTab().getGraph());
+				break;
+			case "circular positioning":
+				new CircularPositioning(window.getCurrentTab().getSize()).run(window.getCurrentTab().getGraph());
+				break;
+			default:
 			break;
 		}
 	}
@@ -231,14 +240,10 @@ public class Controller {
 				this.window.getCurrentTab().clearSelectedElements();
 				break;
 			case "Copy":
-				copiedElements.clear();
-				for(ElementView elementView : this.window.getCurrentTab().getSelectedElements()){
-					copiedElements.add(this.getGraph(this.window.getCurrentTabIndex()).copyElement(elementView.getGraphElement()));
-				}
-
+				copyElements();
 				break;
 			case "Paste":
-
+				pasteElements();
 				break;
 			default:
 				break;
@@ -265,18 +270,34 @@ public class Controller {
 				}
 				break;
 			case "Copy":
-				copiedElements.clear();
-				for(ElementView elementView : this.window.getCurrentTab().getSelectedElements()){
-					copiedElements.add(this.getGraph(this.window.getCurrentTabIndex()).copyElement(elementView.getGraphElement()));
-				}
+				copyElements();
 				break;
 			case "Paste":
-				this.graphs.get(this.window.getCurrentTabIndex()).getGraphElements().addAll(this.copiedElements);
-				this.graphs.get(this.window.getCurrentTabIndex()).setChanged();
+				pasteElements();
 				break;
 			default:
 				break;
 		}
+	}
+	
+	/**
+	 * Méthode permettant de créer une copie des GraphElement provenants des ElementView sélectionnés
+	 */
+	public void copyElements() {
+		copiedElements.clear();
+		// on récupère les GraphElement sélectionnés dans le Tab
+		for(ElementView elementView : this.window.getCurrentTab().getSelectedElements()){
+			copiedElements.add(elementView.getGraphElement());
+		}
+		// on crée une copie de ces GraphElements
+		copiedElements = Graph.copyGraphElements(this.copiedElements);
+	}
+	
+	/**
+	 * Méthode permettant de "coller" les GraphElement copiés depuis la sélection
+	 */
+	public void pasteElements() {
+		this.graphs.get(this.window.getCurrentTabIndex()).addGraphElements(Graph.copyGraphElements(this.copiedElements));
 	}
 
 	/**
