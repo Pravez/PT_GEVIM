@@ -38,10 +38,11 @@ public class Vertex extends GraphElement {
 
     public Vertex(Vertex element) {
         super(element);
-        this.position = element.position;
-        this.size = element.size;
-        this.shape = element.shape;
-        this.edges = element.edges;
+        this.position = new Point(element.position);
+        this.size     = element.size;
+        this.shape    = Shape.valueOf(element.shape.name());
+        this.edges    = new ArrayList<Edge>();
+        //this.edges = element.edges;
     }
 
     /**

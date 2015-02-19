@@ -5,6 +5,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+
 import view.Tab;
 import data.Graph;
 
@@ -31,6 +34,24 @@ public class TabMouseListener implements MouseListener, MouseMotionListener {
 		this.tab        = tab;
 		this.graph      = graph;
 	}
+	
+	/**
+	 * Méthode permettant de créer un PopupMenu
+	 * @param menuItems les MenuItems présents dans le PopuMenu
+	 * @param position la position du PopupMenu
+	 * @return le PopupMenu créé
+	 */
+	public JPopupMenu initNewPopupMenu(String [] menuItems, Point position){
+		JPopupMenu jpm = new JPopupMenu();
+
+		for(String s : menuItems){
+			JMenuItem jmi = new JMenuItem(s);
+			jmi.addActionListener(new ContextMenuActionListener(jmi, this.controller, null, position));
+			jpm.add(jmi);
+		}
+
+		return jpm;
+	}
 
 	/**
 	 * Méthode appelée lors d'un clic sur le Tab
@@ -54,7 +75,9 @@ public class TabMouseListener implements MouseListener, MouseMotionListener {
 		case ZOOM_OUT:
 			break;
 		}
-        //MouseEvent.BUTTON3: // clic droit
+		if (mouseEvent.getButton() == MouseEvent.BUTTON3) { // Clic droit
+			initNewPopupMenu(new String[]{"Paste", "Properties"}, mouseEvent.getPoint()).show(this.tab, mouseEvent.getX(), mouseEvent.getY());
+		}
 	}
 
 	/**

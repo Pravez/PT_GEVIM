@@ -228,7 +228,7 @@ public class Controller {
 	 * @param text le nom de l'item source
 	 * @param source l'ElementView ayant activé le menu contextuel
 	 */
-	public void notifyContextMenuItemActivated(String text, ElementView source) {
+	public void notifyContextMenuItemActivated(String text, ElementView source, Point position) {
 		switch (text) {
 			case "Edit":
 				this.window.getCurrentTab().modifySelectedElement();
@@ -243,7 +243,7 @@ public class Controller {
 				copyElements();
 				break;
 			case "Paste":
-				pasteElements();
+				pasteElements(position);
 				break;
 			default:
 				break;
@@ -273,7 +273,7 @@ public class Controller {
 				copyElements();
 				break;
 			case "Paste":
-				pasteElements();
+				pasteElements(null);
 				break;
 			default:
 				break;
@@ -295,9 +295,14 @@ public class Controller {
 	
 	/**
 	 * Méthode permettant de "coller" les GraphElement copiés depuis la sélection
+	 * @param position la position de la souris pour positionner les GraphElement copiés
 	 */
-	public void pasteElements() {
-		this.graphs.get(this.window.getCurrentTabIndex()).addGraphElements(Graph.copyGraphElements(this.copiedElements));
+	public void pasteElements(Point position) {
+		if (position != null) {
+			this.graphs.get(this.window.getCurrentTabIndex()).addGraphElements(Graph.copyGraphElements(this.copiedElements, position));
+		} else {
+			this.graphs.get(this.window.getCurrentTabIndex()).addGraphElements(Graph.copyGraphElements(this.copiedElements));
+		}
 	}
 
 	/**

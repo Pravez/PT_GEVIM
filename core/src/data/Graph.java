@@ -85,6 +85,54 @@ public class Graph extends Observable {
     	}
     	return new_elements;
     }
+    
+    /**
+     * Méthode statique pour copier des GraphElement dans une nouvelle ArrayList en créant de nouveaux Vertex et de nouveaux Edge à une position donnée
+     * @param elements la liste des GraphElement à copier
+     * @param position la position à définir de l'élément le plus en haut à gauche
+     * @return la liste des GraphElement copiés
+     */
+    public static ArrayList<GraphElement> copyGraphElements(ArrayList<GraphElement> elements, Point position) {
+    	System.out.println("Elements : " + elements.size());
+    	ArrayList<GraphElement> new_elements = new ArrayList<GraphElement> (elements.size());
+    	Point min = new Point(0, 0);
+    	Point max = new Point(0, 0);
+    	for(GraphElement e : elements) {
+    		if (e.isVertex()) {
+    			min = new Point(((Vertex)e).getPosition());
+    			max = new Point(min);
+    			break;
+    		}
+    	}
+    	for (int i = 0 ; i < elements.size() ; i++) {
+    		new_elements.add(null);
+    		if (elements.get(i).isVertex()) {
+    			min.x = ((Vertex)elements.get(i)).getPosition().x < min.x ? ((Vertex)elements.get(i)).getPosition().x : min.x;
+    			min.y = ((Vertex)elements.get(i)).getPosition().y < min.y ? ((Vertex)elements.get(i)).getPosition().y : min.y;
+    			max.x = ((Vertex)elements.get(i)).getPosition().x > max.x ? ((Vertex)elements.get(i)).getPosition().x : max.x;
+    			max.y = ((Vertex)elements.get(i)).getPosition().y > max.y ? ((Vertex)elements.get(i)).getPosition().y : max.y;
+    		}
+    	}
+    	// on ajoute tous les sommets dans la liste des nouveaux GraphElement
+    	for (int i = 0 ; i < elements.size() ; i++) {
+    		if (elements.get(i).isVertex()) {
+    			new_elements.set(i, new Vertex((Vertex) elements.get(i)));
+    			int vector_x = position.x < min.x + (max.x - min.x)/2 ? (max.x - min.x)/2 : (max.x - min.x)/2;
+    			int vector_y = position.y < min.y + (max.y - min.y)/2 ? (max.y - min.y)/2 : (max.y - min.y)/2;
+    			((Vertex)new_elements.get(i)).move(position.x - min.x + vector_x, position.y - min.y + vector_y);
+    			System.out.println("Vertex position : " + ((Vertex)new_elements.get(i)).getPosition());
+    		}
+    	}
+    	// on ajoute les edges une fois que tous les sommets on été ajoutés dans la liste des nouveaux GraphElement
+    	for (int i = 0 ; i < elements.size() ; i++) {
+    		if (!elements.get(i).isVertex()) {
+    			int origin      = elements.indexOf(((Edge)elements.get(i)).getOrigin());
+    			int destination = elements.indexOf(((Edge)elements.get(i)).getDestination());
+    			new_elements.set(i, new Edge(elements.get(i). getLabel(), elements.get(i).getColor(), (Vertex)new_elements.get(origin), (Vertex)new_elements.get(destination), ((Edge)elements.get(i)).getThickness()));
+    		}
+    	}
+    	return new_elements;
+    }
 
     /**
      * Getter de la liste des Edge du Graph

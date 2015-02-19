@@ -3,6 +3,8 @@ package controller;
 import view.EdgeView;
 
 import javax.swing.*;
+
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -28,14 +30,15 @@ public class EdgeMouseListener implements MouseListener {
 	/**
 	 * Initialize a Popup menu with MenuItems
 	 * @param menuItems the MenuItems to be present in the popUp menu
+	 * @param position la position du PopMenu
 	 * @return The popup menu created
 	 */
-	public JPopupMenu initNewPopupMenu(String [] menuItems){
+	public JPopupMenu initNewPopupMenu(String [] menuItems, Point position){
 		JPopupMenu jpm = new JPopupMenu();
 
 		for(String s : menuItems){
 			JMenuItem jmi = new JMenuItem(s);
-			jmi.addActionListener(new ContextMenuActionListener(jmi, controller, this.edge));
+			jmi.addActionListener(new ContextMenuActionListener(jmi, controller, this.edge, position));
 			jpm.add(jmi);
 		}
 
@@ -60,7 +63,7 @@ public class EdgeMouseListener implements MouseListener {
 	        	}
 			} else if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
 				//Création du menu contextuel avec Edit et Delete comme options.
-				JPopupMenu contextMenu = initNewPopupMenu(new String[]{"Edit", "Delete", "Copy", "Paste"});
+				JPopupMenu contextMenu = initNewPopupMenu(new String[]{"Edit", "Delete", "Copy", "Paste"}, e.getPoint());
 				contextMenu.show(this.edge, e.getX(), e.getY());
 			}
 			break;

@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import view.ElementView;
 
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,17 +14,19 @@ import java.awt.event.ActionListener;
  */
 public class ContextMenuActionListener implements ActionListener {
 
-    private JMenuItem menuItem;
-    private Controller controller;
+    private JMenuItem   menuItem;
+    private Controller  controller;
     private ElementView source;
+    private Point       initialPosition;
 
     /**
      * Constructeur de la classe ContextMenuActionListener
      */
-    public ContextMenuActionListener (JMenuItem menuItem, Controller controller, ElementView source) {
-        this.menuItem   = menuItem;
-        this.controller = controller;
-        this.source = source;
+    public ContextMenuActionListener (JMenuItem menuItem, Controller controller, ElementView source, Point position) {
+        this.menuItem        = menuItem;
+        this.controller      = controller;
+        this.source          = source;
+        this.initialPosition = position;
     }
 
     /**
@@ -32,5 +35,5 @@ public class ContextMenuActionListener implements ActionListener {
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
     public void actionPerformed(ActionEvent e) {
-        this.controller.notifyContextMenuItemActivated(menuItem.getActionCommand(), this.source);    }
+        this.controller.notifyContextMenuItemActivated(menuItem.getActionCommand(), this.source, this.initialPosition);    }
 }

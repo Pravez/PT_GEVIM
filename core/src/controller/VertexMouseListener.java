@@ -49,14 +49,15 @@ public class VertexMouseListener implements MouseListener, MouseMotionListener {
 	/**
 	 * Initialize a Popup menu with MenuItems
 	 * @param menuItems the MenuItems to be present in the popUp menu
+	 * @param position la position du PopuMenu
 	 * @return The popup menu created
 	 */
-	public JPopupMenu initNewPopupMenu(String [] menuItems){
+	public JPopupMenu initNewPopupMenu(String [] menuItems, Point position){
 		JPopupMenu jpm = new JPopupMenu();
 
 		for(String s : menuItems){
 			JMenuItem jmi = new JMenuItem(s);
-			jmi.addActionListener(new ContextMenuActionListener(jmi, controller, vertex));
+			jmi.addActionListener(new ContextMenuActionListener(jmi, controller, vertex, position));
 			jpm.add(jmi);
 		}
 
@@ -74,7 +75,7 @@ public class VertexMouseListener implements MouseListener, MouseMotionListener {
 				if (e.getButton() == MouseEvent.BUTTON3) {
 					this.controller.notifyHandleElement(this.vertex);
 					//Création du menu contextuel avec Edit et Delete comme options.
-					JPopupMenu contextMenu = initNewPopupMenu(new String[]{"Edit", "Delete", "Copy", "Paste"});
+					JPopupMenu contextMenu = initNewPopupMenu(new String[]{"Edit", "Delete", "Copy", "Paste"}, e.getPoint());
 					contextMenu.show(this.vertex, e.getX(), e.getY());
 				}
 				break;
