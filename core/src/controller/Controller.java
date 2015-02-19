@@ -11,9 +11,7 @@ import view.Window;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-
-
-// à voir pour créer des onglets : http://openclassrooms.com/courses/apprenez-a-programmer-en-java/conteneurs-sliders-et-barres-de-progression
+import java.util.Objects;
 
 /**
  * Created by quelemonnier on 26/01/15.
@@ -33,7 +31,10 @@ public class Controller {
 		copiedElements = new ArrayList<GraphElement>();
 	}
 
-	public static enum State { SELECTION, ZOOM_IN, ZOOM_OUT, CREATE };
+	/**
+	 * Enumération des états dans lequel peut se placer l'utilisateur (modes d'interaction utilisateur/application)
+	 */
+	public static enum State { SELECTION, ZOOM_IN, ZOOM_OUT, CREATE }
 
 	/**
 	 * Configure la Window du controller (associe la vue au controleur)
@@ -128,9 +129,13 @@ public class Controller {
 		case "New":
 			String title = "Tab " + this.window.getTabCount();
 			title = JOptionPane.showInputDialog("Saisissez le nom du nouveau graphe :", title);
-			if (title != null) {
+			if ((title!=null)&&(!title.equals(""))){
 				Graph graph = addNewGraph();
 				this.window.addNewTab(graph, title);
+			} else if((title!=null)&&(title.equals(""))){
+				//Invitation à nommer le nouveau graphe (onglet) créé.
+				JOptionPane.showMessageDialog(this.window,"Nom de graphe attendu.");
+				this.notifyMenuItemActivated(type);
 			}
 			break;
 			
@@ -255,9 +260,13 @@ public class Controller {
 			case "New":
 				String title = "Tab " + this.window.getTabCount();
 				title = JOptionPane.showInputDialog("Saisissez le nom du nouveau graphe :", title);
-				if (title != null) {
+				if ((title!=null)&&(!title.equals(""))){
 					Graph graph = addNewGraph();
 					this.window.addNewTab(graph, title);
+				} else if((title!=null)&&(title.equals(""))){
+					//Invitation à nommer le nouveau graphe (onglet) créé.
+					JOptionPane.showMessageDialog(this.window,"Nom de graphe attendu.");
+					this.notifyToolBarItemActivated(text);
 				}
 				break;
 			case "Copy":
