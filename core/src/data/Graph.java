@@ -31,7 +31,7 @@ public class Graph extends Observable {
      * @param g
      */
     public Graph(Graph g) {
-    	this.elements    = new ArrayList<GraphElement>(g.elements);
+    	this.elements = new ArrayList<GraphElement>(g.elements);
     }
 
     /**
@@ -48,6 +48,42 @@ public class Graph extends Observable {
      */
     public void setGraphElements(ArrayList<GraphElement> elements) {
         this.elements = elements;
+    }
+    
+    /**
+     * Méthode permettant d'ajouter une liste de GraphElement au Graph
+     * @param elements la liste de GraphElement à ajouter
+     */
+    public void addGraphElements(ArrayList<GraphElement> elements) {
+    	this.elements.addAll(elements);
+    	this.setChanged();
+    }
+    
+    /**
+     * Méthode statique pour copier des GraphElement dans une nouvelle ArrayList en créant de nouveaux Vertex et de nouveaux Edge
+     * @param elements la liste des GraphElement à copier
+     * @return la liste des GraphElement copiés
+     */
+    public static ArrayList<GraphElement> copyGraphElements(ArrayList<GraphElement> elements) {
+    	ArrayList<GraphElement> new_elements = new ArrayList<GraphElement> (elements.size());
+    	for (int i = 0 ; i < elements.size() ; i++) {
+    		new_elements.add(null);
+    	}
+    	// on ajoute tous les sommets dans la liste des nouveaux GraphElement
+    	for (int i = 0 ; i < elements.size() ; i++) {
+    		if (elements.get(i).isVertex()) {
+    			new_elements.set(i, new Vertex((Vertex) elements.get(i)));
+    		}
+    	}
+    	// on ajoute les edges une fois que tous les sommets on été ajoutés dans la liste des nouveaux GraphElement
+    	for (int i = 0 ; i < elements.size() ; i++) {
+    		if (!elements.get(i).isVertex()) {
+    			int origin      = elements.indexOf(((Edge)elements.get(i)).getOrigin());
+    			int destination = elements.indexOf(((Edge)elements.get(i)).getDestination());
+    			new_elements.set(i, new Edge(elements.get(i). getLabel(), elements.get(i).getColor(), (Vertex)new_elements.get(origin), (Vertex)new_elements.get(destination), ((Edge)elements.get(i)).getThickness()));
+    		}
+    	}
+    	return new_elements;
     }
 
     /**
@@ -171,14 +207,6 @@ public class Graph extends Observable {
     	}
         this.elements.remove(element);
         this.setChanged();
-    }
-
-    public GraphElement copyElement(GraphElement element){
-        if(element.isVertex()){
-            return new Vertex((Vertex)element);
-        } else {
-            return new Edge((Edge)element);
-        }
     }
 
     /**
