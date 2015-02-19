@@ -177,8 +177,9 @@ public class Window extends JFrame{
     	
     	JMenu file = this.addMenu("File");
     	JMenu edition = this.addMenu("Edition");
-    	
-    	this.addJMenuItem(file, "New");
+    	JMenu algorithm = this.addMenu("algorithm");
+
+        this.addJMenuItem(file, "New");
     	this.addJMenuItem(file, "Save");
     	this.addJMenuItem(file, "Load");
     	this.addJMenuItem(file, "Close");
@@ -187,6 +188,9 @@ public class Window extends JFrame{
     	this.addJMenuItem(edition, "Redo");
     	this.addJMenuItem(edition, "Copy");
     	this.addJMenuItem(edition, "Paste");
+
+        this.addJMenuItem(algorithm, "random positioning");
+        this.addJMenuItem(algorithm, "circular positioning");
     }
 
     /**

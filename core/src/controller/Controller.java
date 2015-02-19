@@ -1,5 +1,7 @@
 package controller;
 
+import algorithm.CircularPositioning;
+import algorithm.RandomPositioning;
 import data.Graph;
 import data.GraphElement;
 import data.Vertex;
@@ -151,8 +153,15 @@ public class Controller {
 
 		case "Save":
 			this.window.getCurrentTab().saveToGraphml("test.gml");
-			
-		default:
+			break;
+
+			case "random positioning":
+				new RandomPositioning(window.getCurrentTab().getSize()).run(window.getCurrentTab().getGraph());
+				break;
+			case "circular positioning":
+				new CircularPositioning(window.getCurrentTab().getSize()).run(window.getCurrentTab().getGraph());
+				break;
+			default:
 			break;
 		}
 	}
