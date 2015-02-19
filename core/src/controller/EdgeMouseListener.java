@@ -15,7 +15,7 @@ import java.awt.event.MouseListener;
 public class EdgeMouseListener implements MouseListener {
 
 	private Controller controller;
-	private EdgeView edge;
+	private EdgeView   edge;
 
 	/**
 	 * Constructeur de la classe VertexMouseListener

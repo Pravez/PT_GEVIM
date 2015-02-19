@@ -89,11 +89,10 @@ public class Graph extends Observable {
     /**
      * Méthode statique pour copier des GraphElement dans une nouvelle ArrayList en créant de nouveaux Vertex et de nouveaux Edge à une position donnée
      * @param elements la liste des GraphElement à copier
-     * @param position la position à définir de l'élément le plus en haut à gauche
+     * @param position la position du centre de la zone contenant les GraphElement
      * @return la liste des GraphElement copiés
      */
     public static ArrayList<GraphElement> copyGraphElements(ArrayList<GraphElement> elements, Point position) {
-    	System.out.println("Elements : " + elements.size());
     	ArrayList<GraphElement> new_elements = new ArrayList<GraphElement> (elements.size());
     	Point min = new Point(0, 0);
     	Point max = new Point(0, 0);
@@ -117,10 +116,9 @@ public class Graph extends Observable {
     	for (int i = 0 ; i < elements.size() ; i++) {
     		if (elements.get(i).isVertex()) {
     			new_elements.set(i, new Vertex((Vertex) elements.get(i)));
-    			int vector_x = position.x < min.x + (max.x - min.x)/2 ? (max.x - min.x)/2 : (max.x - min.x)/2;
-    			int vector_y = position.y < min.y + (max.y - min.y)/2 ? (max.y - min.y)/2 : (max.y - min.y)/2;
-    			((Vertex)new_elements.get(i)).move(position.x - min.x + vector_x, position.y - min.y + vector_y);
-    			System.out.println("Vertex position : " + ((Vertex)new_elements.get(i)).getPosition());
+    			int new_min_x = position.x - (max.x - min.x)/2;
+    			int new_min_y = position.y - (max.y - min.y)/2;
+    			((Vertex)new_elements.get(i)).move(new_min_x - min.x, new_min_y - min.y);
     		}
     	}
     	// on ajoute les edges une fois que tous les sommets on été ajoutés dans la liste des nouveaux GraphElement

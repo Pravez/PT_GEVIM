@@ -22,33 +22,33 @@ import java.util.ListIterator;
  */
 public class Tab extends JComponent implements Observer {
 
-	private static final long     serialVersionUID = 1L;
-    private Graph                 graph;
-    private Controller            controller;
+	private static final long      serialVersionUID = 1L;
+    private Graph                  graph;
+    private Controller             controller;
     
-    private ArrayList<EdgeView>   edges;
-    private ArrayList<VertexView> vertexes;
+    private ArrayList<EdgeView>    edges;
+    private ArrayList<VertexView>  vertexes;
     
     private ArrayList<ElementView> selectedElements;
     
-    private String                name;
-    private String                file;
-    private Color                 defaultColor;
-    private Color                 defaultSelectedColor;
-    private int                   defaultThickness;
-    private int                   defaultSelectedThickness;
-    private int                   defaultSize;
-    private Vertex.Shape          defaultShape;
+    private String                 name;
+    private String                 file;
+    private Color                  defaultColor;
+    private Color                  defaultSelectedColor;
+    private int                    defaultThickness;
+    private int                    defaultSelectedThickness;
+    private int                    defaultSize;
+    private Vertex.Shape           defaultShape;
     
     /** Sélection par zone **/
-    private Rectangle             selectionZone;
-    private Color                 selectionColor;
-    private Color                 selectionBorderColor;
+    private Rectangle              selectionZone;
+    private Color                  selectionColor;
+    private Color                  selectionBorderColor;
 
     /** Edge temporaire **/
-    private Point                 originEdge;
-    private Point                 destinationEdge;
-    private Color                 edgeColor;
+    private Point                  originEdge;
+    private Point                  destinationEdge;
+    private Color                  edgeColor;
 
     /**
      * Getter du Graph
@@ -259,10 +259,10 @@ public class Tab extends JComponent implements Observer {
      * @param position la position courante de la souris
      */
     public void launchSelectionZone(Point origin, Point position) {
-		int x      = origin.x > position.x ? position.x : origin.x;
-		int y      = origin.y > position.y ? position.y : origin.y;
-		int width  = origin.x - position.x < 0 ? position.x - origin.x : origin.x - position.x;
-		int height = origin.y - position.y < 0 ? position.y - origin.y : origin.y - position.y;
+		int x              = origin.x > position.x ? position.x : origin.x;
+		int y              = origin.y > position.y ? position.y : origin.y;
+		int width          = origin.x - position.x < 0 ? position.x - origin.x : origin.x - position.x;
+		int height         = origin.y - position.y < 0 ? position.y - origin.y : origin.y - position.y;
 		this.selectionZone = new Rectangle(x, y, width, height);
 		selectElementsInZone();
 		this.repaint();

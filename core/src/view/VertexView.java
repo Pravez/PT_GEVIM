@@ -28,8 +28,6 @@ public class VertexView extends ElementView {
     	this.vertex     = vertex;
         this.color      = vertex.getColor();
         this.hoverColor = hoverColor;
-        //super.setSize(this.vertex.getSize(), this.vertex.getSize());
-        //super.setBounds(this.vertex.getPosition().x - this.vertex.getSize()/2, this.vertex.getPosition().y - this.vertex.getSize()/2, this.vertex.getSize(), this.vertex.getSize());
     }
 
     @Override
@@ -129,17 +127,6 @@ public class VertexView extends ElementView {
     public Point getPosition() {
     	return this.vertex.getPosition();
     }
-
-    /**
-     * Méthode permettant de déplacer le VertexView dans une certaine direction
-     * @param vectorX la direction du vecteur de déplacement en abscisse
-     * @param vectorY la direction du vecteur de déplacement en ordonnée
-     */
-    /*public void move2(int vectorX, int vectorY) {
-    	System.out.println("Vertex moved");
-        this.position.x += vectorX;
-        this.position.y += vectorY;
-    }*/
     
     /**
      * Méthode appelée pour mettre à jour les paramètres d'affichage du VertexView s'il est sélectionné ou non

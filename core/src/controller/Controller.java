@@ -11,7 +11,6 @@ import view.Window;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Created by quelemonnier on 26/01/15.
@@ -19,15 +18,15 @@ import java.util.Objects;
  */
 public class Controller {
 	
-	private Window window;
-	private ArrayList<Graph> graphs = new ArrayList<Graph>();
-	private State            state;
+	private Window                  window;
+	private ArrayList<Graph>        graphs = new ArrayList<Graph>();
+	private State                   state;
 
 	private ArrayList<GraphElement> copiedElements;
 	
 	public Controller() {
-		this.state  = State.SELECTION;
-		this.graphs = new ArrayList<Graph>();
+		this.state     = State.SELECTION;
+		this.graphs    = new ArrayList<Graph>();
 		copiedElements = new ArrayList<GraphElement>();
 	}
 

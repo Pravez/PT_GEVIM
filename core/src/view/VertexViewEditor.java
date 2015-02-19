@@ -17,18 +17,18 @@ public class VertexViewEditor extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
-	private JPanel     contentPane;
-    private JPanel vertexColoration;
+	private JPanel                  contentPane;
+    private JPanel                  vertexColoration;
 
-    private JButton    buttonOK;
-    private JButton    buttonCancel;
+    private JButton                 buttonOK;
+    private JButton                 buttonCancel;
 
-    private JTextField vertexName;
-    private JTextField vertexX;
-    private JTextField vertexY;
-    private JTextField vertexWidth;
+    private JTextField              vertexName;
+    private JTextField              vertexX;
+    private JTextField              vertexY;
+    private JTextField              vertexWidth;
 
-    private JComboBox  vertexShape;
+    private JComboBox<Vertex.Shape> vertexShape;
 
 
     private Vertex     vertex;
@@ -109,24 +109,16 @@ public class VertexViewEditor extends JDialog {
             }
 
             @Override
-            public void mousePressed(MouseEvent mouseEvent) {
-
-            }
+            public void mousePressed(MouseEvent mouseEvent) { }
 
             @Override
-            public void mouseReleased(MouseEvent mouseEvent) {
-
-            }
+            public void mouseReleased(MouseEvent mouseEvent) { }
 
             @Override
-            public void mouseEntered(MouseEvent mouseEvent) {
-
-            }
+            public void mouseEntered(MouseEvent mouseEvent) { }
 
             @Override
-            public void mouseExited(MouseEvent mouseEvent) {
-
-            }
+            public void mouseExited(MouseEvent mouseEvent) { }
         });
 
         this.pack();
@@ -171,10 +163,8 @@ public class VertexViewEditor extends JDialog {
     }
 
     private void onColor(){
-
         ColorChooser cc = new ColorChooser(this.vertexColoration.getBackground());
         this.vertexColoration.setBackground(cc.getColor());
-
     }
 
     /**
@@ -184,5 +174,4 @@ public class VertexViewEditor extends JDialog {
     public Vertex getModifiedVertex(){
         return this.vertex;
     }
-
 }

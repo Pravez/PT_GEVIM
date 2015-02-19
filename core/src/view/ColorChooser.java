@@ -9,17 +9,16 @@ import java.awt.event.*;
  */
 public class ColorChooser extends JDialog {
 
-    private JPanel contentPane;
-    private JPanel colorPane;
-    private JPanel buttonsPane;
+	private static final long serialVersionUID = 1L;
+	private JPanel        contentPane;
+    private JPanel        colorPane;
+    private JPanel        buttonsPane;
     private JColorChooser colorchooser;
-    private JButton buttonOK;
-    private JButton buttonCancel;
-    private Color currentColor;
+    private JButton       buttonOK;
+    private JButton       buttonCancel;
+    private Color         currentColor;
 
-
-    public ColorChooser(Color bg){
-
+    public ColorChooser(Color bg) {
         initComponents(bg);
 
         getRootPane().setDefaultButton(this.buttonOK);
@@ -28,31 +27,28 @@ public class ColorChooser extends JDialog {
         this.setVisible(true);
     }
 
-    public void initComponents(Color bg){
-
+    public void initComponents(Color bg) {
         this.setTitle("Color chooser");
 
-        contentPane = new JPanel();
-        buttonsPane = new JPanel(new GridLayout(1,2));
-        colorPane = new JPanel();
+        this.contentPane = new JPanel();
+        this.buttonsPane = new JPanel(new GridLayout(1,2));
+        this.colorPane   = new JPanel();
 
         this.setContentPane(contentPane);
 
 
-        colorchooser = new JColorChooser(bg);
+        this.colorchooser = new JColorChooser(bg);
         this.currentColor = bg;
 
 
-        buttonOK = new JButton("Ok");
-        buttonCancel = new JButton("Cancel");
+        this.buttonOK     = new JButton("Ok");
+        this.buttonCancel = new JButton("Cancel");
 
-        contentPane.add(colorPane);
-        contentPane.add(buttonsPane);
-        colorPane.add(colorchooser);
-        buttonsPane.add(buttonOK);
-        buttonsPane.add(buttonCancel);
-
-
+        this.contentPane.add(this.colorPane);
+        this.contentPane.add(this.buttonsPane);
+        this.colorPane.add(this.colorchooser);
+        this.buttonsPane.add(this.buttonOK);
+        this.buttonsPane.add(this.buttonCancel);
 
         this.buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -80,7 +76,6 @@ public class ColorChooser extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-
     }
 
     private void onOK(){

@@ -52,11 +52,11 @@ public class Window extends JFrame{
      * Initialize the background panel : creates a new JPanel
      */
     private void initBackPanel() {
-    	back = new JPanel();
-    	back.setBackground(Color.GRAY);
-    	back.setLayout(new BorderLayout());
-    	back.add(this.tabs, BorderLayout.CENTER);
-    	this.getContentPane().add(back);
+    	this.back = new JPanel();
+    	this.back.setBackground(Color.GRAY);
+    	this.back.setLayout(new BorderLayout());
+    	this.back.add(this.tabs, BorderLayout.CENTER);
+    	this.getContentPane().add(this.back);
     	this.getContentPane().setBackground(Color.GRAY);
     }
 
