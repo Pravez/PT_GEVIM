@@ -198,13 +198,15 @@ public class Graph extends Observable {
      * @param position la position du Vertex à créer
      * @param size la taille du Vertex à créer
      * @param shape la forme du Vertex à créer
+	 * @return vertex copie du vertex destiné au UndoPanel
      */
-    public void createVertex(Color color, Point position, int size, Vertex.Shape shape) {
-    	Vertex vertex = new Vertex(color, position, size, shape);
-        this.elements.add(vertex);
-        this.setChanged();
-    }
+	public Vertex createVertex(Color color, Point position, int size, Vertex.Shape shape) {
+		Vertex vertex = new Vertex(color, position, size, shape);
 
+		this.elements.add(vertex);
+		this.setChanged();
+		return vertex;
+	}
     /**
      * Creates an edge between two vertexes
      * @param color la couleur de l'Edge à créer
@@ -255,7 +257,18 @@ public class Graph extends Observable {
         this.setChanged();
     }
 
-    /**
+	/**
+	 * Ajoute un GraphElement
+	 * @param element GraphElement qui doit être inséré
+	 */
+	public void createGraphElement(GraphElement element) {
+
+		this.elements.add(element);
+		this.setChanged();
+	}
+
+
+	/**
      * (non-Javadoc)
      * @see data.Observable#setChanged()
      */

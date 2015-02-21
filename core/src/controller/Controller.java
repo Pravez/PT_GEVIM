@@ -54,7 +54,7 @@ public class Controller {
 	 */
 	public void addVertex(Graph g, Color color, Point position, int size, Vertex.Shape shape){
 		if (this.window.getCurrentTab().canAddVertex(position)) {
-			g.createVertex(color, position, size, shape);
+			window.getUndoRedo().register(g.createVertex(color, position, size, shape));
 		}
 	}
 

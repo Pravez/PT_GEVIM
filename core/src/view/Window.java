@@ -6,6 +6,7 @@ package view;
 
 import controller.*;
 import data.Graph;
+import undoRedo.UndoPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,6 +23,7 @@ public class Window extends JFrame{
     private int               height;
     private Controller        controller;
     private JPanel            back;
+    private  UndoPanel        undoRedo;
 
     private JTabbedPane       tabs; // ensemble des onglets
     private JToolBar          toolBar;
@@ -42,8 +44,6 @@ public class Window extends JFrame{
         tabs.setBackground(Color.GRAY);
 
         //Partie undo-redo, en cours d'implémentation
-        /*UndoPanel undoRedo = new UndoPanel();
-        super.getContentPane().add(undoRedo, BorderLayout.NORTH);*/
 
         this.setVisible(true);
     }
@@ -105,6 +105,7 @@ public class Window extends JFrame{
      * Method to init the tool menu bar (undo, redo, copy, paste...)
      */
     private void initToolMenuBar(){
+        undoRedo = new UndoPanel();
         toolBar = new JToolBar();
         toolBar.setFloatable(false);
         addToolBarButtonWithImage(toolBar, "New", "new.png");
@@ -113,9 +114,8 @@ public class Window extends JFrame{
         addToolBarImageButtonWithAction(toolBar, "zoom.png", Controller.State.ZOOM_IN.name(), false);
         addToolBarButtonWithImage(toolBar, "Copy", "copy.png");
         addToolBarButtonWithImage(toolBar, "Paste", "paste.png");
-        addToolBarButton(toolBar, "Undo");
-        addToolBarButton(toolBar, "Redo");
-        addToolBarButton(toolBar, "A FAIRE...");
+        toolBar.add(undoRedo.getUndo());
+        toolBar.add(undoRedo.getRedo());
         super.getContentPane().add(toolBar, BorderLayout.NORTH);
     }
     
@@ -213,6 +213,7 @@ public class Window extends JFrame{
         JScrollPane pane = new JScrollPane(tab);
 
     	this.tabs.addTab(title, pane);
+        undoRedo.setGraph(tab.getGraph());
     }
 
     /**
@@ -229,6 +230,14 @@ public class Window extends JFrame{
      */
     public Tab getCurrentTab(){
     	return (Tab)((JScrollPane)tabs.getComponentAt(tabs.getSelectedIndex())).getViewport().getComponent(0);
+    }
+
+    /**
+     * Getter d'undoRedo
+     * @return undoredo
+     */
+    public UndoPanel getUndoRedo() {
+        return undoRedo;
     }
 
     public JViewport getCurrentTabViewPort(){
