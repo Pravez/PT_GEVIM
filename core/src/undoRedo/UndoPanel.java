@@ -1,7 +1,9 @@
 package undoRedo;
 
+import data.Edge;
 import data.Graph;
 import data.GraphElement;
+import data.Vertex;
 
 import java.awt.event.*;
 import javax.swing.*;
@@ -94,6 +96,7 @@ public class UndoPanel extends JPanel {
     public void registerAddEdit(GraphElement newElement) {
 
         UndoableEdit edit = new AddEdit(graph, newElement);
+
         undoSupport_.postEdit(edit);
     }
 
@@ -105,9 +108,19 @@ public class UndoPanel extends JPanel {
      */
     public void registerSuppEdit(GraphElement suppElement) {
 
-
         UndoableEdit edit = new SuppEdit(graph, suppElement);
+
+        if(suppElement.isVertex())
+        {
+            Vertex v = (Vertex) suppElement;
+            for(Edge e : v.getEdges())
+            {
+                UndoableEdit editEdges=new SuppEdit(graph, e);
+                undoSupport_.postEdit(editEdges);
+            }
+        }
         undoSupport_.postEdit(edit);
+
     }
 
     /**

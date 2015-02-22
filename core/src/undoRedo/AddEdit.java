@@ -39,7 +39,7 @@ public class AddEdit extends AbstractUndoableEdit{
      * @throws CannotRedoException
      */
     public void redo() throws CannotRedoException {
-        graph.createGraphElement((GraphElement) element);
+        graph.createGraphElement(element);
 
     }
 

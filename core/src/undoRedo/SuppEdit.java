@@ -27,7 +27,7 @@ public class SuppEdit extends AbstractUndoableEdit {
      * @throws CannotUndoException
      */
     public void undo() throws CannotUndoException {
-        graph.createGraphElement((GraphElement) element);
+        graph.createGraphElement(element);
 
     }
 
