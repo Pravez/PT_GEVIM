@@ -198,7 +198,7 @@ public class Graph extends Observable {
      * @param position la position du Vertex à créer
      * @param size la taille du Vertex à créer
      * @param shape la forme du Vertex à créer
-	 * @return vertex copie du vertex destiné au UndoPanel
+	 * @return vertex copie du vertex destinée au UndoPanel
      */
 	public Vertex createVertex(Color color, Point position, int size, Vertex.Shape shape) {
 		Vertex vertex = new Vertex(color, position, size, shape);
@@ -213,11 +213,13 @@ public class Graph extends Observable {
      * @param origin le Vertex d'origine de l'Edge à créer
      * @param destination le Vertex de destination de l'Edge à créer
      * @param thickness l'épaisseur de l'Edge à créer
+	 * @return edge copie du vertex destinée au UndoPanel
      */
-    public void createEdge(Color color, Vertex origin, Vertex destination, int thickness) {
+    public Edge createEdge(Color color, Vertex origin, Vertex destination, int thickness) {
     	Edge edge = new Edge(color, origin, destination, thickness);
         this.elements.add(edge);
         this.setChanged();
+		return edge;
     }
 
     /**

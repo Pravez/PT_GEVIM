@@ -64,7 +64,7 @@ public class Controller {
 	 * @param dst le Vertex de destination de l'Edge
 	 */
 	public void addEdge (Vertex src, Vertex dst){
-		this.window.getCurrentTab().getGraph().createEdge(this.window.getCurrentTab().getDefaultColor(), src, dst, this.window.getCurrentTab().getDefaultThickness());
+		window.getUndoRedo().registerAddEdit(this.window.getCurrentTab().getGraph().createEdge(this.window.getCurrentTab().getDefaultColor(), src, dst, this.window.getCurrentTab().getDefaultThickness()));
 	}
 
 	/**
