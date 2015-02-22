@@ -54,7 +54,7 @@ public class Controller {
 	 */
 	public void addVertex(Graph g, Color color, Point position, int size, Vertex.Shape shape){
 		if (this.window.getCurrentTab().canAddVertex(position)) {
-			window.getUndoRedo().register(g.createVertex(color, position, size, shape));
+			window.getUndoRedo().registerAddEdit(g.createVertex(color, position, size, shape));
 		}
 	}
 
@@ -235,6 +235,7 @@ public class Controller {
 			case "Delete":
 				for (ElementView e : this.window.getCurrentTab().getSelectedElements()) {
 					this.getGraph(this.window.getCurrentTabIndex()).removeGraphElement(e.getGraphElement());
+					window.getUndoRedo().registerSuppEdit(e.getGraphElement());
 				}
 				this.window.getCurrentTab().clearSelectedElements();
 				break;

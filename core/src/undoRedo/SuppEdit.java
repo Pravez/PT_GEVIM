@@ -9,48 +9,46 @@ import javax.swing.undo.CannotUndoException;
 
 /**
  * @author Benjamin Dos Santos
- * Classe AddEdit, à chaque création d'objets au sein d'un Graph, une instance de AddEdit est créée et associée à l'undoManager.
+ * Classe SuppEdit, à chaque suppression d'objets au sein d'un Graph, une instance de SuppEdit est créée et associée à l'undoManager.
  */
-public class AddEdit extends AbstractUndoableEdit{
-
+public class SuppEdit extends AbstractUndoableEdit {
 
     private GraphElement element;
 
     private Graph graph;
 
-    public AddEdit(Graph model, GraphElement element) {
+    public SuppEdit(Graph model, GraphElement element) {
         graph=model;
-
         this.element = element;
-
     }
 
     /**
-     * Action correspondante à l'annulation de cet AddEdit
+     * Action correspondante à l'annulation de cet SuppEdit
      * @throws CannotUndoException
      */
     public void undo() throws CannotUndoException {
-        graph.removeGraphElement(element);
-
-    }
-
-    /**
-     * Action correspondante au rétablissement de cet AddEdit précédemment annulé
-     * @throws CannotRedoException
-     */
-    public void redo() throws CannotRedoException {
         graph.createGraphElement((GraphElement) element);
 
     }
 
     /**
-     * Indique que l'AddEdit est annulable
+     * Action correspondante au rétablissement de cet SuppEdit précédemment annulé
+     * @throws CannotRedoException
+     */
+    public void redo() throws CannotRedoException {
+        graph.removeGraphElement(element);
+
+
+    }
+
+    /**
+     * Indique que le SuppEdit est annulable
      * @return true
      */
     public boolean canUndo() { return true; }
 
     /**
-     * Indique que l'on peut rétablir cet AddEdit
+     * Indique que l'on peut rétablir cet SuppEdit
      * @return true
      */
     public boolean canRedo() { return true; }

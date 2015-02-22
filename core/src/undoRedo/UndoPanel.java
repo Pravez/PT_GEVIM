@@ -1,6 +1,7 @@
 package undoRedo;
 
 import data.Graph;
+import data.GraphElement;
 
 import java.awt.event.*;
 import javax.swing.*;
@@ -87,17 +88,27 @@ public class UndoPanel extends JPanel {
 
 
     /**
-     * Enregistre au sein du module UndoRedo la création d'un nouvel objet o au sein de graph
-     * @param o le nouvel objet
+     * Enregistre au sein du module UndoRedo la création d'un nouvel GraphElement au sein de graph
+     * @param newElement le nouvel objet
      */
-    public void register(Object o) {
+    public void registerAddEdit(GraphElement newElement) {
 
-        Object element = o;
-        UndoableEdit edit = new AddEdit(graph,
-                element);
+        UndoableEdit edit = new AddEdit(graph, newElement);
         undoSupport_.postEdit(edit);
     }
 
+
+
+    /**
+     * Enregistre au sein du module UndoRedo la suppression d'un GraphElement au sein de graph
+     * @param suppElement GraphElement venant d'être supprimé
+     */
+    public void registerSuppEdit(GraphElement suppElement) {
+
+
+        UndoableEdit edit = new SuppEdit(graph, suppElement);
+        undoSupport_.postEdit(edit);
+    }
 
     /**
      * Classe action associée au bouton undo
