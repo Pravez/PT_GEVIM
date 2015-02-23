@@ -114,12 +114,12 @@ public class Window extends JFrame{
         toolBar = new JToolBar();
         toolBar.setFloatable(false);
 
-        addToolBarButtonWithImage(toolBar, "New", "new.png", "Nouveau graphe");
-        addToolBarImageButtonWithAction(toolBar, "cursor.png", Controller.State.SELECTION.name(), true, "Mode édition");
-        addToolBarImageButtonWithAction(toolBar, "edit.png", Controller.State.CREATE.name(), false, "Mode création");
-        addToolBarImageButtonWithAction(toolBar, "zoom.png", Controller.State.ZOOM_IN.name(), false, "Zoom");
-        addToolBarButtonWithImage(toolBar, "Copy", "copy.png", "Copier");
-        addToolBarButtonWithImage(toolBar, "Paste", "paste.png", "Coller");
+        addToolBarButtonWithImage(toolBar, "New", "assets/new.png", "Nouveau graphe");
+        addToolBarImageButtonWithAction(toolBar, "assets/cursor.png", Controller.State.SELECTION.name(), true, "Mode édition");
+        addToolBarImageButtonWithAction(toolBar, "assets/edit.png", Controller.State.CREATE.name(), false, "Mode création");
+        addToolBarImageButtonWithAction(toolBar, "assets/zoom.png", Controller.State.ZOOM_IN.name(), false, "Zoom");
+        addToolBarButtonWithImage(toolBar, "Copy", "assets/copy.png", "Copier");
+        addToolBarButtonWithImage(toolBar, "Paste", "assets/paste.png", "Coller");
 
         toolBar.add(undoRedo.getUndo());
         toolBar.add(undoRedo.getRedo());

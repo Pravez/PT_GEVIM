@@ -389,7 +389,7 @@ public class Controller {
         if (this.window.getTabCount() > 0) {
             if (JOptionPane.showConfirmDialog(this.window, "Souhaitez vous fermer ce graphe ? (Vous devriez peut-être sauvegarder ...?)", "Fermer le graphe", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
                 this.graphs.remove(this.graphs.get(this.window.getCurrentTabIndex()));
-                this.window.getTabs().remove(this.window.getCurrentTab());
+                this.window.getTabs().removeTabAt(this.window.getCurrentTabIndex());
             }
         } else {
             if (JOptionPane.showConfirmDialog(this.window, "Souhaitez vous vraiment quitter ?", "Fermer le programme", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
