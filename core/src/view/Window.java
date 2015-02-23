@@ -70,11 +70,16 @@ public class Window extends JFrame{
     	this.width      = width;
         this.height     = height;
         this.controller = controller;
+
         this.setTitle("PT - Modélisation de graphe");
         this.setSize(this.width, this.height);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         this.tabs = new JTabbedPane(SwingConstants.TOP);
+
+        //Icone de l'application
+        //setIconImage(Toolkit.getDefaultToolkit().getImage("appIcon.png"));
     }
 
     /**
@@ -108,12 +113,14 @@ public class Window extends JFrame{
         undoRedo = new UndoPanel();
         toolBar = new JToolBar();
         toolBar.setFloatable(false);
-        addToolBarButtonWithImage(toolBar, "New", "new.png");
-        addToolBarImageButtonWithAction(toolBar, "cursor.png", Controller.State.SELECTION.name(), true);
-        addToolBarImageButtonWithAction(toolBar, "edit.png", Controller.State.CREATE.name(), false);
-        addToolBarImageButtonWithAction(toolBar, "zoom.png", Controller.State.ZOOM_IN.name(), false);
-        addToolBarButtonWithImage(toolBar, "Copy", "copy.png");
-        addToolBarButtonWithImage(toolBar, "Paste", "paste.png");
+
+        addToolBarButtonWithImage(toolBar, "New", "new.png", "Nouveau graphe");
+        addToolBarImageButtonWithAction(toolBar, "cursor.png", Controller.State.SELECTION.name(), true, "Mode édition");
+        addToolBarImageButtonWithAction(toolBar, "edit.png", Controller.State.CREATE.name(), false, "Mode création");
+        addToolBarImageButtonWithAction(toolBar, "zoom.png", Controller.State.ZOOM_IN.name(), false, "Zoom");
+        addToolBarButtonWithImage(toolBar, "Copy", "copy.png", "Copier");
+        addToolBarButtonWithImage(toolBar, "Paste", "paste.png", "Coller");
+
         toolBar.add(undoRedo.getUndo());
         toolBar.add(undoRedo.getRedo());
         super.getContentPane().add(toolBar, BorderLayout.NORTH);
@@ -126,7 +133,7 @@ public class Window extends JFrame{
      * @param actionCommand la commande qui sera appellée lors du clic sur le bouton
      * @param selectedState l'état du bouton, s'il est sélectionné
      */
-    private void addToolBarImageButtonWithAction(JToolBar toolBar, String fileName, String actionCommand, boolean selectedState) {
+    private void addToolBarImageButtonWithAction(JToolBar toolBar, String fileName, String actionCommand, boolean selectedState, String helpMessage) {
     	Image img = Toolkit.getDefaultToolkit().getImage(fileName);
     	JButton imageButton = new JButton();
     	imageButton.setIcon(new ImageIcon(img.getScaledInstance(20,  20, Image.SCALE_SMOOTH)));
@@ -136,6 +143,7 @@ public class Window extends JFrame{
     	imageButton.setSelected(selectedState);
     	imageButton.setActionCommand(actionCommand);
     	imageButton.addActionListener(new ToolBarContextActionListener(this.controller, imageButton));
+        imageButton.setToolTipText(helpMessage);
     	toolBar.add(imageButton);
     }
     
@@ -156,17 +164,18 @@ public class Window extends JFrame{
      * @param buttonName Le nom du bouton
      * @param fileName Le lien vers l'image du bouton
      */
-    private void addToolBarButtonWithImage(JToolBar toolBar, String buttonName, String fileName){
+    private void addToolBarButtonWithImage(JToolBar toolBar, String buttonName, String fileName, String helpMessage){
         Image img = Toolkit.getDefaultToolkit().getImage(fileName);
-        JButton imageButton = new JButton();
-        imageButton.setIcon(new ImageIcon(img.getScaledInstance(20,  20, Image.SCALE_SMOOTH)));
-        imageButton.setBounds(0, 0, 20, 20);
-        imageButton.setMargin(new Insets(0, 0, 0, 0));
-        imageButton.setBorder(null);
-        imageButton.addActionListener(new ToolBarButtonActionListener(this.controller, imageButton));
-        imageButton.setName(buttonName);
-        imageButton.setSelected(false);
-        toolBar.add(imageButton);
+        JButton button = new JButton();
+        button.setIcon(new ImageIcon(img.getScaledInstance(20,  20, Image.SCALE_SMOOTH)));
+        button.setBounds(0, 0, 20, 20);
+        button.setMargin(new Insets(0, 0, 0, 0));
+        button.setBorder(null);
+        button.addActionListener(new ToolBarButtonActionListener(this.controller, button));
+        button.setName(buttonName);
+        button.setSelected(false);
+        button.setToolTipText(helpMessage);
+        toolBar.add(button);
     }
 
     /**
@@ -179,9 +188,22 @@ public class Window extends JFrame{
     	JMenu edition = this.addMenu("Edition");
     	JMenu algorithm = this.addMenu("algorithm");
 
+        JMenu save = new JMenu("Save");
+        this.addJMenuItem(save, "to GraphML...");
+        this.addJMenuItem(save, "to GraphViz...");
+
+        JMenu open = new JMenu("Open");
+        this.addJMenuItem(open, "from GraphML...");
+        this.addJMenuItem(open, "from GraphViz...");
+
+
         this.addJMenuItem(file, "New");
-    	this.addJMenuItem(file, "Save");
-    	this.addJMenuItem(file, "Load");
+        file.add(open);
+
+        file.addSeparator();
+        file.add(save);
+
+        file.addSeparator();
     	this.addJMenuItem(file, "Close");
     	
     	this.addJMenuItem(edition, "Undo");
@@ -204,7 +226,7 @@ public class Window extends JFrame{
     	tab.setBackground(Color.GRAY);
     	tab.setLayout(null);
         tab.add(new JLabel(title));
-        tab.setPreferredSize(new Dimension(2000,2000));
+        tab.setPreferredSize(new Dimension(2000, 2000));
 
         TabMouseListener listener = new TabMouseListener(this.controller, tab, graph);
         tab.addMouseListener(listener);

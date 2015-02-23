@@ -4,15 +4,11 @@ import controller.Controller;
 import controller.EdgeMouseListener;
 import controller.VertexMouseListener;
 import data.*;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.output.Format;
-import org.jdom2.output.XMLOutputter;
+import files.GmlFileWriter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
@@ -463,141 +459,13 @@ public class Tab extends JComponent implements Observer {
 		/** A modifier pour n'ajouter que ceux qui sont dans la fenêtre **/
 	}
 
-    //REGION GRAPHML
-	/**
-     * Saves the current graph to an XML doc (XML-like doc)
-     * @param fileName
-     */
-    public void saveToGraphml(String fileName) {
-
-        Element graphml = new Element("graphml");
-        graphml.setAttribute("axmlns", "http://graphml.graphdrawing.org/xmlns");
-
-
-        Element graphXML = new Element("graph");
-        graphXML.setAttribute("id", "0");
-        graphXML.setAttribute("edgedefault", "directed");
-
-
-        org.jdom2.Document toBeSaved = new Document(graphXML);
-
-        for(Vertex v : this.graph.getVertexes()) {
-            graphXML.addContent(createVertexDocumentElement(v));
-        }
-        
-        for(Edge e : this.graph.getEdges()) {
-            graphXML.addContent(createEdgeDocumentElement(e));
-        }
-
-        showXML(toBeSaved);
-        saveXML(fileName, toBeSaved);
-    }
-
     /**
-     * Creates an XML element from a VertexView
-     * @param v
-     * @return
+     * Fonction servant à sauvegarder un graphe au format GraphML à l'aide de la classe {@link files.GmlFileWriter}
+     * @param file Le fichier où sera enregistré le graphe (au format .gml)
      */
-    private Element createVertexDocumentElement(Vertex v) {
-
-        Element createdElement = new Element("node");
-        createdElement.setAttribute("id",String.valueOf(v.getValue()));
-
-        Element name = new Element("data");
-        name.setAttribute("key","name");
-        Element color     = new Element("data");
-        color.setAttribute("key","color");
-        Element size = new Element("data");
-        size.setAttribute("key","size");
-        Element positionX = new Element("data");
-        positionX.setAttribute("key", "positionX");
-        Element positionY = new Element("data");
-        positionY.setAttribute("key", "positionY");
-        Element shape     = new Element("data");
-        shape.setAttribute("key", "shape");
-
-        name.setText(v.getLabel());
-        color.setText(String.valueOf(v.getColor().getRGB()));
-        positionX.setText(String.valueOf(v.getPosition().x));
-        positionY.setText(String.valueOf(v.getPosition().y));
-        shape.setText(v.getShape().toString());
-
-        createdElement.addContent(name);
-        createdElement.addContent(color);
-        createdElement.addContent(size);
-        createdElement.addContent(positionX);
-        createdElement.addContent(positionY);
-        createdElement.addContent(shape);
-
-        return createdElement;
+    public void saveToGML(File file){
+        GmlFileWriter gmlFileWriter = new GmlFileWriter(this.graph, file);
+        gmlFileWriter.createDocumentContent();
+        gmlFileWriter.saveDocument();
     }
-
-
-    
-    /**
-     * Creates an XML element from a EdgeView
-     * @param e
-     * @return
-     */
-    private Element createEdgeDocumentElement(Edge e) {
-
-        Element createdElement = new Element("edge");
-        createdElement.setAttribute("id",String.valueOf(e.getValue()));
-
-        Element origin = new Element("data");
-        origin.setAttribute("key", "origin");
-        Element destination = new Element("data");
-        destination.setAttribute("key", "destination");
-        Element thickness = new Element("data");
-        thickness.setAttribute("key", "thickness");
-
-        origin.setText(String.valueOf(e.getOrigin().getValue()));
-        destination.setText(String.valueOf(e.getDestination().getValue()));
-        thickness.setText(String.valueOf(e.getThickness()));
-
-
-        createdElement.addContent(origin);
-        createdElement.addContent(destination);
-        createdElement.addContent(thickness);
-
-        return createdElement;
-    }
-
-    /**
-     * Shows an XML document
-     * @param document
-     */
-    private static void showXML(Document document){
-
-        XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
-
-        try {
-            out.output(document, System.out);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Saves a document at the "file" destination, in XML format
-     * @param file
-     * @param document
-     */
-    private static void saveXML(String file, Document document){
-        try
-        {
-            //On modifie le format d'enregistrement (affichage)
-            XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
-
-            out.output(document, new FileOutputStream(file));
-        }
-        catch (java.io.IOException e){
-            e.printStackTrace();
-        }
-    }
-
-
-
-
-    //END REGION
 }
