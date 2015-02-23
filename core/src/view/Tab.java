@@ -464,8 +464,10 @@ public class Tab extends JComponent implements Observer {
      * @param file Le fichier où sera enregistré le graphe (au format .gml)
      */
     public void saveToGML(File file){
-        GmlFileWriter gmlFileWriter = new GmlFileWriter(this.graph, file);
-        gmlFileWriter.createDocumentContent();
-        gmlFileWriter.saveDocument();
+        if(file != null) {
+            GmlFileWriter gmlFileWriter = new GmlFileWriter(this.graph, file);
+            gmlFileWriter.createDocumentContent();
+            gmlFileWriter.saveDocument();
+        }
     }
 }

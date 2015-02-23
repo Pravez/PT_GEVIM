@@ -159,7 +159,7 @@ public class Controller {
                 break;
 
             case "to GraphML...":
-                this.window.getCurrentTab().saveToGML(this.chooseFile("gml"));
+                this.window.getCurrentTab().saveToGML(this.chooseFile("gml", "GraphML files (*.gml)"));
                 break;
 
             case "to GraphViz...":
@@ -357,6 +357,9 @@ public class Controller {
         this.window.getCurrentTab().launchTemporarilyEdge(origin, position);
     }
 
+    /**
+     * Méthode utilisée pour envoyer une information signalant la fin du drag sur une {@link data.Edge} temporaire
+     */
     public void notifyEndDraggingEdge() {
         this.window.getCurrentTab().endTemporarilyEdge();
     }
@@ -397,17 +400,33 @@ public class Controller {
         }
     }
 
-    private File chooseFile(String extension) {
-        JFileChooser dialogue = new JFileChooser(new File("."));
-        dialogue.setFileFilter(new FileNameExtensionFilter("Graphml", extension));
+    /**
+     * Methode pour choisir un fichier dans une arborescence à partir du répertoire principal de l'utilisateur en cours. Elle
+     * possède des filtres sur les types de fichiers.
+     * @param extension Restriction sur les extensions ajoutée à la liste des restrictions du {@link javax.swing.JFileChooser}
+     * @return Le {@link java.io.File} sélectionné
+     */
+    private File chooseFile(String extension, String description) {
+
+        JFileChooser dialogue = new JFileChooser(new File("~/"));
+        dialogue.setFileFilter(new FileNameExtensionFilter(description, extension));
         File file = null;
 
         if (dialogue.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-            if (dialogue.getSelectedFile().getName().endsWith("." + extension)) {
-                file = dialogue.getSelectedFile();
-            }else{
-                JOptionPane.showMessageDialog(null, "Impossible d'utiliser ce fichier", "Erreur", JOptionPane.ERROR_MESSAGE);
+            file = dialogue.getSelectedFile();
+
+            //Si le fichier rentré (entrée du nom à la main) ne dispose pas d'extension, alors on ui en rajoute une.
+            if(!file.getName().contains(".")) {
+                String newFile = file.getAbsolutePath() + "." + extension;
+                file = new File(newFile);
             }
+
+            //Si le fichier ne possède pas la bonne extension (.gml)
+            if (!file.getName().endsWith("." + extension)) {
+                JOptionPane.showMessageDialog(null, "Impossible d'utiliser ce format", "Erreur", JOptionPane.ERROR_MESSAGE);
+                file = null;
+            }
+
         }
 
         return file;
