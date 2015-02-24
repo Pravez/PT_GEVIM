@@ -6,6 +6,8 @@ import java.awt.event.*;
 
 /**
  * Created by paubreton on 15/02/15.
+ * Classe d'édition de couleurs. Elle reçoit une couleur de base et à l'aide du {@link javax.swing.JColorChooser} aide l'utilisateur
+ * à choisir une nouvelle couleur parmi un panel relativement étendu. Utilisée par les classes {@link view.VertexViewEditor} et {@link view.EdgeViewEditor}.
  */
 public class ColorChooser extends JDialog {
 
@@ -18,6 +20,10 @@ public class ColorChooser extends JDialog {
     private JButton       buttonCancel;
     private Color         currentColor;
 
+    /**
+     * Constructeur mettant en place l'état initial de la fenêtre
+     * @param bg La couleur première qu'aura le sélecteur de couleurs (id est : la couleur de l'élément que l'on veut modifier).
+     */
     public ColorChooser(Color bg) {
         initComponents(bg);
 
@@ -27,6 +33,10 @@ public class ColorChooser extends JDialog {
         this.setVisible(true);
     }
 
+    /**
+     * Initialisation des différents composants de swing associés à la fenêtre.
+     * @param bg La couleur de base
+     */
     public void initComponents(Color bg) {
         this.setTitle("Color chooser");
 
@@ -78,15 +88,26 @@ public class ColorChooser extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    /**
+     * Métode appellée à la validation des données (appui sur le bouton OK). Elle enregistre la couleur choisie par l'utilisateur
+     * et ferme la fenêtre.
+     */
     private void onOK(){
         this.currentColor = colorchooser.getColor();
         dispose();
     }
 
+    /**
+     * Méthode fermant la fenêtre sans rien enregistrer
+     */
     private void onCancel(){
         dispose();
     }
 
+    /**
+     * Méthode permettant de récupérer la couleur actuelle de l'instance du {@link view.ColorChooser}
+     * @return La dernière couleur enregistrée par l'instance
+     */
     public Color getColor(){
         return this.currentColor;
     }

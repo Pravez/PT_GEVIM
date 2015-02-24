@@ -207,6 +207,10 @@ public class EdgeView extends ElementView {
 		this.repaint();
 	}
 
+    /**
+     * Méthode servant à modifier un {@link data.Edge} grâce au {@link view.EdgeViewEditor}
+     * @param graph Le {@link data.Graph} sur lequel se situe l'Edge qui est l'objet de la modification
+     */
     @Override
     public void modify(Graph graph) {
         EdgeViewEditor edit = new EdgeViewEditor(this.edge, graph);
@@ -217,6 +221,10 @@ public class EdgeView extends ElementView {
         this.edge.setColor(newEdge.getColor());
     }
 
+    /**
+     * Méthode pour récupérer le {@link data.GraphElement} ({@link data.Edge} ici) associé à l'élément de la vue {@link view.EdgeView}.
+     * @return Le graphElement associé
+     */
 	@Override
 	public GraphElement getGraphElement() {
 		return this.edge;

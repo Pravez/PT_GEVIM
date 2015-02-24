@@ -5,6 +5,9 @@ import data.GraphElement;
 
 import javax.swing.JComponent;
 
+/**
+ * Classe mère de tous les éléments visuels de la feuille de dessin. {@link view.VertexView} et {@link view.EdgeView} en héritent.
+ */
 public abstract class ElementView extends JComponent {
 
 	private static final long serialVersionUID = 1L;

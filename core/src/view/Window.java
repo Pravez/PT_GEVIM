@@ -14,7 +14,7 @@ import java.awt.*;
 /**
  * @author Alexis Dufrenne
  * Classe Window gérant la fenêtre principale de l'application. C'est la Vue principale du pattern MVC, 
- * elle interagit avec l'utilisateur
+ * elle interagit avec l'utilisateur.
  */
 public class Window extends JFrame{
 
@@ -49,7 +49,7 @@ public class Window extends JFrame{
     }
 
     /**
-     * Initialize the background panel : creates a new JPanel
+     * Initialise le {@link javax.swing.JPanel} de fond, le principal qui va stocker l'ensemble des items de Swing.
      */
     private void initBackPanel() {
     	this.back = new JPanel();
@@ -61,7 +61,7 @@ public class Window extends JFrame{
     }
 
     /**
-     * Creates the window associated with a width, a height and a controller
+     * Initialisation de la {@link view.Window} avec son {@link controller.Controller} associé, sa largeur et sa longueur.
      * @param width
      * @param height
      * @param controller
@@ -83,9 +83,9 @@ public class Window extends JFrame{
     }
 
     /**
-     * Method to create a menu from just a string
-     * @param menuText
-     * @return
+     * Méthode ajoutant à la {@link javax.swing.JMenuBar} principale de la {@link view.Window} un nouveau {@link javax.swing.JMenu}
+     * @param menuText Le nom du nouveau menu
+     * @return Le menu crée après avoir été ajouté
      */
 	private JMenu addMenu(String menuText) {
 		JMenu menu = new JMenu(menuText);
@@ -179,7 +179,7 @@ public class Window extends JFrame{
     }
 
     /**
-     * Method to create different menus to navigate
+     * Méthode initialisant tous les menus pour utiliser les fonctions du logiciel (enregistrement, algorithmes ...)
      */
     private void initMenu() {
     	super.setJMenuBar(new JMenuBar());
@@ -216,7 +216,7 @@ public class Window extends JFrame{
     }
 
     /**
-     * Adds a new tab to the current JPanel. The tab is another JPanel
+     * Méthode ajoutant un nouveau {@link view.Tab}. On associe à ce dernier un nouveau {@link data.Graph} et un titre (nom).
      */
     public void addNewTab(Graph graph, String title) {
         Tab tab = new Tab(graph, this.controller);
@@ -247,8 +247,8 @@ public class Window extends JFrame{
     }
 
     /**
-     * Method to get the current used tab
-     * @return the index of the current tab
+     * Renvoi du {@link view.Tab} couramment sélectionné
+     * @return Le {@link view.Tab} sélectionné
      */
     public Tab getCurrentTab(){
     	return (Tab)((JScrollPane)tabs.getComponentAt(tabs.getSelectedIndex())).getViewport().getComponent(0);

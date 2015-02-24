@@ -14,7 +14,7 @@ import java.util.ListIterator;
 
 /**
  * Created by Corentin Davidenko on 04/02/15
- * Classe Tab, onglet affichant un graphe dans l'application, est un Observer de la classe Graph
+ * Classe Tab, onglet affichant un {@link data.Graph} dans l'application, est un {@link view.Observer} de la classe Graph
  */
 public class Tab extends JComponent implements Observer {
 

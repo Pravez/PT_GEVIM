@@ -8,7 +8,7 @@ import java.awt.*;
 
 /**
  * @author Alexis Dufrenne
- * Classe VertexView, Vertex affiché dans le Tab
+ * Classe étant la "représentation graphique" d'un {@link data.Vertex}. Elle récupère ses données et les rend visibles.
  */
 public class VertexView extends ElementView {
 
@@ -151,15 +151,27 @@ public class VertexView extends ElementView {
         this.vertex.setLabel(newVertex.getLabel());
     }
 
+    /**
+     * Getter permettant de récupérer le {@link data.Vertex} associé au VertexView
+     * @return
+     */
     public Vertex getVertex() {
         return vertex;
     }
 
+    /**
+     * Méthode renvoyant le {@link data.Vertex} mais au format d'un {@link data.GraphElement}
+     * @return
+     */
 	@Override
 	public GraphElement getGraphElement() {
 		return this.vertex;
 	}
 
+    /**
+     * Méthode changeant la position ({@link java.awt.Point}) d'un {@link data.Vertex}.
+     * @param vector Le nouveau {@link java.awt.Point} où se situera le {@link data.Vertex}
+     */
 	public void move(Point vector) {
 		this.vertex.setPosition(new Point(this.vertex.getPosition().x + vector.x, this.vertex.getPosition().y + vector.y));		
 	}

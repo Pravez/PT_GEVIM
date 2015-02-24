@@ -11,7 +11,7 @@ import static data.Vertex.Shape.*;
 
 /**
  * Created by Paul Breton
- * Class to edit a VertexView with all its informations
+ * Classe "visuelle" qui permet de modifier toutes les données d'un {@link data.Vertex} avec une interface graphique.
  */
 public class VertexViewEditor extends JDialog {
 
@@ -162,13 +162,16 @@ public class VertexViewEditor extends JDialog {
         dispose();
     }
 
+    /**
+     * Permet d'ouvrir une nouvelle fenêtre d'édition de couleurs.
+     */
     private void onColor(){
         ColorChooser cc = new ColorChooser(this.vertexColoration.getBackground());
         this.vertexColoration.setBackground(cc.getColor());
     }
 
     /**
-     * Renvoie les données du Vertex qui a été modifié
+     * Renvoie les données du Vertex qui a été modifié, associé à l'instance de la classe {@link view.VertexViewEditor}
      * @return le Vertex modifié
      */
     public Vertex getModifiedVertex(){

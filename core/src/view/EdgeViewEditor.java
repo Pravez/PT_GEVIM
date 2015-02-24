@@ -7,6 +7,10 @@ import data.Vertex;
 import javax.swing.*;
 import java.awt.event.*;
 
+/**
+ * Classe permettant d'éditer un {@link data.Edge} avec plusieurs champs. C'est avant tout visuel avec plusieurs champs
+ * pour modifier une à une chacune des propriétés de l'Edge concerné.
+ */
 public class EdgeViewEditor extends JDialog {
 
 	private static final long serialVersionUID = 1L;
@@ -21,6 +25,12 @@ public class EdgeViewEditor extends JDialog {
     private Edge              edge;
     private Graph             graph;
 
+    /**
+     * Constructeur de l'éditeur de {@link data.Edge}, il initialise les composants et lie les données du graphe
+     * aux siennes.
+     * @param edge Le edge concerné pour la modification
+     * @param graph Le graphe dans lequel se situe le edge
+     */
     public EdgeViewEditor(Edge edge, Graph graph) {
         this.setTitle("Edge editor");
 
@@ -59,6 +69,11 @@ public class EdgeViewEditor extends JDialog {
         this.setVisible(true);
     }
 
+    /**
+     * Lien entre les données de la fenêtre d'édition et celles du modèle ({@link data.Vertex}, {@link data.Edge} et {@link data.Graph})
+     * @param edge Le edge concerné
+     * @param graph Le graphe contenant le edge concerné
+     */
     private void initComponents(Edge edge, Graph graph) {
 
         this.edge  = edge;
@@ -101,6 +116,11 @@ public class EdgeViewEditor extends JDialog {
         });
     }
 
+    /**
+     * Méthode appellée à la validation de la fenêtre. Elle modifie toutes les informations contenues dans le vertex
+     * qui était lié à la fenêtre, suivant les modifications faites par l'utilisateur. Enfin, elle ferme la fenêtre (mais ne
+     * détruit pas l'instance).
+     */
     private void onOK() {
         this.edge.setColor(this.edgeViewColor.getBackground());
         this.edge.setThickness(Integer.parseInt(this.edgeThickness.getText()));
@@ -120,14 +140,24 @@ public class EdgeViewEditor extends JDialog {
         }
     }
 
+    /**
+     * A l'appel du bouton Cancel : ferme la fenêtre
+     */
     private void onCancel() {
         dispose();
     }
 
+    /**
+     * Méthode appellée pour initialiser la fenêtre d'édition de couleurs.
+     */
     private void onColor(){
         ColorChooser cc = new ColorChooser(this.edgeViewColor.getBackground());
         this.edgeViewColor.setBackground(cc.getColor());
     }
 
+    /**
+     * Méthode pour récupérer le {@link data.Edge} de la fenêtre qui a été modifié
+     * @return Le {@link data.Edge} associé à la fenêtre.
+     */
     public Edge getModifiedEdge(){ return this.edge; }
 }
