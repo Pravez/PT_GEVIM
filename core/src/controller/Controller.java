@@ -159,7 +159,11 @@ public class Controller {
                 break;
 
             case "to GraphML...":
-                this.window.getCurrentTab().saveToGML(this.chooseFile("gml", "GraphML files (*.gml)"));
+                try {
+                    this.window.getCurrentTab().saveToGML(this.chooseFile("gml", "GraphML files (*.gml)"));
+                }catch(ArrayIndexOutOfBoundsException aioobe){
+                    JOptionPane.showMessageDialog(null, "Rien à sauvegarder...", "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
                 break;
 
             case "to GraphViz...":
@@ -247,6 +251,7 @@ public class Controller {
         switch (text) {
             case "Edit":
                 this.window.getCurrentTab().modifySelectedElement();
+                this.graphs.get(this.window.getCurrentTabIndex()).setChanged();
                 break;
             case "Delete":
                 for (ElementView e : this.window.getCurrentTab().getSelectedElements()) {

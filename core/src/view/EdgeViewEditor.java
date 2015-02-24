@@ -60,21 +60,23 @@ public class EdgeViewEditor extends JDialog {
     }
 
     private void initComponents(Edge edge, Graph graph) {
-        String positionToString = "";
 
         this.edge  = edge;
         this.graph = graph;
         this.edgeThickness.setText(String.valueOf(edge.getThickness()));
 
+        String vertexLabel = "";
+
         for(Vertex v : this.graph.getVertexes()){
-            positionToString = v.getPosition().toString();
-            this.originVertex.addItem(positionToString);
-            this.destinationVertex.addItem(positionToString);
-            if(edge.getOrigin()==v){
-            	this.originVertex.setSelectedItem(positionToString);
-            } // faire un else if ??
-            if(edge.getDestination()==v){
-            	this.destinationVertex.setSelectedItem(positionToString);
+            vertexLabel = v.getLabel();
+
+            this.originVertex.addItem(vertexLabel);
+            this.destinationVertex.addItem(vertexLabel);
+
+            if (this.edge.getOrigin().getLabel() == vertexLabel) {
+                this.originVertex.setSelectedItem(vertexLabel);
+            } else if (this.edge.getDestination().getLabel() == vertexLabel) {
+                this.destinationVertex.setSelectedItem(vertexLabel);
             }
         }
 
@@ -103,10 +105,19 @@ public class EdgeViewEditor extends JDialog {
         this.edge.setColor(this.edgeViewColor.getBackground());
         this.edge.setThickness(Integer.parseInt(this.edgeThickness.getText()));
 
-        /*this.edgeView.setOrigin(((Tab)this.edgeView.getParent()).getVertexAt(getPointFromString((String) this.originVertex.getSelectedItem())));
-        this.edgeView.setDestination(((Tab) this.edgeView.getParent()).getVertexAt(getPointFromString((String) this.destinationVertex.getSelectedItem())));
-         */
-        dispose();
+        String originValue = ((String)originVertex.getSelectedItem());
+        String destinationValue = ((String)destinationVertex.getSelectedItem());
+
+        //Si le Vertex de départ est le même que celui d'arrivée
+        if(originValue == destinationValue){
+            JOptionPane.showMessageDialog(null, "Les vertex de départ et d'arrivée doivent être différents", "Erreur", JOptionPane.ERROR_MESSAGE);
+
+        }else {
+            this.edge.setOrigin(this.graph.getVertexes().get(this.graph.getElementIndexWithLabel(originValue)));
+            this.edge.setDestination(this.graph.getVertexes().get(this.graph.getElementIndexWithLabel(destinationValue)));
+
+            dispose();
+        }
     }
 
     private void onCancel() {

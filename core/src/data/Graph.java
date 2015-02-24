@@ -269,6 +269,16 @@ public class Graph extends Observable {
 		this.setChanged();
 	}
 
+    public int getElementIndexWithLabel(String label){
+        for(int i = 0; i<this.elements.size();i++){
+            if(elements.get(i).getLabel() == label){
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
 
 	/**
      * (non-Javadoc)

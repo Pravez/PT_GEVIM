@@ -40,7 +40,7 @@ public class Edge extends GraphElement {
      * @param thickness l'épaisseur de l'Edge
      */
     public Edge(Color color, Vertex origin, Vertex destination, int thickness) {
-    	super(CURRENT_VALUE, color);
+    	super("edge"+CURRENT_VALUE, CURRENT_VALUE, color);
         this.origin      = origin;
         this.destination = destination;
         this.thickness   = thickness;

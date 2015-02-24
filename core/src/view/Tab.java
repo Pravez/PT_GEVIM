@@ -205,7 +205,7 @@ public class Tab extends JComponent implements Observer {
     public void modifySelectedElement() {
     	/// A modifier --> soit modifier tous, soit le premier qui est un VertexView
     	selectedElements.get(0).modify(this.graph);
-    	this.repaint();
+        this.repaint();
     }
 
     /**

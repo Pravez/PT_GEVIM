@@ -27,6 +27,7 @@ public class Vertex extends GraphElement {
      * @param size la taille du Vertex
      * @param shape la forme du Vertex
      */
+    //CONSTRUCTEUR JAMAIS UTILISE, A SUPPRIMER
     public Vertex(String label, Color color, Point position, int size, Shape shape) {
     	super(label, CURRENT_VALUE, color);
         this.position = position;
@@ -53,7 +54,7 @@ public class Vertex extends GraphElement {
      * @param shape la forme du Vertex
      */
     public Vertex(Color color, Point position, int size, Shape shape) {
-    	super(CURRENT_VALUE, color);
+    	super("node"+CURRENT_VALUE,CURRENT_VALUE, color);
         this.position = position;
         this.size     = size;
         this.shape    = shape;
