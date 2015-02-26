@@ -1,0 +1,142 @@
+package controller;
+
+import data.Graph;
+import view.Tab;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+
+/**
+ * @author Alexis Dufrenne
+ *         Classe TabMouseListener, écouteur des événements souris survenant au niveau des Tab
+ */
+public class TabMouseListener implements MouseListener, MouseMotionListener {
+
+    private Controller controller;
+    private Tab tab;
+    private Graph graph;
+    private boolean dragging;
+    private Point initDrag;
+
+    /**
+     * Constructeur de la classe TabMouseListener
+     *
+     * @param controller le Controller
+     * @param tab        le Tab (onglet) qu'il écoute
+     * @param graph      le Graph (model) correspondant au tab
+     */
+    public TabMouseListener(Controller controller, Tab tab, Graph graph) {
+        this.controller = controller;
+        this.tab = tab;
+        this.graph = graph;
+    }
+
+    /**
+     * Méthode permettant de créer un PopupMenu
+     *
+     * @param menuItems les MenuItems présents dans le PopuMenu
+     * @param position  la position du PopupMenu
+     * @return le PopupMenu créé
+     */
+    public JPopupMenu initNewPopupMenu(String[] menuItems, Point position) {
+        JPopupMenu jpm = new JPopupMenu();
+
+        for (String s : menuItems) {
+            JMenuItem jmi = new JMenuItem(s);
+            jmi.addActionListener(new ContextMenuActionListener(jmi, this.controller, null, position));
+            jpm.add(jmi);
+        }
+
+        return jpm;
+    }
+
+    /**
+     * Méthode appelée lors d'un clic sur le Tab
+     * (non-Javadoc)
+     *
+     * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+     */
+    @Override
+    public void mouseClicked(MouseEvent mouseEvent) {
+        switch (this.controller.getState()) {
+            case SELECTION:
+                this.controller.notifyClearSelection();
+                break;
+            case CREATE:
+                if (mouseEvent.getButton() == MouseEvent.BUTTON1) { // Clic gauche
+                    this.controller.addVertex(this.graph, this.tab.getDefaultColor(), mouseEvent.getPoint(), this.tab.getDefaultSize(), this.tab.getDefaultShape());
+                    this.tab.repaint();
+                }
+                break;
+            case ZOOM_IN:
+                break;
+            case ZOOM_OUT:
+                break;
+        }
+        if (mouseEvent.getButton() == MouseEvent.BUTTON3) { // Clic droit
+            initNewPopupMenu(new String[]{"Paste", "Properties"}, mouseEvent.getPoint()).show(this.tab, mouseEvent.getX(), mouseEvent.getY());
+        }
+    }
+
+    /**
+     * Méthode appelée lorsque le curseur de la souris entre dans la zone du Tab
+     * (non-Javadoc)
+     *
+     * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+     */
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+    }
+
+    /**
+     * Méthode appelée lorsque le curseur de la souris quitte la zone du Tab
+     * (non-Javadoc)
+     *
+     * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+     */
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
+    }
+
+    /**
+     * Méthode appelée lorsque l'on presse un bouton de la souris sur le Tab
+     * (non-Javadoc)
+     *
+     * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+     */
+    @Override
+    public void mousePressed(MouseEvent mouseEvent) {
+        this.initDrag = new Point(mouseEvent.getX(), mouseEvent.getY());
+    }
+
+    /**
+     * Méthode appelée lorsque l'on relâche le bouton pressé de la souris sur le Tab
+     * (non-Javadoc)
+     *
+     * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+     */
+    @Override
+    public void mouseReleased(MouseEvent mouseEvent) {
+        if (this.dragging) {
+            this.controller.notifyEndDragging();
+            this.dragging = false;
+        }
+        //if(((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent) != null){ }
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent mouseEvent) {
+        if (this.controller.getState() == Controller.State.SELECTION) {
+            this.dragging = true;
+            this.controller.notifyDragging(this.initDrag, mouseEvent.getPoint());
+        }
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent mouseEvent) {
+        // appelée à chaque mouvement de la souris
+    }
+}
