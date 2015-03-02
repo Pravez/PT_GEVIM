@@ -27,16 +27,9 @@ public class Controller {
     private ArrayList<GraphElement> copiedElements;
 
     public Controller() {
-        this.state = State.SELECTION;
+        this.state = new SelectionState(this);
         this.graphs = new ArrayList<Graph>();
         copiedElements = new ArrayList<GraphElement>();
-    }
-
-    /**
-     * Enumération des états dans lequel peut se placer l'utilisateur (modes d'interaction utilisateur/application)
-     */
-    public static enum State {
-        SELECTION, ZOOM_IN, ZOOM_OUT, CREATE
     }
 
     /**
@@ -338,7 +331,17 @@ public class Controller {
      * @param button le bouton correspondant
      */
     public void notifyToolBarContextActivated(JButton button) {
-        this.state = State.valueOf(button.getActionCommand());
+    	switch(button.getActionCommand()) {
+    	case "CREATION":
+    		this.state = new CreationState(this);
+    		break;
+    	case "ZOOM":
+    		this.state = new ZoomState(this);
+    		break;
+    	default:
+    		this.state = new SelectionState(this);
+    		break;
+    	}
         this.window.setState(this.state);
 
         if (this.window.getTabCount() > 0)

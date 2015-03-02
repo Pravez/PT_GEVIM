@@ -132,9 +132,9 @@ public class Window extends JFrame{
         toolBar.setFloatable(false);
 
         addToolBarButtonWithImage(toolBar, "New", "core/assets/new.png", "Nouveau graphe");
-        addToolBarImageButtonWithAction(toolBar, "core/assets/cursor.png", Controller.State.SELECTION.name(), true, "Mode édition");
-        addToolBarImageButtonWithAction(toolBar, "core/assets/edit.png", Controller.State.CREATE.name(), false, "Mode création");
-        addToolBarImageButtonWithAction(toolBar, "core/assets/zoom.png", Controller.State.ZOOM_IN.name(), false, "Zoom");
+        addToolBarImageButtonWithAction(toolBar, "core/assets/cursor.png", "SELECTION", true, "Mode édition");
+        addToolBarImageButtonWithAction(toolBar, "core/assets/edit.png", "CREATION", false, "Mode création");
+        addToolBarImageButtonWithAction(toolBar, "core/assets/zoom.png", "ZOOM", false, "Zoom");
         addToolBarButtonWithImage(toolBar, "Zoom", "core/assets/zoom.png", "Zoom");
         addToolBarButtonWithImage(toolBar, "Copy", "core/assets/copy.png", "Copier");
         addToolBarButtonWithImage(toolBar, "Paste", "core/assets/paste.png", "Coller");
@@ -323,9 +323,9 @@ public class Window extends JFrame{
      * Méthode pour changer le mode de la fenêtre par rapport à celui du Controller : met à jour les boutons de mode
      * @param state l'état / mode du Controller
      */
-	public void setState(Controller.State state) {
+	public void setState(State state) {
         for (Component c : this.toolBar.getComponents()) {
-            if (((JButton) c).getActionCommand() == state.name()) {
+            if (((JButton) c).getActionCommand() == state.getMode()) {
                 ((JButton) c).setSelected(true);
             } else {
                 ((JButton) c).setSelected(false);

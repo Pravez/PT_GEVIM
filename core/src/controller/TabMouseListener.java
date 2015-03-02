@@ -5,9 +5,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-
 import view.Tab;
 import data.Graph;
 
@@ -20,8 +17,7 @@ public class TabMouseListener implements MouseListener, MouseMotionListener {
 	private Controller controller;
 	private Tab        tab;
 	private Graph      graph;
-	private boolean    dragging;
-	private Point      initDrag;
+	private Point      sourceDrag;
 	
 	/**
 	 * Constructeur de la classe TabMouseListener
@@ -36,48 +32,13 @@ public class TabMouseListener implements MouseListener, MouseMotionListener {
 	}
 	
 	/**
-	 * Méthode permettant de créer un PopupMenu
-	 * @param menuItems les MenuItems présents dans le PopuMenu
-	 * @param position la position du PopupMenu
-	 * @return le PopupMenu créé
-	 */
-	public JPopupMenu initNewPopupMenu(String [] menuItems, Point position){
-		JPopupMenu jpm = new JPopupMenu();
-
-		for(String s : menuItems){
-			JMenuItem jmi = new JMenuItem(s);
-			jmi.addActionListener(new ContextMenuActionListener(jmi, this.controller, null, position));
-			jpm.add(jmi);
-		}
-
-		return jpm;
-	}
-
-	/**
 	 * Méthode appelée lors d'un clic sur le Tab
 	 * (non-Javadoc)
 	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
 	 */
 	@Override
 	public void mouseClicked(MouseEvent mouseEvent) {
-		switch(this.controller.getState()) {
-		case SELECTION:
-			this.controller.notifyClearSelection();
-			break;
-		case CREATE:
-			if (mouseEvent.getButton() == MouseEvent.BUTTON1) { // Clic gauche
-				this.controller.addVertex(this.graph, this.tab.getDefaultColor(), mouseEvent.getPoint(), this.tab.getDefaultSize(), this.tab.getDefaultShape());
-	            this.tab.repaint();
-			}
-			break;
-		case ZOOM_IN:
-			break;
-		case ZOOM_OUT:
-			break;
-		}
-		if (mouseEvent.getButton() == MouseEvent.BUTTON3) { // Clic droit
-			initNewPopupMenu(new String[]{"Paste", "Properties"}, mouseEvent.getPoint()).show(this.tab, mouseEvent.getX(), mouseEvent.getY());
-		}
+		this.controller.getState().click(this.tab, this.graph, mouseEvent);
 	}
 
 	/**
@@ -103,7 +64,7 @@ public class TabMouseListener implements MouseListener, MouseMotionListener {
 	 */
 	@Override
 	public void mousePressed(MouseEvent mouseEvent) {
-		this.initDrag = new Point(mouseEvent.getX(), mouseEvent.getY());
+		this.sourceDrag = new Point(mouseEvent.getX(), mouseEvent.getY());
 	}
 
 	/**
@@ -113,19 +74,16 @@ public class TabMouseListener implements MouseListener, MouseMotionListener {
 	 */
 	@Override
 	public void mouseReleased(MouseEvent mouseEvent) {
-		if (this.dragging) {
+		if (this.controller.getState().isDragging()) {
 			this.controller.notifyEndDragging();
-			this.dragging = false;
+			this.controller.getState().setDragging(false);
 		}
 		//if(((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent) != null){ }
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent mouseEvent) {
-		if(this.controller.getState() == Controller.State.SELECTION) {
-			this.dragging = true;
-			this.controller.notifyDragging(this.initDrag, mouseEvent.getPoint());
-		}
+		this.controller.getState().drag(this.tab, this.graph, this.sourceDrag, mouseEvent);
 	}
 
 	@Override

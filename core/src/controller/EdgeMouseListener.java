@@ -2,9 +2,6 @@ package controller;
 
 import view.EdgeView;
 
-import javax.swing.*;
-
-import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -28,51 +25,12 @@ public class EdgeMouseListener implements MouseListener {
 	}
 
 	/**
-	 * Initialize a Popup menu with MenuItems
-	 * @param menuItems the MenuItems to be present in the popUp menu
-	 * @param position la position du PopMenu
-	 * @return The popup menu created
-	 */
-	public JPopupMenu initNewPopupMenu(String [] menuItems, Point position){
-		JPopupMenu jpm = new JPopupMenu();
-
-		for(String s : menuItems){
-			JMenuItem jmi = new JMenuItem(s);
-			jmi.addActionListener(new ContextMenuActionListener(jmi, controller, this.edge, position));
-			jpm.add(jmi);
-		}
-
-		return jpm;
-	}
-
-	/**
 	 * Méthode récupérant le clic d'une souris
 	 * @param e
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		switch(this.controller.getState()) {
-		case CREATE:
-			break;
-		case SELECTION:
-			if (e.getButton() == MouseEvent.BUTTON1) { // Clic gauche
-				if (e.isControlDown()) {
-	        		this.controller.notifyHandleElementSelected(this.edge);
-	        	} else {
-	        		this.controller.notifyElementSelected(this.edge);
-	        	}
-			} else if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
-				//Création du menu contextuel avec Edit et Delete comme options.
-				JPopupMenu contextMenu = initNewPopupMenu(new String[]{"Edit", "Delete", "Copy", "Paste"}, e.getPoint());
-				contextMenu.show(this.edge, e.getX(), e.getY());
-			}
-			break;
-		case ZOOM_IN:
-			break;
-		case ZOOM_OUT:
-			break;
-		}
-
+		this.controller.getState().click(this.edge, e);
 	}
 
 	/**
@@ -97,7 +55,9 @@ public class EdgeMouseListener implements MouseListener {
 	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
 	 */
 	@Override
-	public void mousePressed(MouseEvent e) { }
+	public void mousePressed(MouseEvent e) {
+		this.controller.getState().pressed(this.edge, e);
+	}
 
 	/**
 	 * Méthode appelée lorsque l'on relâche le bouton pressé de la souris sur le VertexView
