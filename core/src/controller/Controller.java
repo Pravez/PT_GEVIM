@@ -266,6 +266,10 @@ public class Controller {
             case "Paste":
                 pasteElements(position);
                 break;
+            case "Properties":
+                this.window.getCurrentTab().modifyProperties();
+                this.graphs.get(this.window.getCurrentTabIndex()).setChanged();
+                break;
             default:
                 break;
         }
@@ -396,7 +400,7 @@ public class Controller {
     private void closeWithOptions() {
         //Attention, la fermeture ne libère probablement pas toute la mémoire ...
         if (this.window.getTabCount() > 0) {
-            if (JOptionPane.showConfirmDialog(this.window, "Souhaitez vous fermer ce graphe ? (Vous devriez peut-être sauvegarder ...?)", "Fermer le graphe", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
+            if (JOptionPane.showConfirmDialog(this.window, "Graphe non sauvegardé, souhaitez vous fermer ce graphe ?", "Fermer le graphe", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
                 this.graphs.remove(this.graphs.get(this.window.getCurrentTabIndex()));
                 this.window.getTabs().removeTabAt(this.window.getCurrentTabIndex());
             }
@@ -423,8 +427,7 @@ public class Controller {
 
         if (dialogue.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             file = dialogue.getSelectedFile();
-
-            //Si le fichier rentré (entrée du nom à la main) ne dispose pas d'extension, alors on ui en rajoute une.
+            //Si le fichier rentré (entrée du nom à la main) ne dispose pas d'extension, alors on lui en rajoute une.
             if(!file.getName().contains(".")) {
                 String newFile = file.getAbsolutePath() + "." + extension;
                 file = new File(newFile);
@@ -435,9 +438,7 @@ public class Controller {
                 JOptionPane.showMessageDialog(null, "Impossible d'utiliser ce format", "Erreur", JOptionPane.ERROR_MESSAGE);
                 file = null;
             }
-
         }
-
         return file;
     }
 }

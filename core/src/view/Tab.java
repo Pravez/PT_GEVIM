@@ -226,6 +226,13 @@ public class Tab extends JComponent implements Observer {
     }
 
     /**
+     * Méthode pour modifier tous les éléments existants
+     */
+    public void modifyProperties() {
+        TabPropertiesViewEditor propertiesEditor = new TabPropertiesViewEditor();
+    }
+
+    /**
      * Modifier pour récupérer la liste des ElementView sélectionnés
      * @return la liste des ElementView sélectionnés
      */
