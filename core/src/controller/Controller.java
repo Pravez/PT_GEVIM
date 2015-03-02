@@ -60,7 +60,9 @@ public class Controller {
      */
     public void addVertex(Graph g, Color color, Point position, int size, Vertex.Shape shape) {
         if (this.window.getCurrentTab().canAddVertex(position)) {
-            window.getUndoRedo().registerAddEdit(g.createVertex(color, position, size, shape));
+           ArrayList<GraphElement> tmp=  new ArrayList<>();
+            tmp.add( g.createVertex(color, position, size, shape));
+            window.getUndoRedo().registerAddEdit(tmp);
         }
     }
 
@@ -71,7 +73,10 @@ public class Controller {
      * @param dst le Vertex de destination de l'Edge
      */
     public void addEdge(Vertex src, Vertex dst) {
-        window.getUndoRedo().registerAddEdit(this.window.getCurrentTab().getGraph().createEdge(this.window.getCurrentTab().getDefaultColor(), src, dst, this.window.getCurrentTab().getDefaultThickness()));
+        ArrayList<GraphElement> tmp=  new ArrayList<>();
+        tmp.add( this.window.getCurrentTab().getGraph().createEdge(this.window.getCurrentTab().getDefaultColor(), src, dst, this.window.getCurrentTab().getDefaultThickness()));
+        window.getUndoRedo().registerAddEdit(tmp);
+        
     }
 
     /**
@@ -254,10 +259,14 @@ public class Controller {
                 this.graphs.get(this.window.getCurrentTabIndex()).setChanged();
                 break;
             case "Delete":
+                ArrayList<GraphElement> suppSelectedElements = new ArrayList<>();
                 for (ElementView e : this.window.getCurrentTab().getSelectedElements()) {
+                    
                     this.getGraph(this.window.getCurrentTabIndex()).removeGraphElement(e.getGraphElement());
-                    window.getUndoRedo().registerSuppEdit(e.getGraphElement());
+                    suppSelectedElements.add(e.getGraphElement());
                 }
+                window.getUndoRedo().registerSuppEdit(suppSelectedElements);
+
                 this.window.getCurrentTab().clearSelectedElements();
                 break;
             case "Copy":
