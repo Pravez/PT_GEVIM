@@ -9,7 +9,10 @@ import data.Graph;
 import undoRedo.UndoPanel;
 
 import javax.swing.*;
+
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * @author Alexis Dufrenne
@@ -23,10 +26,12 @@ public class Window extends JFrame{
     private int               height;
     private Controller        controller;
     private JPanel            back;
-    private  UndoPanel        undoRedo;
+    private UndoPanel         undoRedo;
 
     private JTabbedPane       tabs; // ensemble des onglets
     private JToolBar          toolBar;
+    
+    private JPanel            initialButtons;
 
     /**
      * Constructeur de la classe Window
@@ -42,6 +47,14 @@ public class Window extends JFrame{
 
         tabs.setOpaque(true);
         tabs.setBackground(Color.GRAY);
+        
+        /** **/
+        /*initialButtons = new JPanel();
+        addImageButtonToPanel(initialButtons, "New", "core/assets/new-big.png", "Nouveau graphe");
+        addImageButtonToPanel(initialButtons, "Open", "core/assets/open-big.png", "Ouvrir un graphe");
+        
+        this.tabs.add(initialButtons, BorderLayout.CENTER);*/
+        /** **/
 
         //Partie undo-redo, en cours d'implémentation
 
@@ -114,13 +127,13 @@ public class Window extends JFrame{
         toolBar = new JToolBar();
         toolBar.setFloatable(false);
 
-        addToolBarButtonWithImage(toolBar, "New", "assets/new.png", "Nouveau graphe");
-        addToolBarImageButtonWithAction(toolBar, "assets/cursor.png", Controller.State.SELECTION.name(), true, "Mode édition");
-        addToolBarImageButtonWithAction(toolBar, "assets/edit.png", Controller.State.CREATE.name(), false, "Mode création");
-        addToolBarImageButtonWithAction(toolBar, "assets/zoom.png", Controller.State.ZOOM_IN.name(), false, "Zoom");
-        addToolBarButtonWithImage(toolBar, "Zoom", "assets/zoom.png", "Zoom");
-        addToolBarButtonWithImage(toolBar, "Copy", "assets/copy.png", "Copier");
-        addToolBarButtonWithImage(toolBar, "Paste", "assets/paste.png", "Coller");
+        addToolBarButtonWithImage(toolBar, "New", "core/assets/new.png", "Nouveau graphe");
+        addToolBarImageButtonWithAction(toolBar, "core/assets/cursor.png", Controller.State.SELECTION.name(), true, "Mode édition");
+        addToolBarImageButtonWithAction(toolBar, "core/assets/edit.png", Controller.State.CREATE.name(), false, "Mode création");
+        addToolBarImageButtonWithAction(toolBar, "core/assets/zoom.png", Controller.State.ZOOM_IN.name(), false, "Zoom");
+        addToolBarButtonWithImage(toolBar, "Zoom", "core/assets/zoom.png", "Zoom");
+        addToolBarButtonWithImage(toolBar, "Copy", "core/assets/copy.png", "Copier");
+        addToolBarButtonWithImage(toolBar, "Paste", "core/assets/paste.png", "Coller");
 
         toolBar.add(undoRedo.getUndo());
         toolBar.add(undoRedo.getRedo());
@@ -161,11 +174,11 @@ public class Window extends JFrame{
 
     /**
      * Méthode privée pour ajouter un bouton n'influant pas sur les états d'édition, avec une image
-     * @param toolBar La {@link javax.swing.JToolBar} à qui ajouter le bouton
+     * @param toolBar le JToolBar à qui ajouter le bouton
      * @param buttonName Le nom du bouton
      * @param fileName Le lien vers l'image du bouton
      */
-    private void addToolBarButtonWithImage(JToolBar toolBar, String buttonName, String fileName, String helpMessage){
+    private void addToolBarButtonWithImage(JToolBar comptoolBaronent, String buttonName, String fileName, String helpMessage){
         Image img = Toolkit.getDefaultToolkit().getImage(fileName);
         JButton button = new JButton();
         button.setIcon(new ImageIcon(img.getScaledInstance(20,  20, Image.SCALE_SMOOTH)));
@@ -177,6 +190,27 @@ public class Window extends JFrame{
         button.setSelected(false);
         button.setToolTipText(helpMessage);
         toolBar.add(button);
+    }
+    
+    /**
+     * Méthode privée pour ajouter un bouton avec une image à une JPanel
+     * @param panel le Conteneur
+     * @param buttonName le nom du bouton
+     * @param fileName le nom du fichier de l'image
+     * @param helpMessage 
+     */
+    private void addImageButtonToPanel(JPanel panel, String buttonName, String fileName, String helpMessage) {
+    	Image img = Toolkit.getDefaultToolkit().getImage(fileName);
+        JButton button = new JButton();
+        button.setIcon(new ImageIcon(img.getScaledInstance(64,  64, Image.SCALE_SMOOTH)));
+        button.setMargin(new Insets(0, 0, 0, 0));
+        button.addActionListener(new ToolBarButtonActionListener(this.controller, button));
+        button.setName(buttonName);
+        button.setBorderPainted(false);
+        button.setContentAreaFilled(false);
+        button.setSelected(false);
+        button.setToolTipText(helpMessage);
+        panel.add(button);
     }
 
     /**
