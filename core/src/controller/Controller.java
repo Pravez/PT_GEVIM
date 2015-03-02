@@ -1,7 +1,9 @@
 package controller;
 
 import algorithm.CircularPositioning;
+import algorithm.Property;
 import algorithm.RandomPositioning;
+import algorithm.VertexColoring;
 import data.Graph;
 import data.GraphElement;
 import data.Vertex;
@@ -181,6 +183,10 @@ public class Controller {
             case "circular positioning":
                 new CircularPositioning(window.getCurrentTabViewPort().getViewPosition(), window.getCurrentTabViewPort().getExtentSize()).run(window.getCurrentTab().getGraph());
                 break;
+            case "vertex Coloring size":
+                new VertexColoring().run(window.getCurrentTab().getGraph(), Property.SIZE);
+            case "vertex Coloring edge number":
+                new VertexColoring().run(window.getCurrentTab().getGraph(), Property.NBEDGES);
             default:
                 break;
         }
