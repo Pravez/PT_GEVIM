@@ -6,13 +6,12 @@ package view;
 
 import controller.*;
 import data.Graph;
+import files.GmlFileManager;
 import undoRedo.UndoPanel;
 
 import javax.swing.*;
-
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.io.File;
 
 /**
  * @author Alexis Dufrenne
@@ -343,4 +342,13 @@ public class Window extends JFrame{
         return this.tabs;
     }
 
+    public void openGML(File file) {
+        if(file!=null){
+            GmlFileManager gmlFileManager = new GmlFileManager(null, file);
+            gmlFileManager.openGraph();
+
+            this.addNewTab(this.controller.addGraph(gmlFileManager.getGraph()), "Tab " + this.getTabCount());
+            this.controller.getGraph(this.getCurrentTabIndex()).setChanged();
+        }
+    }
 }

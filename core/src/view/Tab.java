@@ -4,12 +4,11 @@ import controller.Controller;
 import controller.EdgeMouseListener;
 import controller.VertexMouseListener;
 import data.*;
-import files.GmlFileWriter;
+import files.GmlFileManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.ListIterator;
@@ -484,14 +483,13 @@ public class Tab extends JComponent implements Observer {
 	}
 
     /**
-     * Fonction servant à sauvegarder un graphe au format GraphML à l'aide de la classe {@link files.GmlFileWriter}
+     * Fonction servant à sauvegarder un graphe au format GraphML à l'aide de la classe {@link files.GmlFileManager}
      * @param file Le fichier où sera enregistré le graphe (au format .gml)
      */
     public void saveToGML(File file){
         if(file != null) {
-            GmlFileWriter gmlFileWriter = new GmlFileWriter(this.graph, file);
-            gmlFileWriter.createDocumentContent();
-            gmlFileWriter.saveDocument();
+            GmlFileManager gmlFileManager = new GmlFileManager(this.graph, file);
+            gmlFileManager.saveGraph();
         }
     }
 

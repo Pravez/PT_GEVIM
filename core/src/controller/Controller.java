@@ -115,6 +115,11 @@ public class Controller {
         return graph;
     }
 
+    public Graph addGraph(Graph g){
+        graphs.add(g);
+        return g;
+    }
+
     /**
      * Main du logiciel de visualisation de graphes
      *
@@ -170,21 +175,28 @@ public class Controller {
                 break;
 
             case "from GraphML...":
+                try {
+                    this.window.openGML(this.chooseFile("gml", "GraphML files (*.gml)"));
+                }catch(ArrayIndexOutOfBoundsException aioobe){
+                    JOptionPane.showMessageDialog(null, "Rien à sauvegarder...", "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
                 break;
 
             case "from GraphViz...":
                 break;
 
             case "random positioning":
-                new RandomPositioning(window.getCurrentTabViewPort().getViewPosition(), window.getCurrentTabViewPort().getExtentSize()).run(window.getCurrentTab().getGraph());
+                applyAlgorithm("random");
                 break;
             case "circular positioning":
-                new CircularPositioning(window.getCurrentTabViewPort().getViewPosition(), window.getCurrentTabViewPort().getExtentSize()).run(window.getCurrentTab().getGraph());
+                applyAlgorithm("circular");
                 break;
             case "vertex Coloring size":
-                new VertexColoring().run(window.getCurrentTab().getGraph(), Property.SIZE);
+                applyAlgorithm("color");
+                break;
             case "vertex Coloring edge number":
-                new VertexColoring().run(window.getCurrentTab().getGraph(), Property.NBEDGES);
+                applyAlgorithm("number");
+                break;
             default:
                 break;
         }
@@ -458,6 +470,23 @@ public class Controller {
             }
         }
         return file;
+    }
+
+    public void applyAlgorithm(String type){
+        switch(type) {
+            case "random":
+                new RandomPositioning(window.getCurrentTabViewPort().getViewPosition(), window.getCurrentTabViewPort().getExtentSize()).run(window.getCurrentTab().getGraph());
+                break;
+            case "circular":
+                new CircularPositioning(window.getCurrentTabViewPort().getViewPosition(), window.getCurrentTabViewPort().getExtentSize()).run(window.getCurrentTab().getGraph());
+                break;
+            case "color":
+                new VertexColoring().run(window.getCurrentTab().getGraph(), Property.SIZE);
+                break;
+            case "number":
+                new VertexColoring().run(window.getCurrentTab().getGraph(), Property.NBEDGES);
+                break;
+        }
     }
 }
 
