@@ -6,6 +6,7 @@ import data.GraphElement;
 import data.Vertex;
 
 import java.awt.event.*;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
@@ -90,12 +91,12 @@ public class UndoPanel extends JPanel {
 
 
     /**
-     * Enregistre au sein du module UndoRedo la création d'un nouvel GraphElement au sein de graph
-     * @param newElement le nouvel objet
+     * Enregistre au sein du module UndoRedo la création d'un ou plusieurs GraphElements au sein de graph
+     * @param newElements les nouveaux objets
      */
-    public void registerAddEdit(GraphElement newElement) {
+    public void registerAddEdit(ArrayList<GraphElement> newElements) {
 
-        UndoableEdit edit = new AddEdit(graph, newElement);
+        UndoableEdit edit = new AddEdit(graph, newElements);
 
         undoSupport_.postEdit(edit);
     }
@@ -103,22 +104,35 @@ public class UndoPanel extends JPanel {
 
 
     /**
-     * Enregistre au sein du module UndoRedo la suppression d'un GraphElement au sein de graph
-     * @param suppElement GraphElement venant d'être supprimé
+     * Enregistre au sein du module UndoRedo la suppression d'un ou pluqieurs GraphElements au sein de graph
+     * @param suppElements GraphElements venant d'être supprimés
      */
-    public void registerSuppEdit(GraphElement suppElement) {
+    public void registerSuppEdit(ArrayList<GraphElement> suppElements) {
 
-        UndoableEdit edit = new SuppEdit(graph, suppElement);
 
-        if(suppElement.isVertex())
-        {
-            Vertex v = (Vertex) suppElement;
-            for(Edge e : v.getEdges())
+        ArrayList <GraphElement> vertexes= new ArrayList<>();
+        ArrayList <GraphElement> collateralEdges = new ArrayList<>();
+        for(GraphElement g : suppElements) {
+
+            if(g.isVertex())
             {
-                UndoableEdit editEdges=new SuppEdit(graph, e);
-                undoSupport_.postEdit(editEdges);
+                vertexes.add(g);
+                Vertex v = (Vertex) g;
+                for(Edge e : v.getEdges())
+                {
+                    if(!collateralEdges.contains(e))
+                    collateralEdges.add(e);
+                }
+            } 
+            else {
+                if(!collateralEdges.contains(g))
+                collateralEdges.add(g);
             }
+
         }
+        vertexes.addAll(collateralEdges);
+        UndoableEdit edit = new SuppEdit(graph, vertexes);
+
         undoSupport_.postEdit(edit);
 
     }
