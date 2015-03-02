@@ -31,7 +31,7 @@ public class Window extends JFrame{
     private JTabbedPane       tabs; // ensemble des onglets
     private JToolBar          toolBar;
     
-    private JPanel            initialButtons;
+    private JPanel            startPanel;
 
     /**
      * Constructeur de la classe Window
@@ -44,21 +44,27 @@ public class Window extends JFrame{
         initMenu();
         initBackPanel();
         initToolMenuBar();
+        initStartPanel();
 
         tabs.setOpaque(true);
         tabs.setBackground(Color.GRAY);
         
-        /** **/
-        /*initialButtons = new JPanel();
-        addImageButtonToPanel(initialButtons, "New", "core/assets/new-big.png", "Nouveau graphe");
-        addImageButtonToPanel(initialButtons, "Open", "core/assets/open-big.png", "Ouvrir un graphe");
-        
-        this.tabs.add(initialButtons, BorderLayout.CENTER);*/
-        /** **/
-
         //Partie undo-redo, en cours d'implémentation
 
         this.setVisible(true);
+    }
+    
+    private void initStartPanel() {
+    	this.startPanel = new JPanel();
+    	this.startPanel.setBackground(null);
+    	addImageButtonToPanel(this.startPanel, "New", "core/assets/new-big.png", "Nouveau graphe");
+        addImageButtonToPanel(this.startPanel, "Open", "core/assets/open-big.png", "Ouvrir un graphe");
+        this.back.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.weighty = 1;
+
+        this.back.add(this.startPanel, gbc); // gbc is containing the GridBagConstraints
     }
 
     /**
@@ -67,8 +73,6 @@ public class Window extends JFrame{
     private void initBackPanel() {
     	this.back = new JPanel();
     	this.back.setBackground(Color.GRAY);
-    	this.back.setLayout(new BorderLayout());
-    	this.back.add(this.tabs, BorderLayout.CENTER);
     	this.getContentPane().add(this.back);
     	this.getContentPane().setBackground(Color.GRAY);
     }
@@ -146,6 +150,7 @@ public class Window extends JFrame{
      * @param fileName le nom du fichier de l'image à charger
      * @param actionCommand la commande qui sera appellée lors du clic sur le bouton
      * @param selectedState l'état du bouton, s'il est sélectionné
+     * @param helpMessage le message d'aide du bouton
      */
     private void addToolBarImageButtonWithAction(JToolBar toolBar, String fileName, String actionCommand, boolean selectedState, String helpMessage) {
     	Image img = Toolkit.getDefaultToolkit().getImage(fileName);
@@ -177,11 +182,12 @@ public class Window extends JFrame{
      * @param toolBar le JToolBar à qui ajouter le bouton
      * @param buttonName Le nom du bouton
      * @param fileName Le lien vers l'image du bouton
+     * @param helpMessage le message d'aide du bouton
      */
     private void addToolBarButtonWithImage(JToolBar comptoolBaronent, String buttonName, String fileName, String helpMessage){
         Image img = Toolkit.getDefaultToolkit().getImage(fileName);
         JButton button = new JButton();
-        button.setIcon(new ImageIcon(img.getScaledInstance(20,  20, Image.SCALE_SMOOTH)));
+        button.setIcon(new ImageIcon(img.getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
         button.setBounds(0, 0, 20, 20);
         button.setMargin(new Insets(0, 0, 0, 0));
         button.setBorder(null);
@@ -197,17 +203,18 @@ public class Window extends JFrame{
      * @param panel le Conteneur
      * @param buttonName le nom du bouton
      * @param fileName le nom du fichier de l'image
-     * @param helpMessage 
+     * @param helpMessage le message d'aide du bouton
      */
     private void addImageButtonToPanel(JPanel panel, String buttonName, String fileName, String helpMessage) {
     	Image img = Toolkit.getDefaultToolkit().getImage(fileName);
         JButton button = new JButton();
         button.setIcon(new ImageIcon(img.getScaledInstance(64,  64, Image.SCALE_SMOOTH)));
-        button.setMargin(new Insets(0, 0, 0, 0));
+        button.setMargin(new Insets(20, 20, 20, 20));
+        //button.setBorder(BorderFactory.createEtchedBorder());
         button.addActionListener(new ToolBarButtonActionListener(this.controller, button));
         button.setName(buttonName);
-        button.setBorderPainted(false);
-        button.setContentAreaFilled(false);
+        //button.setBorderPainted(false);
+        //button.setContentAreaFilled(false);
         button.setSelected(false);
         button.setToolTipText(helpMessage);
         panel.add(button);
@@ -248,12 +255,19 @@ public class Window extends JFrame{
 
         this.addJMenuItem(algorithm, "random positioning");
         this.addJMenuItem(algorithm, "circular positioning");
+        this.addJMenuItem(algorithm, "vertex Coloring size");
+        this.addJMenuItem(algorithm, "vertex Coloring edge number");
     }
 
     /**
      * Méthode ajoutant un nouveau {@link view.Tab}. On associe à ce dernier un nouveau {@link data.Graph} et un titre (nom).
      */
     public void addNewTab(Graph graph, String title) {
+    	if (this.tabs.getTabCount() == 0) {
+    		this.back.setLayout(new BorderLayout());
+    		this.back.add(this.tabs, BorderLayout.CENTER);
+    		this.back.remove(this.startPanel);
+    	}
         Tab tab = new Tab(graph, this.controller);
         graph.addObserver(tab);
 
@@ -286,7 +300,7 @@ public class Window extends JFrame{
      * @return Le {@link view.Tab} sélectionné
      */
     public Tab getCurrentTab(){
-    	return (Tab)((JScrollPane)tabs.getComponentAt(tabs.getSelectedIndex())).getViewport().getComponent(0);
+    	return (Tab)((JScrollPane)this.tabs.getComponentAt(this.tabs.getSelectedIndex())).getViewport().getComponent(0);
     }
 
     /**
@@ -298,14 +312,14 @@ public class Window extends JFrame{
     }
 
     public JViewport getCurrentTabViewPort(){
-        return ((JScrollPane)tabs.getComponentAt(tabs.getSelectedIndex())).getViewport();
+        return ((JScrollPane)this.tabs.getComponentAt(this.tabs.getSelectedIndex())).getViewport();
     }
 
     /**
      * Méthode retournant l'indice du Tab courant de la Window
      * @return l'indice du Tab
      */
-    public int getCurrentTabIndex(){ return tabs.getSelectedIndex(); }
+    public int getCurrentTabIndex(){ return this.tabs.getSelectedIndex(); }
 
     /**
      * Méthode pour changer le mode de la fenêtre par rapport à celui du Controller : met à jour les boutons de mode
@@ -326,7 +340,7 @@ public class Window extends JFrame{
 	 * @return le JTabbedPane tabs
 	 */
     public JTabbedPane getTabs() {
-        return tabs;
+        return this.tabs;
     }
 
 }
