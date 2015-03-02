@@ -15,7 +15,7 @@ public class ColorChooser extends JDialog {
 	private JPanel        contentPane;
     private JPanel        colorPane;
     private JPanel        buttonsPane;
-    private JColorChooser colorchooser;
+    private JColorChooser colorChooser;
     private JButton       buttonOK;
     private JButton       buttonCancel;
     private Color         currentColor;
@@ -47,7 +47,7 @@ public class ColorChooser extends JDialog {
         this.setContentPane(contentPane);
 
 
-        this.colorchooser = new JColorChooser(bg);
+        this.colorChooser = new JColorChooser(bg);
         this.currentColor = bg;
 
 
@@ -56,7 +56,7 @@ public class ColorChooser extends JDialog {
 
         this.contentPane.add(this.colorPane);
         this.contentPane.add(this.buttonsPane);
-        this.colorPane.add(this.colorchooser);
+        this.colorPane.add(this.colorChooser);
         this.buttonsPane.add(this.buttonOK);
         this.buttonsPane.add(this.buttonCancel);
 
@@ -93,7 +93,7 @@ public class ColorChooser extends JDialog {
      * et ferme la fenêtre.
      */
     private void onOK(){
-        this.currentColor = colorchooser.getColor();
+        this.currentColor = colorChooser.getColor();
         dispose();
     }
 

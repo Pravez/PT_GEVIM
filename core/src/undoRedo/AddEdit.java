@@ -6,6 +6,7 @@ import data.GraphElement;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
+import java.util.ArrayList;
 
 /**
  * @author Benjamin Dos Santos
@@ -14,14 +15,14 @@ import javax.swing.undo.CannotUndoException;
 public class AddEdit extends AbstractUndoableEdit{
 
 
-    private GraphElement element;
+    private ArrayList <GraphElement> elements;
 
     private Graph graph;
 
-    public AddEdit(Graph model, GraphElement element) {
+    public AddEdit(Graph model, ArrayList <GraphElement> elements) {
         graph=model;
 
-        this.element = element;
+        this.elements = elements;
 
     }
 
@@ -30,8 +31,9 @@ public class AddEdit extends AbstractUndoableEdit{
      * @throws CannotUndoException
      */
     public void undo() throws CannotUndoException {
-        graph.removeGraphElement(element);
-
+        for(GraphElement e : elements) {
+            graph.removeGraphElement(e);
+        }
     }
 
     /**
@@ -39,7 +41,9 @@ public class AddEdit extends AbstractUndoableEdit{
      * @throws CannotRedoException
      */
     public void redo() throws CannotRedoException {
-        graph.createGraphElement(element);
+        for(GraphElement e : elements) {
+            graph.createGraphElement(e);
+        }
 
     }
 

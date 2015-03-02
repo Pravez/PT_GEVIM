@@ -187,7 +187,7 @@ public class Window extends JFrame{
     private void addToolBarButtonWithImage(JToolBar comptoolBaronent, String buttonName, String fileName, String helpMessage){
         Image img = Toolkit.getDefaultToolkit().getImage(fileName);
         JButton button = new JButton();
-        button.setIcon(new ImageIcon(img.getScaledInstance(20,  20, Image.SCALE_SMOOTH)));
+        button.setIcon(new ImageIcon(img.getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
         button.setBounds(0, 0, 20, 20);
         button.setMargin(new Insets(0, 0, 0, 0));
         button.setBorder(null);
@@ -255,6 +255,8 @@ public class Window extends JFrame{
 
         this.addJMenuItem(algorithm, "random positioning");
         this.addJMenuItem(algorithm, "circular positioning");
+        this.addJMenuItem(algorithm, "vertex Coloring size");
+        this.addJMenuItem(algorithm, "vertex Coloring edge number");
     }
 
     /**
