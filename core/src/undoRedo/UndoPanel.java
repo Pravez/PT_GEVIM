@@ -21,7 +21,6 @@ import javax.swing.undo.UndoableEditSupport;
  */
 public class UndoPanel extends JPanel {
 
-
     private Graph graph;
     JButton undo;
     JButton redo;
@@ -49,8 +48,6 @@ public class UndoPanel extends JPanel {
      * Constructeur par défaut de la classe UndoPanel
      */
     public UndoPanel( ) {
-
-
         //Création des actions associées aux boutons
         Action undoAction = new UndoAction();
         Action redoAction = new RedoAction();

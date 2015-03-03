@@ -16,7 +16,9 @@ public class ZoomState extends State {
 
 	@Override
 	public void click(Tab tab, Graph graph, MouseEvent e) {
-		// TODO Auto-generated method stub
+		if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
+			initNewPopupMenu(new String[]{"Paste", "Properties"}, e.getPoint()).show(tab, e.getX(), e.getY());
+		}
 	}
 	
 	@Override

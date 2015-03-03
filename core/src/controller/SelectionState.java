@@ -23,7 +23,7 @@ public class SelectionState extends State {
 	 * @param position la position du PopuMenu
 	 * @return The popup menu created
 	 */
-	private JPopupMenu initNewPopupMenu(String [] menuItems, Point position, ElementView element){
+	private JPopupMenu initElementPopupMenu(String [] menuItems, Point position, ElementView element){
 		JPopupMenu jpm = new JPopupMenu();
 		for(String s : menuItems){
 			JMenuItem jmi = new JMenuItem(s);
@@ -49,7 +49,9 @@ public class SelectionState extends State {
 
 	@Override
 	public void click(Tab tab, Graph graph, MouseEvent e) {
-		super.click(tab, graph, e);
+		if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
+			initNewPopupMenu(new String[]{"Paste", "Properties"}, e.getPoint()).show(tab, e.getX(), e.getY());
+		}
 		this.controller.notifyClearSelection();
 	}
 	
@@ -58,7 +60,7 @@ public class SelectionState extends State {
 		if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
 			this.controller.notifyHandleElement(element);
 			//Création du menu contextuel avec Edit et Delete comme options.
-			JPopupMenu contextMenu = initNewPopupMenu(new String[]{"Edit", "Delete", "Copy", "Paste"}, e.getPoint(), element);
+			JPopupMenu contextMenu = initElementPopupMenu(new String[]{"Edit", "Delete", "Copy", "Paste"}, e.getPoint(), element);
 			contextMenu.show(element, e.getX(), e.getY());
 		}
 	}

@@ -131,9 +131,9 @@ public class Window extends JFrame{
         toolBar.setFloatable(false);
 
         addToolBarButtonWithImage(toolBar, "New", "core/assets/new.png", "Nouveau graphe");
-        addToolBarImageButtonWithAction(toolBar, "core/assets/cursor.png", "SELECTION", true, "Mode édition");
-        addToolBarImageButtonWithAction(toolBar, "core/assets/edit.png", "CREATION", false, "Mode création");
-        addToolBarImageButtonWithAction(toolBar, "core/assets/zoom.png", "ZOOM", false, "Zoom");
+        addToolBarImageButtonWithAction(toolBar, "core/assets/cursor.png", State.Mode.SELECTION.name(), true, "Mode édition");
+        addToolBarImageButtonWithAction(toolBar, "core/assets/edit.png", State.Mode.CREATION.name(), false, "Mode création");
+        addToolBarImageButtonWithAction(toolBar, "core/assets/zoom.png", State.Mode.ZOOM.name(), false, "Zoom");
         addToolBarButtonWithImage(toolBar, "Zoom", "core/assets/zoom.png", "Zoom");
         addToolBarButtonWithImage(toolBar, "Copy", "core/assets/copy.png", "Copier");
         addToolBarButtonWithImage(toolBar, "Paste", "core/assets/paste.png", "Coller");

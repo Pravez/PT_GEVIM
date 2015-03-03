@@ -144,7 +144,6 @@ public class Controller {
      */
     public void notifyMenuItemActivated(String type) {
         switch (type) {
-
             case "New":
                 String title = "Tab " + this.window.getTabCount();
                 title = JOptionPane.showInputDialog("Saisissez le nom du nouveau graphe :", title);
@@ -362,17 +361,7 @@ public class Controller {
      * @param button le bouton correspondant
      */
     public void notifyToolBarContextActivated(JButton button) {
-    	switch(button.getActionCommand()) {
-    	case "CREATION":
-    		this.state = new CreationState(this);
-    		break;
-    	case "ZOOM":
-    		this.state = new ZoomState(this);
-    		break;
-    	default:
-    		this.state = new SelectionState(this);
-    		break;
-    	}
+    	this.state = State.changeState(State.Mode.valueOf(button.getActionCommand()), this);
         this.window.setState(this.state);
 
         if (this.window.getTabCount() > 0)

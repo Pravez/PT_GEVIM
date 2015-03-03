@@ -1,13 +1,15 @@
 package view;
 
 import controller.Controller;
-import controller.EdgeMouseListener;
 import controller.VertexMouseListener;
 import data.*;
 import files.GmlFileManager;
 
 import javax.swing.*;
+
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.util.ArrayList;
@@ -139,7 +141,7 @@ public class Tab extends JComponent implements Observer {
         }
 
         Graphics2D g2d = (Graphics2D) g;
-        AffineTransform xfrm = AffineTransform.getScaleInstance(0.95, 1.25);
+        AffineTransform.getScaleInstance(0.95, 1.25);
 
         g2d.setTransform(transform);
 
@@ -228,7 +230,7 @@ public class Tab extends JComponent implements Observer {
      * Méthode pour modifier tous les éléments existants
      */
     public void modifyProperties() {
-        TabPropertiesViewEditor propertiesEditor = new TabPropertiesViewEditor();
+        new TabPropertiesViewEditor();
     }
 
     /**
@@ -436,8 +438,17 @@ public class Tab extends JComponent implements Observer {
      * @param destination le VertexView de destination de l'EdgeView
      */
     public void addEdge(Edge edge, VertexView origin, VertexView destination ){
-    	EdgeView edgeView = new EdgeView(edge, this.defaultSelectedThickness, this.defaultSelectedColor, origin, destination);
-        edgeView.addMouseListener(new EdgeMouseListener(this.controller, edgeView));
+    	final EdgeView edgeView = new EdgeView(edge, this.defaultSelectedThickness, this.defaultSelectedColor, origin, destination);
+    	edgeView.addMouseListener(new MouseAdapter() {
+    		@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.getState().click(edgeView, e);
+			}
+    		@Override
+			public void mousePressed(MouseEvent e) {
+				controller.getState().pressed(edgeView, e);
+			}
+    	});
         this.edges.add(edgeView);
         super.add(edgeView);
     }

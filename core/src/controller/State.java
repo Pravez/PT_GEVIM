@@ -16,15 +16,26 @@ public abstract class State {
 	protected Controller controller;
 	protected boolean    dragging;
 	
+	public enum Mode { SELECTION, CREATION, ZOOM };
+	
 	public State(Controller controller) {
 		this.controller = controller;
 	}
 	
-	public void click(Tab tab, Graph graph, MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
-			initNewPopupMenu(new String[]{"Paste", "Properties"}, e.getPoint()).show(tab, e.getX(), e.getY());
+	public static State changeState(Mode mode, Controller controller) {
+		switch (mode) {
+		case CREATION:
+			return new CreationState(controller);
+		case SELECTION:
+			return new SelectionState(controller);
+		case ZOOM:
+			return new ZoomState(controller);
+		default:
+			return new SelectionState(controller);
 		}
 	}
+	
+	public abstract void click(Tab tab, Graph graph, MouseEvent e);
 	public abstract void click(ElementView element, MouseEvent e);
 	public abstract void drag(Tab tab, Graph graph, Point sourceDrag, MouseEvent e);
 	public abstract void drag(VertexView vertex, Point sourceDrag, MouseEvent e);
@@ -47,7 +58,7 @@ public abstract class State {
 	 * @param position la position du PopupMenu
 	 * @return le PopupMenu créé
 	 */
-	private JPopupMenu initNewPopupMenu(String [] menuItems, Point position){
+	protected JPopupMenu initNewPopupMenu(String [] menuItems, Point position){
 		JPopupMenu jpm = new JPopupMenu();
 		for(String s : menuItems){
 			JMenuItem jmi = new JMenuItem(s);
