@@ -5,6 +5,7 @@
 package view;
 
 import controller.*;
+import controller.state.State;
 import data.Graph;
 import files.GmlFileManager;
 import undoRedo.UndoPanel;
@@ -31,7 +32,7 @@ public class Window extends JFrame {
     private JToolBar toolBar;
 
     private JPanel initialButtons;
-    private PropertyPanel properties;
+    //private PropertyPanel properties;
     private JPanel startPanel;
 
     /**

@@ -4,6 +4,8 @@ import algorithm.CircularPositioning;
 import algorithm.Property;
 import algorithm.RandomPositioning;
 import algorithm.VertexColoring;
+import controller.state.SelectionState;
+import controller.state.State;
 import data.Graph;
 import data.GraphElement;
 import data.Vertex;
