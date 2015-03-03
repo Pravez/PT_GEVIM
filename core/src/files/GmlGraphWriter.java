@@ -37,12 +37,12 @@ public class GmlGraphWriter {
         addGraphElementsToGml();
 
         Map<String, String> vertexKeyTypes = new HashMap<String, String>();
-        vertexKeyTypes.put(GraphMLTokens.ATTR_NAME, GraphMLTokens.STRING);
+        vertexKeyTypes.put("name", GraphMLTokens.STRING);
         vertexKeyTypes.put("weight", GraphMLTokens.INT);
         vertexKeyTypes.put("color", "color");
 
         Map<String, String> edgeKeyTypes = new HashMap<String, String>();
-        edgeKeyTypes.put(GraphMLTokens.ATTR_NAME, GraphMLTokens.STRING);
+
         gmlWriter.setVertexKeyTypes(vertexKeyTypes);
         gmlWriter.setEdgeKeyTypes(edgeKeyTypes);
 
@@ -52,32 +52,30 @@ public class GmlGraphWriter {
 
         HashMap<data.Vertex, Vertex> vertexMapping = new HashMap<>();
 
-        for(data.Edge e : this.graph.getEdges()){
+        for(data.Vertex v : this.graph.getVertexes()){
+            if(!vertexMapping.containsKey(v)){
+                Vertex GMLvertex = gmlGraph.addVertex(null);
+                GMLvertex.setProperty("name", v.getLabel());
+                GMLvertex.setProperty("weight", v.getSize());
+                GMLvertex.setProperty("color", v.getColor().toString());
+                vertexMapping.put(v, GMLvertex);
+            }
+        }
 
-            Vertex GMLdest = null;
-            Vertex GMLorg = null;
+        for(data.Edge e : this.graph.getEdges()){
 
             data.Vertex destination = e.getDestination();
             data.Vertex origin = e.getOrigin();
 
-            if(!vertexMapping.containsKey(destination)){
-                GMLdest = gmlGraph.addVertex(null);
-                GMLdest.setProperty(GraphMLTokens.ATTR_NAME, destination.getLabel());
-                GMLdest.setProperty("weight", destination.getSize());
-                GMLdest.setProperty("color", destination.getColor().getRGB());
-                vertexMapping.put(destination, GMLdest);
-            }
-            if(!vertexMapping.containsKey(origin)){
-                GMLorg = gmlGraph.addVertex(null);
-                GMLorg.setProperty(GraphMLTokens.ATTR_NAME, origin.getLabel());
-                GMLorg.setProperty("weight", origin.getSize());
-                GMLorg.setProperty("color", origin.getColor().getRGB());
-                vertexMapping.put(origin, GMLorg);
+            if(e.getLabel()==null){
+                e.setLabel("edge"+e.getValue());
             }
 
             Edge GMLedge = gmlGraph.addEdge(null, vertexMapping.get(origin), vertexMapping.get(destination), e.getLabel());
 
         }
+
+
     }
 
     public void writeGraphToFile(){

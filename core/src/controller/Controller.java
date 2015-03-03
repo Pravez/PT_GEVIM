@@ -422,6 +422,9 @@ public class Controller {
             if (JOptionPane.showConfirmDialog(this.window, "Graphe non sauvegardé, souhaitez vous fermer ce graphe ?", "Fermer le graphe", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
                 this.graphs.remove(this.graphs.get(this.window.getCurrentTabIndex()));
                 this.window.getTabs().removeTabAt(this.window.getCurrentTabIndex());
+                if(this.window.getTabCount() == 0){
+                    this.window.getStartPanel().setVisible(true);
+                }
             }
         } else {
             if (JOptionPane.showConfirmDialog(this.window, "Souhaitez vous vraiment quitter ?", "Fermer le programme", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {

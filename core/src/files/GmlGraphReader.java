@@ -5,7 +5,6 @@ import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
 import com.tinkerpop.blueprints.util.io.graphml.GraphMLReader;
-import com.tinkerpop.blueprints.util.io.graphml.GraphMLTokens;
 import data.Graph;
 import data.GraphElement;
 
@@ -51,27 +50,21 @@ public class GmlGraphReader {
         int x = 10;
         int y = 10;
 
-        for(Edge e : gmlGraph.getEdges()){
-
-            Vertex source = null;
-            Vertex target = null;
-
-            source = e.getVertex(Direction.OUT);
-            target = e.getVertex(Direction.IN);
-
-            if(!vertices.containsKey(source)){
-                data.Vertex sourceVertex = new data.Vertex((String)source.getProperty(GraphMLTokens.ATTR_NAME), Color.BLACK, new Point(x,y), (int)source.getProperty("weight"), data.Vertex.Shape.SQUARE);
-                vertices.put(source, sourceVertex);
+        for(Vertex v : this.gmlGraph.getVertices()){
+            if(!vertices.containsKey(v)){
+                data.Vertex sourceVertex = new data.Vertex((String)v.getProperty("name"), Color.BLACK, new Point(x,y), (int)v.getProperty("weight"), data.Vertex.Shape.SQUARE);
+                vertices.put(v, sourceVertex);
                 graphElements.add(sourceVertex);
             }
+        }
 
-            if(!vertices.containsKey(target)){
-                data.Vertex destVertex = new data.Vertex((String)target.getProperty(GraphMLTokens.ATTR_NAME), Color.BLACK, new Point(x,y), (int)target.getProperty("weight"), data.Vertex.Shape.SQUARE);
-                vertices.put(target, destVertex);
-                graphElements.add(destVertex);
-            }
 
-            data.Edge createdEdge = new data.Edge((String)e.getProperty(GraphMLTokens.ATTR_NAME), Color.BLACK, vertices.get(source), vertices.get(target),1);
+        for(Edge e : gmlGraph.getEdges()){
+
+            Vertex source = e.getVertex(Direction.OUT);
+            Vertex target = e.getVertex(Direction.IN);
+
+            data.Edge createdEdge = new data.Edge((String)e.getProperty("name"), Color.BLACK, vertices.get(source), vertices.get(target),1);
             graphElements.add(createdEdge);
 
             //TEMPORAIRE
@@ -80,6 +73,8 @@ public class GmlGraphReader {
             else{
                 x += 50;}
         }
+
+
 
         this.graph.addGraphElements(graphElements);
 
