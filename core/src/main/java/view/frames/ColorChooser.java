@@ -1,4 +1,4 @@
-package view;
+package view.frames;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,7 +7,7 @@ import java.awt.event.*;
 /**
  * Created by paubreton on 15/02/15.
  * Classe d'édition de couleurs. Elle reçoit une couleur de base et à l'aide du {@link javax.swing.JColorChooser} aide l'utilisateur
- * à choisir une nouvelle couleur parmi un panel relativement étendu. Utilisée par les classes {@link view.VertexViewEditor} et {@link view.EdgeViewEditor}.
+ * à choisir une nouvelle couleur parmi un panel relativement étendu. Utilisée par les classes {@link VertexViewEditor} et {@link EdgeViewEditor}.
  */
 public class ColorChooser extends JDialog {
 
@@ -105,7 +105,7 @@ public class ColorChooser extends JDialog {
     }
 
     /**
-     * Méthode permettant de récupérer la couleur actuelle de l'instance du {@link view.ColorChooser}
+     * Méthode permettant de récupérer la couleur actuelle de l'instance du {@link ColorChooser}
      * @return La dernière couleur enregistrée par l'instance
      */
     public Color getColor(){

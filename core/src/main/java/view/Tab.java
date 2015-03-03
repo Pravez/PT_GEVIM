@@ -4,6 +4,10 @@ import controller.Controller;
 import controller.VertexMouseListener;
 import data.*;
 import files.GmlFileManager;
+import view.elements.EdgeView;
+import view.elements.ElementView;
+import view.elements.VertexView;
+import view.frames.TabPropertiesViewEditor;
 
 import javax.swing.*;
 

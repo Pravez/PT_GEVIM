@@ -1,8 +1,9 @@
-package view;
+package view.elements;
 
 import data.Graph;
 import data.GraphElement;
 import data.Vertex;
+import view.frames.VertexViewEditor;
 
 import java.awt.*;
 

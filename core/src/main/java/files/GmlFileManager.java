@@ -1,6 +1,5 @@
 package files;
 
-import com.sun.istack.internal.Nullable;
 import data.Graph;
 
 import java.io.File;
@@ -13,7 +12,6 @@ import java.io.File;
  */
 public class GmlFileManager{
 
-    @Nullable
     private Graph graph;
     private File fileAssociated;
 

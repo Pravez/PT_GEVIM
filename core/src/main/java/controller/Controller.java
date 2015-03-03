@@ -9,7 +9,7 @@ import controller.state.State;
 import data.Graph;
 import data.GraphElement;
 import data.Vertex;
-import view.ElementView;
+import view.elements.ElementView;
 import view.Window;
 
 import javax.swing.*;

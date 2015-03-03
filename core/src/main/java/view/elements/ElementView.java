@@ -1,4 +1,4 @@
-package view;
+package view.elements;
 
 import data.Graph;
 import data.GraphElement;
@@ -6,7 +6,7 @@ import data.GraphElement;
 import javax.swing.JComponent;
 
 /**
- * Classe mère de tous les éléments visuels de la feuille de dessin. {@link view.VertexView} et {@link view.EdgeView} en héritent.
+ * Classe mère de tous les éléments visuels de la feuille de dessin. {@link VertexView} et {@link EdgeView} en héritent.
  */
 public abstract class ElementView extends JComponent {
 

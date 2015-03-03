@@ -1,8 +1,9 @@
-package view;
+package view.frames;
 
 import data.Edge;
 import data.Graph;
 import data.Vertex;
+import view.frames.ColorChooser;
 
 import javax.swing.*;
 import java.awt.event.*;

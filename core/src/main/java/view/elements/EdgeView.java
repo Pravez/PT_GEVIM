@@ -1,8 +1,9 @@
-package view;
+package view.elements;
 
 import data.Edge;
 import data.GraphElement;
 import data.Graph;
+import view.frames.EdgeViewEditor;
 
 import java.awt.*;
 
@@ -208,7 +209,7 @@ public class EdgeView extends ElementView {
 	}
 
     /**
-     * Méthode servant à modifier un {@link data.Edge} grâce au {@link view.EdgeViewEditor}
+     * Méthode servant à modifier un {@link data.Edge} grâce au {@link view.frames.EdgeViewEditor}
      * @param graph Le {@link data.Graph} sur lequel se situe l'Edge qui est l'objet de la modification
      */
     @Override
@@ -222,7 +223,7 @@ public class EdgeView extends ElementView {
     }
 
     /**
-     * Méthode pour récupérer le {@link data.GraphElement} ({@link data.Edge} ici) associé à l'élément de la vue {@link view.EdgeView}.
+     * Méthode pour récupérer le {@link data.GraphElement} ({@link data.Edge} ici) associé à l'élément de la vue {@link EdgeView}.
      * @return Le graphElement associé
      */
 	@Override

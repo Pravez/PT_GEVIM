@@ -1,4 +1,4 @@
-package view;
+package view.frames;
 
 import javax.swing.*;
 
@@ -34,7 +34,7 @@ public class VertexViewEditor extends JDialog {
     private Vertex     vertex;
 
     /**
-     * Constructeur qui prend les données d'un {@link view.VertexView} et les associe à chaque champ du JDialog
+     * Constructeur qui prend les données d'un {@link view.elements.VertexView} et les associe à chaque champ du JDialog
      * @param v le vecteur utilisé
      */
     public VertexViewEditor(Vertex v) {
@@ -171,7 +171,7 @@ public class VertexViewEditor extends JDialog {
     }
 
     /**
-     * Renvoie les données du Vertex qui a été modifié, associé à l'instance de la classe {@link view.VertexViewEditor}
+     * Renvoie les données du Vertex qui a été modifié, associé à l'instance de la classe {@link VertexViewEditor}
      * @return le Vertex modifié
      */
     public Vertex getModifiedVertex(){

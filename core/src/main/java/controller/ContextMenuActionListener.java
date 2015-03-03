@@ -2,7 +2,7 @@ package controller;
 
 import javax.swing.*;
 
-import view.ElementView;
+import view.elements.ElementView;
 
 import java.awt.Point;
 import java.awt.event.ActionEvent;

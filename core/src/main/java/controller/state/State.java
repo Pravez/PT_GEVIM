@@ -9,9 +9,9 @@ import javax.swing.JPopupMenu;
 import controller.ContextMenuActionListener;
 import controller.Controller;
 import data.Graph;
-import view.ElementView;
+import view.elements.ElementView;
 import view.Tab;
-import view.VertexView;
+import view.elements.VertexView;
 
 public abstract class State {
 	

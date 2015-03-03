@@ -1,4 +1,4 @@
-package view;
+package view.frames;
 
 import javax.swing.*;
 import java.awt.event.*;
