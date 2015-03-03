@@ -16,6 +16,8 @@ import java.util.Map;
 
 /**
  * Created by paubreton on 02/03/15.
+ * Classe principale utilisant les {@link com.tinkerpop.blueprints.Graph} pour écrire des {@link data.Graph} dans des
+ * fichiers.
  */
 public class GmlGraphWriter {
 
@@ -25,6 +27,11 @@ public class GmlGraphWriter {
     private File file;
 
 
+    /**
+     * Constructeur de la classe
+     * @param graph Le {@link data.Graph} à retranscrire en GraphML.
+     * @param file Le {@link java.io.File} dans lequel sera écrite la retranscription.
+     */
     public GmlGraphWriter(Graph graph, File file){
         this.graph = graph;
         this.gmlGraph = new TinkerGraph();
@@ -32,6 +39,11 @@ public class GmlGraphWriter {
         this.file = file;
     }
 
+    /**
+     * Méthode de création du {@link com.tinkerpop.blueprints.Graph} grâce à la retranscription de tous les
+     * éléments du {@link data.Graph} en {@link com.tinkerpop.blueprints.Element} (les éléments du GraphML).
+     * Elle applique des propriétés au graphe.
+     */
     public void createGmlGraph(){
 
         addGraphElementsToGml();
@@ -48,6 +60,10 @@ public class GmlGraphWriter {
 
     }
 
+    /**
+     * Méthode de retranscription des {@link data.GraphElement} en éléments du {@link com.tinkerpop.blueprints.Graph}. Ils seront
+     * ensuite utilisés pour être écrits dans le fichier associé.
+     */
     private void addGraphElementsToGml(){
 
         HashMap<data.Vertex, Vertex> vertexMapping = new HashMap<>();
@@ -78,6 +94,9 @@ public class GmlGraphWriter {
 
     }
 
+    /**
+     * Méthode d'écriture du {@link com.tinkerpop.blueprints.Graph} dans un fichier.
+     */
     public void writeGraphToFile(){
 
         FileOutputStream out = null;

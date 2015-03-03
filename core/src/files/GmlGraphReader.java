@@ -16,6 +16,8 @@ import java.util.HashMap;
 
 /**
  * Created by paubreton on 02/03/15.
+ * Classe de lecture de fichier .gml et d'interprétation des données du fichier. Elle utilise la classe {@link com.tinkerpop.blueprints.Graph},
+ * associée à la bibliothèque tinkerpop.blueprints.
  */
 public class GmlGraphReader {
 
@@ -24,6 +26,10 @@ public class GmlGraphReader {
     private File file;
     private GraphMLReader gmlReader;
 
+    /**
+     * Constructeur de la classe.
+     * @param file Le fichier dans lequel récupérer les données
+     */
     public GmlGraphReader(File file){
         this.file = file;
         this.graph = null;
@@ -31,6 +37,10 @@ public class GmlGraphReader {
         this.gmlReader = new GraphMLReader(gmlGraph);
     }
 
+    /**
+     * Méthode de lecture du fichier. Elle range les données dans un {@link com.tinkerpop.blueprints.Graph}. (plus précisément
+     * dans un {@link com.tinkerpop.blueprints.impls.tg.TinkerGraph})
+     */
     public void readFile(){
 
         try {
@@ -40,6 +50,9 @@ public class GmlGraphReader {
         }
     }
 
+    /**
+     * Méthode de création du {@link data.Graph} associé aux données qui ont pu être récupérées du fichier.
+     */
     public void createGraph(){
 
         this.graph = new Graph();
@@ -80,6 +93,10 @@ public class GmlGraphReader {
 
     }
 
+    /**
+     * Getter du {@link data.Graph} crée
+     * @return Le {@link data.Graph} instancié depuis le fichier
+     */
     public Graph getCreatedGraph(){
         return this.graph;
     }

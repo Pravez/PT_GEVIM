@@ -7,11 +7,9 @@ import java.io.File;
 
 /**
  * Created by paubreton on 23/02/15.
- * Classe permettant de gérer l'utilisation de l'enregistrement de graphes au format GML.
- * Elle est héritée de . Elle possède des méthodes créant le document GML,
- * puis l'enregistrant dans un fichier.
- * Le document n'est pas un GML officiel, mais un réalisé à la main aussi proche que possible du réel de manière à
- * ce qu'il soit lu partout.
+ * Classe permettant de gérer la lecture et l'écriture de fichiers .gml, les fichiers GraphML. Elle utilise
+ * la classe {@link files.GmlGraphReader} pour lire les fichiers et la classe {@link files.GmlGraphWriter} pour
+ * en écrire. Elle possède un {@link data.Graph} qui sera lu ou écrit, et un {@link java.io.File}, fichier associé.
  */
 public class GmlFileManager{
 
@@ -26,12 +24,14 @@ public class GmlFileManager{
      */
     public GmlFileManager(Graph graph, File fileAssociated) {
 
-        super();
-
         this.graph = graph;
         this.fileAssociated = fileAssociated;
     }
 
+    /**
+     * Méthode principale permettant la lecture d'un graphe. Elle appelle et utilise les méthodes de {@link files.GmlGraphReader},
+     * et en récupère les données.
+     */
     public void openGraph(){
 
         GmlGraphReader gmlGraphReader = new GmlGraphReader(this.fileAssociated);
@@ -42,6 +42,10 @@ public class GmlFileManager{
 
     }
 
+    /**
+     * Méthode principale d'écriture d'un graphe dans un fichier GML. Elle passe les données à la classe {@link files.GmlGraphWriter}
+     * et cette dernière se charge de les écrire.
+     */
     public void saveGraph(){
 
         GmlGraphWriter gmlGraphWriter = new GmlGraphWriter(this.graph, this.fileAssociated);
@@ -50,6 +54,10 @@ public class GmlFileManager{
 
     }
 
+    /**
+     * Getter du graphe de la classe
+     * @return Le graphe associé à la classe
+     */
     public Graph getGraph(){
         return this.graph;
     }
