@@ -33,7 +33,8 @@ public class Window extends JFrame {
 
     private JPanel initialButtons;
 
-    
+
+
     private JPanel startPanel;
 
     /**
