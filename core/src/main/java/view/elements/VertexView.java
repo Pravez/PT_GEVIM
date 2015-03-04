@@ -1,9 +1,9 @@
-package main.java.view.elements;
+package view.elements;
 
-import main.java.data.Graph;
-import main.java.data.GraphElement;
-import main.java.data.Vertex;
-import main.java.view.frames.VertexViewEditor;
+import data.Graph;
+import data.GraphElement;
+import data.Vertex;
+import view.frames.VertexViewEditor;
 
 import java.awt.*;
 

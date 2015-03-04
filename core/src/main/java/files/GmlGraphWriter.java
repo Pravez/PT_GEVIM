@@ -1,11 +1,11 @@
-package main.java.files;
+package files;
 
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
 import com.tinkerpop.blueprints.util.io.graphml.GraphMLTokens;
 import com.tinkerpop.blueprints.util.io.graphml.GraphMLWriter;
-import main.java.data.Graph;
+import data.Graph;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -66,9 +66,9 @@ public class GmlGraphWriter {
      */
     private void addGraphElementsToGml(){
 
-        HashMap<main.java.data.Vertex, Vertex> vertexMapping = new HashMap<>();
+        HashMap<data.Vertex, Vertex> vertexMapping = new HashMap<>();
 
-        for(main.java.data.Vertex v : this.graph.getVertexes()){
+        for(data.Vertex v : this.graph.getVertexes()){
             if(!vertexMapping.containsKey(v)){
                 Vertex GMLvertex = gmlGraph.addVertex(null);
                 GMLvertex.setProperty("name", v.getLabel());
@@ -78,10 +78,10 @@ public class GmlGraphWriter {
             }
         }
 
-        for(main.java.data.Edge e : this.graph.getEdges()){
+        for(data.Edge e : this.graph.getEdges()){
 
-        	main.java.data.Vertex destination = e.getDestination();
-        	main.java.data.Vertex origin = e.getOrigin();
+            data.Vertex destination = e.getDestination();
+            data.Vertex origin = e.getOrigin();
 
             if(e.getLabel()==null){
                 e.setLabel("edge"+e.getValue());

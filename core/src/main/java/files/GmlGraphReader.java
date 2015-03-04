@@ -1,12 +1,12 @@
-package main.java.files;
+package files;
 
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
 import com.tinkerpop.blueprints.util.io.graphml.GraphMLReader;
-import main.java.data.Graph;
-import main.java.data.GraphElement;
+import data.Graph;
+import data.GraphElement;
 
 import java.awt.*;
 import java.io.File;
@@ -57,7 +57,7 @@ public class GmlGraphReader {
 
         this.graph = new Graph();
         ArrayList<GraphElement> graphElements = new ArrayList<>();
-        HashMap<Vertex, main.java.data.Vertex> vertices = new HashMap<>();
+        HashMap<Vertex, data.Vertex> vertices = new HashMap<>();
 
         //TEMPORAIRE
         int x = 10;
@@ -65,7 +65,7 @@ public class GmlGraphReader {
 
         for(Vertex v : this.gmlGraph.getVertices()){
             if(!vertices.containsKey(v)){
-            	main.java.data.Vertex sourceVertex = new main.java.data.Vertex((String)v.getProperty("name"), Color.BLACK, new Point(x,y), (int)v.getProperty("weight"), main.java.data.Vertex.Shape.SQUARE);
+                data.Vertex sourceVertex = new data.Vertex((String)v.getProperty("name"), Color.BLACK, new Point(x,y), (int)v.getProperty("weight"), data.Vertex.Shape.SQUARE);
                 vertices.put(v, sourceVertex);
                 graphElements.add(sourceVertex);
             }
@@ -77,7 +77,7 @@ public class GmlGraphReader {
             Vertex source = e.getVertex(Direction.OUT);
             Vertex target = e.getVertex(Direction.IN);
 
-            main.java.data.Edge createdEdge = new main.java.data.Edge((String)e.getProperty("name"), Color.BLACK, vertices.get(source), vertices.get(target),1);
+            data.Edge createdEdge = new data.Edge((String)e.getProperty("name"), Color.BLACK, vertices.get(source), vertices.get(target),1);
             graphElements.add(createdEdge);
 
             //TEMPORAIRE

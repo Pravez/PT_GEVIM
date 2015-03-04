@@ -1,9 +1,9 @@
-package main.java.view.frames;
+package view.frames;
 
-import main.java.data.Edge;
-import main.java.data.Graph;
-import main.java.data.Vertex;
-import main.java.view.frames.ColorChooser;
+import data.Edge;
+import data.Graph;
+import data.Vertex;
+import view.frames.ColorChooser;
 
 import javax.swing.*;
 import java.awt.event.*;

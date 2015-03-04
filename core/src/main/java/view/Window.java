@@ -2,13 +2,13 @@
  * Created by quelemonnier on 26/01/15.
  */
 
-package main.java.view;
+package view;
 
-import main.java.controller.*;
-import main.java.controller.state.State;
-import main.java.data.Graph;
-import main.java.files.GmlFileManager;
-import main.java.undoRedo.UndoPanel;
+import controller.*;
+import controller.state.State;
+import data.Graph;
+import files.GmlFileManager;
+import undoRedo.UndoPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,7 +32,11 @@ public class Window extends JFrame {
     private JToolBar toolBar;
 
     private JPanel initialButtons;
-    //private PropertyPanel properties;
+
+
+    private PropertyPanel properties;
+
+    
     private JPanel startPanel;
 
     /**
@@ -140,9 +144,9 @@ public class Window extends JFrame {
         toolBar.setFloatable(false);
 
         addToolBarButtonWithImage(toolBar, "New", "core/assets/new.png", "Nouveau graphe");
-        addToolBarImageButtonWithAction(toolBar, "core/assets/cursor.png", State.Mode.SELECTION.name(), "Mode édition");
-        addToolBarImageButtonWithAction(toolBar, "core/assets/edit.png", State.Mode.CREATION.name(), "Mode création");
-        addToolBarImageButtonWithAction(toolBar, "core/assets/zoom.png", State.Mode.ZOOM.name(), "Zoom");
+        addToolBarImageButtonWithAction(toolBar, "core/assets/cursor.png", State.Mode.SELECTION.name(), true, "Mode édition");
+        addToolBarImageButtonWithAction(toolBar, "core/assets/edit.png", State.Mode.CREATION.name(), false, "Mode création");
+        addToolBarImageButtonWithAction(toolBar, "core/assets/zoom.png", State.Mode.ZOOM.name(), false, "Zoom");
         addToolBarButtonWithImage(toolBar, "Zoom", "core/assets/zoom.png", "Zoom");
         addToolBarButtonWithImage(toolBar, "Copy", "core/assets/copy.png", "Copier");
         addToolBarButtonWithImage(toolBar, "Paste", "core/assets/paste.png", "Coller");
@@ -158,15 +162,17 @@ public class Window extends JFrame {
      * @param toolBar       le toolBar qui va contenir le bouton
      * @param fileName      le nom du fichier de l'image à charger
      * @param actionCommand la commande qui sera appellée lors du clic sur le bouton
+     * @param selectedState l'état du bouton, s'il est sélectionné
      * @param helpMessage   le message d'aide du bouton
      */
-    private void addToolBarImageButtonWithAction(JToolBar toolBar, String fileName, String actionCommand, String helpMessage) {
+    private void addToolBarImageButtonWithAction(JToolBar toolBar, String fileName, String actionCommand, boolean selectedState, String helpMessage) {
         Image img = Toolkit.getDefaultToolkit().getImage(fileName);
         JButton imageButton = new JButton();
         imageButton.setIcon(new ImageIcon(img.getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
         imageButton.setBounds(0, 0, 20, 20);
         imageButton.setMargin(new Insets(0, 0, 0, 0));
         imageButton.setBorder(null);
+        imageButton.setSelected(selectedState);
         imageButton.setActionCommand(actionCommand);
         imageButton.addActionListener(new ToolBarContextActionListener(this.controller, imageButton));
         imageButton.setToolTipText(helpMessage);

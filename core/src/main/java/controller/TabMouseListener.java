@@ -1,12 +1,12 @@
-package main.java.controller;
+package controller;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import main.java.view.Tab;
-import main.java.data.Graph;
+import view.Tab;
+import data.Graph;
 
 /**
  * @author Alexis Dufrenne

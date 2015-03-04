@@ -1,6 +1,7 @@
-package main.java.controller;
+package controller;
 
-import main.java.view.elements.VertexView;
+import view.elements.VertexView;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

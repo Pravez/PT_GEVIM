@@ -1,10 +1,10 @@
-package main.java.controller.state;
+package controller.state;
 
-import main.java.controller.Controller;
-import main.java.data.Graph;
-import main.java.view.elements.ElementView;
-import main.java.view.Tab;
-import main.java.view.elements.VertexView;
+import controller.Controller;
+import data.Graph;
+import view.elements.ElementView;
+import view.Tab;
+import view.elements.VertexView;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;

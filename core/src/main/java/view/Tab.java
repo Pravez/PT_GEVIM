@@ -1,13 +1,13 @@
-package main.java.view;
+package view;
 
-import main.java.controller.Controller;
-import main.java.controller.VertexMouseListener;
-import main.java.data.*;
-import main.java.files.GmlFileManager;
-import main.java.view.elements.EdgeView;
-import main.java.view.elements.ElementView;
-import main.java.view.elements.VertexView;
-import main.java.view.frames.TabPropertiesViewEditor;
+import controller.Controller;
+import controller.VertexMouseListener;
+import data.*;
+import files.GmlFileManager;
+import view.elements.EdgeView;
+import view.elements.ElementView;
+import view.elements.VertexView;
+import view.frames.TabPropertiesViewEditor;
 
 import javax.swing.*;
 

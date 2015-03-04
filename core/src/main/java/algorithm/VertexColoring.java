@@ -1,6 +1,6 @@
-package main.java.algorithm;
+package algorithm;
 
-import main.java.data.Graph;
+import data.Graph;
 
 import java.awt.*;
 
@@ -29,11 +29,11 @@ public class VertexColoring implements IAlgorithm {
 
     private void nbEdgesColor(Graph graph) {
         int maxEdges = 0;
-        for( main.java.data.Vertex v : graph.getVertexes()){
+        for( data.Vertex v : graph.getVertexes()){
             if (v.getEdges().size() > maxEdges)
                 maxEdges = v.getEdges().size();
         }
-        for( main.java.data.Vertex v : graph.getVertexes()) {
+        for( data.Vertex v : graph.getVertexes()) {
             if ( v.getEdges().size() == maxEdges)
                 v.setColor(Color.red);
             else v.setColor(new Color(v.getEdges().size()*255/maxEdges, 255-v.getEdges().size()*255/maxEdges ,0));
@@ -43,11 +43,11 @@ public class VertexColoring implements IAlgorithm {
 
     private void sizeColor(Graph graph) {
         int sizeMax = 0;
-        for( main.java.data.Vertex v : graph.getVertexes()){
+        for( data.Vertex v : graph.getVertexes()){
             if (v.getSize() > sizeMax)
                 sizeMax = v.getSize();
         }
-        for( main.java.data.Vertex v : graph.getVertexes()) {
+        for( data.Vertex v : graph.getVertexes()) {
             if ( v.getSize() == sizeMax)
                 v.setColor(Color.red);
             else v.setColor(new Color(v.getSize()*255/sizeMax, 0,0));

@@ -1,9 +1,9 @@
-package main.java.undoRedo;
+package undoRedo;
 
-import main.java.data.Edge;
-import main.java.data.Graph;
-import main.java.data.GraphElement;
-import main.java.data.Vertex;
+import data.Edge;
+import data.Graph;
+import data.GraphElement;
+import data.Vertex;
 
 import java.awt.event.*;
 import java.util.ArrayList;

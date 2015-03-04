@@ -1,4 +1,4 @@
-package main.java.data;
+package data;
 
 import javax.swing.undo.UndoManager;
 import java.awt.*;
