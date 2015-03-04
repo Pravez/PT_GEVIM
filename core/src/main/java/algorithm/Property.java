@@ -1,4 +1,4 @@
-package algorithm;
+package main.java.algorithm;
 
 /**
  * Created by cordavidenko on 02/03/15.

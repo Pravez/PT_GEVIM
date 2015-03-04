@@ -1,8 +1,8 @@
-package data;
+package main.java.data;
 
 import java.util.ArrayList;
 
-import view.Observer;
+import main.java.view.Observer;
 
 /**
  * @author Alexis Dufrenne

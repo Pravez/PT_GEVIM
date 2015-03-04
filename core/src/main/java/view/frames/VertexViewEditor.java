@@ -1,13 +1,13 @@
-package view.frames;
+package main.java.view.frames;
 
 import javax.swing.*;
 
-import data.Vertex;
+import main.java.data.Vertex;
 
 import java.awt.*;
 import java.awt.event.*;
 
-import static data.Vertex.Shape.*;
+import static main.java.data.Vertex.Shape.*;
 
 /**
  * Created by Paul Breton

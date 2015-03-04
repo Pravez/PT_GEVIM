@@ -1,8 +1,8 @@
-package controller;
+package main.java.controller;
 
 import javax.swing.*;
 
-import view.elements.ElementView;
+import main.java.view.elements.ElementView;
 
 import java.awt.Point;
 import java.awt.event.ActionEvent;

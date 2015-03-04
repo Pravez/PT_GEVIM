@@ -1,6 +1,6 @@
-package files;
+package main.java.files;
 
-import data.Graph;
+import main.java.data.Graph;
 
 import java.io.File;
 

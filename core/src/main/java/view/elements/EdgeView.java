@@ -1,9 +1,9 @@
-package view.elements;
+package main.java.view.elements;
 
-import data.Edge;
-import data.GraphElement;
-import data.Graph;
-import view.frames.EdgeViewEditor;
+import main.java.data.Edge;
+import main.java.data.GraphElement;
+import main.java.data.Graph;
+import main.java.view.frames.EdgeViewEditor;
 
 import java.awt.*;
 

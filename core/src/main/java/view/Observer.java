@@ -1,6 +1,6 @@
-package view;
+package main.java.view;
 
-import data.Observable;
+import main.java.data.Observable;
 
 /**
  * @author Alexis Dufrenne

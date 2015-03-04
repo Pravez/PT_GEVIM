@@ -1,4 +1,4 @@
-package controller.state;
+package main.java.controller.state;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -6,12 +6,12 @@ import java.awt.event.MouseEvent;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import controller.ContextMenuActionListener;
-import controller.Controller;
-import view.elements.ElementView;
-import view.Tab;
-import view.elements.VertexView;
-import data.Graph;
+import main.java.controller.ContextMenuActionListener;
+import main.java.controller.Controller;
+import main.java.view.elements.ElementView;
+import main.java.view.Tab;
+import main.java.view.elements.VertexView;
+import main.java.data.Graph;
 
 public class SelectionState extends State {
 

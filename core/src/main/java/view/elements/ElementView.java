@@ -1,7 +1,7 @@
-package view.elements;
+package main.java.view.elements;
 
-import data.Graph;
-import data.GraphElement;
+import main.java.data.Graph;
+import main.java.data.GraphElement;
 
 import javax.swing.JComponent;
 

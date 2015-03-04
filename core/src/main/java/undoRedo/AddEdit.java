@@ -1,7 +1,7 @@
-package undoRedo;
+package main.java.undoRedo;
 
-import data.Graph;
-import data.GraphElement;
+import main.java.data.Graph;
+import main.java.data.GraphElement;
 
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;

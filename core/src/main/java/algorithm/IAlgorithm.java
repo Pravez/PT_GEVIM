@@ -1,6 +1,6 @@
-package algorithm;
+package main.java.algorithm;
 
-import data.Graph;
+import main.java.data.Graph;
 
 /**
  * @author Alexis Dufrenne

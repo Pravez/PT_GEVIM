@@ -1,7 +1,7 @@
-package algorithm;
+package main.java.algorithm;
 
-import data.Graph;
-import data.Vertex;
+import main.java.data.Graph;
+import main.java.data.Vertex;
 
 import java.awt.*;
 import java.util.Random;
