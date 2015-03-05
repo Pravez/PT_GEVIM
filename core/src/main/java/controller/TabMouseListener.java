@@ -65,6 +65,9 @@ public class TabMouseListener implements MouseListener, MouseMotionListener {
 	@Override
 	public void mousePressed(MouseEvent mouseEvent) {
 		this.sourceDrag = new Point(mouseEvent.getX(), mouseEvent.getY());
+		if (!mouseEvent.isControlDown()) {
+			this.controller.notifyMousePressedWithoutControlDown();
+		}
 	}
 
 	/**

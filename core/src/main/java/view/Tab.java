@@ -33,6 +33,7 @@ public class Tab extends JComponent implements Observer {
     private ArrayList<VertexView>  vertexes;
     
     private ArrayList<ElementView> selectedElements;
+    private ArrayList<ElementView> currentSelectedElements;
     
     private String                 name;
     private String                 file;
@@ -85,6 +86,7 @@ public class Tab extends JComponent implements Observer {
         this.edges                    = new ArrayList<EdgeView>();
         this.vertexes                 = new ArrayList<VertexView>();
         this.selectedElements         = new ArrayList<ElementView>();
+        this.currentSelectedElements  = new ArrayList<ElementView>();
         
         this.defaultColor             = Color.BLACK;
         this.defaultSelectedColor     = Color.BLUE;
@@ -102,8 +104,6 @@ public class Tab extends JComponent implements Observer {
         this.edgeColor                = new Color(0,0,0);
 
         this.currentScale             = 0;
-
-
     }
 
     /**
@@ -150,7 +150,6 @@ public class Tab extends JComponent implements Observer {
         g2d.setTransform(transform);
 
         transform.scale(currentScale,currentScale);
-
     }
 
     /**
@@ -208,7 +207,7 @@ public class Tab extends JComponent implements Observer {
     public void unselectElement(ElementView element){
     	element.updateHover(false);
         this.selectedElements.remove(element);
-        this.repaint();
+        //this.repaint();
     }
 
     /**
@@ -218,7 +217,7 @@ public class Tab extends JComponent implements Observer {
     public void selectElement(ElementView element){
     	element.updateHover(true);
         this.selectedElements.add(element);
-        this.repaint();
+        //this.repaint();
     }
 
     /**
@@ -277,19 +276,48 @@ public class Tab extends JComponent implements Observer {
     }
     
     /**
-     * Méthode pour définir la zone de sélection par rapport à la position initiale de la souris et la position courante :
-     * - définit la zone de sélection
-     * - appelle la méthode pour sélectionner les ELementView dans la zone de sélection
-     * @param origin le point d'origine de la zone de sélection
-     * @param position la position courante de la souris
+     * Méthode pour vider la liste des ElementView sélectionnés à la sélection antérieure
      */
-    public void launchSelectionZone(Point origin, Point position) {
-		int x              = origin.x > position.x ? position.x : origin.x;
+    public void clearCurrentSelectedElements(){
+    	this.currentSelectedElements.clear();
+    }
+    
+    /**
+     * Méthode permettant de définir la zone de sélection par rapport à la position initiale de la souris et la position courante :
+     * @param origin le point d'origine de la zone de sélection
+     * @param position position la position courante de la souris
+     */
+    public void setSelectionZone(Point origin, Point position) {
+    	int x              = origin.x > position.x ? position.x : origin.x;
 		int y              = origin.y > position.y ? position.y : origin.y;
 		int width          = origin.x - position.x < 0 ? position.x - origin.x : origin.x - position.x;
 		int height         = origin.y - position.y < 0 ? position.y - origin.y : origin.y - position.y;
 		this.selectionZone = new Rectangle(x, y, width, height);
+    }
+    
+    /**
+     * Méthode pour définir la zone de sélection par rapport à la position initiale de la souris et la position courante :
+     * - définit la zone de sélection
+     * - appelle la méthode pour sélectionner les ElementView dans la zone de sélection
+     * @param origin le point d'origine de la zone de sélection
+     * @param position la position courante de la souris
+     */
+    public void launchSelectionZone(Point origin, Point position) {
+		setSelectionZone(origin, position);
 		selectElementsInZone();
+		this.repaint();
+	}
+    
+    /**
+     * Méthode pour gérer la zone de sélection avec la touche Ctrl enfoncée :
+     * - définit la zone de sélection
+     * - appelle la méthode pour gérer les ElementView dans la zone de sélection
+     * @param origin le point d'origine de la zone de sélection
+     * @param position la position courante de la souris
+     */
+    public void addToSelectionZone(Point origin, Point position) {
+		setSelectionZone(origin, position);
+		manageElementsInZone();
 		this.repaint();
 	}
 
@@ -321,13 +349,65 @@ public class Tab extends JComponent implements Observer {
 		for (VertexView v : this.vertexes) {
 			if (this.selectionZone.contains(v.getPosition())) {
 				selectElement(v);
+				this.currentSelectedElements.add(v);
 			}
 		}
 		for (EdgeView e : this.edges) {
 			if (this.selectionZone.contains(e.getOrigin().getPosition()) && this.selectionZone.contains(e.getDestination().getPosition())) {
 				selectElement(e);
+				this.currentSelectedElements.add(e);
 			}
 		}
+	}
+	
+	/**
+	 * Méthode permettant de gérer la sélection des ElementView dans la zone de sélection avec la touche Ctrl enfoncée
+	 */
+	public void manageElementsInZone() {
+		clearSelectedElements();
+		for (VertexView v : this.vertexes) {
+			if (this.selectionZone.contains(v.getPosition())) {
+				selectElement(v);
+			}
+		}
+		for (EdgeView e : this.edges) {
+			if (edgeIsInSelectionZone(e)) {
+				selectElement(e);
+			}
+		}
+		for (ElementView e : this.currentSelectedElements) {
+			selectElement(e);
+		}
+	}
+	
+	/**
+	 * Méthode permettant de gérer la sélection d'un ElementView : 
+	 *  - si l'élément est déjà sélectionné, le désélectionne
+	 *  - sinon, le sélectionne
+	 * @param e l'ElementView à sélectionner ou déselectionner 
+	 */
+	public void handleSelectElement(ElementView e) {
+		if (this.selectedElements.contains(e) && this.currentSelectedElements.contains(e)) {
+			unselectElement(e);
+		} else if (!this.currentSelectedElements.contains(e)){
+			selectElement(e);
+			this.currentSelectedElements.add(e);
+		}
+	}
+	
+	/**
+	 * Méthode permettant de savoir si un EdgeView est dans la zone de sélection
+	 * @param e l'EdgeView
+	 * @return le résultat sous la forme d'un booléen
+	 */
+	public boolean edgeIsInSelectionZone(EdgeView e) {
+		Point origin      = e.getOrigin().getPosition();
+		Point destination = e.getDestination().getPosition();
+		int x              = origin.x > destination.x ? destination.x : origin.x;
+		int y              = origin.y > destination.y ? destination.y : origin.y;
+		int width          = origin.x - destination.x < 0 ? destination.x - origin.x : origin.x - destination.x;
+		int height         = origin.y - destination.y < 0 ? destination.y - origin.y : origin.y - destination.y;
+		return this.selectionZone.intersects(new Rectangle(x, y, width, height));
 	}
 
 	/**
@@ -338,6 +418,11 @@ public class Tab extends JComponent implements Observer {
 	 */
 	public void handleSelectionZone() {
 		selectElementsInZone();
+		this.selectionZone = null;
+		this.repaint();
+	}
+	
+	public void handleEndSelectionZone() {
 		this.selectionZone = null;
 		this.repaint();
 	}

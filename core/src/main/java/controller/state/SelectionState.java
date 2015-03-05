@@ -70,9 +70,18 @@ public class SelectionState extends State {
 	@Override
 	public void drag(Tab tab, Graph graph, Point sourceDrag, MouseEvent e) {
 		this.dragging = true;
-		this.controller.notifyDragging(sourceDrag, e.getPoint());
+		if (e.isControlDown()) {
+			this.controller.notifyAddToDragging(sourceDrag, e.getPoint());
+		} else {
+			this.controller.notifyDragging(sourceDrag, e.getPoint());
+		}
 	}
 
+	/**
+	 * Méthode pour déplacer les VertexView sélectionnés
+	 * (non-Javadoc)
+	 * @see controller.state.State#drag(view.elements.VertexView, java.awt.Point, java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void drag(VertexView vertex, Point sourceDrag, MouseEvent e) {
 		this.dragging = true;

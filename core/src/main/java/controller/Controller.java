@@ -129,11 +129,9 @@ public class Controller {
      * @param args
      */
     public static void main(String[] args) {
-
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-        }
+        } catch (Exception e) { }
 
         Controller controller = new Controller();
         Window window = new Window(800, 640, controller);
@@ -380,6 +378,16 @@ public class Controller {
     public void notifyDragging(Point origin, Point position) {
         this.window.getCurrentTab().launchSelectionZone(origin, position);
     }
+    
+    /**
+     * Méthode appellée lors d'un drag de l'utilisateur sur un onglet avec la touche Ctrl enfoncée
+     *
+     * @param origin   Le point initial d'où a commencé le drag
+     * @param position Le point actuel où en est le drag
+     */
+    public void notifyAddToDragging(Point origin, Point position) {
+        this.window.getCurrentTab().addToSelectionZone(origin, position);
+    }
 
     /**
      * Méthode appellée au début d'un drag d'un vertex vers un autre, pour dessiner une "pseudo-edge" temporaire qui n'est qu'une
@@ -398,12 +406,16 @@ public class Controller {
     public void notifyEndDraggingEdge() {
         this.window.getCurrentTab().endTemporarilyEdge();
     }
+    
+    public void notifyMousePressedWithoutControlDown() {
+    	this.window.getCurrentTab().clearCurrentSelectedElements();
+    }
 
     /**
      * Méthode notifiant la fin du dragging de l'utilisateur
      */
     public void notifyEndDragging() {
-        this.window.getCurrentTab().handleSelectionZone();
+        this.window.getCurrentTab().handleEndSelectionZone();
     }
 
     /**
