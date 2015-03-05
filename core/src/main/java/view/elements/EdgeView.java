@@ -97,6 +97,22 @@ public class EdgeView extends ElementView {
 		((Graphics2D) g).setStroke(oldStroke);
     }
     
+    public void paintComponent(Graphics g, Point origin, double scaleX, double scaleY) {
+    	g.setFont(super.getFont());
+    	Stroke oldStroke = ((Graphics2D) g).getStroke();
+		
+		Graphics2D        g2d         = ((Graphics2D) g);
+		RenderingHints    renderHints = new RenderingHints (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		
+		g2d.setRenderingHints(renderHints);
+		g.setColor(this.color);
+		((Graphics2D) g).setStroke(new BasicStroke((float) (this.thickness * scaleX)));
+		Point source      = new Point((int)((origin.x + this.origin.getPosition().x)*scaleX), (int)((origin.y + this.origin.getPosition().y)*scaleY));
+		Point destination = new Point((int)((origin.x + this.destination.getPosition().x)*scaleX), (int)((origin.y + this.destination.getPosition().y)*scaleY));
+		g.drawLine(source.x, source.y, destination.x, destination.y);
+		((Graphics2D) g).setStroke(oldStroke);
+    }
+    
     /**
      * Getter de l'épaisseur de l'EdgeView
      * @return l'épaisseur de l'EdgeView

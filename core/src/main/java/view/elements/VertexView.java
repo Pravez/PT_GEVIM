@@ -81,6 +81,42 @@ public class VertexView extends ElementView {
 		}
     }
     
+    public void paintComponent(Graphics g, Point origin, double scaleX, double scaleY) {
+    	g.setFont(super.getFont());
+		
+		Graphics2D     g2d         = ((Graphics2D) g);
+		RenderingHints renderHints = new RenderingHints (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		
+		g2d.setRenderingHints(renderHints);
+		g.setColor(this.color);
+		
+		int size = (int) (this.vertex.getSize() * scaleX);
+		int x    = (int) ((origin.x + this.vertex.getPosition().x - size/2) * scaleX);
+		int y    = (int) ((origin.y + this.vertex.getPosition().y - size/2) * scaleY);
+		
+		switch (this.vertex.getShape()) {
+		case SQUARE :
+			g.fillRect(x, y, size, size);
+			break;
+		case CIRCLE :
+			g.fillOval(x, y, size, size);
+			break;
+		case TRIANGLE :
+			g.fillPolygon(new Polygon(new int[] {x + size/2, x + size, x}, new int[] {y, y + size, y + size}, 3));
+			break;
+		case CROSS :
+			Stroke oldStroke = ((Graphics2D) g).getStroke();
+			int thickness = size/3;
+			((Graphics2D) g).setStroke(new BasicStroke(thickness));
+			g.drawLine(x, y, x + size, y + size);
+			g.drawLine(x, y + size, x + size, y);
+			((Graphics2D) g).setStroke(oldStroke);
+			break;
+		default:
+			break;
+		}
+    }
+    
     /**
      * Setter de la couleur du VertexView
      * @param color nouvelle couleur du VertexView

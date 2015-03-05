@@ -314,8 +314,15 @@ public class Window extends JFrame {
         });
 
         JScrollPane pane = new JScrollPane(tab);
-
         this.tabs.addTab(title, pane);
+        /** **/
+        System.out.println("tab width" + tab.getWidth());
+        System.out.println("tab bounds width : " + tab.getBounds().width);
+        System.out.println("tab preferred size : " + tab.getPreferredSize().width);
+        System.out.println("tab size : " + tab.getSize().width);
+        MiniMapFrame map = new MiniMapFrame(tab.getPreferredSize().width/5, tab.getPreferredSize().height/5, pane, tab);
+        graph.addObserver(map.getMiniMap());
+        /** **/
         undoRedo.setGraph(tab.getGraph());
 
         /*properties = new PropertyPanel(graph);
