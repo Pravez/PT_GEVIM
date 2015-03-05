@@ -4,7 +4,7 @@ import algorithm.CircularPositioning;
 import algorithm.Property;
 import algorithm.RandomPositioning;
 import algorithm.VertexColoring;
-import controller.state.SelectionState;
+import controller.state.CreationState;
 import controller.state.State;
 import data.Graph;
 import data.GraphElement;
@@ -14,6 +14,7 @@ import view.Window;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class Controller {
     private ArrayList<GraphElement> copiedElements;
 
     public Controller() {
-        this.state = new SelectionState(this);
+        this.state = new CreationState(this);
         this.graphs = new ArrayList<Graph>();
         copiedElements = new ArrayList<GraphElement>();
     }

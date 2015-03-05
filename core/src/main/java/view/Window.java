@@ -62,8 +62,8 @@ public class Window extends JFrame {
     private void initStartPanel() {
         this.startPanel = new JPanel();
         this.startPanel.setBackground(null);
-        addImageButtonToPanel(this.startPanel, "New", "core/assets/new-big.png", "Nouveau graphe");
-        addImageButtonToPanel(this.startPanel, "Open", "core/assets/open-big.png", "Ouvrir un graphe");
+        addImageButtonToPanel(this.startPanel, "New", "assets/new-big.png", "Nouveau graphe");
+        addImageButtonToPanel(this.startPanel, "Open", "assets/open-big.png", "Ouvrir un graphe");
         this.back.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.CENTER;
@@ -141,13 +141,13 @@ public class Window extends JFrame {
         toolBar = new JToolBar();
         toolBar.setFloatable(false);
 
-        addToolBarButtonWithImage(toolBar, "New", "core/assets/new.png", "Nouveau graphe");
-        addToolBarImageButtonWithAction(toolBar, "core/assets/cursor.png", State.Mode.SELECTION.name(), true, "Mode édition");
-        addToolBarImageButtonWithAction(toolBar, "core/assets/edit.png", State.Mode.CREATION.name(), false, "Mode création");
-        addToolBarImageButtonWithAction(toolBar, "core/assets/zoom.png", State.Mode.ZOOM.name(), false, "Zoom");
-        addToolBarButtonWithImage(toolBar, "Zoom", "core/assets/zoom.png", "Zoom");
-        addToolBarButtonWithImage(toolBar, "Copy", "core/assets/copy.png", "Copier");
-        addToolBarButtonWithImage(toolBar, "Paste", "core/assets/paste.png", "Coller");
+        addToolBarButtonWithImage(toolBar, "New", "assets/new.png", "Nouveau graphe");
+        addToolBarImageButtonWithAction(toolBar, "assets/cursor.png", State.Mode.SELECTION.name(), "Mode édition");
+        addToolBarImageButtonWithAction(toolBar, "assets/edit.png", State.Mode.CREATION.name(), "Mode création");
+        addToolBarImageButtonWithAction(toolBar, "assets/zoom.png", State.Mode.ZOOM.name(), "Zoom");
+        addToolBarButtonWithImage(toolBar, "Zoom", "assets/zoom.png", "Zoom");
+        addToolBarButtonWithImage(toolBar, "Copy", "assets/copy.png", "Copier");
+        addToolBarButtonWithImage(toolBar, "Paste", "assets/paste.png", "Coller");
 
         toolBar.add(undoRedo.getUndo());
         toolBar.add(undoRedo.getRedo());
@@ -160,17 +160,15 @@ public class Window extends JFrame {
      * @param toolBar       le toolBar qui va contenir le bouton
      * @param fileName      le nom du fichier de l'image à charger
      * @param actionCommand la commande qui sera appellée lors du clic sur le bouton
-     * @param selectedState l'état du bouton, s'il est sélectionné
      * @param helpMessage   le message d'aide du bouton
      */
-    private void addToolBarImageButtonWithAction(JToolBar toolBar, String fileName, String actionCommand, boolean selectedState, String helpMessage) {
+    private void addToolBarImageButtonWithAction(JToolBar toolBar, String fileName, String actionCommand, String helpMessage) {
         Image img = Toolkit.getDefaultToolkit().getImage(fileName);
         JButton imageButton = new JButton();
         imageButton.setIcon(new ImageIcon(img.getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
         imageButton.setBounds(0, 0, 20, 20);
         imageButton.setMargin(new Insets(0, 0, 0, 0));
         imageButton.setBorder(null);
-        imageButton.setSelected(selectedState);
         imageButton.setActionCommand(actionCommand);
         imageButton.addActionListener(new ToolBarContextActionListener(this.controller, imageButton));
         imageButton.setToolTipText(helpMessage);
