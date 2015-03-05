@@ -11,7 +11,11 @@ import files.GmlFileManager;
 import undoRedo.UndoPanel;
 
 import javax.swing.*;
+
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.io.File;
 
 /**
@@ -30,10 +34,6 @@ public class Window extends JFrame {
 
     private JTabbedPane tabs; // ensemble des onglets
     private JToolBar toolBar;
-
-    private JPanel initialButtons;
-
-
 
     private JPanel startPanel;
 
@@ -274,7 +274,7 @@ public class Window extends JFrame {
     /**
      * Méthode ajoutant un nouveau {@link view.Tab}. On associe à ce dernier un nouveau {@link data.Graph} et un titre (nom).
      */
-    public void addNewTab(Graph graph, String title) {
+    public void addNewTab(final Graph graph, String title) {
 
         if (this.tabs.getTabCount() == 0) {
             this.back.setLayout(new BorderLayout());
@@ -282,7 +282,7 @@ public class Window extends JFrame {
             this.startPanel.setVisible(false);
         }
 
-        Tab tab = new Tab(graph, this.controller);
+        final Tab tab = new Tab(graph, this.controller);
         graph.addObserver(tab);
 
         tab.setName(title);
@@ -291,10 +291,27 @@ public class Window extends JFrame {
         tab.add(new JLabel(title));
         tab.setPreferredSize(new Dimension(2000, 2000));
         tab.setSize(500, 500);
-
-        TabMouseListener listener = new TabMouseListener(this.controller, tab, graph);
-        tab.addMouseListener(listener);
-        tab.addMouseMotionListener(listener);
+        
+        tab.addMouseListener(new MouseAdapter() {
+    		@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.getState().click(tab, graph, e);
+			}
+    		@Override
+			public void mousePressed(MouseEvent e) {
+				controller.getState().pressed(tab, graph, e);
+			}
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				controller.getState().released(tab, graph, e);
+			}
+    	});
+        tab.addMouseMotionListener(new MouseMotionAdapter() {
+        	@Override
+        	public void mouseDragged(MouseEvent e) {
+        		controller.getState().drag(tab, graph, e);
+        	}
+        });
 
         JScrollPane pane = new JScrollPane(tab);
 

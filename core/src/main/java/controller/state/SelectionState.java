@@ -68,12 +68,12 @@ public class SelectionState extends State {
 	}
 
 	@Override
-	public void drag(Tab tab, Graph graph, Point sourceDrag, MouseEvent e) {
+	public void drag(Tab tab, Graph graph, MouseEvent e) {
 		this.dragging = true;
 		if (e.isControlDown()) {
-			this.controller.notifyAddToDragging(sourceDrag, e.getPoint());
+			this.controller.notifyAddToDragging(this.sourceDrag, e.getPoint());
 		} else {
-			this.controller.notifyDragging(sourceDrag, e.getPoint());
+			this.controller.notifyDragging(this.sourceDrag, e.getPoint());
 		}
 	}
 
@@ -83,22 +83,40 @@ public class SelectionState extends State {
 	 * @see controller.state.State#drag(view.elements.VertexView, java.awt.Point, java.awt.event.MouseEvent)
 	 */
 	@Override
-	public void drag(VertexView vertex, Point sourceDrag, MouseEvent e) {
+	public void drag(VertexView vertex, MouseEvent e) {
 		this.dragging = true;
-		this.controller.notifyMoveSelectedElements(new Point(e.getX() - sourceDrag.x, e.getY() - sourceDrag.y));
+		this.controller.notifyMoveSelectedElements(new Point(e.getX() - this.sourceDrag.x, e.getY() - this.sourceDrag.y));
 		this.controller.notifyRepaintTab();
 	}
 	
 	@Override
+	public void pressed(Tab tab, Graph grap, MouseEvent e) {
+		this.sourceDrag = new Point(e.getX(), e.getY()); // à mettre plus tard dans la méthode pressed de la classe mère ?
+		if (!e.isControlDown()) {
+			this.controller.notifyMousePressedWithoutControlDown();
+		}
+	}
+	
+	@Override
 	public void pressed(ElementView element, MouseEvent e) {
+		this.sourceDrag = new Point(e.getX(), e.getY());
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			manageSelection(element, e);
 		}
 	}
+	
+	@Override
+	public void released(Tab tab, Graph grap, MouseEvent e) {
+		if (this.dragging) {
+			this.controller.notifyEndDragging();
+		}
+		this.dragging = false;
+		//if(((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent) != null){ }
+	}
 
 	@Override
-	public void released(ElementView element, Point sourceDrag, MouseEvent e) {
-		this.controller.notifyMoveSelectedElements(new Point(e.getX() - sourceDrag.x, e.getY() - sourceDrag.y));
+	public void released(ElementView element, MouseEvent e) {
+		this.controller.notifyMoveSelectedElements(new Point(e.getX() - this.sourceDrag.x, e.getY() - this.sourceDrag.y));
 		if (!e.isControlDown()) {
 			this.controller.notifyHandleElement(element);
 		}

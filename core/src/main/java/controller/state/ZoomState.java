@@ -1,6 +1,5 @@
 package controller.state;
 
-import java.awt.Point;
 import java.awt.event.MouseEvent;
 
 import controller.Controller;
@@ -23,24 +22,23 @@ public class ZoomState extends State {
 	}
 	
 	@Override
-	public void drag(Tab tab, Graph graph, Point sourceDrag, MouseEvent e) {
-		// TODO Auto-generated method stub	
-	}
-
-	@Override
-	public String getMode() {
-		return "ZOOM";
-	}
-
-	@Override
 	public void click(ElementView element, MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public void drag(Tab tab, Graph graph, MouseEvent e) {
+		this.dragging = true;
+	}
 
 	@Override
-	public void drag(VertexView vertex, Point sourceDrag, MouseEvent e) {
-		// TODO Auto-generated method stub
+	public void drag(VertexView vertex, MouseEvent e) {
+		this.dragging = true;
+	}
+	
+	@Override
+	public void pressed(Tab tab, Graph grap, MouseEvent e) {
 		
 	}
 
@@ -49,9 +47,19 @@ public class ZoomState extends State {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public void released(Tab tab, Graph grap, MouseEvent e) {
+		this.dragging = false;	
+	}
 
 	@Override
-	public void released(ElementView element, Point sourceDrag, MouseEvent e) {
+	public void released(ElementView element, MouseEvent e) {
 		this.dragging = false;	
+	}
+	
+	@Override
+	public String getMode() {
+		return "ZOOM";
 	}
 }

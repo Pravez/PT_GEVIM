@@ -207,7 +207,6 @@ public class Tab extends JComponent implements Observer {
     public void unselectElement(ElementView element){
     	element.updateHover(false);
         this.selectedElements.remove(element);
-        //this.repaint();
     }
 
     /**
@@ -217,7 +216,6 @@ public class Tab extends JComponent implements Observer {
     public void selectElement(ElementView element){
     	element.updateHover(true);
         this.selectedElements.add(element);
-        //this.repaint();
     }
 
     /**
@@ -365,18 +363,20 @@ public class Tab extends JComponent implements Observer {
 	 */
 	public void manageElementsInZone() {
 		clearSelectedElements();
+		for (ElementView e : this.currentSelectedElements) {
+			selectElement(e);
+		}
 		for (VertexView v : this.vertexes) {
 			if (this.selectionZone.contains(v.getPosition())) {
 				selectElement(v);
+				this.currentSelectedElements.add(v);
 			}
 		}
 		for (EdgeView e : this.edges) {
 			if (edgeIsInSelectionZone(e)) {
 				selectElement(e);
+				this.currentSelectedElements.add(e);
 			}
-		}
-		for (ElementView e : this.currentSelectedElements) {
-			selectElement(e);
 		}
 	}
 	

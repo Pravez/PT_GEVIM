@@ -6,7 +6,6 @@ import view.elements.ElementView;
 import view.Tab;
 import view.elements.VertexView;
 
-import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class CreationState extends State {
@@ -32,23 +31,34 @@ public class CreationState extends State {
 	}
 	
 	@Override
-	public void drag(Tab tab, Graph graph, Point sourceDrag, MouseEvent e) {
+	public void drag(Tab tab, Graph graph, MouseEvent e) {
+		this.dragging = true;
 		// TODO Auto-generated method stub	
 	}
 	
 	@Override
-	public void drag(VertexView vertex, Point sourceDrag, MouseEvent e) {
+	public void drag(VertexView vertex, MouseEvent e) {
 		this.dragging = true;
 		this.controller.notifyDraggingEdge(vertex.getPosition(), e.getPoint());
+	}
+	
+	@Override
+	public void pressed(Tab tab, Graph grap, MouseEvent e) {
+		
 	}
 	
 	@Override
 	public void pressed(ElementView element, MouseEvent e) {
 		// TODO Auto-generated method stub
 	}
+	
+	@Override
+	public void released(Tab tab, Graph grap, MouseEvent e) {
+		
+	}
 
 	@Override
-	public void released(ElementView element, Point sourceDrag, MouseEvent e) {
+	public void released(ElementView element, MouseEvent e) {
 		this.controller.notifyEndDraggingEdge();
 		this.dragging = false;
 	}

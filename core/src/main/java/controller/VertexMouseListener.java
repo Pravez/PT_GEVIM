@@ -2,7 +2,6 @@ package controller;
 
 import view.elements.VertexView;
 
-import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -15,7 +14,6 @@ public class VertexMouseListener implements MouseListener, MouseMotionListener {
 	
 	private Controller controller;
 	private VertexView vertex;
-	private Point      sourceDrag;
 
 	private static VertexView underMouseVertex = null;
 
@@ -27,7 +25,6 @@ public class VertexMouseListener implements MouseListener, MouseMotionListener {
 	public VertexMouseListener(Controller controller, VertexView vertex) {
 		this.controller = controller;
 		this.vertex     = vertex;
-		this.sourceDrag = new Point();
 	}
 	
 	/**
@@ -66,7 +63,6 @@ public class VertexMouseListener implements MouseListener, MouseMotionListener {
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
-		this.sourceDrag = new Point(e.getX(), e.getY());
 		this.controller.getState().pressed(this.vertex, e);
 	}
 
@@ -77,8 +73,8 @@ public class VertexMouseListener implements MouseListener, MouseMotionListener {
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		this.controller.getState().released(this.vertex, this.sourceDrag, e);
-		if (underMouseVertex != null && underMouseVertex != vertex){
+		this.controller.getState().released(this.vertex, e);
+		if (underMouseVertex != null && underMouseVertex != vertex){ // à mettre ailleurs ??? --> State ?
 			if (this.vertex.getPosition().x < underMouseVertex.getPosition().x) {
 				this.controller.addEdge(vertex.getVertex(), underMouseVertex.getVertex());
 			} else {
@@ -94,8 +90,7 @@ public class VertexMouseListener implements MouseListener, MouseMotionListener {
 	 */
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		this.controller.getState().drag(this.vertex, this.sourceDrag, e);
-		this.sourceDrag = new Point(e.getX(), e.getY());
+		this.controller.getState().drag(this.vertex, e);
 	}
 
 	/**
