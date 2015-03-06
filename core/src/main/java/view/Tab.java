@@ -10,11 +10,9 @@ import view.elements.VertexView;
 import view.frames.TabPropertiesViewEditor;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.ListIterator;
@@ -54,8 +52,7 @@ public class Tab extends JComponent implements Observer {
     private Point                  destinationEdge;
     private Color                  edgeColor;
 
-    private int                    currentScale;
-    private AffineTransform        transform = new AffineTransform();
+    private double                 currentScale;
 
     /**
      * Getter du Graph
@@ -103,7 +100,7 @@ public class Tab extends JComponent implements Observer {
         this.destinationEdge          = null;
         this.edgeColor                = new Color(0,0,0);
 
-        this.currentScale             = 0;
+        this.currentScale             = (float) 1.0;
     }
 
     /**
@@ -137,19 +134,22 @@ public class Tab extends JComponent implements Observer {
             g.drawLine(this.originEdge.x, this.originEdge.y, this.destinationEdge.x, this.destinationEdge.y);
         }
         for(EdgeView e : this.edges){
-            e.paintComponent(g);
+            e.paintComponent(g, new Point(0, 0), this.currentScale, this.currentScale);
         }
 
         for (VertexView v : this.vertexes) {
-            v.paintComponent(g);
+            v.paintComponent(g, new Point(0, 0), this.currentScale, this.currentScale);
         }
+    }
 
-        Graphics2D g2d = (Graphics2D) g;
-        AffineTransform.getScaleInstance(0.95, 1.25);
+    public void zoomIn() {
+        this.currentScale += 0.1;
+        this.repaint();
+    }
 
-        g2d.setTransform(transform);
-
-        transform.scale(currentScale,currentScale);
+    public void zoomOut() {
+        this.currentScale -= 0.1;
+        this.repaint();
     }
 
     /**
@@ -593,11 +593,11 @@ public class Tab extends JComponent implements Observer {
         }
     }
 
-    public int getCurrentScale() {
+    public double getCurrentScale() {
         return currentScale;
     }
 
-    public void setCurrentScale(int currentScale) {
+    public void setCurrentScale(double currentScale) {
         this.currentScale = currentScale;
     }
 }
