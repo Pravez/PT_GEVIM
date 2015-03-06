@@ -27,7 +27,14 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
     private Rectangle              selectionZone;
     private Color                  selectionColor;
     private Color                  selectionBorderColor;
-	
+
+	/**
+	 * Conbstructeur de la classe MiniMap
+	 * @param width la largeur de la MiniMap
+	 * @param height la hauteur de la MiniMap
+	 * @param pane le JScrollPane de la window
+	 * @param tab le Tab actuel
+	 */
 	public MiniMap(int width, int height, JScrollPane pane, Tab tab) {
 		this.setSize(width, height);
 		this.pane     = pane;
@@ -52,7 +59,11 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
 		});
         this.setVisible(true);
 	}
-	
+
+	/**
+	 * Override de la méthode paintComponent pour dessiner le graph
+	 * @param g les Graphics
+	 */
 	public void paintComponent(Graphics g) {
 		g.setColor(this.selectionColor);
 		g.fillRect(this.selectionZone.x, this.selectionZone.y, this.selectionZone.width, this.selectionZone.height);
@@ -121,6 +132,9 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
 		this.repaint();
 	}
 
+	/**
+	 * Méthode permettant de mettre à jour la zone de sélection (viewport actuel) en fonction de la dimension des fenêtres
+	 */
 	private void updateSelectionZone() {
 		int x      = (int)(1.0*this.getSize().width*this.pane.getHorizontalScrollBar().getValue()/this.tab.getSize().width);
 		int y      = (int)(1.0*this.getSize().height*this.pane.getVerticalScrollBar().getValue()/this.tab.getSize().height);
@@ -129,6 +143,10 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
 		this.selectionZone = new Rectangle(x, y, width, height);
 	}
 
+	/**
+	 * Méthode appelée pour mettre à jour la position de la zone de sélection dans le JScrollPane selon la position sur la MiniMap
+	 * @param e l'événement souris
+	 */
 	private void moveSelectionZone(MouseEvent e) {
 		Point origin = new Point(e.getX() - this.selectionZone.width/2, e.getY() - this.selectionZone.height/2);
 		this.pane.getHorizontalScrollBar().setValue((int) (1.0*origin.x*this.tab.getSize().width/this.getSize().width));
