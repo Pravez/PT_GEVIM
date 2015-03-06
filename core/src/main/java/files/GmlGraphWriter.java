@@ -52,6 +52,8 @@ public class GmlGraphWriter {
         vertexKeyTypes.put("name", GraphMLTokens.STRING);
         vertexKeyTypes.put("weight", GraphMLTokens.INT);
         vertexKeyTypes.put("color", "color");
+        vertexKeyTypes.put("x", GraphMLTokens.DOUBLE);
+        vertexKeyTypes.put("y", GraphMLTokens.DOUBLE);
 
         Map<String, String> edgeKeyTypes = new HashMap<String, String>();
 
@@ -73,7 +75,10 @@ public class GmlGraphWriter {
                 Vertex GMLvertex = gmlGraph.addVertex(null);
                 GMLvertex.setProperty("name", v.getLabel());
                 GMLvertex.setProperty("weight", v.getSize());
-                GMLvertex.setProperty("color", v.getColor().toString());
+                GMLvertex.setProperty("color", "#"+Integer.toHexString(v.getColor().getRGB()).substring(2));
+                GMLvertex.setProperty("x", v.getPosition().x);
+                GMLvertex.setProperty("y", v.getPosition().y
+                );
                 vertexMapping.put(v, GMLvertex);
             }
         }

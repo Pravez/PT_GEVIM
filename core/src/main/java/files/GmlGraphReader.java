@@ -59,13 +59,9 @@ public class GmlGraphReader {
         ArrayList<GraphElement> graphElements = new ArrayList<>();
         HashMap<Vertex, data.Vertex> vertices = new HashMap<>();
 
-        //TEMPORAIRE
-        int x = 10;
-        int y = 10;
-
         for(Vertex v : this.gmlGraph.getVertices()){
             if(!vertices.containsKey(v)){
-                data.Vertex sourceVertex = new data.Vertex((String)v.getProperty("name"), Color.BLACK, new Point(x,y), (int)v.getProperty("weight"), data.Vertex.Shape.SQUARE);
+                data.Vertex sourceVertex = new data.Vertex((String)v.getProperty("name"), Color.decode((String)v.getProperty("color")), new Point((int)v.getProperty("x"),(int)v.getProperty("y")), (int)v.getProperty("weight"), data.Vertex.Shape.SQUARE);
                 vertices.put(v, sourceVertex);
                 graphElements.add(sourceVertex);
             }
@@ -80,11 +76,6 @@ public class GmlGraphReader {
             data.Edge createdEdge = new data.Edge((String)e.getProperty("name"), Color.BLACK, vertices.get(source), vertices.get(target),1);
             graphElements.add(createdEdge);
 
-            //TEMPORAIRE
-            if (x >= 500 ){
-                y+=50; x=10;}
-            else{
-                x += 50;}
         }
 
 
