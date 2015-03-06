@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class Controller {
 
     private Window window;
-    private ArrayList<Graph> graphs = new ArrayList<Graph>();
+    private ArrayList<Graph> graphs = new ArrayList<>();
     private State state;
 
     private ArrayList<GraphElement> copiedElements;
@@ -72,7 +72,7 @@ public class Controller {
      */
     public void addEdge(Vertex src, Vertex dst) {
         ArrayList<GraphElement> tmp=  new ArrayList<>();
-        tmp.add( this.window.getCurrentTab().getGraph().createEdge(this.window.getCurrentTab().getDefaultColor(), src, dst, this.window.getCurrentTab().getDefaultThickness()));
+        tmp.add( this.window.getCurrentTab().getGraph().createEdge(this.window.getCurrentTab().getDefaultVertexesColor(), src, dst, this.window.getCurrentTab().getDefaultEdgesThickness()));
         window.getUndoRedo().registerAddEdit(tmp);
         
     }
@@ -287,6 +287,7 @@ public class Controller {
                 pasteElements(position);
                 break;
             case "Properties":
+                System.out.println("Properties");
                 this.window.getCurrentTab().modifyProperties();
                 this.graphs.get(this.window.getCurrentTabIndex()).setChanged();
                 break;

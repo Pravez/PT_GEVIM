@@ -20,7 +20,7 @@ public class CreationState extends State {
 			initNewPopupMenu(new String[]{"Paste", "Properties"}, e.getPoint()).show(tab, e.getX(), e.getY());
 		}
 		if (e.getButton() == MouseEvent.BUTTON1) { // Clic gauche
-			this.controller.addVertex(graph, tab.getDefaultColor(), e.getPoint(), tab.getDefaultSize(), tab.getDefaultShape());
+			this.controller.addVertex(graph, tab.getDefaultVertexesColor(), e.getPoint(), tab.getDefaultVertexesSize(), tab.getDefaultVertexesShape());
             tab.repaint();
 		}
 	}
