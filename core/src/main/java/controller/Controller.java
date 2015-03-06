@@ -349,11 +349,18 @@ public class Controller {
      * @param position la position de la souris pour positionner les GraphElement copiés
      */
     public void pasteElements(Point position) {
+        ArrayList<GraphElement> newElements;
         if (position != null) {
-            this.graphs.get(this.window.getCurrentTabIndex()).addGraphElements(Graph.copyGraphElements(this.copiedElements, position));
+            newElements = Graph.copyGraphElements(this.copiedElements, position);
+
+            this.graphs.get(this.window.getCurrentTabIndex()).addGraphElements(newElements);
         } else {
-            this.graphs.get(this.window.getCurrentTabIndex()).addGraphElements(Graph.copyGraphElements(this.copiedElements));
+            newElements = Graph.copyGraphElements(this.copiedElements);
+
+            this.graphs.get(this.window.getCurrentTabIndex()).addGraphElements(newElements);
         }
+          window.getUndoRedo().registerAddEdit(newElements);
+
     }
 
     /**
