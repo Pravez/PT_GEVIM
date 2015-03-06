@@ -1,12 +1,12 @@
 package controller.state;
 
-import java.awt.event.MouseEvent;
-
 import controller.Controller;
-import view.elements.ElementView;
-import view.Tab;
-import view.elements.VertexView;
 import data.Graph;
+import view.Tab;
+import view.elements.ElementView;
+import view.elements.VertexView;
+
+import java.awt.event.MouseEvent;
 
 public class ZoomState extends State {
 
@@ -16,15 +16,13 @@ public class ZoomState extends State {
 
 	@Override
 	public void click(Tab tab, Graph graph, MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
+		/*if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
 			initNewPopupMenu(new String[]{"Paste", "Properties"}, e.getPoint()).show(tab, e.getX(), e.getY());
-		}
+		}*/
 	}
 	
 	@Override
 	public void click(ElementView element, MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	@Override
@@ -39,13 +37,15 @@ public class ZoomState extends State {
 	
 	@Override
 	public void pressed(Tab tab, Graph grap, MouseEvent e) {
-		
+		if (e.getButton() == MouseEvent.BUTTON1) { // Clic gauche
+			tab.zoomIn();
+		} else if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
+			tab.zoomOut();
+		}
 	}
 
 	@Override
 	public void pressed(ElementView element, MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	@Override
