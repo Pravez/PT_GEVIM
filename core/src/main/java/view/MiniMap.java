@@ -1,23 +1,19 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.ListIterator;
-
-import javax.swing.JComponent;
-import javax.swing.JScrollPane;
-
-import view.elements.EdgeView;
-import view.elements.VertexView;
 import data.Edge;
 import data.GraphElement;
 import data.Observable;
 import data.Vertex;
+import view.elements.EdgeView;
+import view.elements.VertexView;
 
-public class MiniMap extends JComponent implements Observer {
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.ListIterator;
+
+public class MiniMap extends JComponent implements Observer, AdjustmentListener {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -32,16 +28,28 @@ public class MiniMap extends JComponent implements Observer {
     private Color                  selectionColor;
     private Color                  selectionBorderColor;
 	
-	public MiniMap(JScrollPane pane, Tab tab) {
+	public MiniMap(int width, int height, JScrollPane pane, Tab tab) {
+		this.setSize(width, height);
+		this.pane     = pane;
 		this.tab      = tab;
 		this.edges    = new ArrayList<EdgeView>();
         this.vertexes = new ArrayList<VertexView>();
         
         this.selectionColor           = new Color(172, 211, 244);
         this.selectionBorderColor     = new Color(107, 153, 189);
-        this.selectionZone            = new Rectangle(0, 0, (int)1.0*500*500/2000, (int)1.0*500*500/2000);
-        		//new Rectangle(0, 0, (int) (1.0*this.getWidth()* this.tab.getSize().width)/this.tab.getPreferredSize().width , (int) (1.0*this.getHeight() * this.tab.getSize().height/this.tab.getPreferredSize().height));
-        System.out.println("Zone : " + selectionZone.width + ", " + selectionZone.height);
+		updateSelectionZone();
+		this.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				moveSelectionZone(e);
+			}
+		});
+		this.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				moveSelectionZone(e);
+			}
+		});
         this.setVisible(true);
 	}
 	
@@ -107,4 +115,23 @@ public class MiniMap extends JComponent implements Observer {
         super.add(edgeView);
     }
 
+	@Override
+	public void adjustmentValueChanged(AdjustmentEvent adjustmentEvent) {
+		updateSelectionZone();
+		this.repaint();
+	}
+
+	private void updateSelectionZone() {
+		int x      = (int)(1.0*this.getSize().width*this.pane.getHorizontalScrollBar().getValue()/this.tab.getSize().width);
+		int y      = (int)(1.0*this.getSize().height*this.pane.getVerticalScrollBar().getValue()/this.tab.getSize().height);
+		int width  = (int)(1.0*this.getSize().width*this.pane.getViewport().getSize().width/this.tab.getPreferredSize().width);
+		int height = (int)(1.0*this.getSize().height*this.pane.getViewport().getSize().height/this.tab.getPreferredSize().height);
+		this.selectionZone = new Rectangle(x, y, width, height);
+	}
+
+	private void moveSelectionZone(MouseEvent e) {
+		Point origin = new Point(e.getX() - this.selectionZone.width/2, e.getY() - this.selectionZone.height/2);
+		this.pane.getHorizontalScrollBar().setValue((int) (1.0*origin.x*this.tab.getSize().width/this.getSize().width));
+		this.pane.getVerticalScrollBar().setValue((int) (1.0*origin.y*this.tab.getSize().height/this.getSize().height));
+	}
 }

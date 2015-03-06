@@ -62,8 +62,8 @@ public class Window extends JFrame {
     private void initStartPanel() {
         this.startPanel = new JPanel();
         this.startPanel.setBackground(null);
-        addImageButtonToPanel(this.startPanel, "New", "assets/new-big.png", "Nouveau graphe");
-        addImageButtonToPanel(this.startPanel, "Open", "assets/open-big.png", "Ouvrir un graphe");
+        addImageButtonToPanel(this.startPanel, "New", "core/assets/new-big.png", "Nouveau graphe");
+        addImageButtonToPanel(this.startPanel, "Open", "core/assets/open-big.png", "Ouvrir un graphe");
         this.back.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.CENTER;
@@ -141,13 +141,13 @@ public class Window extends JFrame {
         toolBar = new JToolBar();
         toolBar.setFloatable(false);
 
-        addToolBarButtonWithImage(toolBar, "New", "assets/new.png", "Nouveau graphe");
-        addToolBarImageButtonWithAction(toolBar, "assets/cursor.png", State.Mode.SELECTION.name(), "Mode édition");
-        addToolBarImageButtonWithAction(toolBar, "assets/edit.png", State.Mode.CREATION.name(), "Mode création");
-        addToolBarImageButtonWithAction(toolBar, "assets/zoom.png", State.Mode.ZOOM.name(), "Zoom");
-        addToolBarButtonWithImage(toolBar, "Zoom", "assets/zoom.png", "Zoom");
-        addToolBarButtonWithImage(toolBar, "Copy", "assets/copy.png", "Copier");
-        addToolBarButtonWithImage(toolBar, "Paste", "assets/paste.png", "Coller");
+        addToolBarButtonWithImage(toolBar, "New", "core/assets/new.png", "Nouveau graphe");
+        addToolBarImageButtonWithAction(toolBar, "core/assets/cursor.png", State.Mode.SELECTION.name(), "Mode édition");
+        addToolBarImageButtonWithAction(toolBar, "core/assets/edit.png", State.Mode.CREATION.name(), "Mode création");
+        addToolBarImageButtonWithAction(toolBar, "core/assets/zoom.png", State.Mode.ZOOM.name(), "Zoom");
+        addToolBarButtonWithImage(toolBar, "Zoom", "core/assets/zoom.png", "Zoom");
+        addToolBarButtonWithImage(toolBar, "Copy", "core/assets/copy.png", "Copier");
+        addToolBarButtonWithImage(toolBar, "Paste", "core/assets/paste.png", "Coller");
 
         toolBar.add(undoRedo.getUndo());
         toolBar.add(undoRedo.getRedo());
@@ -316,11 +316,13 @@ public class Window extends JFrame {
         JScrollPane pane = new JScrollPane(tab);
         this.tabs.addTab(title, pane);
         /** **/
-        System.out.println("tab width" + tab.getWidth());
+        System.out.println("tab width : " + tab.getWidth());
         System.out.println("tab bounds width : " + tab.getBounds().width);
         System.out.println("tab preferred size : " + tab.getPreferredSize().width);
         System.out.println("tab size : " + tab.getSize().width);
         MiniMapFrame map = new MiniMapFrame(tab.getPreferredSize().width/5, tab.getPreferredSize().height/5, pane, tab);
+        pane.getHorizontalScrollBar().addAdjustmentListener(map.getMiniMap());
+        pane.getVerticalScrollBar().addAdjustmentListener(map.getMiniMap());
         graph.addObserver(map.getMiniMap());
         /** **/
         undoRedo.setGraph(tab.getGraph());

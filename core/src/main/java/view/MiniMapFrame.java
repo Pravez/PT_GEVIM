@@ -1,9 +1,7 @@
 package view;
 
-import java.awt.Dimension;
-
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
+import javax.swing.*;
+import java.awt.*;
 
 public class MiniMapFrame extends JFrame {
 	private int width;
@@ -22,7 +20,7 @@ public class MiniMapFrame extends JFrame {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        this.miniMap = new MiniMap(pane, tab);
+        this.miniMap = new MiniMap(w, h, pane, tab);
         super.getContentPane().add(miniMap);
         
         this.setVisible(true);
@@ -31,5 +29,4 @@ public class MiniMapFrame extends JFrame {
 	public MiniMap getMiniMap() {
 		return this.miniMap;
 	}
-
 }
