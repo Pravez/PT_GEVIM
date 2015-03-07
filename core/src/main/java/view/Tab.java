@@ -35,12 +35,13 @@ public class Tab extends JComponent implements Observer {
     
     private String                 name;
     private String                 file;
-    private Color                  defaultColor;
+    private Color                  defaultVertexesColor;
+    private Color                  defaultEdgesColor;
     private Color                  defaultSelectedColor;
-    private int                    defaultThickness;
     private int                    defaultSelectedThickness;
-    private int                    defaultSize;
-    private Vertex.Shape           defaultShape;
+    private int                    defaultEdgesThickness;
+    private int                    defaultVertexesSize;
+    private Vertex.Shape           defaultVertexesShape;
     
     /** Sélection par zone **/
     private Rectangle              selectionZone;
@@ -109,12 +110,13 @@ public class Tab extends JComponent implements Observer {
         this.selectedElements         = new ArrayList<ElementView>();
         this.currentSelectedElements  = new ArrayList<ElementView>();
         
-        this.defaultColor             = Color.BLACK;
-        this.defaultSelectedColor     = Color.BLUE;
-        this.defaultThickness         = 1;
+        this.defaultVertexesColor = Color.BLACK;
+        this.defaultEdgesColor = Color.BLACK;
+        this.defaultSelectedColor = Color.BLUE;
+        this.defaultEdgesThickness = 1;
         this.defaultSelectedThickness = 2;
-        this.defaultSize              = 15;
-        this.defaultShape             = Vertex.Shape.SQUARE;
+        this.defaultVertexesSize = 15;
+        this.defaultVertexesShape = Vertex.Shape.SQUARE;
         
         this.selectionColor           = new Color(172, 211, 244);
         this.selectionBorderColor     = new Color(107, 153, 189);
@@ -135,7 +137,7 @@ public class Tab extends JComponent implements Observer {
      */
     public boolean canAddVertex(Point position) {
     	for (VertexView v : this.vertexes) {
-    		int margin = this.defaultSize/2;
+    		int margin = this.defaultVertexesSize /2;
     		int side   = v.getWidth() + margin*3; 
     		if (new Rectangle(v.getPosition().x - margin, v.getPosition().y - margin, side, side).contains(position))
     			return false;
@@ -194,16 +196,16 @@ public class Tab extends JComponent implements Observer {
      * Getter de la forme par défaut des VertexView
      * @return la forme par défaut des VertexView
      */
-    public Vertex.Shape getDefaultShape() { // pourquoi cela ne serait pas dans les Vertex plutôt ? Est-ce que tous les Vertex doivent avoir la même forme ?
-        return defaultShape;
+    public Vertex.Shape getDefaultVertexesShape() { // pourquoi cela ne serait pas dans les Vertex plutôt ? Est-ce que tous les Vertex doivent avoir la même forme ?
+        return defaultVertexesShape;
     }
 
     /**
      * Setter de la forme par défaut des VertexView
-     * @param defaultShape la nouvelle forme des VertexView
+     * @param defaultVertexesShape la nouvelle forme des VertexView
      */
-    public void setDefaultShape(Vertex.Shape defaultShape) {
-        this.defaultShape = defaultShape;
+    public void setDefaultVertexesShape(Vertex.Shape defaultVertexesShape) {
+        this.defaultVertexesShape = defaultVertexesShape;
     }
 
     /**
@@ -269,7 +271,16 @@ public class Tab extends JComponent implements Observer {
      * Méthode pour modifier tous les éléments existants
      */
     public void modifyProperties() {
-        new TabPropertiesViewEditor();
+        System.out.println("Appel constructeur");
+        TabPropertiesViewEditor tpve = new TabPropertiesViewEditor(this);
+        System.out.println("Modifications");
+        this.setDefaultVertexesSize(tpve.getTab().getDefaultVertexesSize());
+        this.setDefaultVertexesColor(tpve.getTab().getDefaultVertexesColor());
+        this.setDefaultEdgesThickness(tpve.getTab().getDefaultEdgesThickness());
+        this.setDefaultEdgesColor(tpve.getTab().getDefaultEdgesColor());
+        this.setDefaultVertexesShape(tpve.getTab().getDefaultVertexesShape());
+
+        //this.tab.*******************defaultBackgroundColor                                 A faire éventuellement (changer le background complet du tab
     }
 
     /**
@@ -498,51 +509,67 @@ public class Tab extends JComponent implements Observer {
     }
 
     /**
-     * Getter de la couleur par défaut des VertexView et des EdgeView
+     * Getter de la couleur par défaut des VertexView
      * @return la couleur par défaut
      */
-    public Color getDefaultColor() {
-        return this.defaultColor;
+    public Color getDefaultVertexesColor() {
+        return this.defaultVertexesColor;
     }
 
     /**
-     * Setter de la couleur par défaut des VertexView et des EdgeView
-     * @param defaultColor la nouvelle couleur par défaut
+     * Getter de la couleur par défaut des EdgeView
+     * @return la couleur par défaut
      */
-    public void setDefaultColor(Color defaultColor) {
-        this.defaultColor = defaultColor;
+    public Color getDefaultEdgesColor() {
+        return this.defaultEdgesColor;
+    }
+
+    /**
+     * Setter de la couleur par défaut des VertexView
+     * @param defaultVertexesColor la nouvelle couleur par défaut
+     */
+    public void setDefaultVertexesColor(Color defaultVertexesColor) {
+        this.defaultVertexesColor = defaultVertexesColor;
+    }
+
+    /**
+     * Setter de la couleur par défaut des EdgeView
+     * @param defaultEdgesColor la nouvelle couleur par défaut
+     */
+    public void setDefaultEdgesColor(Color defaultEdgesColor) {
+        this.defaultEdgesColor = defaultEdgesColor;
     }
     
     /**
      * Getter de la taille par défaut des VertexView
      * @return la taille par défaut
      */
-    public int getDefaultSize() {
-        return this.defaultSize;
+    public int getDefaultVertexesSize() {
+        return this.defaultVertexesSize;
     }
 
     /**
      * Setter de la taille par défaut des VertexView
-     * @param defaultSize la nouvelle taille par défaut
+     * @param defaultVertexesSize la nouvelle taille par défaut
      */
-    public void setDefaultSize(int defaultSize) {
-        this.defaultSize = defaultSize;
+    public void setDefaultVertexesSize(int defaultVertexesSize) {
+        this.defaultVertexesSize = defaultVertexesSize;
     }
 
     /**
      * Getter de l'épaisseur par défaut des EdgeView
      * @return l'épaisseur par défaut
      */
-    public int getDefaultThickness() {
-        return this.defaultThickness;
+    public int getDefaultEdgesThickness() {
+        return this.defaultEdgesThickness;
     }
 
     /**
      * Setter de l'épaisseur par défaut des EdgeView
-     * @param defaultThickness la nouvelle épaisseur par défaut
+     * @param defaultEdgesThickness la nouvelle épaisseur par défaut
      */
-    public void setDefaultThickness(int defaultThickness) {
-        this.defaultThickness = defaultThickness;
+    public void setDefaultEdgesThickness(int defaultEdgesThickness) {
+        this.defaultEdgesThickness = defaultEdgesThickness;
     }
 
     /**
