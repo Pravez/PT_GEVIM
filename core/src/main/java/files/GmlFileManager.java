@@ -30,7 +30,7 @@ public class GmlFileManager{
      * Méthode principale permettant la lecture d'un graphe. Elle appelle et utilise les méthodes de {@link files.GmlGraphReader},
      * et en récupère les données.
      */
-    public void openGraph(){
+    public void openGraph() throws Exception{
 
         GmlGraphReader gmlGraphReader = new GmlGraphReader(this.fileAssociated);
         gmlGraphReader.readFile();

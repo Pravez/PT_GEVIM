@@ -175,22 +175,14 @@ public class Controller {
                 break;
 
             case "to GraphML...":
-                try {
-                    this.window.getCurrentTab().saveToGML(this.chooseFile("gml", "GraphML files (*.gml)"));
-                }catch(ArrayIndexOutOfBoundsException aioobe){
-                    JOptionPane.showMessageDialog(null, "Rien à sauvegarder...", "Erreur", JOptionPane.ERROR_MESSAGE);
-                }
+                saveFile();
                 break;
 
             case "to GraphViz...":
                 break;
 
             case "from GraphML...":
-                try {
-                    this.window.openGML(this.chooseFile("gml", "GraphML files (*.gml)"));
-                }catch(ArrayIndexOutOfBoundsException aioobe){
-                    JOptionPane.showMessageDialog(null, "Rien à sauvegarder...", "Erreur", JOptionPane.ERROR_MESSAGE);
-                }
+                openFile();
                 break;
 
             case "from GraphViz...":
@@ -324,6 +316,9 @@ public class Controller {
                     JOptionPane.showMessageDialog(this.window, "Nom de graphe attendu.");
                     this.notifyToolBarItemActivated(text);
                 }
+                break;
+            case "Open":
+                openFile();
                 break;
             case "Copy":
                 copyElements();
@@ -492,6 +487,10 @@ public class Controller {
         return file;
     }
 
+    /**
+     * Méthode permettant l'appel d'un {@link algorithm.IAlgorithm} à partir de son string le caractérisant
+     * @param type Le string caractérisant l'algorithme
+     */
     public void applyAlgorithm(String type){
         switch(type) {
             case "random":
@@ -506,6 +505,28 @@ public class Controller {
             case "number":
                 new VertexColoring().run(window.getCurrentTab().getGraph(), Property.NBEDGES);
                 break;
+        }
+    }
+
+    /**
+     * Méthode d'ouverture d'un fichier et de lecture de ce dernier. Elle utilise de {@link files.GmlFileManager}
+     */
+    public void openFile(){
+        try {
+            this.window.openGML(this.chooseFile("gml", "GraphML files (*.gml)"));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this.window, "Une erreur inattendue s'est produite : " + e.getLocalizedMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Méthode de sauvegarde d'un graphe avec écriture dans un fichier, utilisant le {@link files.GmlFileManager}
+     */
+    public void saveFile(){
+        try {
+            this.window.getCurrentTab().saveToGML(this.chooseFile("gml", "GraphML files (*.gml)"));
+        }catch(ArrayIndexOutOfBoundsException aioobe){
+            JOptionPane.showMessageDialog(null, "Rien à sauvegarder...", "Erreur", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

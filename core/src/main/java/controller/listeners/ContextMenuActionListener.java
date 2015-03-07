@@ -1,10 +1,10 @@
-package controller;
+package controller.listeners;
 
-import javax.swing.*;
-
+import controller.Controller;
 import view.editor.elements.ElementView;
 
-import java.awt.Point;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 public class ContextMenuActionListener implements ActionListener {
 
     private JMenuItem   menuItem;
-    private Controller  controller;
+    private Controller controller;
     private ElementView source;
     private Point       initialPosition;
 

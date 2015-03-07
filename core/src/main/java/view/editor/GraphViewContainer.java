@@ -76,7 +76,9 @@ public class GraphViewContainer extends JSplitPane{
             }
 
             @Override
-            public void mousePressed(MouseEvent e) { controller.getState().pressed(graphTab, graph, e); }
+            public void mousePressed(MouseEvent e) {
+                controller.getState().pressed(graphTab, graph, e);
+            }
 
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -87,7 +89,9 @@ public class GraphViewContainer extends JSplitPane{
 
         graphTab.addMouseMotionListener(new MouseAdapter() {
             @Override
-            public void mouseDragged(MouseEvent e) { controller.getState().drag(graphTab, graph, e); }
+            public void mouseDragged(MouseEvent e) {
+                controller.getState().drag(graphTab, graph, e);
+            }
         });
 
         scrollPane.addMouseWheelListener(new MouseWheelListener() {
@@ -119,12 +123,14 @@ public class GraphViewContainer extends JSplitPane{
         graphTab.setMiniMap(minimap);
 
 
-       JToolBar toolBar = new JToolBar();
+        JToolBar toolBar = new JToolBar();
         toolBar.setFloatable(true);
         undoredo=new UndoPanel(graph);
         toolBar.add(undoredo.getUndo());
         toolBar.add(undoredo.getRedo());
+
         boardPanel = new JPanel(new GridLayout(3,1));
+
         boardPanel.add(toolBar);
         boardPanel.add(properties);
         boardPanel.add(minimap);

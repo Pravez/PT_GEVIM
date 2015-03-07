@@ -1,7 +1,7 @@
 package view.editor;
 
 import controller.Controller;
-import controller.VertexMouseListener;
+import controller.listeners.VertexMouseListener;
 import data.*;
 import files.GmlFileManager;
 import view.Observer;

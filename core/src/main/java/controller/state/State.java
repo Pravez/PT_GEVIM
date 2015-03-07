@@ -1,6 +1,6 @@
 package controller.state;
 
-import controller.ContextMenuActionListener;
+import controller.listeners.ContextMenuActionListener;
 import controller.Controller;
 import data.Graph;
 import view.editor.Tab;

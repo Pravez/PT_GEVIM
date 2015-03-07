@@ -5,13 +5,12 @@
 package view;
 
 import controller.Controller;
-import controller.MenuActionListener;
-import controller.ToolBarButtonActionListener;
-import controller.ToolBarContextActionListener;
+import controller.listeners.MenuActionListener;
+import controller.listeners.ToolBarButtonActionListener;
+import controller.listeners.ToolBarContextActionListener;
 import controller.state.State;
 import data.Graph;
 import files.GmlFileManager;
-import undoRedo.UndoPanel;
 import view.editor.GraphViewContainer;
 import view.editor.Tab;
 
@@ -34,8 +33,6 @@ public class Window extends JFrame {
 
     private JTabbedPane tabs; // ensemble des onglets
     private JToolBar toolBar;
-
-    private JPanel initialButtons;
 
     private JPanel startPanel;
 
@@ -97,7 +94,7 @@ public class Window extends JFrame {
         this.height = height;
         this.controller = controller;
 
-        this.setTitle("PT - Modélisation de graphe");
+        this.setTitle("GEVIM");
         this.setSize(this.width, this.height);
         this.setMinimumSize(new Dimension(this.width, this.height));
         this.setLocationRelativeTo(null);
@@ -351,12 +348,14 @@ public class Window extends JFrame {
         return this.tabs;
     }
 
-    public void openGML(File file) {
+    public void openGML(File file) throws Exception{
         if (file != null) {
+
             GmlFileManager gmlFileManager = new GmlFileManager(null, file);
             gmlFileManager.openGraph();
 
             this.addNewTab(this.controller.addGraph(gmlFileManager.getGraph()), "Tab " + this.getTabCount());
+            this.tabs.setSelectedIndex(this.tabs.getTabCount()-1);
             this.controller.getGraph(this.getCurrentTabIndex()).setChanged();
         }
     }

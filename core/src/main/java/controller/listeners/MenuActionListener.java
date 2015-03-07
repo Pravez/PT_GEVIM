@@ -1,9 +1,10 @@
-package controller;
+package controller.listeners;
 
+import controller.Controller;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JMenuItem;
 
 /**
  * @author Alexis Dufrenne

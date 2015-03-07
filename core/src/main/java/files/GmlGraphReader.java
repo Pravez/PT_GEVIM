@@ -53,27 +53,27 @@ public class GmlGraphReader {
     /**
      * Méthode de création du {@link data.Graph} associé aux données qui ont pu être récupérées du fichier.
      */
-    public void createGraph(){
+    public void createGraph() throws Exception{
 
         this.graph = new Graph();
         ArrayList<GraphElement> graphElements = new ArrayList<>();
         HashMap<Vertex, data.Vertex> vertices = new HashMap<>();
 
-        for(Vertex v : this.gmlGraph.getVertices()){
-            if(!vertices.containsKey(v)){
-                data.Vertex sourceVertex = new data.Vertex((String)v.getProperty("name"), Color.decode((String)v.getProperty("color")), new Point((int)v.getProperty("x"),(int)v.getProperty("y")), (int)v.getProperty("weight"), data.Vertex.Shape.SQUARE);
+        for (Vertex v : this.gmlGraph.getVertices()) {
+            if (!vertices.containsKey(v)) {
+                data.Vertex sourceVertex = new data.Vertex((String) v.getProperty("name"), Color.decode((String) v.getProperty("color")), new Point((int) v.getProperty("x"), (int) v.getProperty("y")), (int) v.getProperty("weight"), data.Vertex.Shape.SQUARE);
                 vertices.put(v, sourceVertex);
                 graphElements.add(sourceVertex);
             }
         }
 
 
-        for(Edge e : gmlGraph.getEdges()){
+        for (Edge e : gmlGraph.getEdges()) {
 
             Vertex source = e.getVertex(Direction.OUT);
             Vertex target = e.getVertex(Direction.IN);
 
-            data.Edge createdEdge = new data.Edge((String)e.getProperty("name"), Color.BLACK, vertices.get(source), vertices.get(target),1);
+            data.Edge createdEdge = new data.Edge((String) e.getProperty("name"), Color.BLACK, vertices.get(source), vertices.get(target), 1);
             graphElements.add(createdEdge);
 
         }
