@@ -31,7 +31,7 @@ public class CreationState extends State {
 	@Override
 	public void pressed(Tab tab, Graph graph, MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) { // Clic gauche
-            Point position = new Point((int)(1.0*e.getX()/tab.getScale()), (int)(1.0*e.getY()/tab.getScale()));
+            Point position = new Point((int)(1.0*e.getX()/this.controller.getCurrentTabScale()), (int)(1.0*e.getY()/this.controller.getCurrentTabScale()));
             this.controller.addVertex(graph, tab.getDefaultVertexesColor(), position, tab.getDefaultVertexesSize(), tab.getDefaultVertexesShape());
             tab.repaint();
         }

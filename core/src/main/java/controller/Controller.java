@@ -124,6 +124,14 @@ public class Controller {
     }
 
     /**
+     * Méthode pour récupérer le zoom (scale) de l'onglet ouvert
+     * @return la valeur du zoom
+     */
+    public double getCurrentTabScale() {
+        return this.window.getCurrentTab().getScale();
+    }
+
+    /**
      * Main du logiciel de visualisation de graphes
      *
      * @param args

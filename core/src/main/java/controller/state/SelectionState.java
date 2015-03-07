@@ -85,8 +85,9 @@ public class SelectionState extends State {
 	@Override
 	public void drag(VertexView vertex, MouseEvent e) {
 		this.dragging = true;
-		this.controller.notifyMoveSelectedElements(new Point(e.getX() - this.sourceDrag.x, e.getY() - this.sourceDrag.y));
+        this.controller.notifyMoveSelectedElements(new Point(e.getX() - this.sourceDrag.x, e.getY() - this.sourceDrag.y));
 		this.controller.notifyRepaintTab();
+        this.sourceDrag = e.getPoint();
 	}
 	
 	@Override
