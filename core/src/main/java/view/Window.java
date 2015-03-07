@@ -301,9 +301,11 @@ public class Window extends JFrame {
 			public void mouseReleased(MouseEvent e) {
 				controller.getState().released(tab, graph, e);
 			}
+    	});
+        tab.addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) { controller.getState().drag(tab, graph, e); }
-    	});
+        });
 
         ScrollPane pane = new ScrollPane(tab);
         this.tabs.addTab(title, pane);

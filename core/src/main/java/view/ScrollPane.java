@@ -22,6 +22,19 @@ public class ScrollPane extends JScrollPane {
     }
 
     /**
+     * Méthode pour
+     * @param originalPosition la position initiale
+     * @param actualPosition la nouvelle position
+     */
+    public void setScrollPosition(Point originalPosition, Point actualPosition) {
+        int x = actualPosition.x - originalPosition.x;
+        int y = actualPosition.y - originalPosition.y;
+        this.horizontalScrollBar.setValue(this.horizontalScrollBar.getValue() - x);
+        this.verticalScrollBar.setValue(this.verticalScrollBar.getValue() - y);
+        this.tab.revalidate();
+    }
+
+    /**
      * Méthode permettant de gérer le zoom de la feuille de dessin
      * @param positionX la position en X du curseur
      * @param positionY la position en Y du curseur

@@ -23,14 +23,6 @@ public class CreationState extends State {
 	}
 	
 	@Override
-	public void click(ElementView element, MouseEvent e) { }
-	
-	@Override
-	public void drag(Tab tab, Graph graph, MouseEvent e) {
-		this.dragging = true;
-	}
-	
-	@Override
 	public void drag(VertexView vertex, MouseEvent e) {
 		this.dragging = true;
 		this.controller.notifyDraggingEdge(vertex.getPosition(), e.getPoint());
