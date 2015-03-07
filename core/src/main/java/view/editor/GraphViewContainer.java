@@ -2,6 +2,7 @@ package view.editor;
 
 import controller.Controller;
 import data.Graph;
+import undoRedo.UndoPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +23,7 @@ public class GraphViewContainer extends JSplitPane{
     private Controller controller;
     private ScrollPane scrollPane;
     private Tab graphTab;
-
+    private UndoPanel undoredo;
 
     /**
      * Constructeur de la classe
@@ -102,7 +103,7 @@ public class GraphViewContainer extends JSplitPane{
 
 
     /**
-     * Initialisation du BoardPanel, la {@link javax.swing.JPanel} qui contiendra la {@link view.editor.MiniMap} et le {@link view.editor.PropertyPanel}
+     * Initialisation du BoardPanel, la {@link javax.swing.JPanel} qui contiendra la {@link view.editor.MiniMap}, le {@link undoRedo.UndoPanel} et le {@link view.editor.PropertyPanel}
      * @param graph Le {@link data.Graph} auquel relatent le {@link view.editor.PropertyPanel} et la {@link view.editor.MiniMap}
      */
     public void initBoardPanel(Graph graph){
@@ -117,10 +118,16 @@ public class GraphViewContainer extends JSplitPane{
         graph.addObserver(minimap);
         graphTab.setMiniMap(minimap);
 
-        boardPanel = new JPanel(new GridLayout(2,1));
+
+       JToolBar toolBar = new JToolBar();
+        toolBar.setFloatable(true);
+        undoredo=new UndoPanel(graph);
+        toolBar.add(undoredo.getUndo());
+        toolBar.add(undoredo.getRedo());
+        boardPanel = new JPanel(new GridLayout(3,1));
+        boardPanel.add(toolBar);
         boardPanel.add(properties);
         boardPanel.add(minimap);
-
         this.add(boardPanel);
     }
 
@@ -140,4 +147,17 @@ public class GraphViewContainer extends JSplitPane{
     public JScrollPane getScrollPane(){
         return this.scrollPane;
     }
+
+    /**
+     * Getter d'undoRedo
+     *
+     * @return undoredo
+     */
+    public UndoPanel getUndoRedo() {
+        return undoredo;
+    }
+
 }
+
+
+

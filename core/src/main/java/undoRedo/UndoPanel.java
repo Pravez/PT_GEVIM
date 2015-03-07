@@ -5,6 +5,7 @@ import data.Graph;
 import data.GraphElement;
 import data.Vertex;
 
+import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -51,17 +52,49 @@ public class UndoPanel extends JPanel {
         //Création des actions associées aux boutons
         Action undoAction = new UndoAction();
         Action redoAction = new RedoAction();
+        Image img = Toolkit.getDefaultToolkit().getImage("core/assets/undo.png");
 
         //Création des boutons et associations avec les actions correspondantes
-        undo = new JButton("Undo");
+        undo = new JButton();
+        undo.setIcon(new ImageIcon(img.getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
+
         undo.addActionListener(undoAction);
-        redo = new JButton("Redo");
+        redo = new JButton();
+        img = Toolkit.getDefaultToolkit().getImage("core/assets/redo.png");
+        redo.setIcon(new ImageIcon(img.getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
+
         redo.addActionListener(redoAction);
 
         //Initialisation du module UndoRedo
         undoManager_= new UndoManager();
         undoSupport_ = new UndoableEditSupport();
         undoSupport_.addUndoableEditListener(new UndoAdapter());
+        refreshUndoRedo();
+    }
+
+
+    public UndoPanel(Graph graph ) {
+        //Création des actions associées aux boutons
+        Action undoAction = new UndoAction();
+        Action redoAction = new RedoAction();
+        Image img = Toolkit.getDefaultToolkit().getImage("core/assets/undo.png");
+
+        //Création des boutons et associations avec les actions correspondantes
+        undo = new JButton();
+        undo.setIcon(new ImageIcon(img.getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
+
+        undo.addActionListener(undoAction);
+        redo = new JButton();
+        img = Toolkit.getDefaultToolkit().getImage("core/assets/redo.png");
+        redo.setIcon(new ImageIcon(img.getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
+
+        redo.addActionListener(redoAction);
+
+        //Initialisation du module UndoRedo
+        undoManager_= new UndoManager();
+        undoSupport_ = new UndoableEditSupport();
+        undoSupport_.addUndoableEditListener(new UndoAdapter());
+        this.graph=graph;
         refreshUndoRedo();
     }
 

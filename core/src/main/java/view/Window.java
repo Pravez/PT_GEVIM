@@ -31,7 +31,6 @@ public class Window extends JFrame {
     private int height;
     private Controller controller;
     private JPanel back;
-    private UndoPanel undoRedo;
 
     private JTabbedPane tabs; // ensemble des onglets
     private JToolBar toolBar;
@@ -140,7 +139,6 @@ public class Window extends JFrame {
      * Method to init the tool menu bar (undo, redo, copy, paste...)
      */
     private void initToolMenuBar() {
-        undoRedo = new UndoPanel();
         toolBar = new JToolBar();
         toolBar.setFloatable(false);
 
@@ -151,8 +149,6 @@ public class Window extends JFrame {
         addToolBarButtonWithImage(toolBar, "Copy", "core/assets/copy.png", "Copier");
         addToolBarButtonWithImage(toolBar, "Paste", "core/assets/paste.png", "Coller");
 
-        toolBar.add(undoRedo.getUndo());
-        toolBar.add(undoRedo.getRedo());
         super.getContentPane().add(toolBar, BorderLayout.NORTH);
     }
 
@@ -287,7 +283,6 @@ public class Window extends JFrame {
         GraphViewContainer graphViewContainer = new GraphViewContainer(graph, title, this.controller);
 
         this.tabs.addTab(title, graphViewContainer);
-        undoRedo.setGraph(graphViewContainer.getGraph());
 
 
     }
@@ -311,12 +306,12 @@ public class Window extends JFrame {
     }
 
     /**
-     * Getter d'undoRedo
+     * Renvoi du {@link view.editor.GraphViewContainer} du {@link view.editor.Tab} couramment sélectionné
      *
-     * @return undoredo
+     * @return le {@link view.editor.GraphViewContainer} du {@link view.editor.Tab} couramment sélectionné
      */
-    public UndoPanel getUndoRedo() {
-        return undoRedo;
+    public GraphViewContainer getCurrentGraphViewContainer() {
+        return  ((GraphViewContainer) this.tabs.getComponentAt(this.tabs.getSelectedIndex()));
     }
 
     public JViewport getCurrentTabViewPort() {

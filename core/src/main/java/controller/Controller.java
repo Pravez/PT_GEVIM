@@ -59,8 +59,8 @@ public class Controller {
     public void addVertex(Graph g, Color color, Point position, int size, Vertex.Shape shape) {
         if (this.window.getCurrentTab().canAddVertex(position)) {
            ArrayList<GraphElement> tmp=  new ArrayList<>();
-            tmp.add( g.createVertex(color, position, size, shape));
-            window.getUndoRedo().registerAddEdit(tmp);
+            tmp.add(g.createVertex(color, position, size, shape));
+            window.getCurrentGraphViewContainer().getUndoRedo().registerAddEdit(tmp);
         }
     }
 
@@ -73,7 +73,7 @@ public class Controller {
     public void addEdge(Vertex src, Vertex dst) {
         ArrayList<GraphElement> tmp=  new ArrayList<>();
         tmp.add( this.window.getCurrentTab().getGraph().createEdge(this.window.getCurrentTab().getDefaultVertexesColor(), src, dst, this.window.getCurrentTab().getDefaultEdgesThickness()));
-        window.getUndoRedo().registerAddEdit(tmp);
+       // window.getUndoRedo().registerAddEdit(tmp);
         
     }
 
@@ -287,8 +287,7 @@ public class Controller {
                     this.getGraph(this.window.getCurrentTabIndex()).removeGraphElement(e.getGraphElement());
                     suppSelectedElements.add(e.getGraphElement());
                 }
-                window.getUndoRedo().registerSuppEdit(suppSelectedElements);
-
+                window.getCurrentGraphViewContainer().getUndoRedo().registerSuppEdit(suppSelectedElements);
                 this.window.getCurrentTab().clearSelectedElements();
                 break;
             case "Copy":
@@ -366,7 +365,7 @@ public class Controller {
 
             this.graphs.get(this.window.getCurrentTabIndex()).addGraphElements(newElements);
         }
-          window.getUndoRedo().registerAddEdit(newElements);
+        window.getCurrentGraphViewContainer().getUndoRedo().registerAddEdit(newElements);
 
     }
 
