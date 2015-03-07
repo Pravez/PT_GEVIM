@@ -2,6 +2,7 @@ package controller.state;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -18,8 +19,8 @@ public abstract class State {
 	protected Controller controller;
 	protected boolean    dragging;
 	protected Point      sourceDrag;
-	
-	public enum Mode { SELECTION, CREATION, ZOOM };
+
+    public enum Mode { SELECTION, CREATION, ZOOM };
 	
 	/**
 	 * Constructeur de la classe State
@@ -49,79 +50,70 @@ public abstract class State {
 	}
 	
 	/**
-	 * Méthode abstraite appelée lors d'un clic sur la feuille de dessin d'un Tab
+	 * Méthode appelée lors d'un clic sur la feuille de dessin d'un Tab
 	 * @param tab le Tab qui a reçu l'événement souris clic
 	 * @param graph le Graph correspondant au Tab
 	 * @param e l'événement souris
 	 */
-	public abstract void click(Tab tab, Graph graph, MouseEvent e);
+	public void click(Tab tab, Graph graph, MouseEvent e) { }
 	/**
-	 * Méthode abstraite appelée lors d'un clic sur un ElementView
+	 * Méthode appelée lors d'un clic sur un ElementView
 	 * @param element l'ElementView reçevant l'événement souris clic
 	 * @param e l'événement souris
 	 */
-	public abstract void click(ElementView element, MouseEvent e);
+	public void click(ElementView element, MouseEvent e) { }
 	/**
-	 * Méthode abstraite appelée lors d'un drag sur la feuille de dessin d'un Tab
+	 * Méthode appelée lors d'un drag sur la feuille de dessin d'un Tab
 	 * @param tab le Tab qui a reçu l'événement souris drag
 	 * @param graph le Graph correspondant au Tab
 	 * @param e l'événement souris
 	 */
-	public abstract void drag(Tab tab, Graph graph, MouseEvent e);
+	public void drag(Tab tab, Graph graph, MouseEvent e) { }
 	/**
-	 * Méthode abstraite appelée lors d'un drag sur un VertexView
+	 * Méthode appelée lors d'un drag sur un VertexView
 	 * @param vertex le VertexView reçevant l'événement souris drag
 	 * @param e l'événement souris
 	 */
-	public abstract void drag(VertexView vertex, MouseEvent e);
+	public void drag(VertexView vertex, MouseEvent e) { }
 	/**
-	 * Méthode abstraite appelée lorsque la souris est appuyée sur la feuille de dessin d'un Tab
+	 * Méthode appelée lorsque la souris est appuyée sur la feuille de dessin d'un Tab
 	 * @param tab le Tab qui a reçu l'événement souris drag
 	 * @param graph le Graph correspondant au Tab
 	 * @param e l'événement souris
 	 */
-	public abstract void pressed(Tab tab, Graph graph, MouseEvent e);
+	public void pressed(Tab tab, Graph graph, MouseEvent e) { }
 	/**
-	 * Méthode abstraite appelée lorsque la souris est appuyée sur un ElementView
+	 * Méthode appelée lorsque la souris est appuyée sur un ElementView
 	 * @param element l'ElementView reçevant l'événement souris pressed
 	 * @param e l'événement souris
 	 */
-	public abstract void pressed(ElementView element, MouseEvent e);
+	public void pressed(ElementView element, MouseEvent e) { }
 	/**
-	 * Méthode abstraite appelée lorsque la souris est relâchée sur la feuille de dessin d'un Tab
+	 * Méthode appelée lorsque la souris est relâchée sur la feuille de dessin d'un Tab
 	 * @param tab le Tab qui a reçu l'événement souris drag
 	 * @param graph le Graph correspondant au Tab
 	 * @param e l'événement souris
 	 */
-	public abstract void released(Tab tab, Graph graph, MouseEvent e);
+	public void released(Tab tab, Graph graph, MouseEvent e) { }
 	/**
-	 * Méthode abstraite appelée lorsque la souris est relâchée sur un ElementView
+	 * Méthode appelée lorsque la souris est relâchée sur un ElementView
 	 * @param element l'ElementView reçevant l'événement souris released
 	 * @param e l'événement souris
 	 */
-	public abstract void released(ElementView element, MouseEvent e);
+	public void released(ElementView element, MouseEvent e) { }
+
+    /**
+     * Méthode appelée lorsque la molette de la souris est actionnée
+     * @param tab le Tab qui a reçu l'événement souris wheel
+     * @param e l'événement souris
+     */
+    public void wheel(Tab tab, MouseWheelEvent e) { }
 	
 	/**
 	 * Méthode permettant de retourner le Mode de la classe héritant de State
 	 * @return le mode associé à la classe héritant de State
 	 */
 	public abstract String getMode();
-	
-	/**
-	 * Méthode permettant de savoir si on est en train d'effectuer un événement souris drag
-	 * @return le booléen contenant le résultat
-	 */
-	public boolean isDragging() {
-		return this.dragging;
-	}
-	
-	/**
-	 * Setter du booléen permettant de savoir si on est en train d'effectuer un événement souris drag
-	 * @param dragging le nouvel état du drag
-	 */
-	public void setDragging(boolean dragging) {
-		this.dragging = dragging;
-	}
 	
 	/**
 	 * Méthode permettant de créer un PopupMenu

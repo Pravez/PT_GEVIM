@@ -13,9 +13,7 @@ import undoRedo.UndoPanel;
 import javax.swing.*;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
+import java.awt.event.*;
 import java.io.File;
 
 /**
@@ -145,7 +143,6 @@ public class Window extends JFrame {
         addToolBarImageButtonWithAction(toolBar, "core/assets/cursor.png", State.Mode.SELECTION.name(), "Mode édition");
         addToolBarImageButtonWithAction(toolBar, "core/assets/edit.png", State.Mode.CREATION.name(), "Mode création");
         addToolBarImageButtonWithAction(toolBar, "core/assets/zoom.png", State.Mode.ZOOM.name(), "Zoom");
-        addToolBarButtonWithImage(toolBar, "Zoom", "core/assets/zoom.png", "Zoom");
         addToolBarButtonWithImage(toolBar, "Copy", "core/assets/copy.png", "Copier");
         addToolBarButtonWithImage(toolBar, "Paste", "core/assets/paste.png", "Coller");
 
@@ -206,7 +203,7 @@ public class Window extends JFrame {
         button.setName(buttonName);
         button.setSelected(false);
         button.setToolTipText(helpMessage);
-        this.toolBar.add(button);
+        toolBar.add(button);
     }
 
     /**
@@ -265,10 +262,10 @@ public class Window extends JFrame {
         this.addJMenuItem(edition, "Copy");
         this.addJMenuItem(edition, "Paste");
 
-        this.addJMenuItem(algorithm, "random positioning");
-        this.addJMenuItem(algorithm, "circular positioning");
-        this.addJMenuItem(algorithm, "vertex Coloring size");
-        this.addJMenuItem(algorithm, "vertex Coloring edge number");
+        this.addJMenuItem(algorithm, "Random Positioning");
+        this.addJMenuItem(algorithm, "Circular Positioning");
+        this.addJMenuItem(algorithm, "Vertex Size Coloring");
+        this.addJMenuItem(algorithm, "Vertex Number of Edges Coloring ");
     }
 
     /**
@@ -299,23 +296,21 @@ public class Window extends JFrame {
 				controller.getState().click(tab, graph, e);
 			}
     		@Override
-			public void mousePressed(MouseEvent e) {
-				controller.getState().pressed(tab, graph, e);
-			}
+			public void mousePressed(MouseEvent e) { controller.getState().pressed(tab, graph, e); }
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				controller.getState().released(tab, graph, e);
 			}
+            @Override
+            public void mouseDragged(MouseEvent e) { controller.getState().drag(tab, graph, e); }
     	});
-        tab.addMouseMotionListener(new MouseMotionAdapter() {
-        	@Override
-        	public void mouseDragged(MouseEvent e) {
-        		controller.getState().drag(tab, graph, e);
-        	}
-        });
 
         ScrollPane pane = new ScrollPane(tab);
         this.tabs.addTab(title, pane);
+        pane.addMouseWheelListener(new MouseWheelListener() {
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent e) { controller.getState().wheel(tab, e); }
+        });
         tab.setScrollPane(pane);
         /** **/
         MiniMapFrame map = new MiniMapFrame(tab.getPreferredSize().width/5, tab.getPreferredSize().height/5, pane, tab);

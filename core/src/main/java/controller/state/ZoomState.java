@@ -7,6 +7,7 @@ import view.elements.ElementView;
 import view.elements.VertexView;
 
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 
 public class ZoomState extends State {
 
@@ -14,17 +15,6 @@ public class ZoomState extends State {
 		super(controller);
 	}
 
-	@Override
-	public void click(Tab tab, Graph graph, MouseEvent e) {
-		/*if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
-			initNewPopupMenu(new String[]{"Paste", "Properties"}, e.getPoint()).show(tab, e.getX(), e.getY());
-		}*/
-	}
-	
-	@Override
-	public void click(ElementView element, MouseEvent e) {
-	}
-	
 	@Override
 	public void drag(Tab tab, Graph graph, MouseEvent e) {
 		this.dragging = true;
@@ -45,8 +35,7 @@ public class ZoomState extends State {
 	}
 
 	@Override
-	public void pressed(ElementView element, MouseEvent e) {
-	}
+	public void pressed(ElementView element, MouseEvent e) { }
 	
 	@Override
 	public void released(Tab tab, Graph grap, MouseEvent e) {
@@ -57,6 +46,16 @@ public class ZoomState extends State {
 	public void released(ElementView element, MouseEvent e) {
 		this.dragging = false;	
 	}
+
+    @Override
+    public void wheel(Tab tab, MouseWheelEvent e) {
+        int direction = e.getWheelRotation();
+        if (direction > 0) { // on bouge la molette vers le bas : on dézoome
+            tab.getScrollPane().zoomOut(e.getX(), e.getY());
+        } else { // on bouge la molette vers le haut : on zoome
+            tab.getScrollPane().zoomIn(e.getX(), e.getY());
+        }
+    }
 	
 	@Override
 	public String getMode() {

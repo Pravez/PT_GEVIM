@@ -53,9 +53,7 @@ public class Tab extends JComponent implements Observer {
     private Point                  destinationEdge;
     private Color                  edgeColor;
 
-    private double                 currentScale;
-    private Point                  origin;
-    private Point                  center;
+    private double                 scale;
 
     private MiniMap                map;
 
@@ -91,10 +89,6 @@ public class Tab extends JComponent implements Observer {
 
     public void setMiniMap(MiniMap map) { this.map = map; }
 
-    public void setCenter(Point center) { this.center = center; }
-
-    public Point getCenter() { return this.center; }
-
     /**
      * Constructeur du Tab, l'onglet. Un onglet est associé à un {@link data.Graph}
      * @param graph le Graph observé
@@ -110,13 +104,13 @@ public class Tab extends JComponent implements Observer {
         this.selectedElements         = new ArrayList<ElementView>();
         this.currentSelectedElements  = new ArrayList<ElementView>();
         
-        this.defaultVertexesColor = Color.BLACK;
-        this.defaultEdgesColor = Color.BLACK;
-        this.defaultSelectedColor = Color.BLUE;
-        this.defaultEdgesThickness = 1;
+        this.defaultVertexesColor     = Color.BLACK;
+        this.defaultEdgesColor        = Color.BLACK;
+        this.defaultSelectedColor     = Color.BLUE;
+        this.defaultEdgesThickness    = 1;
         this.defaultSelectedThickness = 2;
-        this.defaultVertexesSize = 15;
-        this.defaultVertexesShape = Vertex.Shape.SQUARE;
+        this.defaultVertexesSize      = 15;
+        this.defaultVertexesShape     = Vertex.Shape.SQUARE;
         
         this.selectionColor           = new Color(172, 211, 244);
         this.selectionBorderColor     = new Color(107, 153, 189);
@@ -126,8 +120,7 @@ public class Tab extends JComponent implements Observer {
         this.destinationEdge          = null;
         this.edgeColor                = new Color(0,0,0);
 
-        this.currentScale             = (float) 1.0;
-        this.origin                   = new Point(0, 0);
+        this.scale                    = (float) 1.0;
     }
 
     /**
@@ -150,46 +143,26 @@ public class Tab extends JComponent implements Observer {
      * @param g {@link java.awt.Graphics} à partir de quoi dessiner
      */
     public void paintComponent(Graphics g){
+        // dessiner ou non la zone de sélection
     	if (this.selectionZone != null) {
     		g.setColor(this.selectionColor);
     		g.fillRect(this.selectionZone.x, this.selectionZone.y, this.selectionZone.width, this.selectionZone.height);
     		g.setColor(this.selectionBorderColor);
     		g.drawRect(this.selectionZone.x, this.selectionZone.y, this.selectionZone.width, this.selectionZone.height);
     	}
+        // dessiner ou non l'edge temporaire
         if(this.originEdge != null && this.destinationEdge != null){
             g.setColor(this.edgeColor);
             g.drawLine(this.originEdge.x, this.originEdge.y, this.destinationEdge.x, this.destinationEdge.y);
         }
+        // dessiner tous les EdgeView
         for(EdgeView e : this.edges){
-            e.paintComponent(g, this.currentScale, this.currentScale);
+            e.paintComponent(g, this.scale, this.scale);
         }
-
+        // dessiner tous les VertexView
         for (VertexView v : this.vertexes) {
-            v.paintComponent(g, this.currentScale, this.currentScale);
+            v.paintComponent(g, this.scale, this.scale);
         }
-    }
-
-    public void setOrigin(Point origin) {
-        this.origin = origin;
-        this.repaint();
-    }
-
-    public Point getOrigin() {
-        return this.origin;
-    }
-
-    public void zoomIn(int positionX, int positionY) {
-        this.currentScale += 0.1;
-        this.setSize((int)(this.getSize().width * this.currentScale), (int)(this.getSize().height * this.currentScale));
-        //this.origin = new Point(positionX - this.getSize().width/2, positionY - this.getSize().height/2);
-        this.repaint();
-    }
-
-    public void zoomOut(int positionX, int positionY) {
-        this.currentScale -= 0.1;
-        this.setSize((int)(this.getSize().width * this.currentScale), (int)(this.getSize().height * this.currentScale));
-        //this.origin = new Point(positionX - this.getSize().width/2, positionY - this.getSize().height/2);
-        this.repaint();
     }
 
     /**
@@ -409,6 +382,9 @@ public class Tab extends JComponent implements Observer {
 	
 	/**
 	 * Méthode permettant de gérer la sélection des ElementView dans la zone de sélection avec la touche Ctrl enfoncée
+     *  - on vide la liste des éléments sélectionnés
+     *  - on rajoute ceux qui étaient sélectionnés avant
+     *  - on rajoute ceux qui sont dans la nouvelle zone de sélection
 	 */
 	public void manageElementsInZone() {
 		clearSelectedElements();
@@ -452,10 +428,10 @@ public class Tab extends JComponent implements Observer {
 	public boolean edgeIsInSelectionZone(EdgeView e) {
 		Point origin      = e.getOrigin().getPosition();
 		Point destination = e.getDestination().getPosition();
-		int x              = origin.x > destination.x ? destination.x : origin.x;
-		int y              = origin.y > destination.y ? destination.y : origin.y;
-		int width          = origin.x - destination.x < 0 ? destination.x - origin.x : origin.x - destination.x;
-		int height         = origin.y - destination.y < 0 ? destination.y - origin.y : origin.y - destination.y;
+		int x             = origin.x > destination.x ? destination.x : origin.x;
+		int y             = origin.y > destination.y ? destination.y : origin.y;
+		int width         = origin.x - destination.x < 0 ? destination.x - origin.x : origin.x - destination.x;
+		int height        = origin.y - destination.y < 0 ? destination.y - origin.y : origin.y - destination.y;
 		return this.selectionZone.intersects(new Rectangle(x, y, width, height));
 	}
 
@@ -624,7 +600,7 @@ public class Tab extends JComponent implements Observer {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void update(Observable observable, Object object) {
-		this.vertexes.clear();
+        this.vertexes.clear();
         this.edges.clear();
 		super.removeAll();
 		// pour chaque GraphElement du Graph
@@ -644,7 +620,6 @@ public class Tab extends JComponent implements Observer {
 			}
 		}
 		this.repaint();
-		/** A modifier pour n'ajouter que ceux qui sont dans la fenêtre **/
 	}
 
     /**
@@ -658,9 +633,9 @@ public class Tab extends JComponent implements Observer {
         }
     }
 
-    public double getCurrentScale() {
-        return currentScale;
+    public double getScale() {
+        return scale;
     }
 
-    public void setCurrentScale(double currentScale) { this.currentScale = currentScale; }
+    public void setScale(double scale) { this.scale = scale; }
 }

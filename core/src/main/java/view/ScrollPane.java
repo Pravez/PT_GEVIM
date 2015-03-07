@@ -18,6 +18,7 @@ public class ScrollPane extends JScrollPane {
     public ScrollPane(Tab tab) {
         super(tab);
         this.tab = tab;
+        this.setWheelScrollingEnabled(false); // désactiver le scroll des scrollbars --> pour le zoom qui utilise l'événement mouse wheel
     }
 
     /**
@@ -27,7 +28,7 @@ public class ScrollPane extends JScrollPane {
      */
     public void zoomIn(int positionX, int positionY) {
         if (this.tab.getPreferredSize().width <= this.tab.getMaximumSize().width) {
-            zoom(positionX, positionY, this.tab.getCurrentScale() + 0.1);
+            zoom(positionX, positionY, this.tab.getScale() + 0.1);
         }
     }
 
@@ -38,7 +39,7 @@ public class ScrollPane extends JScrollPane {
      */
     public void zoomOut(int positionX, int positionY) {
         if (this.getViewport().getWidth() < this.tab.getPreferredSize().width) {
-            zoom(positionX, positionY, this.tab.getCurrentScale() - 0.1);
+            zoom(positionX, positionY, this.tab.getScale() - 0.1);
         }
     }
 
@@ -53,8 +54,8 @@ public class ScrollPane extends JScrollPane {
         int origin_y = positionY - this.getViewport().getHeight()/2 < 0 ? 0 : positionY - this.getViewport().getHeight()/2;
         int width    = this.tab.getPreferredSize().width;
         int height   = this.tab.getPreferredSize().height;
-        this.tab.setCurrentScale(scale);
-        this.tab.setPreferredSize(new Dimension((int)(this.tab.getCurrentScale()*this.tab.getMaximumSize().width), (int) (this.tab.getCurrentScale() * this.tab.getMaximumSize().height)));
+        this.tab.setScale(scale);
+        this.tab.setPreferredSize(new Dimension((int)(this.tab.getScale()*this.tab.getMaximumSize().width), (int) (this.tab.getScale() * this.tab.getMaximumSize().height)));
         this.tab.getMiniMap().setPosition(new Point(origin_x, origin_y), width, height);
         this.tab.getMiniMap().updateSelectionZone();
         this.tab.revalidate();

@@ -322,10 +322,6 @@ public class Controller {
             case "Paste":
                 pasteElements(null);
                 break;
-            case "Zoom":
-                /*this.window.getCurrentTab().setCurrentScale(this.window.getCurrentTab().getCurrentScale()+50);
-                this.window.getCurrentTab().repaint();*/
-                break;
             default:
                 break;
         }

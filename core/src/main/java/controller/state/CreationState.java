@@ -23,14 +23,11 @@ public class CreationState extends State {
 	}
 	
 	@Override
-	public void click(ElementView element, MouseEvent e) {
-		// TODO Auto-generated method stub
-	}
+	public void click(ElementView element, MouseEvent e) { }
 	
 	@Override
 	public void drag(Tab tab, Graph graph, MouseEvent e) {
 		this.dragging = true;
-		// TODO Auto-generated method stub	
 	}
 	
 	@Override
@@ -42,21 +39,17 @@ public class CreationState extends State {
 	@Override
 	public void pressed(Tab tab, Graph graph, MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) { // Clic gauche
-            Point position = new Point((int)(1.0*e.getX()/tab.getCurrentScale()), (int)(1.0*e.getY()/tab.getCurrentScale()));
+            Point position = new Point((int)(1.0*e.getX()/tab.getScale()), (int)(1.0*e.getY()/tab.getScale()));
             this.controller.addVertex(graph, tab.getDefaultVertexesColor(), position, tab.getDefaultVertexesSize(), tab.getDefaultVertexesShape());
             tab.repaint();
         }
 	}
 	
 	@Override
-	public void pressed(ElementView element, MouseEvent e) {
-		// TODO Auto-generated method stub
-	}
+	public void pressed(ElementView element, MouseEvent e) { }
 	
 	@Override
-	public void released(Tab tab, Graph grap, MouseEvent e) {
-		
-	}
+	public void released(Tab tab, Graph graph, MouseEvent e) { }
 
 	@Override
 	public void released(ElementView element, MouseEvent e) {
