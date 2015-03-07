@@ -2,8 +2,9 @@ package controller.state;
 
 import controller.Controller;
 import data.Graph;
-import view.editor.elements.ElementView;
 import view.editor.Tab;
+import view.editor.elements.ElementView;
+import view.editor.Sheet;
 import view.editor.elements.VertexView;
 
 import java.awt.*;

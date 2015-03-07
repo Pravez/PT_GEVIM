@@ -11,7 +11,7 @@ import controller.listeners.ToolBarContextActionListener;
 import controller.state.State;
 import data.Graph;
 import files.GmlFileManager;
-import view.editor.GraphViewContainer;
+import view.editor.Sheet;
 import view.editor.Tab;
 
 import javax.swing.*;
@@ -26,15 +26,16 @@ import java.io.File;
 public class Window extends JFrame {
 
     private static final long serialVersionUID = 1L;
-    private int width;
-    private int height;
-    private Controller controller;
-    private JPanel back;
+    private int         width;
+    private int         height;
+    private Controller  controller;
+    private JPanel      back;
 
-    private JTabbedPane tabs; // ensemble des onglets
-    private JToolBar toolBar;
+    /* tabs, ensemble des nglets */
+    private JTabbedPane tabs;
+    private JToolBar    toolBar;
 
-    private JPanel startPanel;
+    private JPanel      startPanel;
 
     /**
      * Constructeur de la classe Window
@@ -270,18 +271,13 @@ public class Window extends JFrame {
      * Méthode ajoutant un nouveau {@link view.editor.Tab}. On associe à ce dernier un nouveau {@link data.Graph} et un titre (nom).
      */
     public void addNewTab(final Graph graph, String title) {
-
         if (this.tabs.getTabCount() == 0) {
             this.back.setLayout(new BorderLayout());
             this.back.add(this.tabs, BorderLayout.CENTER);
             this.startPanel.setVisible(false);
         }
 
-        GraphViewContainer graphViewContainer = new GraphViewContainer(graph, title, this.controller);
-
-        this.tabs.addTab(title, graphViewContainer);
-
-
+        this.tabs.addTab(title, new Tab(graph, title, this.controller));
     }
 
     /**
@@ -299,20 +295,20 @@ public class Window extends JFrame {
      * @return Le {@link view.editor.Tab} sélectionné
      */
     public Tab getCurrentTab() {
-        return (Tab) ((GraphViewContainer) this.tabs.getComponentAt(this.tabs.getSelectedIndex())).getScrollPane().getViewport().getComponent(0);
+        return (Tab)this.tabs.getComponentAt((this.tabs.getSelectedIndex()));
     }
 
     /**
-     * Renvoi du {@link view.editor.GraphViewContainer} du {@link view.editor.Tab} couramment sélectionné
+     * Renvoi de la {@link view.editor.Sheet} du {@link view.editor.Tab} couramment sélectionné
      *
-     * @return le {@link view.editor.GraphViewContainer} du {@link view.editor.Tab} couramment sélectionné
+     * @return la {@link view.editor.Sheet} du {@link view.editor.Tab} couramment sélectionné
      */
-    public GraphViewContainer getCurrentGraphViewContainer() {
-        return  ((GraphViewContainer) this.tabs.getComponentAt(this.tabs.getSelectedIndex()));
+    public Sheet getCurrentSheet() {
+        return getCurrentTab().getSheet();
     }
 
-    public JViewport getCurrentTabViewPort() {
-        return ((GraphViewContainer) this.tabs.getComponentAt(this.tabs.getSelectedIndex())).getScrollPane().getViewport();
+    public JViewport getCurrentSheetViewPort() {
+        return getCurrentTab().getScrollPane().getViewport();
     }
 
     /**
@@ -355,7 +351,7 @@ public class Window extends JFrame {
             gmlFileManager.openGraph();
 
             this.addNewTab(this.controller.addGraph(gmlFileManager.getGraph()), "Tab " + this.getTabCount());
-            this.tabs.setSelectedIndex(this.tabs.getTabCount()-1);
+            this.tabs.setSelectedIndex(this.tabs.getTabCount() - 1);
             this.controller.getGraph(this.getCurrentTabIndex()).setChanged();
         }
     }

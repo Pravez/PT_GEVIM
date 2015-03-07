@@ -18,8 +18,8 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
 
 	private static final long serialVersionUID = 1L;
 	
-	private view.editor.ScrollPane pane;
-	private Tab tab;
+	private ScrollPane pane;
+	private Sheet tab;
 	
 	private ArrayList<EdgeView>    edges;
     private ArrayList<VertexView>  vertexes;
@@ -33,10 +33,10 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
 	 * Conbstructeur de la classe MiniMap
 	 * @param width la largeur de la MiniMap
 	 * @param height la hauteur de la MiniMap
-	 * @param pane le JScrollPane de la window
+	 * @param pane le ScrollPane de la window
 	 * @param tab le Tab actuel
 	 */
-	public MiniMap(int width, int height, view.editor.ScrollPane pane, Tab tab) {
+	public MiniMap(int width, int height, ScrollPane pane, Sheet tab) {
 		this.setSize(width, height);
 		this.pane     = pane;
 		this.tab      = tab;

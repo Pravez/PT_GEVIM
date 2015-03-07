@@ -3,6 +3,7 @@ package controller.state;
 import controller.listeners.ContextMenuActionListener;
 import controller.Controller;
 import data.Graph;
+import view.editor.Sheet;
 import view.editor.Tab;
 import view.editor.elements.ElementView;
 import view.editor.elements.VertexView;
@@ -78,7 +79,7 @@ public class SelectionState extends State {
 	/**
 	 * Méthode pour déplacer les VertexView sélectionnés
 	 * (non-Javadoc)
-	 * @see controller.state.State#drag(view.editor.elements.VertexView, java.awt.Point, java.awt.event.MouseEvent)
+	 * @see controller.state.State#drag(view.editor.elements.VertexView, java.awt.event.MouseEvent)
 	 */
 	@Override
 	public void drag(VertexView vertex, MouseEvent e) {

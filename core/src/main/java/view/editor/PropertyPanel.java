@@ -18,26 +18,26 @@ import java.util.Vector;
  */
 public class PropertyPanel extends JTabbedPane implements Observer {
 
-    private Graph graph;
-    private Tab tab;
-    private JScrollPane vertexScrollPane;
-    private JScrollPane edgeScrollPane;
-    private JTable vertexPropertyTable;
-    private JTable edgePropertyTable;
+    private Graph                  graph;
+    private Sheet                  sheet;
+    private JScrollPane            vertexScrollPane;
+    private JScrollPane            edgeScrollPane;
+    private JTable                 vertexPropertyTable;
+    private JTable                 edgePropertyTable;
 
     private Vector<Vector<String>> vertexDatas;
     private Vector<Vector<String>> edgeDatas;
-    private Vector<String> columnVertexNames;
-    private Vector<String> columnEdgeNames;
+    private Vector<String>         columnVertexNames;
+    private Vector<String>         columnEdgeNames;
 
     /**
-     * Constructeur de la classe initialisant les données du {@link javax.swing.JTable} à partir d'un {@link view.editor.Tab} et de son {@link data.Graph} associé
-     * @param tab Le {@link view.editor.Tab} correspondant
+     * Constructeur de la classe initialisant les données du {@link javax.swing.JTable} à partir d'un {@link Sheet} et de son {@link data.Graph} associé
+     * @param sheet Le {@link Sheet} correspondant
      */
-    public PropertyPanel(Tab tab){
+    public PropertyPanel(Sheet sheet){
 
-        this.tab = tab;
-        this.graph = tab.getGraph();
+        this.sheet = sheet;
+        this.graph = sheet.getGraph();
         graph.addObserver(this);
 
         columnVertexNames = new Vector<>();
@@ -102,9 +102,9 @@ public class PropertyPanel extends JTabbedPane implements Observer {
      * @param selectedRows La liste des éléments du {@link javax.swing.JTable} sélectionnés
      */
     private void addVerticesToSelectedElements(int[] selectedRows) {
-        tab.clearSelectedElements();
+        sheet.clearSelectedElements();
         for(int i : selectedRows){
-            tab.selectElement(tab.getVertexes().get(i));
+            sheet.selectElement(sheet.getVertexes().get(i));
         }
     }
 
@@ -113,9 +113,9 @@ public class PropertyPanel extends JTabbedPane implements Observer {
      * @param selectedRows La liste des éléments du {@link javax.swing.JTable} sélectionnés
      */
     private void addEdgesToSelectedElements(int[] selectedRows) {
-        tab.clearSelectedElements();
+        sheet.clearSelectedElements();
         for(int i : selectedRows){
-            tab.selectElement(tab.getEdges().get(i));
+            sheet.selectElement(sheet.getEdges().get(i));
         }
     }
 

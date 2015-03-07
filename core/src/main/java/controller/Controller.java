@@ -25,16 +25,19 @@ import java.util.ArrayList;
  */
 public class Controller {
 
-    private Window window;
-    private ArrayList<Graph> graphs = new ArrayList<>();
-    private State state;
-
+    /* La Window du programme */
+    private Window                  window;
+    /* L'Etat du Controller */
+    private State                   state;
+    /* La liste des Graphs ouverts */
+    private ArrayList<Graph>        graphs;
+    /* Les GraphElement copiés pour être ajoutés à un Graph */
     private ArrayList<GraphElement> copiedElements;
 
     public Controller() {
-        this.state = new CreationState(this);
-        this.graphs = new ArrayList<Graph>();
-        copiedElements = new ArrayList<GraphElement>();
+        this.state          = new CreationState(this);
+        this.graphs         = new ArrayList<Graph>();
+        this.copiedElements = new ArrayList<GraphElement>();
     }
 
     /**
@@ -57,10 +60,10 @@ public class Controller {
      * @param shape    la forme du Vertex à ajouter
      */
     public void addVertex(Graph g, Color color, Point position, int size, Vertex.Shape shape) {
-        if (this.window.getCurrentTab().canAddVertex(position)) {
+        if (this.window.getCurrentSheet().canAddVertex(position)) {
            ArrayList<GraphElement> tmp=  new ArrayList<>();
             tmp.add(g.createVertex(color, position, size, shape));
-            window.getCurrentGraphViewContainer().getUndoRedo().registerAddEdit(tmp);
+            window.getCurrentTab().getUndoRedo().registerAddEdit(tmp);
         }
     }
 
@@ -72,9 +75,8 @@ public class Controller {
      */
     public void addEdge(Vertex src, Vertex dst) {
         ArrayList<GraphElement> tmp=  new ArrayList<>();
-        tmp.add( this.window.getCurrentTab().getGraph().createEdge(this.window.getCurrentTab().getDefaultVertexesColor(), src, dst, this.window.getCurrentTab().getDefaultEdgesThickness()));
+        tmp.add( this.window.getCurrentTab().getGraph().createEdge(this.window.getCurrentSheet().getDefaultVertexesColor(), src, dst, this.window.getCurrentSheet().getDefaultEdgesThickness()));
        // window.getUndoRedo().registerAddEdit(tmp);
-        
     }
 
     /**
@@ -128,7 +130,7 @@ public class Controller {
      * @return la valeur du zoom
      */
     public double getCurrentTabScale() {
-        return this.window.getCurrentTab().getScale();
+        return this.window.getCurrentSheet().getScale();
     }
 
     /**
@@ -213,8 +215,8 @@ public class Controller {
      * @param selectedElement le ElementView sélectionné
      */
     public void notifyElementSelected(ElementView selectedElement) {
-        this.window.getCurrentTab().clearSelectedElements();
-        this.window.getCurrentTab().selectElement(selectedElement);
+        this.window.getCurrentSheet().clearSelectedElements();
+        this.window.getCurrentSheet().selectElement(selectedElement);
     }
 
     /**
@@ -225,10 +227,10 @@ public class Controller {
      * @param selectedElement le ElementView sélectionné à ajouter
      */
     public void notifyHandleElementSelected(ElementView selectedElement) {
-        if (this.window.getCurrentTab().getSelectedElements().contains(selectedElement)) {
-            this.window.getCurrentTab().unselectElement(selectedElement);
+        if (this.window.getCurrentSheet().getSelectedElements().contains(selectedElement)) {
+            this.window.getCurrentSheet().unselectElement(selectedElement);
         } else {
-            this.window.getCurrentTab().selectElement(selectedElement);
+            this.window.getCurrentSheet().selectElement(selectedElement);
         }
     }
 
@@ -240,9 +242,9 @@ public class Controller {
      * @param selectedElement
      */
     public void notifyHandleElement(ElementView selectedElement) {
-        if (!this.window.getCurrentTab().getSelectedElements().contains(selectedElement)) {
-            this.window.getCurrentTab().clearSelectedElements();
-            this.window.getCurrentTab().selectElement(selectedElement);
+        if (!this.window.getCurrentSheet().getSelectedElements().contains(selectedElement)) {
+            this.window.getCurrentSheet().clearSelectedElements();
+            this.window.getCurrentSheet().selectElement(selectedElement);
         }
     }
 
@@ -250,14 +252,14 @@ public class Controller {
      * Méthode appelée pour vider la liste des IElementView sélectionnés
      */
     public void notifyClearSelection() {
-        this.window.getCurrentTab().clearSelectedElements();
+        this.window.getCurrentSheet().clearSelectedElements();
     }
 
     /**
      * Méthode appelée pour demander de rafficher le Tab en cours
      */
     public void notifyRepaintTab() {
-        this.window.getCurrentTab().repaint();
+        this.window.getCurrentTab().repaint(); // mettre la sheet à repaint ?
     }
 
     /**
@@ -269,18 +271,18 @@ public class Controller {
     public void notifyContextMenuItemActivated(String text, ElementView source, Point position) {
         switch (text) {
             case "Edit":
-                this.window.getCurrentTab().modifySelectedElement();
+                this.window.getCurrentSheet().modifySelectedElement(); // modifier pour changer le graph directement ?
                 this.graphs.get(this.window.getCurrentTabIndex()).setChanged();
                 break;
             case "Delete":
                 ArrayList<GraphElement> suppSelectedElements = new ArrayList<>();
-                for (ElementView e : this.window.getCurrentTab().getSelectedElements()) {
+                for (ElementView e : this.window.getCurrentSheet().getSelectedElements()) {
                     
                     this.getGraph(this.window.getCurrentTabIndex()).removeGraphElement(e.getGraphElement());
                     suppSelectedElements.add(e.getGraphElement());
                 }
-                window.getCurrentGraphViewContainer().getUndoRedo().registerSuppEdit(suppSelectedElements);
-                this.window.getCurrentTab().clearSelectedElements();
+                window.getCurrentTab().getUndoRedo().registerSuppEdit(suppSelectedElements);
+                this.window.getCurrentSheet().clearSelectedElements();
                 break;
             case "Copy":
                 copyElements();
@@ -289,8 +291,8 @@ public class Controller {
                 pasteElements(position);
                 break;
             case "Properties":
-                this.window.getCurrentTab().modifyProperties();
-                this.graphs.get(this.window.getCurrentTabIndex()).setChanged();
+                this.window.getCurrentSheet().modifyProperties(); // mettre à modifier directement le graph
+                this.graphs.get(this.window.getCurrentTabIndex()).setChanged(); // pour que ça soit automatique
                 break;
             default:
                 break;
@@ -337,7 +339,7 @@ public class Controller {
     public void copyElements() {
         copiedElements.clear();
         // on récupère les GraphElement sélectionnés dans le Tab
-        for (ElementView elementView : this.window.getCurrentTab().getSelectedElements()) {
+        for (ElementView elementView : this.window.getCurrentSheet().getSelectedElements()) {
             copiedElements.add(elementView.getGraphElement());
         }
         // on crée une copie de ces GraphElements
@@ -360,7 +362,7 @@ public class Controller {
 
             this.graphs.get(this.window.getCurrentTabIndex()).addGraphElements(newElements);
         }
-        window.getCurrentGraphViewContainer().getUndoRedo().registerAddEdit(newElements);
+        window.getCurrentTab().getUndoRedo().registerAddEdit(newElements);
 
     }
 
@@ -374,7 +376,7 @@ public class Controller {
         this.window.setState(this.state);
 
         if (this.window.getTabCount() > 0)
-            this.window.getCurrentTab().clearSelectedElements();
+            this.window.getCurrentSheet().clearSelectedElements();
     }
 
     /**
@@ -384,7 +386,7 @@ public class Controller {
      * @param position Le point actuel où en est le drag
      */
     public void notifyDragging(Point origin, Point position) {
-        this.window.getCurrentTab().launchSelectionZone(origin, position);
+        this.window.getCurrentSheet().launchSelectionZone(origin, position);
     }
     
     /**
@@ -394,7 +396,7 @@ public class Controller {
      * @param position Le point actuel où en est le drag
      */
     public void notifyAddToDragging(Point origin, Point position) {
-        this.window.getCurrentTab().addToSelectionZone(origin, position);
+        this.window.getCurrentSheet().addToSelectionZone(origin, position);
     }
 
     /**
@@ -405,25 +407,25 @@ public class Controller {
      * @param position Le point de destination de l'Edge.
      */
     public void notifyDraggingEdge(Point origin, Point position) {
-        this.window.getCurrentTab().launchTemporarilyEdge(origin, position);
+        this.window.getCurrentSheet().launchTemporarilyEdge(origin, position);
     }
 
     /**
      * Méthode utilisée pour envoyer une information signalant la fin du drag sur une {@link data.Edge} temporaire
      */
     public void notifyEndDraggingEdge() {
-        this.window.getCurrentTab().endTemporarilyEdge();
+        this.window.getCurrentSheet().endTemporarilyEdge();
     }
     
     public void notifyMousePressedWithoutControlDown() {
-    	this.window.getCurrentTab().clearCurrentSelectedElements();
+    	this.window.getCurrentSheet().clearCurrentSelectedElements();
     }
 
     /**
      * Méthode notifiant la fin du dragging de l'utilisateur
      */
     public void notifyEndDragging() {
-        this.window.getCurrentTab().handleEndSelectionZone();
+        this.window.getCurrentSheet().handleEndSelectionZone();
     }
 
     /**
@@ -432,7 +434,7 @@ public class Controller {
      * @param vector Le point vers lequel doivent se déplacer les éléments
      */
     public void notifyMoveSelectedElements(Point vector) {
-        this.window.getCurrentTab().moveSelectedElements(vector);
+        this.window.getCurrentSheet().moveSelectedElements(vector);
     }
 
     /**
@@ -494,10 +496,10 @@ public class Controller {
     public void applyAlgorithm(String type){
         switch(type) {
             case "random":
-                new RandomPositioning(window.getCurrentTabViewPort().getViewPosition(), window.getCurrentTabViewPort().getExtentSize()).run(window.getCurrentTab().getGraph());
+                new RandomPositioning(window.getCurrentSheetViewPort().getViewPosition(), window.getCurrentSheetViewPort().getExtentSize()).run(window.getCurrentTab().getGraph());
                 break;
             case "circular":
-                new CircularPositioning(window.getCurrentTabViewPort().getViewPosition(), window.getCurrentTabViewPort().getExtentSize()).run(window.getCurrentTab().getGraph());
+                new CircularPositioning(window.getCurrentSheetViewPort().getViewPosition(), window.getCurrentSheetViewPort().getExtentSize()).run(window.getCurrentTab().getGraph());
                 break;
             case "color":
                 new VertexColoring().run(window.getCurrentTab().getGraph(), Property.SIZE);
@@ -524,7 +526,7 @@ public class Controller {
      */
     public void saveFile(){
         try {
-            this.window.getCurrentTab().saveToGML(this.chooseFile("gml", "GraphML files (*.gml)"));
+            this.window.getCurrentSheet().saveToGML(this.chooseFile("gml", "GraphML files (*.gml)"));
         }catch(ArrayIndexOutOfBoundsException aioobe){
             JOptionPane.showMessageDialog(null, "Rien à sauvegarder...", "Erreur", JOptionPane.ERROR_MESSAGE);
         }

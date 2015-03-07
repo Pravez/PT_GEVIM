@@ -1,7 +1,7 @@
 package view.frames;
 
 import data.Vertex;
-import view.editor.Tab;
+import view.editor.Sheet;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.awt.event.*;
 
 /**
  * Created by Quentin Lemonnier
- * Classe "visuelle" qui permet de modifier toutes les données par défaut d'un {@link view.editor.Tab} avec une interface graphique.
+ * Classe "visuelle" qui permet de modifier toutes les données par défaut d'un {@link view.editor.Sheet} avec une interface graphique.
  */
 public class TabPropertiesViewEditor extends JDialog {
 
@@ -40,9 +40,9 @@ public class TabPropertiesViewEditor extends JDialog {
 
     private JComboBox<Vertex.Shape> defaultVertexesShape;
 
-    private Tab tab;
+    private Sheet tab;
 
-    public TabPropertiesViewEditor(Tab tab) {
+    public TabPropertiesViewEditor(Sheet tab) {
         System.out.println("In constructeur");
 
         // Initialisation des attributs de propriété
@@ -259,7 +259,7 @@ public class TabPropertiesViewEditor extends JDialog {
         j.setBackground(cc.getColor());
     }
 
-    public Tab getTab(){
+    public Sheet getTab(){
         return tab;
     }
 }

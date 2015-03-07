@@ -10,7 +10,7 @@ public class MiniMapFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
-	public MiniMapFrame(int w, int h, view.editor.ScrollPane pane, Tab tab) {
+	public MiniMapFrame(int w, int h, view.editor.ScrollPane pane, Sheet tab) {
 		this.width    = w;
         this.height   = h;
         

@@ -2,8 +2,9 @@ package controller.state;
 
 import controller.Controller;
 import data.Graph;
-import view.editor.elements.ElementView;
 import view.editor.Tab;
+import view.editor.elements.ElementView;
+import view.editor.Sheet;
 import view.editor.elements.VertexView;
 
 import java.awt.*;
@@ -32,7 +33,7 @@ public class CreationState extends State {
 	public void pressed(Tab tab, Graph graph, MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) { // Clic gauche
             Point position = new Point((int)(1.0*e.getX()/this.controller.getCurrentTabScale()), (int)(1.0*e.getY()/this.controller.getCurrentTabScale()));
-            this.controller.addVertex(graph, tab.getDefaultVertexesColor(), position, tab.getDefaultVertexesSize(), tab.getDefaultVertexesShape());
+            this.controller.addVertex(graph, tab.getSheet().getDefaultVertexesColor(), position, tab.getSheet().getDefaultVertexesSize(), tab.getSheet().getDefaultVertexesShape());
             tab.repaint();
         }
 	}
