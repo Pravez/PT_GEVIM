@@ -12,15 +12,24 @@ import java.awt.event.MouseWheelListener;
 
 /**
  * Created by paubreton on 03/03/15.
+ * Classe contenant la feuille de dessin et tout ce qui lui est associé, un {@link view.editor.PropertyPanel} et un {@link view.editor.Tab}
  */
 public class GraphViewContainer extends JSplitPane{
 
     private PropertyPanel properties;
+    private MiniMap minimap;
+    private JPanel board;
     private Controller controller;
     private ScrollPane scrollPane;
     private Tab graphTab;
 
 
+    /**
+     * Constructeur de la classe
+     * @param graph Le {@link data.Graph} auquel la feuille est associée
+     * @param title Le titre de l'onglet
+     * @param controller Un lien vers le {@link controller.Controller} pour pouvoir communiquer avec le modèle
+     */
     public GraphViewContainer(Graph graph, String title, Controller controller) {
 
         super(JSplitPane.HORIZONTAL_SPLIT);
@@ -35,10 +44,15 @@ public class GraphViewContainer extends JSplitPane{
         initPropertyPanel(graph);
 
         this.setLeftComponent(this.scrollPane);
-        this.setRightComponent(this.properties);
+        this.setRightComponent(this.board);
 
     }
 
+    /**
+     * Méthode d'initialisation du {@link view.editor.Tab}
+     * @param title Le titre du tab
+     * @param graph Le {@link data.Graph} auquel est associé le Tab
+     */
     public void initTab(String title, final Graph graph){
 
         graphTab = new Tab(graph, this.controller);
@@ -53,12 +67,6 @@ public class GraphViewContainer extends JSplitPane{
 
         scrollPane = new ScrollPane(graphTab);
         scrollPane.setMinimumSize(new Dimension(500,500));
-
-        MiniMapFrame map = new MiniMapFrame(graphTab.getPreferredSize().width/5, graphTab.getPreferredSize().height/5, scrollPane, graphTab);
-        scrollPane.getHorizontalScrollBar().addAdjustmentListener(map.getMiniMap());
-        scrollPane.getVerticalScrollBar().addAdjustmentListener(map.getMiniMap());
-        graph.addObserver(map.getMiniMap());
-        graphTab.setMiniMap(map.getMiniMap());
 
         graphTab.addMouseListener(new MouseAdapter() {
             @Override
@@ -97,7 +105,18 @@ public class GraphViewContainer extends JSplitPane{
         properties = new PropertyPanel(this.graphTab);
         properties.setPreferredSize(new Dimension(300, this.getHeight()));
 
-        this.add(properties);
+        minimap = new MiniMap(graphTab.getPreferredSize().width/5, graphTab.getPreferredSize().height/5, scrollPane, graphTab);
+        minimap.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        scrollPane.getHorizontalScrollBar().addAdjustmentListener(minimap);
+        scrollPane.getVerticalScrollBar().addAdjustmentListener(minimap);
+        graph.addObserver(minimap);
+        graphTab.setMiniMap(minimap);
+
+        board = new JPanel(new GridLayout(2,1));
+        board.add(properties);
+        board.add(minimap);
+
+        this.add(board);
     }
 
 
