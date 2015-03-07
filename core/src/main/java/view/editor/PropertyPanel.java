@@ -14,6 +14,7 @@ import java.util.Vector;
 
 /**
  * Created by paubreton on 02/03/15.
+ * Classe d'édition rapide et de vue d'ensemble textuelle du contenu d'un graphe, faite à aprtir d'un {@link javax.swing.JTabbedPane} possédant des {@link javax.swing.JTable}
  */
 public class PropertyPanel extends JTabbedPane implements Observer {
 
@@ -29,6 +30,10 @@ public class PropertyPanel extends JTabbedPane implements Observer {
     private Vector<String> columnVertexNames;
     private Vector<String> columnEdgeNames;
 
+    /**
+     * Constructeur de la classe initialisant les données du {@link javax.swing.JTable} à partir d'un {@link view.editor.Tab} et de son {@link data.Graph} associé
+     * @param tab Le {@link view.editor.Tab} correspondant
+     */
     public PropertyPanel(Tab tab){
 
         this.tab = tab;
@@ -92,6 +97,10 @@ public class PropertyPanel extends JTabbedPane implements Observer {
         this.addTab("Edges", edgeScrollPane);
     }
 
+    /**
+     * Méthode permettant de sélectionner des {@link view.editor.elements.VertexView} à partir du {@link javax.swing.JTable}
+     * @param selectedRows La liste des éléments du {@link javax.swing.JTable} sélectionnés
+     */
     private void addVerticesToSelectedElements(int[] selectedRows) {
         tab.clearSelectedElements();
         for(int i : selectedRows){
@@ -99,6 +108,10 @@ public class PropertyPanel extends JTabbedPane implements Observer {
         }
     }
 
+    /**
+     * Méthode d'ajout de {@link view.editor.elements.EdgeView} à partir du {@link javax.swing.JTable}
+     * @param selectedRows La liste des éléments du {@link javax.swing.JTable} sélectionnés
+     */
     private void addEdgesToSelectedElements(int[] selectedRows) {
         tab.clearSelectedElements();
         for(int i : selectedRows){
@@ -106,6 +119,11 @@ public class PropertyPanel extends JTabbedPane implements Observer {
         }
     }
 
+    /**
+     * Méthode de modification directe des {@link view.editor.elements.VertexView} du {@link data.Graph} à partir des données du {@link javax.swing.JTable}
+     * @param firstRow La première ligne du {@link javax.swing.JTable} concernée
+     * @param lastRow La dernière ligne du {@link javax.swing.JTable} concernée
+     */
     private void modifyGraphEdges(int firstRow, int lastRow) {
         for(int i=firstRow;i<=lastRow;i++){
             String newLabel = (String) edgePropertyTable.getModel().getValueAt(i,0);
@@ -118,6 +136,11 @@ public class PropertyPanel extends JTabbedPane implements Observer {
         this.graph.setChanged();
     }
 
+    /**
+     * Méthode de modification directe des {@link view.editor.elements.EdgeView} du {@link data.Graph} à partir des données du {@link javax.swing.JTable}
+     * @param firstRow La première ligne du {@link javax.swing.JTable} concernée
+     * @param lastRow La dernière ligne du {@link javax.swing.JTable} concernée
+     */
     private void modifyGraphVertices(int firstRow, int lastRow) {
         for(int i=firstRow;i<=lastRow;i++){
             String newLabel = (String) vertexPropertyTable.getModel().getValueAt(i,0);
@@ -130,6 +153,11 @@ public class PropertyPanel extends JTabbedPane implements Observer {
         this.graph.setChanged();
     }
 
+    /**
+     * Méthode d'update overridée de l'interface {@link view.Observer}. Elle fait un "refresh" des données du {@link javax.swing.JTable}
+     * @param observable la classe observée
+     * @param object l'objet de la classe observée ayant été modifié
+     */
     @Override
     public void update(Observable observable, Object object) {
 

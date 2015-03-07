@@ -18,7 +18,7 @@ public class GraphViewContainer extends JSplitPane{
 
     private PropertyPanel properties;
     private MiniMap minimap;
-    private JPanel board;
+    private JPanel boardPanel;
     private Controller controller;
     private ScrollPane scrollPane;
     private Tab graphTab;
@@ -41,10 +41,10 @@ public class GraphViewContainer extends JSplitPane{
         this.controller = controller;
 
         initTab(title, graph);
-        initPropertyPanel(graph);
+        initBoardPanel(graph);
 
         this.setLeftComponent(this.scrollPane);
-        this.setRightComponent(this.board);
+        this.setRightComponent(this.boardPanel);
 
     }
 
@@ -100,7 +100,12 @@ public class GraphViewContainer extends JSplitPane{
         this.add(scrollPane);
     }
 
-    public void initPropertyPanel(Graph graph){
+
+    /**
+     * Initialisation du BoardPanel, la {@link javax.swing.JPanel} qui contiendra la {@link view.editor.MiniMap} et le {@link view.editor.PropertyPanel}
+     * @param graph Le {@link data.Graph} auquel relatent le {@link view.editor.PropertyPanel} et la {@link view.editor.MiniMap}
+     */
+    public void initBoardPanel(Graph graph){
 
         properties = new PropertyPanel(this.graphTab);
         properties.setPreferredSize(new Dimension(300, this.getHeight()));
@@ -112,18 +117,26 @@ public class GraphViewContainer extends JSplitPane{
         graph.addObserver(minimap);
         graphTab.setMiniMap(minimap);
 
-        board = new JPanel(new GridLayout(2,1));
-        board.add(properties);
-        board.add(minimap);
+        boardPanel = new JPanel(new GridLayout(2,1));
+        boardPanel.add(properties);
+        boardPanel.add(minimap);
 
-        this.add(board);
+        this.add(boardPanel);
     }
 
 
+    /**
+     * Getter du graphe utilisé dans la feuille de dessin sélectionnée
+     * @return Le {@link data.Graph} possédé
+     */
     public Graph getGraph() {
         return this.graphTab.getGraph();
     }
 
+    /**
+     * Getter du ScrollPane
+     * @return Le {@link view.editor.ScrollPane}
+     */
     public JScrollPane getScrollPane(){
         return this.scrollPane;
     }
