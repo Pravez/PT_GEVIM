@@ -1,17 +1,15 @@
 package controller.state;
 
-import java.awt.Point;
-import java.awt.event.MouseEvent;
-
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-
 import controller.ContextMenuActionListener;
 import controller.Controller;
-import view.elements.ElementView;
-import view.Tab;
-import view.elements.VertexView;
 import data.Graph;
+import view.editor.Tab;
+import view.editor.elements.ElementView;
+import view.editor.elements.VertexView;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class SelectionState extends State {
 
@@ -80,7 +78,7 @@ public class SelectionState extends State {
 	/**
 	 * Méthode pour déplacer les VertexView sélectionnés
 	 * (non-Javadoc)
-	 * @see controller.state.State#drag(view.elements.VertexView, java.awt.Point, java.awt.event.MouseEvent)
+	 * @see controller.state.State#drag(view.editor.elements.VertexView, java.awt.Point, java.awt.event.MouseEvent)
 	 */
 	@Override
 	public void drag(VertexView vertex, MouseEvent e) {

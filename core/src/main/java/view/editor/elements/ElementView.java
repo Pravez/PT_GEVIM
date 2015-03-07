@@ -1,4 +1,4 @@
-package view.elements;
+package view.editor.elements;
 
 import data.Graph;
 import data.GraphElement;

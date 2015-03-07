@@ -1,18 +1,16 @@
 package controller.state;
 
-import java.awt.Point;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-
 import controller.ContextMenuActionListener;
 import controller.Controller;
 import data.Graph;
-import view.elements.ElementView;
-import view.Tab;
-import view.elements.VertexView;
+import view.editor.Tab;
+import view.editor.elements.ElementView;
+import view.editor.elements.VertexView;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 
 public abstract class State {
 	
@@ -21,7 +19,6 @@ public abstract class State {
 	protected Point      sourceDrag;
 
     public enum Mode { SELECTION, CREATION, ZOOM };
-	
 	/**
 	 * Constructeur de la classe State
 	 * @param controller le controller principal de l'application

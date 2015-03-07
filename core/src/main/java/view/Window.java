@@ -4,16 +4,19 @@
 
 package view;
 
-import controller.*;
+import controller.Controller;
+import controller.MenuActionListener;
+import controller.ToolBarButtonActionListener;
+import controller.ToolBarContextActionListener;
 import controller.state.State;
 import data.Graph;
 import files.GmlFileManager;
 import undoRedo.UndoPanel;
+import view.editor.GraphViewContainer;
+import view.editor.Tab;
 
 import javax.swing.*;
-
 import java.awt.*;
-import java.awt.event.*;
 import java.io.File;
 
 /**
@@ -32,6 +35,8 @@ public class Window extends JFrame {
 
     private JTabbedPane tabs; // ensemble des onglets
     private JToolBar toolBar;
+
+    private JPanel initialButtons;
 
     private JPanel startPanel;
 
@@ -203,7 +208,7 @@ public class Window extends JFrame {
         button.setName(buttonName);
         button.setSelected(false);
         button.setToolTipText(helpMessage);
-        toolBar.add(button);
+        this.toolBar.add(button);
     }
 
     /**
@@ -269,7 +274,7 @@ public class Window extends JFrame {
     }
 
     /**
-     * Méthode ajoutant un nouveau {@link view.Tab}. On associe à ce dernier un nouveau {@link data.Graph} et un titre (nom).
+     * Méthode ajoutant un nouveau {@link view.editor.Tab}. On associe à ce dernier un nouveau {@link data.Graph} et un titre (nom).
      */
     public void addNewTab(final Graph graph, String title) {
 
@@ -279,53 +284,11 @@ public class Window extends JFrame {
             this.startPanel.setVisible(false);
         }
 
-        final Tab tab = new Tab(graph, this.controller);
-        graph.addObserver(tab);
+        GraphViewContainer graphViewContainer = new GraphViewContainer(graph, title, this.controller);
 
-        tab.setName(title);
-        tab.setBackground(Color.GRAY);
-        tab.setLayout(null);
-        tab.add(new JLabel(title));
-        tab.setPreferredSize(new Dimension(2000, 2000));
-        tab.setMaximumSize(tab.getPreferredSize());
-        tab.setSize(500, 500);
-        
-        tab.addMouseListener(new MouseAdapter() {
-    		@Override
-			public void mouseClicked(MouseEvent e) {
-				controller.getState().click(tab, graph, e);
-			}
-    		@Override
-			public void mousePressed(MouseEvent e) { controller.getState().pressed(tab, graph, e); }
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				controller.getState().released(tab, graph, e);
-			}
-    	});
-        tab.addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) { controller.getState().drag(tab, graph, e); }
-        });
+        this.tabs.addTab(title, graphViewContainer);
+        undoRedo.setGraph(graphViewContainer.getGraph());
 
-        ScrollPane pane = new ScrollPane(tab);
-        this.tabs.addTab(title, pane);
-        pane.addMouseWheelListener(new MouseWheelListener() {
-            @Override
-            public void mouseWheelMoved(MouseWheelEvent e) { controller.getState().wheel(tab, e); }
-        });
-        tab.setScrollPane(pane);
-        /** **/
-        MiniMapFrame map = new MiniMapFrame(tab.getPreferredSize().width/5, tab.getPreferredSize().height/5, pane, tab);
-        pane.getHorizontalScrollBar().addAdjustmentListener(map.getMiniMap());
-        pane.getVerticalScrollBar().addAdjustmentListener(map.getMiniMap());
-        graph.addObserver(map.getMiniMap());
-        tab.setMiniMap(map.getMiniMap());
-        /** **/
-        undoRedo.setGraph(tab.getGraph());
-
-        /*properties = new PropertyPanel(graph);
-        properties.setPreferredSize(new Dimension(200, this.getHeight()));
-        this.back.add(properties,BorderLayout.EAST);*/
 
     }
 
@@ -339,12 +302,12 @@ public class Window extends JFrame {
     }
 
     /**
-     * Renvoi du {@link view.Tab} couramment sélectionné
+     * Renvoi du {@link view.editor.Tab} couramment sélectionné
      *
-     * @return Le {@link view.Tab} sélectionné
+     * @return Le {@link view.editor.Tab} sélectionné
      */
     public Tab getCurrentTab() {
-        return (Tab) ((JScrollPane) this.tabs.getComponentAt(this.tabs.getSelectedIndex())).getViewport().getComponent(0);
+        return (Tab) ((GraphViewContainer) this.tabs.getComponentAt(this.tabs.getSelectedIndex())).getScrollPane().getViewport().getComponent(0);
     }
 
     /**
@@ -357,7 +320,7 @@ public class Window extends JFrame {
     }
 
     public JViewport getCurrentTabViewPort() {
-        return ((JScrollPane) this.tabs.getComponentAt(this.tabs.getSelectedIndex())).getViewport();
+        return ((GraphViewContainer) this.tabs.getComponentAt(this.tabs.getSelectedIndex())).getScrollPane().getViewport();
     }
 
     /**
@@ -376,7 +339,7 @@ public class Window extends JFrame {
      */
     public void setState(State state) {
         for (Component c : this.toolBar.getComponents()) {
-            if (((JButton) c).getActionCommand() == state.getMode()) {
+            if (((JButton) c).getActionCommand().equals(state.getMode())) {
                 ((JButton) c).setSelected(true);
             } else {
                 ((JButton) c).setSelected(false);

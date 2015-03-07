@@ -2,9 +2,9 @@ package controller.state;
 
 import controller.Controller;
 import data.Graph;
-import view.Tab;
-import view.elements.ElementView;
-import view.elements.VertexView;
+import view.editor.elements.ElementView;
+import view.editor.Tab;
+import view.editor.elements.VertexView;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;

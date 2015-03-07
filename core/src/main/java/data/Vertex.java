@@ -17,7 +17,7 @@ public class Vertex extends GraphElement {
     private Shape           shape;
     private ArrayList<Edge> edges;
 
-    public static enum Shape { SQUARE, CIRCLE, TRIANGLE, CROSS };
+    public static enum Shape { SQUARE, CIRCLE, TRIANGLE, CROSS }
 
     /**
      * Constructeur de la classe Vertex

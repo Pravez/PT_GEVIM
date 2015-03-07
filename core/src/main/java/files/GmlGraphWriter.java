@@ -104,7 +104,7 @@ public class GmlGraphWriter {
      */
     public void writeGraphToFile(){
 
-        FileOutputStream out = null;
+        FileOutputStream out;
 
         try {
 

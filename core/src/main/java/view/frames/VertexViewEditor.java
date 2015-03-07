@@ -34,7 +34,7 @@ public class VertexViewEditor extends JDialog {
     private Vertex     vertex;
 
     /**
-     * Constructeur qui prend les données d'un {@link view.elements.VertexView} et les associe à chaque champ du JDialog
+     * Constructeur qui prend les données d'un {@link view.editor.elements.VertexView} et les associe à chaque champ du JDialog
      * @param v le vecteur utilisé
      */
     public VertexViewEditor(Vertex v) {

@@ -269,9 +269,19 @@ public class Graph extends Observable {
 		this.setChanged();
 	}
 
-    public int getElementIndexWithLabel(String label){
+    public int getElementIndexWithId(int id){
         for(int i = 0; i<this.elements.size();i++){
-            if(elements.get(i).getLabel() == label){
+            if(elements.get(i).getValue() == id){
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    public int getElementIndexWithLabel(String label) {
+        for(int i = 0; i<this.elements.size();i++){
+            if(elements.get(i).getLabel().equals(label)){
                 return i;
             }
         }
@@ -297,4 +307,20 @@ public class Graph extends Observable {
 	public Object getState() {
 		return this.elements;
 	}
+
+    /**
+     * Méthode permettant de récupérer un {@link data.GraphElement} en ne connaissant que son ID, dans un {@link data.Graph}.
+     * @param value L'ID (valeur) de l'élément à récupérer.
+     * @return Le {@link data.GraphElement} dont l'attribut Value est la value passée en paramètre
+     */
+    public GraphElement getFromValue(int value){
+        for(GraphElement ge : this.elements){
+            if(ge.getValue()==value){
+                return ge;
+            }
+        }
+        return null;
+    }
+
+
 }

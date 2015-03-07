@@ -1,12 +1,13 @@
-package view;
+package view.editor;
 
 import controller.Controller;
 import controller.VertexMouseListener;
 import data.*;
 import files.GmlFileManager;
-import view.elements.EdgeView;
-import view.elements.ElementView;
-import view.elements.VertexView;
+import view.Observer;
+import view.editor.elements.EdgeView;
+import view.editor.elements.ElementView;
+import view.editor.elements.VertexView;
 import view.frames.TabPropertiesViewEditor;
 
 import javax.swing.*;
@@ -55,7 +56,7 @@ public class Tab extends JComponent implements Observer {
 
     private double                 scale;
 
-    private MiniMap                map;
+    private MiniMap map;
 
     /** A remplacer plus tard ?? **/
     private ScrollPane pane;

@@ -1,7 +1,7 @@
 package view.frames;
 
 import data.Vertex;
-import view.Tab;
+import view.editor.Tab;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.awt.event.*;
 
 /**
  * Created by Quentin Lemonnier
- * Classe "visuelle" qui permet de modifier toutes les données par défaut d'un {@link view.Tab} avec une interface graphique.
+ * Classe "visuelle" qui permet de modifier toutes les données par défaut d'un {@link view.editor.Tab} avec une interface graphique.
  */
 public class TabPropertiesViewEditor extends JDialog {
 

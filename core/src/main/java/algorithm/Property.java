@@ -6,5 +6,5 @@ package algorithm;
 public enum Property {
     NBEDGES,
     SIZE,
-    POSITION;
+    POSITION
 }

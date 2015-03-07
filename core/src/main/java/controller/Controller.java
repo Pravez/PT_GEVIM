@@ -9,7 +9,7 @@ import controller.state.State;
 import data.Graph;
 import data.GraphElement;
 import data.Vertex;
-import view.elements.ElementView;
+import view.editor.elements.ElementView;
 import view.Window;
 
 import javax.swing.*;
@@ -137,9 +137,12 @@ public class Controller {
      * @param args
      */
     public static void main(String[] args) {
+
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) { }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         Controller controller = new Controller();
         Window window = new Window(800, 640, controller);
@@ -193,16 +196,16 @@ public class Controller {
             case "from GraphViz...":
                 break;
 
-            case "random positioning":
+            case "Random Positioning":
                 applyAlgorithm("random");
                 break;
-            case "circular positioning":
+            case "Circular Positioning":
                 applyAlgorithm("circular");
                 break;
-            case "vertex Coloring size":
+            case "Vertex Size Coloring":
                 applyAlgorithm("color");
                 break;
-            case "vertex Coloring edge number":
+            case "Vertex Number of Edges Coloring ":
                 applyAlgorithm("number");
                 break;
             default:
@@ -295,7 +298,6 @@ public class Controller {
                 pasteElements(position);
                 break;
             case "Properties":
-                System.out.println("Properties");
                 this.window.getCurrentTab().modifyProperties();
                 this.graphs.get(this.window.getCurrentTabIndex()).setChanged();
                 break;

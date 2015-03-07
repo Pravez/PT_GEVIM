@@ -3,7 +3,6 @@ package view.frames;
 import data.Edge;
 import data.Graph;
 import data.Vertex;
-import view.frames.ColorChooser;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -81,7 +80,7 @@ public class EdgeViewEditor extends JDialog {
         this.graph = graph;
         this.edgeThickness.setText(String.valueOf(edge.getThickness()));
 
-        String vertexLabel = "";
+        String vertexLabel;
 
         for(Vertex v : this.graph.getVertexes()){
             vertexLabel = v.getLabel();
@@ -89,9 +88,9 @@ public class EdgeViewEditor extends JDialog {
             this.originVertex.addItem(vertexLabel);
             this.destinationVertex.addItem(vertexLabel);
 
-            if (this.edge.getOrigin().getLabel() == vertexLabel) {
+            if (this.edge.getOrigin().getLabel().equals(vertexLabel)) {
                 this.originVertex.setSelectedItem(vertexLabel);
-            } else if (this.edge.getDestination().getLabel() == vertexLabel) {
+            } else if (this.edge.getDestination().getLabel().equals(vertexLabel)) {
                 this.destinationVertex.setSelectedItem(vertexLabel);
             }
         }
@@ -130,7 +129,7 @@ public class EdgeViewEditor extends JDialog {
         String destinationValue = ((String)destinationVertex.getSelectedItem());
 
         //Si le Vertex de départ est le même que celui d'arrivée
-        if(originValue == destinationValue){
+        if(originValue.equals(destinationValue)){
             JOptionPane.showMessageDialog(null, "Les vertex de départ et d'arrivée doivent être différents", "Erreur", JOptionPane.ERROR_MESSAGE);
 
         }else {
