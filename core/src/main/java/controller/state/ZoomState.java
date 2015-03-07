@@ -37,11 +37,11 @@ public class ZoomState extends State {
 	
 	@Override
 	public void pressed(Tab tab, Graph grap, MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON1) { // Clic gauche
-			tab.zoomIn();
+        if (e.getButton() == MouseEvent.BUTTON1) { // Clic gauche
+			tab.getScrollPane().zoomIn(e.getX(), e.getY());
 		} else if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
-			tab.zoomOut();
-		}
+            tab.getScrollPane().zoomOut(e.getX(), e.getY());
+        }
 	}
 
 	@Override

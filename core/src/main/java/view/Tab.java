@@ -53,6 +53,22 @@ public class Tab extends JComponent implements Observer {
     private Color                  edgeColor;
 
     private double                 currentScale;
+    private Point                  origin;
+    private Point                  center;
+
+    private MiniMap                map;
+
+    /** A remplacer plus tard ?? **/
+    private ScrollPane pane;
+
+    public void setScrollPane(ScrollPane pane) {
+        this.pane = pane;
+    }
+
+    public ScrollPane getScrollPane() {
+        return this.pane;
+    }
+    /** **/
 
     /**
      * Getter du Graph
@@ -69,6 +85,14 @@ public class Tab extends JComponent implements Observer {
     public void setGraph(Graph graph) {
         this.graph = graph;
     }
+
+    public MiniMap getMiniMap() { return this.map; }
+
+    public void setMiniMap(MiniMap map) { this.map = map; }
+
+    public void setCenter(Point center) { this.center = center; }
+
+    public Point getCenter() { return this.center; }
 
     /**
      * Constructeur du Tab, l'onglet. Un onglet est associé à un {@link data.Graph}
@@ -101,6 +125,7 @@ public class Tab extends JComponent implements Observer {
         this.edgeColor                = new Color(0,0,0);
 
         this.currentScale             = (float) 1.0;
+        this.origin                   = new Point(0, 0);
     }
 
     /**
@@ -134,21 +159,34 @@ public class Tab extends JComponent implements Observer {
             g.drawLine(this.originEdge.x, this.originEdge.y, this.destinationEdge.x, this.destinationEdge.y);
         }
         for(EdgeView e : this.edges){
-            e.paintComponent(g, new Point(0, 0), this.currentScale, this.currentScale);
+            e.paintComponent(g, this.currentScale, this.currentScale);
         }
 
         for (VertexView v : this.vertexes) {
-            v.paintComponent(g, new Point(0, 0), this.currentScale, this.currentScale);
+            v.paintComponent(g, this.currentScale, this.currentScale);
         }
     }
 
-    public void zoomIn() {
-        this.currentScale += 0.1;
+    public void setOrigin(Point origin) {
+        this.origin = origin;
         this.repaint();
     }
 
-    public void zoomOut() {
+    public Point getOrigin() {
+        return this.origin;
+    }
+
+    public void zoomIn(int positionX, int positionY) {
+        this.currentScale += 0.1;
+        this.setSize((int)(this.getSize().width * this.currentScale), (int)(this.getSize().height * this.currentScale));
+        //this.origin = new Point(positionX - this.getSize().width/2, positionY - this.getSize().height/2);
+        this.repaint();
+    }
+
+    public void zoomOut(int positionX, int positionY) {
         this.currentScale -= 0.1;
+        this.setSize((int)(this.getSize().width * this.currentScale), (int)(this.getSize().height * this.currentScale));
+        //this.origin = new Point(positionX - this.getSize().width/2, positionY - this.getSize().height/2);
         this.repaint();
     }
 
@@ -597,7 +635,5 @@ public class Tab extends JComponent implements Observer {
         return currentScale;
     }
 
-    public void setCurrentScale(double currentScale) {
-        this.currentScale = currentScale;
-    }
+    public void setCurrentScale(double currentScale) { this.currentScale = currentScale; }
 }

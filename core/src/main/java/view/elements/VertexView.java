@@ -81,7 +81,7 @@ public class VertexView extends ElementView {
 		}
     }
     
-    public void paintComponent(Graphics g, Point origin, double scaleX, double scaleY) {
+    public void paintComponent(Graphics g, double scaleX, double scaleY) {
     	g.setFont(super.getFont());
 		
 		Graphics2D     g2d         = ((Graphics2D) g);
@@ -91,10 +91,10 @@ public class VertexView extends ElementView {
 		g.setColor(this.color);
 		
 		int size = (int) (this.vertex.getSize() * scaleX);
-		int x    = (int) ((origin.x + this.vertex.getPosition().x - size/2) * scaleX);
-		int y    = (int) ((origin.y + this.vertex.getPosition().y - size/2) * scaleY);
-		
-		switch (this.vertex.getShape()) {
+		int x    = (int) (this.vertex.getPosition().x* scaleX - size/2);
+		int y    = (int) (this.vertex.getPosition().y* scaleY - size/2);
+
+        switch (this.vertex.getShape()) {
 		case SQUARE :
 			g.fillRect(x, y, size, size);
 			break;

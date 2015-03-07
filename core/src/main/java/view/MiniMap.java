@@ -17,7 +17,7 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
 
 	private static final long serialVersionUID = 1L;
 	
-	private JScrollPane pane;
+	private ScrollPane pane;
 	private Tab tab;
 	
 	private ArrayList<EdgeView>    edges;
@@ -35,7 +35,7 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
 	 * @param pane le JScrollPane de la window
 	 * @param tab le Tab actuel
 	 */
-	public MiniMap(int width, int height, JScrollPane pane, Tab tab) {
+	public MiniMap(int width, int height, ScrollPane pane, Tab tab) {
 		this.setSize(width, height);
 		this.pane     = pane;
 		this.tab      = tab;
@@ -70,11 +70,11 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
 		g.setColor(this.selectionBorderColor);
 		g.drawRect(this.selectionZone.x, this.selectionZone.y, this.selectionZone.width, this.selectionZone.height);
         for(EdgeView e : this.edges){
-            e.paintComponent(g, new Point(0, 0), 1.0*this.getWidth()/this.tab.getPreferredSize().width, 1.0*this.getHeight()/this.tab.getPreferredSize().height);
+            e.paintComponent(g, 1.0*this.getWidth()/this.tab.getMaximumSize().width, 1.0*this.getHeight()/this.tab.getMaximumSize().height);
         }
 
         for (VertexView v : this.vertexes) {
-            v.paintComponent(g, new Point(0, 0), 1.0*this.getWidth()/this.tab.getPreferredSize().width, 1.0*this.getHeight()/this.tab.getPreferredSize().height);
+            v.paintComponent(g, 1.0*this.getWidth()/this.tab.getMaximumSize().width, 1.0*this.getHeight()/this.tab.getMaximumSize().height);
         }
         
     }
@@ -128,19 +128,20 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
 
 	@Override
 	public void adjustmentValueChanged(AdjustmentEvent adjustmentEvent) {
-		updateSelectionZone();
-		this.repaint();
+        updateSelectionZone();
 	}
 
 	/**
 	 * Méthode permettant de mettre à jour la zone de sélection (viewport actuel) en fonction de la dimension des fenêtres
+     * lorsque les scrollbar sont déplacées
 	 */
-	private void updateSelectionZone() {
-		int x      = (int)(1.0*this.getSize().width*this.pane.getHorizontalScrollBar().getValue()/this.tab.getSize().width);
-		int y      = (int)(1.0*this.getSize().height*this.pane.getVerticalScrollBar().getValue()/this.tab.getSize().height);
+	public void updateSelectionZone() {
+        int x      = (int)(1.0*this.getSize().width*this.pane.getHorizontalScrollBar().getValue()/this.tab.getPreferredSize().width);
+		int y      = (int)(1.0*this.getSize().height*this.pane.getVerticalScrollBar().getValue()/this.tab.getPreferredSize().height);
 		int width  = (int)(1.0*this.getSize().width*this.pane.getViewport().getSize().width/this.tab.getPreferredSize().width);
 		int height = (int)(1.0*this.getSize().height*this.pane.getViewport().getSize().height/this.tab.getPreferredSize().height);
 		this.selectionZone = new Rectangle(x, y, width, height);
+        this.repaint();
 	}
 
 	/**
@@ -152,4 +153,9 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
 		this.pane.getHorizontalScrollBar().setValue((int) (1.0*origin.x*this.tab.getSize().width/this.getSize().width));
 		this.pane.getVerticalScrollBar().setValue((int) (1.0*origin.y*this.tab.getSize().height/this.getSize().height));
 	}
+
+    public void setPosition(Point position, int width, int height) {
+        this.pane.getHorizontalScrollBar().setValue((int) (1.0*position.x*this.tab.getPreferredSize().width/width));
+        this.pane.getVerticalScrollBar().setValue((int) (1.0*position.y*this.tab.getPreferredSize().height/height));
+    }
 }

@@ -6,6 +6,7 @@ import view.elements.ElementView;
 import view.Tab;
 import view.elements.VertexView;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class CreationState extends State {
@@ -18,10 +19,6 @@ public class CreationState extends State {
 	public void click(Tab tab, Graph graph, MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
 			initNewPopupMenu(new String[]{"Paste", "Properties"}, e.getPoint()).show(tab, e.getX(), e.getY());
-		}
-		if (e.getButton() == MouseEvent.BUTTON1) { // Clic gauche
-			this.controller.addVertex(graph, tab.getDefaultColor(), e.getPoint(), tab.getDefaultSize(), tab.getDefaultShape());
-            tab.repaint();
 		}
 	}
 	
@@ -43,8 +40,12 @@ public class CreationState extends State {
 	}
 	
 	@Override
-	public void pressed(Tab tab, Graph grap, MouseEvent e) {
-		
+	public void pressed(Tab tab, Graph graph, MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) { // Clic gauche
+            Point position = new Point((int)(1.0*e.getX()/tab.getCurrentScale()), (int)(1.0*e.getY()/tab.getCurrentScale()));
+            this.controller.addVertex(graph, tab.getDefaultColor(), position, tab.getDefaultSize(), tab.getDefaultShape());
+            tab.repaint();
+        }
 	}
 	
 	@Override

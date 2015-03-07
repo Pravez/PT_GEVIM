@@ -290,6 +290,7 @@ public class Window extends JFrame {
         tab.setLayout(null);
         tab.add(new JLabel(title));
         tab.setPreferredSize(new Dimension(2000, 2000));
+        tab.setMaximumSize(tab.getPreferredSize());
         tab.setSize(500, 500);
         
         tab.addMouseListener(new MouseAdapter() {
@@ -313,17 +314,15 @@ public class Window extends JFrame {
         	}
         });
 
-        JScrollPane pane = new JScrollPane(tab);
+        ScrollPane pane = new ScrollPane(tab);
         this.tabs.addTab(title, pane);
+        tab.setScrollPane(pane);
         /** **/
-        System.out.println("tab width : " + tab.getWidth());
-        System.out.println("tab bounds width : " + tab.getBounds().width);
-        System.out.println("tab preferred size : " + tab.getPreferredSize().width);
-        System.out.println("tab size : " + tab.getSize().width);
         MiniMapFrame map = new MiniMapFrame(tab.getPreferredSize().width/5, tab.getPreferredSize().height/5, pane, tab);
         pane.getHorizontalScrollBar().addAdjustmentListener(map.getMiniMap());
         pane.getVerticalScrollBar().addAdjustmentListener(map.getMiniMap());
         graph.addObserver(map.getMiniMap());
+        tab.setMiniMap(map.getMiniMap());
         /** **/
         undoRedo.setGraph(tab.getGraph());
 

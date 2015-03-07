@@ -97,7 +97,7 @@ public class EdgeView extends ElementView {
 		((Graphics2D) g).setStroke(oldStroke);
     }
     
-    public void paintComponent(Graphics g, Point origin, double scaleX, double scaleY) {
+    public void paintComponent(Graphics g, double scaleX, double scaleY) {
     	g.setFont(super.getFont());
     	Stroke oldStroke = ((Graphics2D) g).getStroke();
 		
@@ -107,8 +107,8 @@ public class EdgeView extends ElementView {
 		g2d.setRenderingHints(renderHints);
 		g.setColor(this.color);
 		((Graphics2D) g).setStroke(new BasicStroke((float) (this.thickness * scaleX)));
-		Point source      = new Point((int)((origin.x + this.origin.getPosition().x)*scaleX), (int)((origin.y + this.origin.getPosition().y)*scaleY));
-		Point destination = new Point((int)((origin.x + this.destination.getPosition().x)*scaleX), (int)((origin.y + this.destination.getPosition().y)*scaleY));
+		Point source      = new Point((int)((this.origin.getPosition().x)*scaleX), (int)((this.origin.getPosition().y)*scaleY));
+		Point destination = new Point((int)((this.destination.getPosition().x)*scaleX), (int)((this.destination.getPosition().y)*scaleY));
 		g.drawLine(source.x, source.y, destination.x, destination.y);
 		((Graphics2D) g).setStroke(oldStroke);
     }
