@@ -1,7 +1,6 @@
 package view.editor;
 
 import controller.Controller;
-import controller.listeners.KeyActionListener;
 import data.Graph;
 import undoRedo.UndoPanel;
 

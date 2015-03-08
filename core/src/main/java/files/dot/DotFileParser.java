@@ -1,5 +1,9 @@
 package files.dot;
 
+import files.dot.elements.DotAttribute;
+import files.dot.elements.DotElement;
+import files.dot.elements.EdgeDot;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -56,10 +60,11 @@ public class DotFileParser extends FileWriter {
             dotAttributes.append(da.getAttributeName());
             dotAttributes.append("=");
             dotAttributes.append(String.valueOf(da.getAttribute()));
-            dotAttributes.append(" ");
+            dotAttributes.append(",");
         }
 
         dotAttributes.append("]");
+        dotAttributes.substring(dotAttributes.lastIndexOf(","), dotAttributes.lastIndexOf(","));
 
         return dotAttributes.toString();
     }

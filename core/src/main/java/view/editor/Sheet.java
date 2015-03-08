@@ -83,10 +83,10 @@ public class Sheet extends JComponent implements Observer {
         this.graph                    = graph;
         this.controller               = controller;
         
-        this.edges                    = new ArrayList<EdgeView>();
-        this.vertexes                 = new ArrayList<VertexView>();
-        this.selectedElements         = new ArrayList<ElementView>();
-        this.currentSelectedElements  = new ArrayList<ElementView>();
+        this.edges                    = new ArrayList<>();
+        this.vertexes                 = new ArrayList<>();
+        this.selectedElements         = new ArrayList<>();
+        this.currentSelectedElements  = new ArrayList<>();
         
         this.defaultVertexesColor     = Color.BLACK;
         this.defaultEdgesColor        = Color.BLACK;

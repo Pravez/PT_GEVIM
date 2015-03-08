@@ -1,4 +1,4 @@
-package files.dot;
+package files.dot.elements;
 
 import java.util.ArrayList;
 

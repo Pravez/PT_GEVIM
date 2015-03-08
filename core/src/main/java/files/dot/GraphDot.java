@@ -3,6 +3,8 @@ package files.dot;
 import data.Edge;
 import data.Graph;
 import data.Vertex;
+import files.dot.elements.EdgeDot;
+import files.dot.elements.VertexDot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,10 +33,10 @@ public class GraphDot {
 
             VertexDot vd = new VertexDot();
             vd.setId(v.getValue());
-            vd.addAttribute("name", v.getLabel());
-            vd.addAttribute("x", v.getPosition().x);
-            vd.addAttribute("y", v.getPosition().y);
+            vd.addAttribute("label", v.getLabel());
+            vd.addAttribute("pos", "(" + v.getPosition().x + "," + v.getPosition().y + ")");
             vd.addAttribute("size", v.getSize());
+            vd.addAttribute("shape", v.getShape().toString());
             vd.addAttribute("color", "#"+Integer.toHexString(v.getColor().getRGB()).substring(2));
 
             vertices.add(vd);
@@ -45,9 +47,9 @@ public class GraphDot {
 
             EdgeDot ed = new EdgeDot();
             ed.setId(e.getValue());
-            ed.addAttribute("name", e.getLabel());
+            ed.addAttribute("label", e.getLabel());
             ed.addAttribute("size", e.getThickness());
-            ed.addAttribute("color", "#"+Integer.toHexString(e.getColor().getRGB()).substring(2));
+            ed.addAttribute("color", "#" + Integer.toHexString(e.getColor().getRGB()).substring(2));
 
             ed.setOrigin(vertexMapping.get(e.getOrigin()));
             ed.setDestination(vertexMapping.get(e.getDestination()));

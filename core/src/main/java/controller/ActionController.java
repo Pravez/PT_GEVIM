@@ -48,7 +48,11 @@ public class ActionController {
                 break;
 
             case "Open":
-                openFromGraphml();
+                openGraph();
+                break;
+
+            case "Save":
+                saveGraph();
                 break;
 
             case "Copy":
@@ -104,11 +108,14 @@ public class ActionController {
         }
     }
 
+
+
     public static void newTab() {
-        String title = "Tab " + ActionController.controller.getWindow().getTabCount();
+        String title = "Sheet" + ActionController.controller.getWindow().getTabCount();
         title = JOptionPane.showInputDialog("Saisissez le nom du nouveau graphe :", title);
         if (title != null && !title.equals("")) {
             Graph graph = ActionController.controller.addNewGraph();
+            graph.setName(title);
             ActionController.controller.getWindow().addNewTab(graph, title);
         } else if (title != null && title.equals("")) {
             //Invitation à nommer le nouveau graphe (onglet) créé.
@@ -158,19 +165,27 @@ public class ActionController {
     }
 
     public static void saveToGraphml() {
-        ActionController.controller.saveFile();
+        ActionController.controller.saveFile(new String[]{"GraphML files (*.gml)"}, new String[]{"gml"});
     }
 
     public static void saveToGraphviz() {
-        ActionController.controller.saveFileToViz();
+        ActionController.controller.saveFile(new String[]{"DOT files (*.dot)"}, new String[]{"dot"});
     }
 
     public static void openFromGraphml() {
-        ActionController.controller.openFile();
+        ActionController.controller.openFile(new String[]{"GraphML files (*.gml)"}, new String[]{"gml"});
     }
 
     public static void openFromGraphviz() {
-        //ActionController.controller.openFile();
+        ActionController.controller.openFile(new String[]{"DOT files (*.dot)"}, new String[]{"dot"});
+    }
+
+    private static void openGraph() {
+        ActionController.controller.openFile(new String[]{"GraphML files (*.gml)", "DOT files (*.dot)"}, new String[]{"gml", "dot"});
+    }
+
+    private static void saveGraph() {
+        ActionController.controller.openFile(new String[]{"GraphML files (*.gml)", "DOT files (*.dot)"}, new String[]{"gml", "dot"});
     }
 
     public static void applyAlgorithm(String name) {

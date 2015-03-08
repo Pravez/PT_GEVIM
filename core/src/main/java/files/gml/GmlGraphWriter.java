@@ -116,5 +116,7 @@ public class GmlGraphWriter {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        gmlGraph.shutdown();
     }
 }

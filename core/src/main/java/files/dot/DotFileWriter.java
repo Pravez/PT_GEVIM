@@ -1,5 +1,8 @@
 package files.dot;
 
+import files.dot.elements.EdgeDot;
+import files.dot.elements.VertexDot;
+
 import java.io.*;
 
 /**

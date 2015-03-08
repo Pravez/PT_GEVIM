@@ -17,7 +17,23 @@ public class Vertex extends GraphElement {
     private Shape           shape;
     private ArrayList<Edge> edges;
 
-    public static enum Shape { SQUARE, CIRCLE, TRIANGLE, CROSS }
+    public static enum Shape {
+        SQUARE,
+        CIRCLE,
+        TRIANGLE,
+        CROSS;
+
+        @Override
+        public String toString(){
+            switch(this){
+                case SQUARE:return "Square";
+                case CIRCLE:return "Circle";
+                case TRIANGLE:return "Triangle";
+                case CROSS:return "Cross";
+                default:throw new IllegalArgumentException();
+            }
+        }
+    }
 
     /**
      * Constructeur de la classe Vertex

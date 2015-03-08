@@ -369,7 +369,7 @@ public class Window extends JFrame {
             GmlFileManager gmlFileManager = new GmlFileManager(null, file);
             gmlFileManager.openGraph();
 
-            this.addNewTab(this.controller.addGraph(gmlFileManager.getGraph()), "Tab " + this.getTabCount());
+            this.addNewTab(this.controller.addGraph(gmlFileManager.getGraph()), gmlFileManager.getGraph().getName());
             this.tabs.setSelectedIndex(this.tabs.getTabCount() - 1);
             this.controller.getGraph(this.getCurrentTabIndex()).setChanged();
         }

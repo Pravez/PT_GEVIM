@@ -9,12 +9,11 @@ import controller.state.State;
 import data.Graph;
 import data.GraphElement;
 import data.Vertex;
-import view.editor.elements.ElementView;
 import view.Window;
+import view.editor.elements.ElementView;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
@@ -335,25 +334,42 @@ public class Controller {
     /**
      * Methode pour choisir un fichier dans une arborescence à partir du répertoire principal de l'utilisateur en cours. Elle
      * possède des filtres sur les types de fichiers.
-     * @param extension Restriction sur les extensions ajoutée à la liste des restrictions du {@link javax.swing.JFileChooser}
+     * @param extensions La liste des extensions devant apparaitre à la sélection
+     * @param descriptions La liste des descriptions associées aux extensions
      * @return Le {@link java.io.File} sélectionné
      */
-    private File chooseFile(String extension, String description) {
+    private File chooseFile(String[] extensions, String descriptions[]) {
 
         JFileChooser dialogue = new JFileChooser(new File("~/"));
-        dialogue.setFileFilter(new FileNameExtensionFilter(description, extension));
+
+        if(this.window.getTabCount()>0) {
+            dialogue.setSelectedFile(new File(this.graphs.get(this.window.getCurrentTabIndex()).getName()));
+        }
+
+        if(extensions.length == 1){
+            dialogue.setFileFilter(new FileNameExtensionFilter(extensions[0], descriptions[0]));
+        }else {
+            for (int i = 0; i < extensions.length; i++) {
+                if (i == 0) {
+                    dialogue.setFileFilter(new FileNameExtensionFilter(extensions[i], descriptions[i]));
+                } else {
+                    dialogue.addChoosableFileFilter(new FileNameExtensionFilter(extensions[i], descriptions[i]));
+                }
+            }
+        }
+
         File file = null;
 
         if (dialogue.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             file = dialogue.getSelectedFile();
             //Si le fichier rentré (entrée du nom à la main) ne dispose pas d'extension, alors on lui en rajoute une.
             if(!file.getName().contains(".")) {
-                String newFile = file.getAbsolutePath() + "." + extension;
+                String newFile = file.getAbsolutePath() + "." + ((FileNameExtensionFilter)dialogue.getFileFilter()).getExtensions()[0];
                 file = new File(newFile);
             }
 
             //Si le fichier ne possède pas la bonne extension
-            if (!file.getName().endsWith("." + extension)) {
+            if (!file.getName().endsWith(".gml") && !file.getName().endsWith(".dot")) {
                 JOptionPane.showMessageDialog(null, "Impossible d'utiliser ce format", "Erreur", JOptionPane.ERROR_MESSAGE);
                 file = null;
             }
@@ -384,29 +400,42 @@ public class Controller {
 
     /**
      * Méthode d'ouverture d'un fichier et de lecture de ce dernier. Elle utilise de {@link files.gml.GmlFileManager}
+     * ou le {@link files.dot.DotFileManager}
+     * @param extensions La liste des extensions devant apparaitre à la sélection
+     * @param descriptions La liste des descriptions associées aux extensions
      */
-    public void openFile(){
+    public void openFile(String [] extensions, String[] descriptions){
         try {
-            this.window.openGML(this.chooseFile("gml", "GraphML files (*.gml)"));
+            File file = this.chooseFile(extensions, descriptions);
+            if(file != null) {
+                if (file.getName().contains(".gml")) {
+                    this.window.openGML(file);
+                } else if (file.getName().contains(".dot")) {
+                    //this.window.getCurrentSheet().openDOT(file);
+                }
+            }
         } catch (Exception e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(this.window, "Une erreur inattendue s'est produite : " + e.getLocalizedMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     /**
-     * Méthode de sauvegarde d'un graphe avec écriture dans un fichier, utilisant le {@link files.gml.GmlFileManager}
+     * Méthode de sauvegarde d'un graphe avec écriture dans un fichier, utilisant le {@link files.gml.GmlFileManager} ou
+     * le {@link files.dot.DotFileManager}
+     * @param extensions La liste des extensions devant apparaitre à la sélection
+     * @param descriptions La liste des descriptions associées aux extensions
      */
-    public void saveFile(){
+    public void saveFile(String[] extensions, String[] descriptions){
         try {
-            this.window.getCurrentSheet().saveToGML(this.chooseFile("gml", "GraphML files (*.gml)"));
-        }catch(ArrayIndexOutOfBoundsException aioobe){
-            JOptionPane.showMessageDialog(null, "Rien à sauvegarder...", "Erreur", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    public void saveFileToViz(){
-        try {
-            this.window.getCurrentSheet().saveToVIZ(this.chooseFile("dot", "GraphViz files (*.dot)"));
+            File file = this.chooseFile(extensions, descriptions);
+            if(file != null) {
+                if (file.getName().contains(".gml")) {
+                    this.window.getCurrentSheet().saveToGML(file);
+                } else if (file.getName().contains(".dot")) {
+                    this.window.getCurrentSheet().saveToVIZ(file);
+                }
+            }
         }catch(ArrayIndexOutOfBoundsException aioobe){
             JOptionPane.showMessageDialog(null, "Rien à sauvegarder...", "Erreur", JOptionPane.ERROR_MESSAGE);
         }
