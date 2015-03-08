@@ -25,11 +25,6 @@ public class ZoomState extends State {
         this.sourceDrag = e.getPoint();
 	}
 
-	@Override
-	public void drag(VertexView vertex, MouseEvent e) {
-		this.dragging = true;
-	}
-
     @Override
     public void click(Tab tab, Graph graph, MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) { // Clic gauche
@@ -45,7 +40,9 @@ public class ZoomState extends State {
 	}
 
 	@Override
-	public void pressed(ElementView element, MouseEvent e) { }
+	public void pressed(ElementView element, MouseEvent e) {
+        this.sourceDrag = e.getPoint(); // on récupère la position à laquelle on presse la souris
+    }
 	
 	@Override
 	public void released(Tab tab, Graph graph, MouseEvent e) {
@@ -55,7 +52,8 @@ public class ZoomState extends State {
 
 	@Override
 	public void released(ElementView element, MouseEvent e) {
-		this.dragging = false;	
+        this.controller.getWindow().getCurrentTab().setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        this.dragging = false;
 	}
 
     @Override

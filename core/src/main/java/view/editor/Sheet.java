@@ -1,7 +1,6 @@
 package view.editor;
 
 import controller.Controller;
-import controller.listeners.VertexMouseListener;
 import data.*;
 import files.dot.DotFileManager;
 import files.gml.GmlFileManager;
@@ -13,8 +12,7 @@ import view.frames.TabPropertiesViewEditor;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.ListIterator;
@@ -542,10 +540,23 @@ public class Sheet extends JComponent implements Observer {
      * @param vertex le modèle Vertex du VertexView
      */
     public void addVertex(Vertex vertex){
-    	VertexView vertexView = new VertexView(vertex, this.defaultSelectedColor);
-    	VertexMouseListener listener = new VertexMouseListener(this.controller, vertexView);
-    	vertexView.addMouseListener(listener);
-    	vertexView.addMouseMotionListener(listener);
+    	final VertexView vertexView = new VertexView(vertex, this.defaultSelectedColor);
+        vertexView.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) { controller.getState().click(vertexView, e); }
+            @Override
+            public void mousePressed(MouseEvent e) { controller.getState().pressed(vertexView, e); }
+            @Override
+            public void mouseReleased(MouseEvent e) { controller.getState().released(vertexView, e); }
+            @Override
+            public void mouseEntered(MouseEvent e) { controller.getState().mouseEntered(vertexView, e); }
+            @Override
+            public void mouseExited(MouseEvent e) { controller.getState().mouseExited(vertexView, e); }
+        });
+        vertexView.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) { controller.getState().drag(vertexView, e); }
+        });
         this.vertexes.add(vertexView);
         super.add(vertexView);
     }

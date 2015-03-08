@@ -68,7 +68,7 @@ public class Controller {
      */
     public void addVertex(Graph g, Color color, Point position, int size, Vertex.Shape shape) {
         if (this.window.getCurrentSheet().canAddVertex(position)) {
-           ArrayList<GraphElement> tmp=  new ArrayList<>();
+            ArrayList<GraphElement> tmp=  new ArrayList<>();
             tmp.add(g.createVertex(color, position, size, shape));
             window.getCurrentTab().getUndoRedo().registerAddEdit(tmp);
         }
@@ -81,8 +81,8 @@ public class Controller {
      * @param dst le Vertex de destination de l'Edge
      */
     public void addEdge(Vertex src, Vertex dst) {
-        ArrayList<GraphElement> tmp=  new ArrayList<>();
-        tmp.add( this.window.getCurrentTab().getGraph().createEdge(this.window.getCurrentSheet().getDefaultVertexesColor(), src, dst, this.window.getCurrentSheet().getDefaultEdgesThickness()));
+        ArrayList<GraphElement> tmp = new ArrayList<>();
+        tmp.add(this.window.getCurrentTab().getGraph().createEdge(this.window.getCurrentSheet().getDefaultVertexesColor(), src, dst, this.window.getCurrentSheet().getDefaultEdgesThickness()));
        // window.getUndoRedo().registerAddEdit(tmp);
     }
 

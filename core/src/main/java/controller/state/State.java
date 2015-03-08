@@ -45,7 +45,23 @@ public abstract class State {
 			return new SelectionState(controller);
 		}
 	}
-	
+
+    /**
+     * Méthode appelée lorsque la souris entre sur un ElementView
+     * @param element le VertexView reçevant l'événement souris mouseEntered
+     * @param e l'événement souris
+     */
+    public void mouseEntered(VertexView element, MouseEvent e) {
+
+    }
+    /**
+     * Méthode appelée lorsque la souris sort d'un ElementView
+     * @param element le VertexView reçevant l'événement souris mouseExited
+     * @param e l'événement souris
+     */
+    public void mouseExited(VertexView element, MouseEvent e) {
+
+    }
 	/**
 	 * Méthode appelée lors d'un clic sur la feuille de dessin d'un Tab
 	 * @param tab le Tab qui a reçu l'événement souris clic

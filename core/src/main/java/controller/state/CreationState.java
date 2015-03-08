@@ -12,9 +12,21 @@ import java.awt.event.MouseEvent;
 
 public class CreationState extends State {
 
+    private VertexView underMouseVertex = null;
+
 	public CreationState(Controller controller) {
 		super(controller);
 	}
+
+    @Override
+    public void mouseEntered(VertexView element, MouseEvent e) {
+        this.underMouseVertex = element;
+    }
+
+    @Override
+    public void mouseExited(VertexView element, MouseEvent e) {
+        this.underMouseVertex = null;
+    }
 	
 	@Override
 	public void click(Tab tab, Graph graph, MouseEvent e) {
@@ -46,7 +58,15 @@ public class CreationState extends State {
 
 	@Override
 	public void released(ElementView element, MouseEvent e) {
+        VertexView vertex = (VertexView) element;
 		this.controller.notifyEndDraggingEdge();
+        if (underMouseVertex != null && underMouseVertex != vertex){ // à mettre ailleurs ??? --> State ?
+            if (vertex.getPosition().x < underMouseVertex.getPosition().x) {
+                this.controller.addEdge(vertex.getVertex(), underMouseVertex.getVertex());
+            } else {
+                this.controller.addEdge(underMouseVertex.getVertex(), vertex.getVertex());
+            }
+        }
 		this.dragging = false;
 	}
 
