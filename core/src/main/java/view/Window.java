@@ -1,13 +1,7 @@
-/**
- * Created by quelemonnier on 26/01/15.
- */
-
 package view;
 
 import controller.Controller;
-import controller.listeners.MenuActionListener;
-import controller.listeners.ToolBarButtonActionListener;
-import controller.listeners.ToolBarContextActionListener;
+import controller.listeners.ButtonActionListener;
 import controller.state.State;
 import data.Graph;
 import files.GmlFileManager;
@@ -17,6 +11,7 @@ import view.editor.Tab;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * @author Alexis Dufrenne
@@ -26,16 +21,15 @@ import java.io.File;
 public class Window extends JFrame {
 
     private static final long serialVersionUID = 1L;
-    private int         width;
-    private int         height;
-    private Controller  controller;
-    private JPanel      back;
+    private Controller             controller;
+    private JPanel                 back;
 
-    /* tabs, ensemble des nglets */
-    private JTabbedPane tabs;
-    private JToolBar    toolBar;
+    /* tabs, ensemble des onglets */
+    private JTabbedPane            tabs;
+    private JToolBar               toolBar;
+    private ArrayList<StateButton> stateButtons;
 
-    private JPanel      startPanel;
+    private JPanel                 startPanel;
 
     /**
      * Constructeur de la classe Window
@@ -86,18 +80,16 @@ public class Window extends JFrame {
     /**
      * Initialisation de la {@link view.Window} avec son {@link controller.Controller} associé, sa largeur et sa longueur.
      *
-     * @param width
-     * @param height
-     * @param controller
+     * @param width la largeur de la Window
+     * @param height la hauteur de la Window
+     * @param controller le Controller de l'application
      */
     private void initWindow(int width, int height, Controller controller) {
-        this.width = width;
-        this.height = height;
         this.controller = controller;
 
         this.setTitle("GEVIM");
-        this.setSize(this.width, this.height);
-        this.setMinimumSize(new Dimension(this.width, this.height));
+        this.setSize(width, height);
+        this.setMinimumSize(new Dimension(width, height));
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -128,8 +120,9 @@ public class Window extends JFrame {
      */
     private JMenuItem addJMenuItem(JMenu menu, String label) {
         JMenuItem item = new JMenuItem(label);
+        item.setActionCommand(label);
         menu.add(item);
-        item.addActionListener(new MenuActionListener(item, this.controller));
+        item.addActionListener(new ButtonActionListener(item, null));
         return item;
     }
 
@@ -137,38 +130,32 @@ public class Window extends JFrame {
      * Method to init the tool menu bar (undo, redo, copy, paste...)
      */
     private void initToolMenuBar() {
-        toolBar = new JToolBar();
-        toolBar.setFloatable(false);
+        this.toolBar = new JToolBar();
+        this.stateButtons = new ArrayList<StateButton>();
+        this.toolBar.setFloatable(false);
 
-        addToolBarButtonWithImage(toolBar, "New", "core/assets/new.png", "Nouveau graphe");
-        addToolBarImageButtonWithAction(toolBar, "core/assets/cursor.png", State.Mode.SELECTION.name(), "Mode édition");
-        addToolBarImageButtonWithAction(toolBar, "core/assets/edit.png", State.Mode.CREATION.name(), "Mode création");
-        addToolBarImageButtonWithAction(toolBar, "core/assets/zoom.png", State.Mode.ZOOM.name(), "Zoom");
-        addToolBarButtonWithImage(toolBar, "Copy", "core/assets/copy.png", "Copier");
-        addToolBarButtonWithImage(toolBar, "Paste", "core/assets/paste.png", "Coller");
+        addToolBarButtonWithImage(this.toolBar, "New", "core/assets/new.png", "Nouveau graphe");
+        addToolBarStateButton(this.toolBar, "core/assets/cursor.png", State.Mode.SELECTION.name(), "Mode édition");
+        addToolBarStateButton(this.toolBar, "core/assets/edit.png", State.Mode.CREATION.name(), "Mode création");
+        addToolBarStateButton(this.toolBar, "core/assets/zoom.png", State.Mode.ZOOM.name(), "Zoom");
+        addToolBarButtonWithImage(this.toolBar, "Copy", "core/assets/copy.png", "Copier");
+        addToolBarButtonWithImage(this.toolBar, "Paste", "core/assets/paste.png", "Coller");
 
-        super.getContentPane().add(toolBar, BorderLayout.NORTH);
+        super.getContentPane().add(this.toolBar, BorderLayout.NORTH);
     }
 
     /**
-     * Méthode privée pour ajouter un bouton avec une image dans un toolBar
+     * Méthode privée pour ajouter un StateButton avec une image dans un toolBar
      *
      * @param toolBar       le toolBar qui va contenir le bouton
      * @param fileName      le nom du fichier de l'image à charger
      * @param actionCommand la commande qui sera appellée lors du clic sur le bouton
      * @param helpMessage   le message d'aide du bouton
      */
-    private void addToolBarImageButtonWithAction(JToolBar toolBar, String fileName, String actionCommand, String helpMessage) {
-        Image img = Toolkit.getDefaultToolkit().getImage(fileName);
-        JButton imageButton = new JButton();
-        imageButton.setIcon(new ImageIcon(img.getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
-        imageButton.setBounds(0, 0, 20, 20);
-        imageButton.setMargin(new Insets(0, 0, 0, 0));
-        imageButton.setBorder(null);
-        imageButton.setActionCommand(actionCommand);
-        imageButton.addActionListener(new ToolBarContextActionListener(this.controller, imageButton));
-        imageButton.setToolTipText(helpMessage);
-        toolBar.add(imageButton);
+    private void addToolBarStateButton(JToolBar toolBar, String fileName, String actionCommand, String helpMessage) {
+        StateButton button = new StateButton(fileName, actionCommand, helpMessage);
+        this.stateButtons.add(button);
+        toolBar.add(button);
     }
 
     /**
@@ -179,7 +166,8 @@ public class Window extends JFrame {
      */
     private void addToolBarButton(JToolBar toolBar, String buttonName) {
         JButton button = new JButton(buttonName);
-        button.addActionListener(new ToolBarButtonActionListener(this.controller, button));
+        button.setActionCommand(buttonName);
+        button.addActionListener(new ButtonActionListener(button, null));
         toolBar.add(button);
     }
 
@@ -198,8 +186,9 @@ public class Window extends JFrame {
         button.setBounds(0, 0, 20, 20);
         button.setMargin(new Insets(0, 0, 0, 0));
         button.setBorder(null);
-        button.addActionListener(new ToolBarButtonActionListener(this.controller, button));
+        button.addActionListener(new ButtonActionListener(button, null));
         button.setName(buttonName);
+        button.setActionCommand(buttonName);
         button.setSelected(false);
         button.setToolTipText(helpMessage);
         this.toolBar.add(button);
@@ -219,8 +208,9 @@ public class Window extends JFrame {
         button.setIcon(new ImageIcon(img.getScaledInstance(64, 64, Image.SCALE_SMOOTH)));
         button.setMargin(new Insets(20, 20, 20, 20));
         //button.setBorder(BorderFactory.createEtchedBorder());
-        button.addActionListener(new ToolBarButtonActionListener(this.controller, button));
+        button.addActionListener(new ButtonActionListener(button, null));
         button.setName(buttonName);
+        button.setActionCommand(buttonName);
         //button.setBorderPainted(false);
         //button.setContentAreaFilled(false);
         button.setSelected(false);
@@ -326,12 +316,8 @@ public class Window extends JFrame {
      * @param state l'état / mode du Controller
      */
     public void setState(State state) {
-        for (Component c : this.toolBar.getComponents()) {
-            if (((JButton) c).getActionCommand().equals(state.getMode())) {
-                ((JButton) c).setSelected(true);
-            } else {
-                ((JButton) c).setSelected(false);
-            }
+        for (StateButton button : this.stateButtons) {
+            button.setSelected(button.getActionCommand().equals(state.getMode()));
         }
     }
 

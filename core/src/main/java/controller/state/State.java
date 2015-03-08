@@ -1,7 +1,7 @@
 package controller.state;
 
-import controller.listeners.ContextMenuActionListener;
 import controller.Controller;
+import controller.listeners.ButtonActionListener;
 import data.Graph;
 import view.editor.Tab;
 import view.editor.elements.ElementView;
@@ -122,7 +122,7 @@ public abstract class State {
 		JPopupMenu jpm = new JPopupMenu();
 		for(String s : menuItems){
 			JMenuItem jmi = new JMenuItem(s);
-			jmi.addActionListener(new ContextMenuActionListener(jmi, this.controller, null, position));
+			jmi.addActionListener(new ButtonActionListener(jmi, position));
 			jpm.add(jmi);
 		}
 		return jpm;

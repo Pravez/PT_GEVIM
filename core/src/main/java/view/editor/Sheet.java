@@ -220,6 +220,7 @@ public class Sheet extends JComponent implements Observer {
     public void modifySelectedElement() {
     	/// A modifier --> soit modifier tous, soit le premier qui est un VertexView
     	selectedElements.get(0).modify(this.graph);
+        this.graph.setChanged();
         this.repaint();
     }
 
@@ -235,6 +236,7 @@ public class Sheet extends JComponent implements Observer {
         this.setDefaultEdgesThickness(tpve.getTab().getDefaultEdgesThickness());
         this.setDefaultEdgesColor(tpve.getTab().getDefaultEdgesColor());
         this.setDefaultVertexesShape(tpve.getTab().getDefaultVertexesShape());
+        this.graph.setChanged();
 
         //this.tab.*******************defaultBackgroundColor                                 A faire éventuellement (changer le background complet du tab
     }

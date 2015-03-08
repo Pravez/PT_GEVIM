@@ -9,6 +9,7 @@ import controller.state.State;
 import data.Graph;
 import data.GraphElement;
 import data.Vertex;
+import view.StateButton;
 import view.editor.elements.ElementView;
 import view.Window;
 
@@ -51,6 +52,14 @@ public class Controller {
     }
 
     /**
+     * Getter de la Window du programme
+     * @return la Window
+     */
+    public Window getWindow() {
+        return this.window;
+    }
+
+    /**
      * Ajoute un nouveau {@link data.Vertex} au {@link data.Graph} en question
      *
      * @param g        Le graphe auquel le vertex doit être ajouté
@@ -77,17 +86,6 @@ public class Controller {
         ArrayList<GraphElement> tmp=  new ArrayList<>();
         tmp.add( this.window.getCurrentTab().getGraph().createEdge(this.window.getCurrentSheet().getDefaultVertexesColor(), src, dst, this.window.getCurrentSheet().getDefaultEdgesThickness()));
        // window.getUndoRedo().registerAddEdit(tmp);
-    }
-
-    /**
-     * Méthode permettant de retirer un Vertex d'un Graph
-     *
-     * @param g le Graph
-     * @param o le Vertex en Object
-     */
-    public void removeVertex(Graph g, Object o) {
-        // Non utilisée pour l'instant
-        g.getVertexes().remove(o);
     }
 
     /**
@@ -147,76 +145,9 @@ public class Controller {
         }
 
         Controller controller = new Controller();
+        ActionController.setController(controller);
         Window window = new Window(800, 640, controller);
         controller.setWindow(window);
-    }
-
-    /**
-     * Méthode appelée lorsqu'un bouton du menu a été activé par l'utilisateur, agit en fonction du bouton
-     *
-     * @param type le nom du bouton activé (sa fonction)
-     */
-    public void notifyMenuItemActivated(String type) {
-        switch (type) {
-            case "New":
-                String title = "Tab " + this.window.getTabCount();
-                title = JOptionPane.showInputDialog("Saisissez le nom du nouveau graphe :", title);
-                if ((title != null) && (!title.equals(""))) {
-                    Graph graph = addNewGraph();
-                    this.window.addNewTab(graph, title);
-                } else if ((title != null) && (title.equals(""))) {
-                    //Invitation à nommer le nouveau graphe (onglet) créé.
-                    JOptionPane.showMessageDialog(this.window, "Nom de graphe attendu.");
-                    this.notifyMenuItemActivated(type);
-                }
-                break;
-
-            case "Close":
-                this.closeWithOptions();
-
-                break;
-
-            case "to GraphML...":
-                saveFile();
-                break;
-
-            case "to GraphViz...":
-                break;
-
-            case "from GraphML...":
-                openFile();
-                break;
-
-            case "from GraphViz...":
-                break;
-
-            case "Random Positioning":
-                applyAlgorithm("random");
-                break;
-            case "Circular Positioning":
-                applyAlgorithm("circular");
-                break;
-            case "Vertex Size Coloring":
-                applyAlgorithm("color");
-                break;
-            case "Vertex Number of Edges Coloring ":
-                applyAlgorithm("number");
-                break;
-            default:
-                break;
-        }
-    }
-
-    /**
-     * Méthode appelée lorsqu'un ElementView a été sélectionné :
-     * - vide la liste des objets sélectionnés
-     * - ajoute le ElementView à la liste des ElementView sélectionnés
-     *
-     * @param selectedElement le ElementView sélectionné
-     */
-    public void notifyElementSelected(ElementView selectedElement) {
-        this.window.getCurrentSheet().clearSelectedElements();
-        this.window.getCurrentSheet().selectElement(selectedElement);
     }
 
     /**
@@ -263,74 +194,17 @@ public class Controller {
     }
 
     /**
-     * Méthode appellée lorsqu'un item d'un menu contextuel a été sollicité. Elle associé à son nom une action.
-     *
-     * @param text   le nom de l'item source
-     * @param source l'ElementView ayant activé le menu contextuel
+     * Méthode permettant de supprimer les GraphElement provenants des ElementView sélectionnés
      */
-    public void notifyContextMenuItemActivated(String text, ElementView source, Point position) {
-        switch (text) {
-            case "Edit":
-                this.window.getCurrentSheet().modifySelectedElement(); // modifier pour changer le graph directement ?
-                this.graphs.get(this.window.getCurrentTabIndex()).setChanged();
-                break;
-            case "Delete":
-                ArrayList<GraphElement> suppSelectedElements = new ArrayList<>();
-                for (ElementView e : this.window.getCurrentSheet().getSelectedElements()) {
-                    
-                    this.getGraph(this.window.getCurrentTabIndex()).removeGraphElement(e.getGraphElement());
-                    suppSelectedElements.add(e.getGraphElement());
-                }
-                window.getCurrentTab().getUndoRedo().registerSuppEdit(suppSelectedElements);
-                this.window.getCurrentSheet().clearSelectedElements();
-                break;
-            case "Copy":
-                copyElements();
-                break;
-            case "Paste":
-                pasteElements(position);
-                break;
-            case "Properties":
-                this.window.getCurrentSheet().modifyProperties(); // mettre à modifier directement le graph
-                this.graphs.get(this.window.getCurrentTabIndex()).setChanged(); // pour que ça soit automatique
-                break;
-            default:
-                break;
-        }
-        this.window.getCurrentTab().repaint();
-    }
+    public void deleteElements() {
+        ArrayList<GraphElement> suppSelectedElements = new ArrayList<>();
+        for (ElementView e : this.window.getCurrentSheet().getSelectedElements()) {
 
-    /**
-     * Méthode appelée lors d'un clic sur un bouton du JToolBar de la Window
-     *
-     * @param text le nom du bouton
-     */
-    public void notifyToolBarItemActivated(String text) {
-        switch (text) {
-            case "New":
-                String title = "Tab " + this.window.getTabCount();
-                title = JOptionPane.showInputDialog("Saisissez le nom du nouveau graphe :", title);
-                if ((title != null) && (!title.equals(""))) {
-                    Graph graph = addNewGraph();
-                    this.window.addNewTab(graph, title);
-                } else if ((title != null) && (title.equals(""))) {
-                    //Invitation à nommer le nouveau graphe (onglet) créé.
-                    JOptionPane.showMessageDialog(this.window, "Nom de graphe attendu.");
-                    this.notifyToolBarItemActivated(text);
-                }
-                break;
-            case "Open":
-                openFile();
-                break;
-            case "Copy":
-                copyElements();
-                break;
-            case "Paste":
-                pasteElements(null);
-                break;
-            default:
-                break;
+            this.getGraph(this.window.getCurrentTabIndex()).removeGraphElement(e.getGraphElement());
+            suppSelectedElements.add(e.getGraphElement());
         }
+        window.getCurrentTab().getUndoRedo().registerSuppEdit(suppSelectedElements);
+        this.window.getCurrentSheet().clearSelectedElements();
     }
 
     /**
@@ -367,12 +241,12 @@ public class Controller {
     }
 
     /**
-     * Méthode appelée lorsqu'un bouton de contexte du JToolBar de la Window est sélectionné
+     * Méthode appelée pour changer l'état du Controller
      *
-     * @param button le bouton correspondant
+     * @param command le nouvel état du Controller
      */
-    public void notifyToolBarContextActivated(JButton button) {
-    	this.state = State.changeState(State.Mode.valueOf(button.getActionCommand()), this);
+    public void changeState(String command) {
+    	this.state = State.changeState(State.Mode.valueOf(command), this);
         this.window.setState(this.state);
 
         if (this.window.getTabCount() > 0)
@@ -438,10 +312,9 @@ public class Controller {
     }
 
     /**
-     * Méthode privée appellée lors du clic sur l'item "close" d'un des menus. elle ferme soit un onglet s'il y en a d'ouverts,
-     * soit la fenetre principal s'il n'y en a pas.
+     * Méthode permettant de fermer un onglet s'il y en a d'ouverts, soit la fenetre principal s'il n'y en a pas.
      */
-    private void closeWithOptions() {
+    public void closeWithOptions() {
         //Attention, la fermeture ne libère probablement pas toute la mémoire ...
         if (this.window.getTabCount() > 0) {
             if (JOptionPane.showConfirmDialog(this.window, "Graphe non sauvegardé, souhaitez vous fermer ce graphe ?", "Fermer le graphe", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {

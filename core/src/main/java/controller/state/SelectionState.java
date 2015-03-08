@@ -1,9 +1,8 @@
 package controller.state;
 
-import controller.listeners.ContextMenuActionListener;
 import controller.Controller;
+import controller.listeners.ButtonActionListener;
 import data.Graph;
-import view.editor.Sheet;
 import view.editor.Tab;
 import view.editor.elements.ElementView;
 import view.editor.elements.VertexView;
@@ -24,11 +23,11 @@ public class SelectionState extends State {
 	 * @param position la position du PopuMenu
 	 * @return The popup menu created
 	 */
-	private JPopupMenu initElementPopupMenu(String [] menuItems, Point position, ElementView element){
+	private JPopupMenu initElementPopupMenu(String [] menuItems, Point position){
 		JPopupMenu jpm = new JPopupMenu();
 		for(String s : menuItems){
 			JMenuItem jmi = new JMenuItem(s);
-			jmi.addActionListener(new ContextMenuActionListener(jmi, this.controller, element, position));
+			jmi.addActionListener(new ButtonActionListener(jmi, position));
 			jpm.add(jmi);
 		}
 		return jpm;
@@ -61,7 +60,7 @@ public class SelectionState extends State {
 		if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
 			this.controller.notifyHandleElement(element);
 			//Création du menu contextuel avec Edit et Delete comme options.
-			JPopupMenu contextMenu = initElementPopupMenu(new String[]{"Edit", "Delete", "Copy", "Paste"}, e.getPoint(), element);
+			JPopupMenu contextMenu = initElementPopupMenu(new String[]{"Edit", "Delete", "Copy", "Paste"}, e.getPoint());
 			contextMenu.show(element, e.getX(), e.getY());
 		}
 	}
