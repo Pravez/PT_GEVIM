@@ -17,15 +17,15 @@ public class ActionController {
         ActionController.controller = controller;
     }
 
-    public static void handleButton(AbstractButton button, Point position) {
+    public static void handleButton(AbstractButton button, Point position, int tabIndex) {
         if (button.getClass() == StateButton.class) { // bouton de contrôle de l'Etat du Controller
             ActionController.controller.changeState(button.getActionCommand());
         } else { // tous les autres boutons du programme
-            handleMenuButton(button.getActionCommand(), position);
+            handleMenuButton(button.getActionCommand(), position, tabIndex);
         }
     }
 
-    private static void handleMenuButton(String type, Point position) {
+    private static void handleMenuButton(String type, Point position, int tabIndex) {
         switch (type) {
             case "New":
                 ActionController.newTab();
@@ -44,7 +44,7 @@ public class ActionController {
                 break;
 
             case "Close":
-                ActionController.closeTab();
+                ActionController.closeTab(tabIndex);
                 break;
 
             case "Open":
@@ -123,7 +123,11 @@ public class ActionController {
     }
 
     public static void closeTab() {
-        ActionController.controller.closeWithOptions();
+        ActionController.controller.closeWithOptions(ActionController.controller.getWindow().getCurrentTabIndex());
+    }
+
+    public static void closeTab(int tabIndex) {
+        ActionController.controller.closeWithOptions(tabIndex);
     }
 
     private static void edit() {

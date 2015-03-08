@@ -17,7 +17,7 @@ public class StateButton extends JButton {
         setMargin(new Insets(0, 0, 0, 0));
         setBorder(null);
         setActionCommand(actionCommand);
-        addActionListener(new ButtonActionListener(this, null));
+        addActionListener(new ButtonActionListener(this, null, 0));
         setToolTipText(helpMessage);
     }
 }

@@ -27,7 +27,7 @@ public class SelectionState extends State {
 		JPopupMenu jpm = new JPopupMenu();
 		for(String s : menuItems){
 			JMenuItem jmi = new JMenuItem(s);
-			jmi.addActionListener(new ButtonActionListener(jmi, position));
+			jmi.addActionListener(new ButtonActionListener(jmi, position, 0));
 			jpm.add(jmi);
 		}
 		return jpm;

@@ -322,13 +322,15 @@ public class Controller {
 
     /**
      * Méthode permettant de fermer un onglet s'il y en a d'ouverts, soit la fenetre principal s'il n'y en a pas.
+     *
+     * @param tabIndex l'index du Tab à fermer
      */
-    public void closeWithOptions() {
+    public void closeWithOptions(int tabIndex) {
         //Attention, la fermeture ne libère probablement pas toute la mémoire ...
         if (this.window.getTabCount() > 0) {
             if (JOptionPane.showConfirmDialog(this.window, "Graphe non sauvegardé, souhaitez vous fermer ce graphe ?", "Fermer le graphe", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
-                this.graphs.remove(this.graphs.get(this.window.getCurrentTabIndex()));
-                this.window.getTabs().removeTabAt(this.window.getCurrentTabIndex());
+                this.graphs.remove(this.graphs.get(tabIndex));
+                this.window.getTabs().removeTabAt(tabIndex);
                 if(this.window.getTabCount() == 0){
                     this.window.showStartPanel();
                 }

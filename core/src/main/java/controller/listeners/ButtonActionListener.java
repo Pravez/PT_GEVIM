@@ -14,14 +14,16 @@ public class ButtonActionListener implements ActionListener {
 
     private AbstractButton button;
     private Point          position;
+    private int            tabIndex;
 
-    public ButtonActionListener(AbstractButton button, Point position) {
-        this.button     = button;
-        this.position   = position;
+    public ButtonActionListener(AbstractButton button, Point position, int tabIndex) {
+        this.button   = button;
+        this.position = position;
+        this.tabIndex = tabIndex;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        ActionController.handleButton(this.button, this.position);
+        ActionController.handleButton(this.button, this.position, this.tabIndex);
     }
 }

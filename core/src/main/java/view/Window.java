@@ -157,7 +157,7 @@ public class Window extends JFrame {
         JMenuItem item = new JMenuItem(label);
         item.setActionCommand(label);
         menu.add(item);
-        item.addActionListener(new ButtonActionListener(item, null));
+        item.addActionListener(new ButtonActionListener(item, null, 0));
     }
 
     /**
@@ -204,10 +204,10 @@ public class Window extends JFrame {
      * @param toolBar    le toolBar qui va contenir le bouton
      * @param buttonName le nom du bouton
      */
-    private void addToolBarButton(JToolBar toolBar, String buttonName) {
+    private void addToolBarButton(JComponent toolBar, String buttonName) {
         JButton button = new JButton(buttonName);
         button.setActionCommand(buttonName);
-        button.addActionListener(new ButtonActionListener(button, null));
+        button.addActionListener(new ButtonActionListener(button, null, 0));
         button.setFocusable(false);
         toolBar.add(button);
     }
@@ -228,7 +228,7 @@ public class Window extends JFrame {
         button.setBounds(0, 0, 20, 20);
         button.setMargin(new Insets(0, 0, 0, 0));
         button.setBorder(null);
-        button.addActionListener(new ButtonActionListener(button, null));
+        button.addActionListener(new ButtonActionListener(button, null, 0));
         button.setName(buttonName);
         button.setActionCommand(buttonName);
         button.setSelected(false);
@@ -251,7 +251,7 @@ public class Window extends JFrame {
         JButton button = new JButton();
         button.setIcon(new ImageIcon(img.getScaledInstance(64, 64, Image.SCALE_SMOOTH)));
         button.setBorder(null);
-        button.addActionListener(new ButtonActionListener(button, null));
+        button.addActionListener(new ButtonActionListener(button, null, 0));
         button.setName(buttonName);
         button.setActionCommand(buttonName);
         button.setContentAreaFilled(false);
@@ -308,6 +308,27 @@ public class Window extends JFrame {
         }
 
         this.tabs.addTab(title, new Tab(graph, title, this.controller));
+        int index = this.tabs.indexOfTab(title);
+        JPanel titlePanel = new JPanel(new GridBagLayout());
+        titlePanel.setOpaque(false);
+        JButton close = new JButton("x");
+        close.setContentAreaFilled(false);
+        close.setBorder(null);
+        close.setFocusable(false);
+        close.setActionCommand("Close");
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1;
+
+        titlePanel.add(new JLabel(title), gbc);
+        titlePanel.add(Box.createHorizontalStrut(15));
+        gbc.gridx++;
+        gbc.weightx = 0;
+        titlePanel.add(close, gbc);
+        close.addActionListener(new ButtonActionListener(close, null, index));
+        this.tabs.setTabComponentAt(index, titlePanel);
     }
 
     /**
@@ -396,9 +417,5 @@ public class Window extends JFrame {
             this.tabs.setSelectedIndex(this.tabs.getTabCount() - 1);
             this.controller.getGraph(this.getCurrentTabIndex()).setChanged();
         }
-    }
-
-    public JPanel getStartPanel() {
-        return startPanel;
     }
 }
