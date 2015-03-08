@@ -192,6 +192,13 @@ public class Controller {
     }
 
     /**
+     * Méthode appelée lorsque l'on change d'onglet, donc de Tab
+     */
+    public void notifyTabChanged() {
+        this.window.getCurrentTab().getUndoRedo().refreshUndoRedo(); // on met les boutons d'undo & redo à jour
+    }
+
+    /**
      * Méthode permettant de supprimer les GraphElement provenants des ElementView sélectionnés
      */
     public void deleteElements() {

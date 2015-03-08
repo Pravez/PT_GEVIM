@@ -37,7 +37,6 @@ public class UndoPanel extends JPanel {
         undoManager_= new UndoManager();
         undoSupport_ = new UndoableEditSupport();
         undoSupport_.addUndoableEditListener(new UndoAdapter());
-        refreshUndoRedo();
     }
 
 
@@ -47,7 +46,6 @@ public class UndoPanel extends JPanel {
         undoSupport_ = new UndoableEditSupport();
         undoSupport_.addUndoableEditListener(new UndoAdapter());
         this.graph=graph;
-        refreshUndoRedo();
     }
 
     /**

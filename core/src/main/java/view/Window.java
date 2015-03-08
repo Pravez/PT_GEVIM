@@ -10,6 +10,8 @@ import view.editor.Sheet;
 import view.editor.Tab;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
@@ -54,11 +56,12 @@ public class Window extends JFrame {
         this.setFocusable(true);
         this.addKeyListener(new KeyActionListener());
 
-        //Partie undo-redo, en cours d'implémentation
-
         this.setVisible(true);
     }
 
+    /**
+     * Initialise la fenêtre d'accueil avec les boutons Nouveau et Ouvrir
+     */
     private void initStartPanel() {
         this.startPanel = new JPanel();
         this.startPanel.setBackground(null);
@@ -100,6 +103,12 @@ public class Window extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.tabs = new JTabbedPane(SwingConstants.TOP);
+        this.tabs.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                Window.this.controller.notifyTabChanged();
+            }
+        });
 
         //Icone de l'application
         //setIconImage(Toolkit.getDefaultToolkit().getImage("appIcon.png"));

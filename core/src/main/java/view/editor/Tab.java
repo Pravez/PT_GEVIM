@@ -29,7 +29,6 @@ public class Tab extends JSplitPane {
      * @param controller Un lien vers le {@link controller.Controller} pour pouvoir communiquer avec le modèle
      */
     public Tab(Graph graph, String title, Controller controller) {
-
         super(JSplitPane.HORIZONTAL_SPLIT);
 
         this.setBackground(Color.WHITE);
@@ -65,7 +64,6 @@ public class Tab extends JSplitPane {
      * @param graph Le {@link data.Graph} auquel est associé la Sheet
      */
     public void initSheet(String title, final Graph graph){
-
         sheet = new Sheet(graph, this.controller);
         graph.addObserver(sheet);
 
@@ -127,7 +125,7 @@ public class Tab extends JSplitPane {
 
         JToolBar toolBar = new JToolBar();
         toolBar.setFloatable(false);
-        undoredo=new UndoPanel(graph);
+        undoredo   = new UndoPanel(graph);
         boardPanel = new JPanel(new BorderLayout());//new GridLayout(3,1));
         boardPanel.add(toolBar);
         boardPanel.add(properties);
