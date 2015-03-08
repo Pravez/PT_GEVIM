@@ -60,19 +60,43 @@ public class Window extends JFrame {
     }
 
     /**
+     * Méthode permettant d'afficher la fenêtre d'accueil et de masquer les onglets
+     */
+    public void showStartPanel() {
+        this.back.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.weighty = 1;
+        this.back.add(this.startPanel, gbc);
+        this.tabs.setVisible(false);
+        this.startPanel.setVisible(true);
+    }
+
+    /**
+     * Méthode permettant de masquer la fenêtre d'accueil et d'afficher les onglets
+     */
+    public void hideStartPanel() {
+        this.back.setLayout(new BorderLayout());
+        this.back.add(this.tabs, BorderLayout.CENTER);
+        this.tabs.setVisible(true);
+        this.startPanel.setVisible(false);
+    }
+
+    /**
      * Initialise la fenêtre d'accueil avec les boutons Nouveau et Ouvrir
      */
     private void initStartPanel() {
         this.startPanel = new JPanel();
         this.startPanel.setBackground(null);
         addImageButtonToPanel(this.startPanel, "New", "core/assets/new-big.png", "Nouveau graphe");
+        JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
+        separator.setBackground(Color.BLACK);
+        separator.setPreferredSize(new Dimension(5, 64));
+        this.startPanel.add(Box.createHorizontalStrut(5));
+        this.startPanel.add(separator);
+        this.startPanel.add(Box.createHorizontalStrut(5));
         addImageButtonToPanel(this.startPanel, "Open", "core/assets/open-big.png", "Ouvrir un graphe");
-        this.back.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.weighty = 1;
-
-        this.back.add(this.startPanel, gbc); // gbc is containing the GridBagConstraints
+        showStartPanel();
     }
 
     /**
@@ -80,10 +104,8 @@ public class Window extends JFrame {
      */
     private void initBackPanel() {
         this.back = new JPanel();
-        this.back.setBackground(Color.GRAY);
-        this.back.setLayout(new BorderLayout());
+        this.back.setBackground(Color.WHITE);
         this.getContentPane().add(this.back);
-        this.getContentPane().setBackground(Color.GRAY);
     }
 
     /**
@@ -145,7 +167,7 @@ public class Window extends JFrame {
      * Method to init the tool menu bar (undo, redo, copy, paste...)
      */
     private void initToolMenuBar() {
-        this.toolBar = new JToolBar();
+        this.toolBar      = new JToolBar();
         this.toolBar.setFocusable(false);
         this.stateButtons = new ArrayList<StateButton>();
         this.toolBar.setFloatable(false);
@@ -203,7 +225,7 @@ public class Window extends JFrame {
      * @rturn le JButton créé
      */
     private JButton addToolBarButtonWithImage(JToolBar toolBar, String buttonName, String fileName, String helpMessage) {
-        Image img = Toolkit.getDefaultToolkit().getImage(fileName);
+        Image   img    = Toolkit.getDefaultToolkit().getImage(fileName);
         JButton button = new JButton();
         button.setIcon(new ImageIcon(img.getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
         button.setBounds(0, 0, 20, 20);
@@ -228,17 +250,14 @@ public class Window extends JFrame {
      * @param helpMessage le message d'aide du bouton
      */
     private void addImageButtonToPanel(JPanel panel, String buttonName, String fileName, String helpMessage) {
-        Image img = Toolkit.getDefaultToolkit().getImage(fileName);
+        Image   img    = Toolkit.getDefaultToolkit().getImage(fileName);
         JButton button = new JButton();
         button.setIcon(new ImageIcon(img.getScaledInstance(64, 64, Image.SCALE_SMOOTH)));
-        button.setMargin(new Insets(20, 20, 20, 20));
-        //button.setBorder(BorderFactory.createEtchedBorder());
+        button.setBorder(null);
         button.addActionListener(new ButtonActionListener(button, null));
         button.setName(buttonName);
         button.setActionCommand(buttonName);
-        //button.setBorderPainted(false);
-        //button.setContentAreaFilled(false);
-        button.setSelected(false);
+        button.setContentAreaFilled(false);
         button.setToolTipText(helpMessage);
         button.setFocusable(false);
         panel.add(button);
@@ -288,9 +307,7 @@ public class Window extends JFrame {
      */
     public void addNewTab(final Graph graph, String title) {
         if (this.tabs.getTabCount() == 0) {
-            this.back.setLayout(new BorderLayout());
-            this.back.add(this.tabs, BorderLayout.CENTER);
-            this.startPanel.setVisible(false);
+            hideStartPanel();
         }
 
         this.tabs.addTab(title, new Tab(graph, title, this.controller));

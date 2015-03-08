@@ -195,7 +195,11 @@ public class Controller {
      * Méthode appelée lorsque l'on change d'onglet, donc de Tab
      */
     public void notifyTabChanged() {
-        this.window.getCurrentTab().getUndoRedo().refreshUndoRedo(); // on met les boutons d'undo & redo à jour
+        if (this.window.getTabCount() > 0) {
+            this.window.getCurrentTab().getUndoRedo().refreshUndoRedo(); // on met les boutons d'undo & redo à jour
+        } else {
+            ActionController.refreshUndoRedo(false, false);
+        }
     }
 
     /**
@@ -326,7 +330,7 @@ public class Controller {
                 this.graphs.remove(this.graphs.get(this.window.getCurrentTabIndex()));
                 this.window.getTabs().removeTabAt(this.window.getCurrentTabIndex());
                 if(this.window.getTabCount() == 0){
-                    this.window.getStartPanel().setVisible(true);
+                    this.window.showStartPanel();
                 }
             }
         } else {

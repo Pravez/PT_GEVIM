@@ -31,7 +31,6 @@ public class Tab extends JSplitPane {
     public Tab(Graph graph, String title, Controller controller) {
         super(JSplitPane.HORIZONTAL_SPLIT);
 
-        this.setBackground(Color.WHITE);
         this.setOneTouchExpandable(true);
         this.setContinuousLayout(true);
 
