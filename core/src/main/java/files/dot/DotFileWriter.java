@@ -20,7 +20,7 @@ public class DotFileWriter {
 
     public void writeFile() throws IOException {
 
-        DotFileParser filewriter = new DotFileParser(graphDot, file);
+        DotFileParser filewriter = new DotFileParser(file);
 
         String fileHeader = "graph " + graphDot.getName() + " { \n";
         String fileFooter = "}";
@@ -37,6 +37,7 @@ public class DotFileWriter {
 
         filewriter.write(fileFooter);
 
+        filewriter.flush();
         filewriter.close();
     }
 }

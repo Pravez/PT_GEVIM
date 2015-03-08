@@ -17,8 +17,7 @@ public class Graph extends Observable {
     private ArrayList<GraphElement> elements;
 
     private String            name;
-    private String            file;
-    
+
     /**
      * Constructeur de la classe Graph
      */
@@ -174,22 +173,6 @@ public class Graph extends Observable {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     * Getter du fichier du Graph
-     * @return le nom du fichier du Graph
-     */
-    public String getFile() {
-        return this.file;
-    }
-
-    /**
-     * Setter du fichier du Graph
-     * @param file le nouveau nom du fichier du Graph
-     */
-    public void setFile(String file) {
-        this.file = file;
     }
 
     /**

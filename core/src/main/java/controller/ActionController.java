@@ -71,11 +71,11 @@ public class ActionController {
                 ActionController.redo();
                 break;
 
-            case "to GraphML...":
+            case "GraphML...":
                 ActionController.saveToGraphml();
                 break;
 
-            case "to GraphViz...":
+            case "GraphViz...":
                 ActionController.saveToGraphviz();
                 break;
 
@@ -187,7 +187,7 @@ public class ActionController {
     }
 
     private static void saveGraph() {
-        ActionController.controller.openFile(new String[]{"GraphML files (*.gml)", "DOT files (*.dot)"}, new String[]{"gml", "dot"});
+        ActionController.controller.save(new String[]{"GraphML files (*.gml)", "DOT files (*.dot)"}, new String[]{"gml", "dot"});
     }
 
     public static void applyAlgorithm(String name) {

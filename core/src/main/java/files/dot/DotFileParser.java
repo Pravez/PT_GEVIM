@@ -1,19 +1,19 @@
 package files.dot;
 
-import files.dot.elements.DotAttribute;
 import files.dot.elements.DotElement;
 import files.dot.elements.EdgeDot;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * Created by paubreton on 08/03/15.
  */
 public class DotFileParser extends FileWriter {
 
-    public DotFileParser(GraphDot graphDot, File file) throws IOException {
+    public DotFileParser(File file) throws IOException {
         super(file);
     }
 
@@ -54,12 +54,14 @@ public class DotFileParser extends FileWriter {
     public String convertAttributes(DotElement dotElement){
         StringBuilder dotAttributes = new StringBuilder();
 
+        HashMap<String, Object> attributes = dotElement.getAttributes();
+
         dotAttributes.append("[");
 
-        for(DotAttribute da : dotElement.getAttributes()){
-            dotAttributes.append(da.getAttributeName());
+        for(String s : attributes.keySet()){
+            dotAttributes.append(s);
             dotAttributes.append("=");
-            dotAttributes.append(String.valueOf(da.getAttribute()));
+            dotAttributes.append(String.valueOf(attributes.get(s)));
             dotAttributes.append(",");
         }
 

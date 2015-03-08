@@ -1,25 +1,21 @@
 package files.dot.elements;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by paubreton on 08/03/15.
  */
 public abstract class DotElement {
 
-    private ArrayList<DotAttribute> attributes;
+    private HashMap<String, Object> attributes;
     private Integer id;
 
     public DotElement(){
-        attributes = new ArrayList<>();
+        attributes = new HashMap<>();
     }
 
-    public ArrayList<DotAttribute> getAttributes() {
+    public HashMap<String, Object> getAttributes() {
         return attributes;
-    }
-
-    public void setAttributes(ArrayList<DotAttribute> attributes) {
-        this.attributes = attributes;
     }
 
     public Integer getId() {
@@ -31,6 +27,6 @@ public abstract class DotElement {
     }
 
     public void addAttribute(String attributeName, Object value){
-        attributes.add(new DotAttribute(attributeName, value));
+        attributes.put(attributeName, value);
     }
 }

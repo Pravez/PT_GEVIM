@@ -13,6 +13,14 @@ import java.awt.event.*;
  */
 public class TabPropertiesViewEditor extends JDialog {
 
+    /**
+     * A AJOUTER AUX OPTIONS MODIFIABLES
+     * -La taille de la Sheet
+     * -Le nom de la sheet et/ou du fichier
+     * -La zone d'application des algorithmes
+     *
+     */
+
     private static final long serialVersionUID = 1L;
 
     // Graphic elements and buttons
@@ -43,7 +51,6 @@ public class TabPropertiesViewEditor extends JDialog {
     private Sheet tab;
 
     public TabPropertiesViewEditor(Sheet tab) {
-        System.out.println("In constructeur");
 
         // Initialisation des attributs de propriété
         this.tab = tab;
@@ -93,6 +100,7 @@ public class TabPropertiesViewEditor extends JDialog {
         this.jl_defaultEdgesThickness = new JLabel("Edges thickness");
 
         contentLayout = new GridLayout(0,2);
+        contentPane = new JPanel();
 
         // Propriétés de la fenêtre et positionnement de ses éléments
         setTitle("Tab Properties");

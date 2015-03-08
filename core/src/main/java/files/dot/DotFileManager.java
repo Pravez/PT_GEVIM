@@ -30,4 +30,23 @@ public class DotFileManager {
             e.printStackTrace();
         }
     }
+
+    public void openDotFile(){
+
+        DotFileReader reader = new DotFileReader(fileAssociated);
+
+
+        try {
+            reader.readFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        graph = reader.getGraphDot().exportToGraph();
+
+    }
+
+    public Graph getGraph() {
+        return graph;
+    }
 }

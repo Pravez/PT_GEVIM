@@ -5,6 +5,7 @@ import controller.listeners.ButtonActionListener;
 import controller.listeners.KeyActionListener;
 import controller.state.State;
 import data.Graph;
+import files.dot.DotFileManager;
 import files.gml.GmlFileManager;
 import view.editor.Sheet;
 import view.editor.Tab;
@@ -270,20 +271,23 @@ public class Window extends JFrame {
         JMenu edition = this.addMenu("Edition");
         JMenu algorithm = this.addMenu("algorithm");
 
-        JMenu save = new JMenu("Save");
-        this.addJMenuItem(save, "to GraphML...");
-        this.addJMenuItem(save, "to GraphViz...");
+
 
         JMenu open = new JMenu("Open");
         this.addJMenuItem(open, "from GraphML...");
         this.addJMenuItem(open, "from GraphViz...");
+
+        JMenu saveas = new JMenu("Save as ...");
+        this.addJMenuItem(saveas, "GraphML...");
+        this.addJMenuItem(saveas, "GraphViz...");
 
 
         this.addJMenuItem(file, "New");
         file.add(open);
 
         file.addSeparator();
-        file.add(save);
+        this.addJMenuItem(file, "Save");
+        file.add(saveas);
 
         file.addSeparator();
         this.addJMenuItem(file, "Close");
@@ -414,6 +418,17 @@ public class Window extends JFrame {
             gmlFileManager.openGraph();
 
             this.addNewTab(this.controller.addGraph(gmlFileManager.getGraph()), gmlFileManager.getGraph().getName());
+            this.tabs.setSelectedIndex(this.tabs.getTabCount() - 1);
+            this.controller.getGraph(this.getCurrentTabIndex()).setChanged();
+        }
+    }
+
+    public void openDOT(File file) throws Exception{
+        if(file != null){
+            DotFileManager dotFileManager = new DotFileManager(null, file);
+            dotFileManager.openDotFile();
+
+            this.addNewTab(this.controller.addGraph(dotFileManager.getGraph()), dotFileManager.getGraph().getName());
             this.tabs.setSelectedIndex(this.tabs.getTabCount() - 1);
             this.controller.getGraph(this.getCurrentTabIndex()).setChanged();
         }

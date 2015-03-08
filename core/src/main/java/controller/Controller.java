@@ -328,10 +328,18 @@ public class Controller {
     public void closeWithOptions(int tabIndex) {
         //Attention, la fermeture ne libère probablement pas toute la mémoire ...
         if (this.window.getTabCount() > 0) {
-            if (JOptionPane.showConfirmDialog(this.window, "Graphe non sauvegardé, souhaitez vous fermer ce graphe ?", "Fermer le graphe", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
-                this.graphs.remove(this.graphs.get(tabIndex));
-                this.window.getTabs().removeTabAt(tabIndex);
-                if(this.window.getTabCount() == 0){
+            if(this.window.getCurrentSheet().getFile() == null) {
+                if (JOptionPane.showConfirmDialog(this.window, "Graphe non sauvegardé, souhaitez vous fermer ce graphe ?", "Fermer le graphe", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
+                    this.graphs.remove(this.graphs.get(this.window.getCurrentTabIndex()));
+                    this.window.getTabs().removeTabAt(this.window.getCurrentTabIndex());
+                    if (this.window.getTabCount() == 0) {
+                        this.window.showStartPanel();
+                    }
+                }
+            }else{
+                this.graphs.remove(this.graphs.get(this.window.getCurrentTabIndex()));
+                this.window.getTabs().removeTabAt(this.window.getCurrentTabIndex());
+                if (this.window.getTabCount() == 0) {
                     this.window.showStartPanel();
                 }
             }
@@ -420,12 +428,14 @@ public class Controller {
     public void openFile(String [] extensions, String[] descriptions){
         try {
             File file = this.chooseFile(extensions, descriptions);
+
             if(file != null) {
                 if (file.getName().contains(".gml")) {
                     this.window.openGML(file);
                 } else if (file.getName().contains(".dot")) {
-                    //this.window.getCurrentSheet().openDOT(file);
+                    this.window.openDOT(file);
                 }
+                this.window.getCurrentSheet().setFile(file.getAbsolutePath());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -442,12 +452,36 @@ public class Controller {
     public void saveFile(String[] extensions, String[] descriptions){
         try {
             File file = this.chooseFile(extensions, descriptions);
+
             if(file != null) {
                 if (file.getName().contains(".gml")) {
                     this.window.getCurrentSheet().saveToGML(file);
                 } else if (file.getName().contains(".dot")) {
                     this.window.getCurrentSheet().saveToVIZ(file);
                 }
+                this.window.getCurrentSheet().setFile(file.getAbsolutePath());
+            }
+        }catch(ArrayIndexOutOfBoundsException aioobe){
+            JOptionPane.showMessageDialog(null, "Rien à sauvegarder...", "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void save(String[] extensions, String[] descriptions) {
+        try{
+            File file;
+            if(this.window.getTabCount() > 0 && this.window.getCurrentSheet().getFile() != null ){
+                file = new File(this.window.getCurrentSheet().getFile());
+            }else{
+                file = this.chooseFile(extensions, descriptions);
+            }
+
+            if(file != null) {
+                if (file.getName().contains(".gml")) {
+                    this.window.getCurrentSheet().saveToGML(file);
+                } else if (file.getName().contains(".dot")) {
+                    this.window.getCurrentSheet().saveToVIZ(file);
+                }
+                this.window.getCurrentSheet().setFile(file.getAbsolutePath());
             }
         }catch(ArrayIndexOutOfBoundsException aioobe){
             JOptionPane.showMessageDialog(null, "Rien à sauvegarder...", "Erreur", JOptionPane.ERROR_MESSAGE);

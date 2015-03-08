@@ -12,11 +12,6 @@ public class EdgeDot extends DotElement{
         super();
     }
 
-    public EdgeDot(VertexDot origin, VertexDot destination) {
-        this.origin = origin;
-        this.destination = destination;
-    }
-
     public VertexDot getOrigin() {
         return origin;
     }
