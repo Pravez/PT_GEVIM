@@ -1,6 +1,7 @@
 package view.editor;
 
 import controller.Controller;
+import controller.listeners.KeyActionListener;
 import data.Graph;
 import undoRedo.UndoPanel;
 
@@ -128,8 +129,6 @@ public class Tab extends JSplitPane {
         JToolBar toolBar = new JToolBar();
         toolBar.setFloatable(false);
         undoredo=new UndoPanel(graph);
-        toolBar.add(undoredo.getUndo());
-        toolBar.add(undoredo.getRedo());
         boardPanel = new JPanel(new BorderLayout());//new GridLayout(3,1));
         boardPanel.add(toolBar);
         boardPanel.add(properties);

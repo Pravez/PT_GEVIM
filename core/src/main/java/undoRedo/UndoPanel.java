@@ -1,5 +1,6 @@
 package undoRedo;
 
+import controller.listeners.ButtonActionListener;
 import data.Edge;
 import data.Graph;
 import data.GraphElement;
@@ -23,48 +24,14 @@ import javax.swing.undo.UndoableEditSupport;
 public class UndoPanel extends JPanel {
 
     private Graph graph;
-    JButton undo;
-    JButton redo;
 
     UndoManager undoManager_;         // history list
     UndoableEditSupport undoSupport_; // event support
 
     /**
-     * Getter du bouton undo
-     * @return le bouton undo
-     */
-    public JButton getUndo() {
-        return undo;
-    }
-
-    /**
-     * Getter du bouton redo
-     * @return le bouton redo
-     */
-    public JButton getRedo() {
-        return redo;
-    }
-
-    /**
      * Constructeur par défaut de la classe UndoPanel
      */
     public UndoPanel( ) {
-        //Création des actions associées aux boutons
-        Action undoAction = new UndoAction();
-        Action redoAction = new RedoAction();
-        Image img = Toolkit.getDefaultToolkit().getImage("core/assets/undo.png");
-
-        //Création des boutons et associations avec les actions correspondantes
-        undo = new JButton();
-        undo.setIcon(new ImageIcon(img.getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
-
-        undo.addActionListener(undoAction);
-        redo = new JButton();
-        img = Toolkit.getDefaultToolkit().getImage("core/assets/redo.png");
-        redo.setIcon(new ImageIcon(img.getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
-
-        redo.addActionListener(redoAction);
-
         //Initialisation du module UndoRedo
         undoManager_= new UndoManager();
         undoSupport_ = new UndoableEditSupport();
@@ -74,22 +41,6 @@ public class UndoPanel extends JPanel {
 
 
     public UndoPanel(Graph graph ) {
-        //Création des actions associées aux boutons
-        Action undoAction = new UndoAction();
-        Action redoAction = new RedoAction();
-        Image img = Toolkit.getDefaultToolkit().getImage("core/assets/undo.png");
-
-        //Création des boutons et associations avec les actions correspondantes
-        undo = new JButton();
-        undo.setIcon(new ImageIcon(img.getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
-
-        undo.addActionListener(undoAction);
-        redo = new JButton();
-        img = Toolkit.getDefaultToolkit().getImage("core/assets/redo.png");
-        redo.setIcon(new ImageIcon(img.getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
-
-        redo.addActionListener(redoAction);
-
         //Initialisation du module UndoRedo
         undoManager_= new UndoManager();
         undoSupport_ = new UndoableEditSupport();
@@ -113,10 +64,10 @@ public class UndoPanel extends JPanel {
     public void refreshUndoRedo() {
 
         // refresh undo
-        undo.setEnabled(undoManager_.canUndo());
+        //undo.setEnabled(undoManager_.canUndo());
 
         // refresh redo
-        redo.setEnabled( undoManager_.canRedo() );
+        //redo.setEnabled( undoManager_.canRedo() );
     }
 
 
@@ -164,32 +115,17 @@ public class UndoPanel extends JPanel {
         UndoableEdit edit = new SuppEdit(graph, vertexes);
 
         undoSupport_.postEdit(edit);
-
     }
 
-    /**
-     * Classe action associée au bouton undo
-     */
-    private class UndoAction extends AbstractAction {
-
-        public void actionPerformed( ActionEvent evt ) {
-            undoManager_.undo();
-            refreshUndoRedo();
-        }
+    public void undo() {
+        undoManager_.undo();
+        refreshUndoRedo();
     }
 
-
-    /**
-     * Class action associée au bouton redo
-     */
-    private class RedoAction extends AbstractAction {
-
-        public void actionPerformed(ActionEvent evt ) {
-            undoManager_.redo();
-            refreshUndoRedo();
-        }
+    public void redo() {
+        undoManager_.redo();
+        refreshUndoRedo();
     }
-
 
     /**
      * Listener mettant à jour l'undoManager après chaque undo ou redo
@@ -201,8 +137,6 @@ public class UndoPanel extends JPanel {
             refreshUndoRedo();
         }
     }
-
-
 }
 
 

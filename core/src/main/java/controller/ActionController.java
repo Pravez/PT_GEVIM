@@ -59,6 +59,14 @@ public class ActionController {
                 ActionController.paste(position);
                 break;
 
+            case "Undo":
+                ActionController.undo();
+                break;
+
+            case "Redo":
+                ActionController.redo();
+                break;
+
             case "to GraphML...":
                 ActionController.saveToGraphml();
                 break;
@@ -129,8 +137,24 @@ public class ActionController {
         ActionController.controller.copyElements();
     }
 
+    public static void cut() {
+        // To-Do
+    }
+
     public static void paste(Point position) {
         ActionController.controller.pasteElements(position);
+    }
+
+    public static void undo() {
+        if (ActionController.controller.getWindow().getTabCount() != 0) {
+            ActionController.controller.getWindow().getCurrentTab().getUndoRedo().undo();
+        }
+    }
+
+    public static void redo() {
+        if (ActionController.controller.getWindow().getTabCount() != 0) {
+            ActionController.controller.getWindow().getCurrentTab().getUndoRedo().redo();
+        }
     }
 
     public static void saveToGraphml() {

@@ -2,6 +2,7 @@ package view;
 
 import controller.Controller;
 import controller.listeners.ButtonActionListener;
+import controller.listeners.KeyActionListener;
 import controller.state.State;
 import data.Graph;
 import files.GmlFileManager;
@@ -47,6 +48,9 @@ public class Window extends JFrame {
 
         tabs.setOpaque(true);
         tabs.setBackground(Color.GRAY);
+
+        this.setFocusable(true);
+        this.addKeyListener(new KeyActionListener());
 
         //Partie undo-redo, en cours d'implémentation
 
@@ -131,6 +135,7 @@ public class Window extends JFrame {
      */
     private void initToolMenuBar() {
         this.toolBar = new JToolBar();
+        this.toolBar.setFocusable(false);
         this.stateButtons = new ArrayList<StateButton>();
         this.toolBar.setFloatable(false);
 
@@ -140,6 +145,8 @@ public class Window extends JFrame {
         addToolBarStateButton(this.toolBar, "core/assets/zoom.png", State.Mode.ZOOM.name(), "Zoom");
         addToolBarButtonWithImage(this.toolBar, "Copy", "core/assets/copy.png", "Copier");
         addToolBarButtonWithImage(this.toolBar, "Paste", "core/assets/paste.png", "Coller");
+        addToolBarButtonWithImage(this.toolBar, "Undo", "core/assets/undo.png", "Annuler");
+        addToolBarButtonWithImage(this.toolBar, "Redo", "core/assets/redo.png", "Rétablir");
 
         super.getContentPane().add(this.toolBar, BorderLayout.NORTH);
     }
@@ -168,6 +175,7 @@ public class Window extends JFrame {
         JButton button = new JButton(buttonName);
         button.setActionCommand(buttonName);
         button.addActionListener(new ButtonActionListener(button, null));
+        button.setFocusable(false);
         toolBar.add(button);
     }
 
@@ -191,7 +199,8 @@ public class Window extends JFrame {
         button.setActionCommand(buttonName);
         button.setSelected(false);
         button.setToolTipText(helpMessage);
-        this.toolBar.add(button);
+        button.setFocusable(false);
+        toolBar.add(button);
     }
 
     /**
@@ -215,6 +224,7 @@ public class Window extends JFrame {
         //button.setContentAreaFilled(false);
         button.setSelected(false);
         button.setToolTipText(helpMessage);
+        button.setFocusable(false);
         panel.add(button);
     }
 
