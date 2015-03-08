@@ -3,7 +3,8 @@ package view.editor;
 import controller.Controller;
 import controller.listeners.VertexMouseListener;
 import data.*;
-import files.GmlFileManager;
+import files.dot.DotFileManager;
+import files.gml.GmlFileManager;
 import view.Observer;
 import view.editor.elements.EdgeView;
 import view.editor.elements.ElementView;
@@ -611,7 +612,7 @@ public class Sheet extends JComponent implements Observer {
 	}
 
     /**
-     * Fonction servant à sauvegarder un graphe au format GraphML à l'aide de la classe {@link files.GmlFileManager}
+     * Fonction servant à sauvegarder un graphe au format GraphML à l'aide de la classe {@link files.gml.GmlFileManager}
      * @param file Le fichier où sera enregistré le graphe (au format .gml)
      */
     public void saveToGML(File file){
@@ -621,9 +622,18 @@ public class Sheet extends JComponent implements Observer {
         }
     }
 
+    public void saveToVIZ(File dot) {
+        if(dot != null){
+            DotFileManager dotFileManager = new DotFileManager(this.graph, dot);
+            dotFileManager.saveToDotFile();
+        }
+    }
+
     public double getScale() {
         return scale;
     }
 
     public void setScale(double scale) { this.scale = scale; }
+
+
 }

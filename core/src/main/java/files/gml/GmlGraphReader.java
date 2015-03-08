@@ -1,4 +1,4 @@
-package files;
+package files.gml;
 
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;

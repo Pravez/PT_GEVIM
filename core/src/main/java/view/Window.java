@@ -5,7 +5,7 @@ import controller.listeners.ButtonActionListener;
 import controller.listeners.KeyActionListener;
 import controller.state.State;
 import data.Graph;
-import files.GmlFileManager;
+import files.gml.GmlFileManager;
 import view.editor.Sheet;
 import view.editor.Tab;
 

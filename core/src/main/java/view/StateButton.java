@@ -1,6 +1,5 @@
 package view;
 
-import controller.Controller;
 import controller.listeners.ButtonActionListener;
 
 import javax.swing.*;

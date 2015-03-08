@@ -9,7 +9,6 @@ import controller.state.State;
 import data.Graph;
 import data.GraphElement;
 import data.Vertex;
-import view.StateButton;
 import view.editor.elements.ElementView;
 import view.Window;
 
@@ -353,7 +352,7 @@ public class Controller {
                 file = new File(newFile);
             }
 
-            //Si le fichier ne possède pas la bonne extension (.gml)
+            //Si le fichier ne possède pas la bonne extension
             if (!file.getName().endsWith("." + extension)) {
                 JOptionPane.showMessageDialog(null, "Impossible d'utiliser ce format", "Erreur", JOptionPane.ERROR_MESSAGE);
                 file = null;
@@ -384,7 +383,7 @@ public class Controller {
     }
 
     /**
-     * Méthode d'ouverture d'un fichier et de lecture de ce dernier. Elle utilise de {@link files.GmlFileManager}
+     * Méthode d'ouverture d'un fichier et de lecture de ce dernier. Elle utilise de {@link files.gml.GmlFileManager}
      */
     public void openFile(){
         try {
@@ -395,11 +394,19 @@ public class Controller {
     }
 
     /**
-     * Méthode de sauvegarde d'un graphe avec écriture dans un fichier, utilisant le {@link files.GmlFileManager}
+     * Méthode de sauvegarde d'un graphe avec écriture dans un fichier, utilisant le {@link files.gml.GmlFileManager}
      */
     public void saveFile(){
         try {
             this.window.getCurrentSheet().saveToGML(this.chooseFile("gml", "GraphML files (*.gml)"));
+        }catch(ArrayIndexOutOfBoundsException aioobe){
+            JOptionPane.showMessageDialog(null, "Rien à sauvegarder...", "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void saveFileToViz(){
+        try {
+            this.window.getCurrentSheet().saveToVIZ(this.chooseFile("dot", "GraphViz files (*.dot)"));
         }catch(ArrayIndexOutOfBoundsException aioobe){
             JOptionPane.showMessageDialog(null, "Rien à sauvegarder...", "Erreur", JOptionPane.ERROR_MESSAGE);
         }

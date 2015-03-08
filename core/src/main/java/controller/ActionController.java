@@ -48,7 +48,7 @@ public class ActionController {
                 break;
 
             case "Open":
-                // TO-DO statement
+                openFromGraphml();
                 break;
 
             case "Copy":
@@ -162,7 +162,7 @@ public class ActionController {
     }
 
     public static void saveToGraphviz() {
-        //ActionController.controller.saveFile();
+        ActionController.controller.saveFileToViz();
     }
 
     public static void openFromGraphml() {

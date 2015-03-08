@@ -1,4 +1,4 @@
-package files;
+package files.gml;
 
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
@@ -77,8 +77,7 @@ public class GmlGraphWriter {
                 GMLvertex.setProperty("weight", v.getSize());
                 GMLvertex.setProperty("color", "#"+Integer.toHexString(v.getColor().getRGB()).substring(2));
                 GMLvertex.setProperty("x", v.getPosition().x);
-                GMLvertex.setProperty("y", v.getPosition().y
-                );
+                GMLvertex.setProperty("y", v.getPosition().y);
                 vertexMapping.put(v, GMLvertex);
             }
         }

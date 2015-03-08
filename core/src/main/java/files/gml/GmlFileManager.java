@@ -1,4 +1,4 @@
-package files;
+package files.gml;
 
 import data.Graph;
 
@@ -7,7 +7,7 @@ import java.io.File;
 /**
  * Created by paubreton on 23/02/15.
  * Classe permettant de gérer la lecture et l'écriture de fichiers .gml, les fichiers GraphML. Elle utilise
- * la classe {@link files.GmlGraphReader} pour lire les fichiers et la classe {@link files.GmlGraphWriter} pour
+ * la classe {@link GmlGraphReader} pour lire les fichiers et la classe {@link GmlGraphWriter} pour
  * en écrire. Elle possède un {@link data.Graph} qui sera lu ou écrit, et un {@link java.io.File}, fichier associé.
  */
 public class GmlFileManager{
@@ -27,7 +27,7 @@ public class GmlFileManager{
     }
 
     /**
-     * Méthode principale permettant la lecture d'un graphe. Elle appelle et utilise les méthodes de {@link files.GmlGraphReader},
+     * Méthode principale permettant la lecture d'un graphe. Elle appelle et utilise les méthodes de {@link GmlGraphReader},
      * et en récupère les données.
      */
     public void openGraph() throws Exception{
@@ -41,7 +41,7 @@ public class GmlFileManager{
     }
 
     /**
-     * Méthode principale d'écriture d'un graphe dans un fichier GML. Elle passe les données à la classe {@link files.GmlGraphWriter}
+     * Méthode principale d'écriture d'un graphe dans un fichier GML. Elle passe les données à la classe {@link GmlGraphWriter}
      * et cette dernière se charge de les écrire.
      */
     public void saveGraph(){
