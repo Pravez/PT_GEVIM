@@ -107,10 +107,10 @@ public class ActionController {
     public static void newTab() {
         String title = "Tab " + ActionController.controller.getWindow().getTabCount();
         title = JOptionPane.showInputDialog("Saisissez le nom du nouveau graphe :", title);
-        if ((title != null) && (!title.equals(""))) {
+        if (title != null && !title.equals("")) {
             Graph graph = ActionController.controller.addNewGraph();
             ActionController.controller.getWindow().addNewTab(graph, title);
-        } else if ((title != null) && (title.equals(""))) {
+        } else if (title != null && title.equals("")) {
             //Invitation à nommer le nouveau graphe (onglet) créé.
             JOptionPane.showMessageDialog(ActionController.controller.getWindow(), "Nom de graphe attendu.");
             newTab();
@@ -175,5 +175,10 @@ public class ActionController {
 
     public static void applyAlgorithm(String name) {
         ActionController.controller.applyAlgorithm(name);
+    }
+
+    public static void refreshUndoRedo(boolean undoEnable, boolean redoEnable) {
+        ActionController.controller.getWindow().setUndoEnable(undoEnable);
+        ActionController.controller.getWindow().setRedoEnable(redoEnable);
     }
 }

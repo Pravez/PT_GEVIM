@@ -1,5 +1,6 @@
 package undoRedo;
 
+import controller.ActionController;
 import controller.listeners.ButtonActionListener;
 import data.Edge;
 import data.Graph;
@@ -62,12 +63,7 @@ public class UndoPanel extends JPanel {
      * Action appelée après chaque action d'undo/redo. Elle met notamment à jour la disponibilité des boutons
      */
     public void refreshUndoRedo() {
-
-        // refresh undo
-        //undo.setEnabled(undoManager_.canUndo());
-
-        // refresh redo
-        //redo.setEnabled( undoManager_.canRedo() );
+        ActionController.refreshUndoRedo(undoManager_.canUndo(), undoManager_.canRedo());
     }
 
 
@@ -118,13 +114,17 @@ public class UndoPanel extends JPanel {
     }
 
     public void undo() {
-        undoManager_.undo();
-        refreshUndoRedo();
+        if (undoManager_.canUndo()) {
+            undoManager_.undo();
+            refreshUndoRedo();
+        }
     }
 
     public void redo() {
-        undoManager_.redo();
-        refreshUndoRedo();
+        if (undoManager_.canRedo()) {
+            undoManager_.redo();
+            refreshUndoRedo();
+        }
     }
 
     /**

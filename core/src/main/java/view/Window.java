@@ -29,6 +29,8 @@ public class Window extends JFrame {
     private JTabbedPane            tabs;
     private JToolBar               toolBar;
     private ArrayList<StateButton> stateButtons;
+    private JButton                undoButton;
+    private JButton                redoButton;
 
     private JPanel                 startPanel;
 
@@ -145,8 +147,11 @@ public class Window extends JFrame {
         addToolBarStateButton(this.toolBar, "core/assets/zoom.png", State.Mode.ZOOM.name(), "Zoom");
         addToolBarButtonWithImage(this.toolBar, "Copy", "core/assets/copy.png", "Copier");
         addToolBarButtonWithImage(this.toolBar, "Paste", "core/assets/paste.png", "Coller");
-        addToolBarButtonWithImage(this.toolBar, "Undo", "core/assets/undo.png", "Annuler");
-        addToolBarButtonWithImage(this.toolBar, "Redo", "core/assets/redo.png", "Rétablir");
+        this.undoButton = addToolBarButtonWithImage(this.toolBar, "Undo", "core/assets/undo.png", "Annuler");
+        this.redoButton = addToolBarButtonWithImage(this.toolBar, "Redo", "core/assets/redo.png", "Rétablir");
+
+        this.undoButton.setEnabled(false);
+        this.redoButton.setEnabled(false);
 
         super.getContentPane().add(this.toolBar, BorderLayout.NORTH);
     }
@@ -186,8 +191,9 @@ public class Window extends JFrame {
      * @param buttonName  Le nom du bouton
      * @param fileName    Le lien vers l'image du bouton
      * @param helpMessage le message d'aide du bouton
+     * @rturn le JButton créé
      */
-    private void addToolBarButtonWithImage(JToolBar toolBar, String buttonName, String fileName, String helpMessage) {
+    private JButton addToolBarButtonWithImage(JToolBar toolBar, String buttonName, String fileName, String helpMessage) {
         Image img = Toolkit.getDefaultToolkit().getImage(fileName);
         JButton button = new JButton();
         button.setIcon(new ImageIcon(img.getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
@@ -201,6 +207,7 @@ public class Window extends JFrame {
         button.setToolTipText(helpMessage);
         button.setFocusable(false);
         toolBar.add(button);
+        return button;
     }
 
     /**
@@ -329,6 +336,22 @@ public class Window extends JFrame {
         for (StateButton button : this.stateButtons) {
             button.setSelected(button.getActionCommand().equals(state.getMode()));
         }
+    }
+
+    /**
+     * Méthode permettant d'activer ou de désactiver le bouton Annuler
+     * @param enable l'état d'activation
+     */
+    public void setUndoEnable(boolean enable) {
+        this.undoButton.setEnabled(enable);
+    }
+
+    /**
+     * Méthode permettant d'activer ou de désactiver le bouton Rétablir
+     * @param enable l'état d'activation
+     */
+    public void setRedoEnable(boolean enable) {
+        this.redoButton.setEnabled(enable);
     }
 
     /**
