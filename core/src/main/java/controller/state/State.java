@@ -18,7 +18,7 @@ public abstract class State {
 	protected boolean    dragging;
 	protected Point      sourceDrag;
 
-    public enum Mode { SELECTION, CREATION, ZOOM };
+    public enum Mode { SELECTION, CREATION, ZOOM }
 	/**
 	 * Constructeur de la classe State
 	 * @param controller le controller principal de l'application

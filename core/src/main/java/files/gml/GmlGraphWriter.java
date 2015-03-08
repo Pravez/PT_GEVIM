@@ -1,6 +1,5 @@
 package files.gml;
 
-import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
 import com.tinkerpop.blueprints.util.io.graphml.GraphMLTokens;
@@ -25,7 +24,6 @@ public class GmlGraphWriter {
     private TinkerGraph gmlGraph;
     private GraphMLWriter gmlWriter;
     private File file;
-
 
     /**
      * Constructeur de la classe
@@ -91,7 +89,7 @@ public class GmlGraphWriter {
                 e.setLabel("edge"+e.getValue());
             }
 
-            Edge GMLedge = gmlGraph.addEdge(null, vertexMapping.get(origin), vertexMapping.get(destination), e.getLabel());
+            gmlGraph.addEdge(null, vertexMapping.get(origin), vertexMapping.get(destination), e.getLabel());
 
         }
 
@@ -106,12 +104,8 @@ public class GmlGraphWriter {
         FileOutputStream out;
 
         try {
-
             out = new FileOutputStream(this.file);
-            gmlWriter.outputGraph(gmlGraph, out);
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            GraphMLWriter.outputGraph(gmlGraph, out);
 
         } catch (IOException e) {
             e.printStackTrace();

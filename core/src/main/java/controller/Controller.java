@@ -132,7 +132,7 @@ public class Controller {
     /**
      * Main du logiciel de visualisation de graphes
      *
-     * @param args
+     * @param args arguments du main
      */
     public static void main(String[] args) {
 
@@ -168,7 +168,7 @@ public class Controller {
      * - si l'élément n'est pas dans la sélection, on vide les ElementView sélectionné et on met le nouveau ElementView
      * - sinon on ne fait rien
      *
-     * @param selectedElement
+     * @param selectedElement l'ElementView sélectionné
      */
     public void notifyHandleElement(ElementView selectedElement) {
         if (!this.window.getCurrentSheet().getSelectedElements().contains(selectedElement)) {

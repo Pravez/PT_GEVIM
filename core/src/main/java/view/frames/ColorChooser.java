@@ -12,12 +12,7 @@ import java.awt.event.*;
 public class ColorChooser extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel        contentPane;
-    private JPanel        colorPane;
-    private JPanel        buttonsPane;
     private JColorChooser colorChooser;
-    private JButton       buttonOK;
-    private JButton       buttonCancel;
     private Color         currentColor;
 
     /**
@@ -27,7 +22,6 @@ public class ColorChooser extends JDialog {
     public ColorChooser(Color bg) {
         initComponents(bg);
 
-        getRootPane().setDefaultButton(this.buttonOK);
         this.setModal(true);
         this.pack();
         this.setVisible(true);
@@ -40,9 +34,9 @@ public class ColorChooser extends JDialog {
     public void initComponents(Color bg) {
         this.setTitle("Color chooser");
 
-        this.contentPane = new JPanel();
-        this.buttonsPane = new JPanel(new GridLayout(1,2));
-        this.colorPane   = new JPanel();
+        JPanel contentPane = new JPanel();
+        JPanel buttonsPane = new JPanel(new GridLayout(1,2));
+        JPanel colorPane   = new JPanel();
 
         this.setContentPane(contentPane);
 
@@ -51,22 +45,22 @@ public class ColorChooser extends JDialog {
         this.currentColor = bg;
 
 
-        this.buttonOK     = new JButton("Ok");
-        this.buttonCancel = new JButton("Cancel");
+        JButton buttonOK     = new JButton("Ok");
+        JButton buttonCancel = new JButton("Cancel");
 
-        this.contentPane.add(this.colorPane);
-        this.contentPane.add(this.buttonsPane);
-        this.colorPane.add(this.colorChooser);
-        this.buttonsPane.add(this.buttonOK);
-        this.buttonsPane.add(this.buttonCancel);
+        contentPane.add(colorPane);
+        contentPane.add(buttonsPane);
+        colorPane.add(this.colorChooser);
+        buttonsPane.add(buttonOK);
+        buttonsPane.add(buttonCancel);
 
-        this.buttonOK.addActionListener(new ActionListener() {
+        buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
             }
         });
 
-        this.buttonCancel.addActionListener(new ActionListener() {
+        buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
@@ -81,11 +75,13 @@ public class ColorChooser extends JDialog {
         });
 
         // call onCancel() on ESCAPE
-        this.contentPane.registerKeyboardAction(new ActionListener() {
+        contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        getRootPane().setDefaultButton(buttonOK);
     }
 
     /**

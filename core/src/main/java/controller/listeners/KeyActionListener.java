@@ -13,7 +13,7 @@ public class KeyActionListener extends KeyAdapter {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.isControlDown()) {
-            switch(e.getKeyText(e.getKeyCode())) {
+            switch(KeyEvent.getKeyText(e.getKeyCode())) {
                 case "C" :
                     ActionController.copy();
                     break;

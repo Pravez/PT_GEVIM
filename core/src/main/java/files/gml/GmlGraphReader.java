@@ -24,7 +24,6 @@ public class GmlGraphReader {
     private Graph graph;
     private TinkerGraph gmlGraph;
     private File file;
-    private GraphMLReader gmlReader;
 
     /**
      * Constructeur de la classe.
@@ -34,7 +33,7 @@ public class GmlGraphReader {
         this.file = file;
         this.graph = null;
         this.gmlGraph = new TinkerGraph();
-        this.gmlReader = new GraphMLReader(gmlGraph);
+        new GraphMLReader(gmlGraph);
     }
 
     /**
@@ -44,7 +43,7 @@ public class GmlGraphReader {
     public void readFile(){
 
         try {
-            gmlReader.inputGraph(gmlGraph, String.valueOf(this.file));
+            GraphMLReader.inputGraph(gmlGraph, String.valueOf(this.file));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,8 +52,7 @@ public class GmlGraphReader {
     /**
      * Méthode de création du {@link data.Graph} associé aux données qui ont pu être récupérées du fichier.
      */
-    public void createGraph() throws Exception{
-
+    public void createGraph() {
         this.graph = new Graph();
         ArrayList<GraphElement> graphElements = new ArrayList<>();
         HashMap<Vertex, data.Vertex> vertices = new HashMap<>();
@@ -78,10 +76,7 @@ public class GmlGraphReader {
 
         }
 
-
-
         this.graph.addGraphElements(graphElements);
-
     }
 
     /**

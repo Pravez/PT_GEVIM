@@ -1,7 +1,6 @@
 package controller.listeners;
 
 import controller.ActionController;
-import controller.Controller;
 
 import javax.swing.*;
 import java.awt.*;

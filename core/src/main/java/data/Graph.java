@@ -28,7 +28,7 @@ public class Graph extends Observable {
 
     /**
      * Constructeur par copie de la classe Graph
-     * @param g
+     * @param g le Graph à copier
      */
     public Graph(Graph g) {
     	this.elements = new ArrayList<GraphElement>(g.elements);
@@ -103,15 +103,15 @@ public class Graph extends Observable {
     			break;
     		}
     	}
-    	for (int i = 0 ; i < elements.size() ; i++) {
-    		new_elements.add(null);
-    		if (elements.get(i).isVertex()) {
-    			min.x = ((Vertex)elements.get(i)).getPosition().x < min.x ? ((Vertex)elements.get(i)).getPosition().x : min.x;
-    			min.y = ((Vertex)elements.get(i)).getPosition().y < min.y ? ((Vertex)elements.get(i)).getPosition().y : min.y;
-    			max.x = ((Vertex)elements.get(i)).getPosition().x > max.x ? ((Vertex)elements.get(i)).getPosition().x : max.x;
-    			max.y = ((Vertex)elements.get(i)).getPosition().y > max.y ? ((Vertex)elements.get(i)).getPosition().y : max.y;
-    		}
-    	}
+        for (GraphElement element : elements) {
+            new_elements.add(null);
+            if (element.isVertex()) {
+                min.x = ((Vertex) element).getPosition().x < min.x ? ((Vertex) element).getPosition().x : min.x;
+                min.y = ((Vertex) element).getPosition().y < min.y ? ((Vertex) element).getPosition().y : min.y;
+                max.x = ((Vertex) element).getPosition().x > max.x ? ((Vertex) element).getPosition().x : max.x;
+                max.y = ((Vertex) element).getPosition().y > max.y ? ((Vertex) element).getPosition().y : max.y;
+            }
+        }
     	// on ajoute tous les sommets dans la liste des nouveaux GraphElement
     	for (int i = 0 ; i < elements.size() ; i++) {
     		if (elements.get(i).isVertex()) {

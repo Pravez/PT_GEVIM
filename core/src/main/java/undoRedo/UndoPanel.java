@@ -1,14 +1,11 @@
 package undoRedo;
 
 import controller.ActionController;
-import controller.listeners.ButtonActionListener;
 import data.Edge;
 import data.Graph;
 import data.GraphElement;
 import data.Vertex;
 
-import java.awt.*;
-import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.event.UndoableEditEvent;

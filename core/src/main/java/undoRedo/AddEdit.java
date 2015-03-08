@@ -23,7 +23,6 @@ public class AddEdit extends AbstractUndoableEdit{
         graph=model;
 
         this.elements = elements;
-
     }
 
     /**

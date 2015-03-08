@@ -29,7 +29,6 @@ public class Window extends JFrame {
 
     /* tabs, ensemble des onglets */
     private JTabbedPane            tabs;
-    private JToolBar               toolBar;
     private ArrayList<StateButton> stateButtons;
     private JButton                undoButton;
     private JButton                redoButton;
@@ -122,7 +121,7 @@ public class Window extends JFrame {
         this.setSize(width, height);
         this.setMinimumSize(new Dimension(width, height));
         this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         this.tabs = new JTabbedPane(SwingConstants.TOP);
         this.tabs.addChangeListener(new ChangeListener() {
@@ -153,38 +152,36 @@ public class Window extends JFrame {
      *
      * @param menu  menu to add the item
      * @param label label of the item
-     * @return the JMenuItem created
      */
-    private JMenuItem addJMenuItem(JMenu menu, String label) {
+    private void addJMenuItem(JMenu menu, String label) {
         JMenuItem item = new JMenuItem(label);
         item.setActionCommand(label);
         menu.add(item);
         item.addActionListener(new ButtonActionListener(item, null));
-        return item;
     }
 
     /**
      * Method to init the tool menu bar (undo, redo, copy, paste...)
      */
     private void initToolMenuBar() {
-        this.toolBar      = new JToolBar();
-        this.toolBar.setFocusable(false);
+        JToolBar toolBar      = new JToolBar();
+        toolBar.setFocusable(false);
         this.stateButtons = new ArrayList<StateButton>();
-        this.toolBar.setFloatable(false);
+        toolBar.setFloatable(false);
 
-        addToolBarButtonWithImage(this.toolBar, "New", "core/assets/new.png", "Nouveau graphe");
-        addToolBarStateButton(this.toolBar, "core/assets/cursor.png", State.Mode.SELECTION.name(), "Mode édition");
-        addToolBarStateButton(this.toolBar, "core/assets/edit.png", State.Mode.CREATION.name(), "Mode création");
-        addToolBarStateButton(this.toolBar, "core/assets/zoom.png", State.Mode.ZOOM.name(), "Zoom");
-        addToolBarButtonWithImage(this.toolBar, "Copy", "core/assets/copy.png", "Copier");
-        addToolBarButtonWithImage(this.toolBar, "Paste", "core/assets/paste.png", "Coller");
-        this.undoButton = addToolBarButtonWithImage(this.toolBar, "Undo", "core/assets/undo.png", "Annuler");
-        this.redoButton = addToolBarButtonWithImage(this.toolBar, "Redo", "core/assets/redo.png", "Rétablir");
+        addToolBarButtonWithImage(toolBar, "New", "core/assets/new.png", "Nouveau graphe");
+        addToolBarStateButton(toolBar, "core/assets/cursor.png", State.Mode.SELECTION.name(), "Mode édition");
+        addToolBarStateButton(toolBar, "core/assets/edit.png", State.Mode.CREATION.name(), "Mode création");
+        addToolBarStateButton(toolBar, "core/assets/zoom.png", State.Mode.ZOOM.name(), "Zoom");
+        addToolBarButtonWithImage(toolBar, "Copy", "core/assets/copy.png", "Copier");
+        addToolBarButtonWithImage(toolBar, "Paste", "core/assets/paste.png", "Coller");
+        this.undoButton = addToolBarButtonWithImage(toolBar, "Undo", "core/assets/undo.png", "Annuler");
+        this.redoButton = addToolBarButtonWithImage(toolBar, "Redo", "core/assets/redo.png", "Rétablir");
 
         this.undoButton.setEnabled(false);
         this.redoButton.setEnabled(false);
 
-        super.getContentPane().add(this.toolBar, BorderLayout.NORTH);
+        super.getContentPane().add(toolBar, BorderLayout.NORTH);
     }
 
     /**
@@ -222,7 +219,7 @@ public class Window extends JFrame {
      * @param buttonName  Le nom du bouton
      * @param fileName    Le lien vers l'image du bouton
      * @param helpMessage le message d'aide du bouton
-     * @rturn le JButton créé
+     * @return le JButton créé
      */
     private JButton addToolBarButtonWithImage(JToolBar toolBar, String buttonName, String fileName, String helpMessage) {
         Image   img    = Toolkit.getDefaultToolkit().getImage(fileName);

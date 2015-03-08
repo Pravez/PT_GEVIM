@@ -203,7 +203,7 @@ public class VertexView extends ElementView {
 
     /**
      * Getter permettant de récupérer le {@link data.Vertex} associé au VertexView
-     * @return
+     * @return le Vertex associé au VertexView
      */
     public Vertex getVertex() {
         return vertex;
@@ -211,7 +211,7 @@ public class VertexView extends ElementView {
 
     /**
      * Méthode renvoyant le {@link data.Vertex} mais au format d'un {@link data.GraphElement}
-     * @return
+     * @return le GraphElement associé au VertexView
      */
 	@Override
 	public GraphElement getGraphElement() {

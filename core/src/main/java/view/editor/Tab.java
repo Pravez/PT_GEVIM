@@ -45,12 +45,12 @@ public class Tab extends JSplitPane {
             @Override
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
-                resize(e);
+                resize();
             }
         });
     }
 
-    private void resize(ComponentEvent e) {
+    private void resize() {
         double dividerLocation = 0.75;
         this.setDividerLocation(dividerLocation);
         int map_size = (int) ((1.0 - dividerLocation) * this.getWidth());
@@ -167,10 +167,11 @@ public class Tab extends JSplitPane {
 
     /**
      * Getter d'undoRedo
-     *
      * @return undoredo
      */
     public UndoPanel getUndoRedo() {
         return this.undoredo;
     }
+
+    public PropertyPanel getProperties() { return this.properties; }
 }
