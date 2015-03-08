@@ -6,16 +6,13 @@ import undoRedo.UndoPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
+import java.awt.event.*;
 
 /**
  * Created by paubreton on 03/03/15.
  * Classe contenant la feuille de dessin et tout ce qui lui est associé, un {@link view.editor.PropertyPanel} et un {@link Sheet}
  */
-public class Tab extends JSplitPane{
+public class Tab extends JSplitPane {
 
     private Controller    controller;
     private JPanel        boardPanel;
@@ -46,6 +43,20 @@ public class Tab extends JSplitPane{
 
         this.setLeftComponent(this.scrollPane);
         this.setRightComponent(this.boardPanel);
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                resize(e);
+            }
+        });
+    }
+
+    private void resize(ComponentEvent e) {
+        double dividerLocation = 0.75;
+        this.setDividerLocation(dividerLocation);
+        int map_size = (int) ((1.0 - dividerLocation) * this.getWidth());
+        this.minimap.setPreferredSize(new Dimension(map_size, map_size));
     }
 
     /**
@@ -106,23 +117,23 @@ public class Tab extends JSplitPane{
      */
     public void initBoardPanel(Graph graph){
         properties = new PropertyPanel(this.sheet);
-        properties.setPreferredSize(new Dimension(300, this.getHeight()));
+        //properties.setPreferredSize(new Dimension(300, this.getHeight()));
 
-        minimap = new MiniMap(sheet.getPreferredSize().width/5, sheet.getPreferredSize().height/5, scrollPane, sheet);
+        minimap = new MiniMap(scrollPane, sheet);
         minimap.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         scrollPane.getHorizontalScrollBar().addAdjustmentListener(minimap);
         scrollPane.getVerticalScrollBar().addAdjustmentListener(minimap);
         graph.addObserver(minimap);
 
         JToolBar toolBar = new JToolBar();
-        toolBar.setFloatable(true);
+        toolBar.setFloatable(false);
         undoredo=new UndoPanel(graph);
         toolBar.add(undoredo.getUndo());
         toolBar.add(undoredo.getRedo());
-        boardPanel = new JPanel(new GridLayout(3,1));
+        boardPanel = new JPanel(new BorderLayout());//new GridLayout(3,1));
         boardPanel.add(toolBar);
         boardPanel.add(properties);
-        boardPanel.add(minimap);
+        boardPanel.add(minimap, BorderLayout.PAGE_END);
         this.add(boardPanel);
     }
 
