@@ -404,11 +404,11 @@ public class Controller {
      */
     public void applyAlgorithm(String type){
         switch(type) {
-            case "random":
+            case "Random Positioning":
                 new RandomPositioning(window.getCurrentSheetViewPort().getViewPosition(), window.getCurrentSheetViewPort().getExtentSize()).run(window.getCurrentTab().getGraph());
                 //remplacer window.getCurrentSheetViewPort().getExtentSize()) par window.getCurrentSheetViewPort().getViewSize() pour l'application de l'algoritme
                 break;
-            case "circular":
+            case "Circular Positioning":
                 new CircularPositioning(window.getCurrentSheetViewPort().getViewPosition(), window.getCurrentSheetViewPort().getExtentSize()).run(window.getCurrentTab().getGraph());
                 break;
             case "color":

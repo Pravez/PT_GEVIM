@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 /**
  * @author Alexis Dufrenne
- * Classe Window gérant la fenêtre principale de l'application. C'est la Vue principale du pattern MVC, 
+ * Classe Window gérant la fenêtre principale de l'application. C'est la Vue principale du pattern MVC,
  * elle interagit avec l'utilisateur.
  */
 public class Window extends JFrame {
@@ -284,9 +284,6 @@ public class Window extends JFrame {
 
         JMenu file = this.addMenu("File");
         JMenu edition = this.addMenu("Edition");
-        JMenu algorithm = this.addMenu("algorithm");
-
-
 
         JMenu open = new JMenu("Open");
         this.addJMenuItem(open, "from GraphML...");
@@ -312,10 +309,13 @@ public class Window extends JFrame {
         this.addJMenuItem(edition, "Copy");
         this.addJMenuItem(edition, "Paste");
 
+        this.addJMenuItem(edition, "Algorithms");
+
+        /*
         this.addJMenuItem(algorithm, "Random Positioning");
         this.addJMenuItem(algorithm, "Circular Positioning");
         this.addJMenuItem(algorithm, "Vertex Size Coloring");
-        this.addJMenuItem(algorithm, "Vertex Number of Edges Coloring ");
+        this.addJMenuItem(algorithm, "Vertex Number of Edges Coloring ");*/
     }
 
     /**
@@ -455,5 +455,14 @@ public class Window extends JFrame {
             this.tabs.setSelectedIndex(this.tabs.getTabCount() - 1);
             this.controller.getGraph(this.getCurrentTabIndex()).setChanged();
         }
+    }
+
+    /**
+     *
+     */
+    public void callAlgoToolBox(){
+        AlgorithmSelector al = new AlgorithmSelector();
+        String selectedAlgorithm = (String)al.getSelectedAlgorithm();
+        controller.applyAlgorithm(selectedAlgorithm);
     }
 }

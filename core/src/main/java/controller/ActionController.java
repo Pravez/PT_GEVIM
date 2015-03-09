@@ -87,7 +87,7 @@ public class ActionController {
                 ActionController.openFromGraphviz();
                 break;
 
-            case "Random Positioning":
+          /*  case "Random Positioning":
                 ActionController.applyAlgorithm("random");
                 break;
 
@@ -101,11 +101,17 @@ public class ActionController {
 
             case "Vertex Number of Edges Coloring ":
                 ActionController.applyAlgorithm("number");
-                break;
+                break;*/
+            case "Algorithms":
+                ActionController.callAlgorithmsToolBox();
 
             default:
                 break;
         }
+    }
+
+    private static void callAlgorithmsToolBox() {
+        ActionController.controller.getWindow().callAlgoToolBox();
     }
 
     public static void newTab() {
