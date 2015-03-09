@@ -220,7 +220,7 @@ public class Controller {
      * Méthode permettant de créer une copie des GraphElement provenants des ElementView sélectionnés
      */
     public void copyElements() {
-        if (!this.copiedElements.isEmpty()) {
+        if (!this.window.getCurrentSheet().getSelectedElements().isEmpty()) {
             copiedElements.clear();
             // on récupère les GraphElement sélectionnés dans le Tab
             for (ElementView elementView : this.window.getCurrentSheet().getSelectedElements()) {
