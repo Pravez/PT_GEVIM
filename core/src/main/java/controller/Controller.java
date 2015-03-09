@@ -144,7 +144,7 @@ public class Controller {
 
         Controller controller = new Controller();
         ActionController.setController(controller);
-        Window window = new Window(800, 640, controller);
+        Window window = new Window(1600, 900, controller);
         controller.setWindow(window);
     }
 

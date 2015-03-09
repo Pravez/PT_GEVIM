@@ -35,13 +35,13 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
 	 * @param sheet la Sheet, feuillde de dessin du Tab actuel
 	 */
     public MiniMap(ScrollPane pane, Sheet sheet) {
-        this.pane     = pane;
-        this.sheet    = sheet;
-        this.edges    = new ArrayList<EdgeView>();
-        this.vertexes = new ArrayList<VertexView>();
+        this.pane                 = pane;
+        this.sheet                = sheet;
+        this.edges                = new ArrayList<EdgeView>();
+        this.vertexes             = new ArrayList<VertexView>();
 
-        this.selectionColor           = new Color(172, 211, 244);
-        this.selectionBorderColor     = new Color(107, 153, 189);
+        this.selectionColor       = new Color(172, 211, 244);
+        this.selectionBorderColor = new Color(107, 153, 189);
         updateSelectionZone();
         this.addMouseListener(new MouseAdapter() {
             @Override

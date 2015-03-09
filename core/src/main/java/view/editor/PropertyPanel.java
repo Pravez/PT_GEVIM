@@ -58,10 +58,15 @@ public class PropertyPanel extends JTabbedPane implements Observer {
         vertexPropertyTable.setFillsViewportHeight(true);
         edgePropertyTable.setFillsViewportHeight(true);
 
+        vertexPropertyTable.setFocusable(false);
+        edgePropertyTable.setFocusable(false);
+
         vertexScrollPane = new JScrollPane(vertexPropertyTable);
         vertexScrollPane.setPreferredSize(new Dimension(200, this.getHeight()));
+        vertexScrollPane.setFocusable(false);
         edgeScrollPane = new JScrollPane(edgePropertyTable);
         edgeScrollPane.setPreferredSize(new Dimension(200, this.getHeight()));
+        edgeScrollPane.setFocusable(false);
 
         vertexPropertyTable.getModel().addTableModelListener(new TableModelListener() {
             @Override
