@@ -220,13 +220,15 @@ public class Controller {
      * Méthode permettant de créer une copie des GraphElement provenants des ElementView sélectionnés
      */
     public void copyElements() {
-        copiedElements.clear();
-        // on récupère les GraphElement sélectionnés dans le Tab
-        for (ElementView elementView : this.window.getCurrentSheet().getSelectedElements()) {
-            copiedElements.add(elementView.getGraphElement());
+        if (!this.copiedElements.isEmpty()) {
+            copiedElements.clear();
+            // on récupère les GraphElement sélectionnés dans le Tab
+            for (ElementView elementView : this.window.getCurrentSheet().getSelectedElements()) {
+                copiedElements.add(elementView.getGraphElement());
+            }
+            // on crée une copie de ces GraphElements
+            copiedElements = Graph.copyGraphElements(this.copiedElements);
         }
-        // on crée une copie de ces GraphElements
-        copiedElements = Graph.copyGraphElements(this.copiedElements);
     }
 
     /**
@@ -235,18 +237,19 @@ public class Controller {
      * @param position la position de la souris pour positionner les GraphElement copiés
      */
     public void pasteElements(Point position) {
-        ArrayList<GraphElement> newElements;
-        if (position != null) {
-            newElements = Graph.copyGraphElements(this.copiedElements, position);
+        if (!this.copiedElements.isEmpty()) {
+            ArrayList<GraphElement> newElements;
+            if (position != null) {
+                newElements = Graph.copyGraphElements(this.copiedElements, position);
 
-            this.graphs.get(this.window.getCurrentTabIndex()).addGraphElements(newElements);
-        } else {
-            newElements = Graph.copyGraphElements(this.copiedElements);
+                this.graphs.get(this.window.getCurrentTabIndex()).addGraphElements(newElements);
+            } else {
+                newElements = Graph.copyGraphElements(this.copiedElements);
 
-            this.graphs.get(this.window.getCurrentTabIndex()).addGraphElements(newElements);
+                this.graphs.get(this.window.getCurrentTabIndex()).addGraphElements(newElements);
+            }
+            window.getCurrentTab().getUndoRedo().registerAddEdit(newElements);
         }
-        window.getCurrentTab().getUndoRedo().registerAddEdit(newElements);
-
     }
 
     /**

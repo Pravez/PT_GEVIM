@@ -159,9 +159,9 @@ public class Window extends JFrame {
      * @param menu  menu to add the item
      * @param label label of the item
      */
-    private void addJMenuItem(JMenu menu, String label) {
+    private void addJMenuItem(JMenu menu, String label, String action) {
         JMenuItem item = new JMenuItem(label);
-        item.setActionCommand(label);
+        item.setActionCommand(action);
         menu.add(item);
         item.addActionListener(new ButtonActionListener(item, null, 0));
     }
@@ -286,30 +286,30 @@ public class Window extends JFrame {
         JMenu edition = this.addMenu("Edition");
 
         JMenu open = new JMenu("Open");
-        this.addJMenuItem(open, "from GraphML...");
-        this.addJMenuItem(open, "from GraphViz...");
+        this.addJMenuItem(open, "from GraphML...", "from GraphML...");
+        this.addJMenuItem(open, "from GraphViz...", "from GraphViz...");
 
         JMenu saveas = new JMenu("Save as ...");
-        this.addJMenuItem(saveas, "GraphML...");
-        this.addJMenuItem(saveas, "GraphViz...");
+        this.addJMenuItem(saveas, "GraphML...", "GraphML...");
+        this.addJMenuItem(saveas, "GraphViz...", "GraphViz...");
 
 
-        this.addJMenuItem(file, "New");
+        this.addJMenuItem(file, "New", "New");
         file.add(open);
 
         file.addSeparator();
-        this.addJMenuItem(file, "Save");
+        this.addJMenuItem(file, "Save", "Save");
         file.add(saveas);
 
         file.addSeparator();
-        this.addJMenuItem(file, "Close");
+        this.addJMenuItem(file, "Close", "Close");
 
-        this.addJMenuItem(edition, "Undo");
-        this.addJMenuItem(edition, "Redo");
-        this.addJMenuItem(edition, "Copy");
-        this.addJMenuItem(edition, "Paste");
+        this.addJMenuItem(edition, "Undo", "Undo");
+        this.addJMenuItem(edition, "Redo", "Redo");
+        this.addJMenuItem(edition, "Copy", "Copy");
+        this.addJMenuItem(edition, "Paste", "Paste");
 
-        this.addJMenuItem(edition, "Algorithms");
+        this.addJMenuItem(edition, "Algorithms", "Algorithms");
 
         /*
         this.addJMenuItem(algorithm, "Random Positioning");
