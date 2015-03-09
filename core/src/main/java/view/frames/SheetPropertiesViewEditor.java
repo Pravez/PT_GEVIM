@@ -28,6 +28,7 @@ public class SheetPropertiesViewEditor extends JDialog {
     // Graphic elements and buttons
     JPanel contentPane;
     GridBagLayout contentLayout;
+    GridBagConstraints constraintsLayout;
     JButton buttonOK;
     JButton buttonCancel;
 
@@ -103,6 +104,8 @@ public class SheetPropertiesViewEditor extends JDialog {
 
         contentLayout = new GridBagLayout();
         contentPane = new JPanel();
+        constraintsLayout = new GridBagConstraints();
+
         buttonOK = new JButton();
         buttonCancel = new JButton();
 
@@ -115,28 +118,46 @@ public class SheetPropertiesViewEditor extends JDialog {
         setLocationRelativeTo(null);
         setModal(true);
         setContentPane(this.contentPane);
-
         contentPane.setLayout(contentLayout);
-        contentPane.add(jl_defaultBackgroundColor);
-        contentPane.add(defaultBackgroundColor);
+        //contentPane.add(jl_defaultBackgroundColor,constraintsLayout); à traiter...
+        //contentPane.add(defaultBackgroundColor,constraintsLayout);
 
-        contentPane.add(jl_defaultVertexesColor);
-        contentPane.add(defaultVertexesColor);
+        constraintsLayout.fill = GridBagConstraints.HORIZONTAL;
+        constraintsLayout.gridx=0;
+        constraintsLayout.gridy=0;
+        contentPane.add(jl_defaultVertexesSize,constraintsLayout);
+        constraintsLayout.gridx=1;
+        contentPane.add(defaultVertexesSize,constraintsLayout);
 
-        contentPane.add(jl_defaultEdgesColor);
-        contentPane.add(defaultEdgesColor);
+        constraintsLayout.gridx=0;
+        constraintsLayout.gridy=1;
+        contentPane.add(jl_defaultVertexesShape,constraintsLayout);
+        constraintsLayout.gridx=1;
+        contentPane.add(defaultVertexesShape, constraintsLayout);
 
-        contentPane.add(jl_defaultEdgesThickness);
-        contentPane.add(defaultEdgesThickness);
+        constraintsLayout.gridx=0;
+        constraintsLayout.gridy=2;
+        contentPane.add(jl_defaultVertexesColor,constraintsLayout);
+        constraintsLayout.gridx=1;
+        contentPane.add(defaultVertexesColor,constraintsLayout);
 
-        contentPane.add(jl_defaultVertexesShape);
-        contentPane.add(defaultVertexesShape);
+        constraintsLayout.gridx=0;
+        constraintsLayout.gridy=3;
+        contentPane.add(jl_defaultEdgesThickness,constraintsLayout);
+        constraintsLayout.gridx=1;
+        contentPane.add(defaultEdgesThickness,constraintsLayout);
 
-        contentPane.add(jl_defaultVertexesSize);
-        contentPane.add(defaultVertexesSize);
+        constraintsLayout.gridx=0;
+        constraintsLayout.gridy=4;
+        contentPane.add(jl_defaultEdgesColor,constraintsLayout);
+        constraintsLayout.gridx=1;
+        contentPane.add(defaultEdgesColor,constraintsLayout);
 
-        contentPane.add(buttonOK);
-        contentPane.add(buttonCancel);
+        constraintsLayout.gridx=0;
+        constraintsLayout.gridy=5;
+        contentPane.add(buttonCancel,constraintsLayout);
+        constraintsLayout.gridx=1;
+        contentPane.add(buttonOK,constraintsLayout);
 
         // Setting the color
         this.defaultBackgroundColor.addMouseListener(new MouseListener() {
