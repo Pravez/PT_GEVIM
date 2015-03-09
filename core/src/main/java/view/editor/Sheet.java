@@ -8,7 +8,7 @@ import view.Observer;
 import view.editor.elements.EdgeView;
 import view.editor.elements.ElementView;
 import view.editor.elements.VertexView;
-import view.frames.TabPropertiesViewEditor;
+import view.frames.SheetPropertiesViewEditor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -228,7 +228,7 @@ public class Sheet extends JComponent implements Observer {
      */
     public void modifyProperties() {
         System.out.println("Appel constructeur");
-        TabPropertiesViewEditor tpve = new TabPropertiesViewEditor(this);
+        SheetPropertiesViewEditor tpve = new SheetPropertiesViewEditor(this);
         System.out.println("Modifications");
         this.setDefaultVertexesSize(tpve.getTab().getDefaultVertexesSize());
         this.setDefaultVertexesColor(tpve.getTab().getDefaultVertexesColor());

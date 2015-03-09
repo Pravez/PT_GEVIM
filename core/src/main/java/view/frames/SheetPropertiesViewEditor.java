@@ -11,13 +11,15 @@ import java.awt.event.*;
  * Created by Quentin Lemonnier
  * Classe "visuelle" qui permet de modifier toutes les données par défaut d'un {@link view.editor.Sheet} avec une interface graphique.
  */
-public class TabPropertiesViewEditor extends JDialog {
+public class SheetPropertiesViewEditor extends JDialog {
 
     /**
      * A AJOUTER AUX OPTIONS MODIFIABLES
      * -La taille de la Sheet
      * -Le nom de la sheet et/ou du fichier
      * -La zone d'application des algorithmes
+     * -La couleur des arêtes
+     * -La couleur du background du graph?
      *
      */
 
@@ -25,7 +27,7 @@ public class TabPropertiesViewEditor extends JDialog {
 
     // Graphic elements and buttons
     JPanel contentPane;
-    GridLayout contentLayout;
+    GridBagLayout contentLayout;
     JButton buttonOK;
     JButton buttonCancel;
 
@@ -50,7 +52,7 @@ public class TabPropertiesViewEditor extends JDialog {
 
     private Sheet tab;
 
-    public TabPropertiesViewEditor(Sheet tab) {
+    public SheetPropertiesViewEditor(Sheet tab) {
 
         // Initialisation des attributs de propriété
         this.tab = tab;
@@ -93,17 +95,23 @@ public class TabPropertiesViewEditor extends JDialog {
 
         // Initialisation des différents éléments graphiques, d'organisation,et labels
         this.jl_defaultBackgroundColor = new JLabel("Background color (not implemented)");
-        this.jl_defaultVertexesColor = new JLabel("Vertexes color");
-        this.jl_defaultEdgesColor = new JLabel("Edges color");
-        this.jl_defaultVertexesSize = new JLabel("Vertexes size");
-        this.jl_defaultVertexesShape = new JLabel("Vertexes shape");
-        this.jl_defaultEdgesThickness = new JLabel("Edges thickness");
+        this.jl_defaultVertexesColor = new JLabel("Vertexes color : ");
+        this.jl_defaultEdgesColor = new JLabel("Edges color : ");
+        this.jl_defaultVertexesSize = new JLabel("Vertexes size : ");
+        this.jl_defaultVertexesShape = new JLabel("Vertexes shape : ");
+        this.jl_defaultEdgesThickness = new JLabel("Edges thickness : ");
 
-        contentLayout = new GridLayout(0,2);
+        contentLayout = new GridBagLayout();
         contentPane = new JPanel();
+        buttonOK = new JButton();
+        buttonCancel = new JButton();
+
+        buttonOK.setText("Ok");
+        buttonCancel.setText("Cancel");
 
         // Propriétés de la fenêtre et positionnement de ses éléments
-        setTitle("Tab Properties");
+        setTitle("Sheet Properties");
+        this.setPreferredSize(new Dimension(500,500));
         setLocationRelativeTo(null);
         setModal(true);
         setContentPane(this.contentPane);
@@ -126,6 +134,9 @@ public class TabPropertiesViewEditor extends JDialog {
 
         contentPane.add(jl_defaultVertexesSize);
         contentPane.add(defaultVertexesSize);
+
+        contentPane.add(buttonOK);
+        contentPane.add(buttonCancel);
 
         // Setting the color
         this.defaultBackgroundColor.addMouseListener(new MouseListener() {
@@ -216,6 +227,13 @@ public class TabPropertiesViewEditor extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
+        // call onOK() on ENTER
+        this.contentPane.registerKeyboardAction(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onOK();
+            }
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
         this.pack();
         this.setVisible(true);
     }
@@ -271,9 +289,3 @@ public class TabPropertiesViewEditor extends JDialog {
         return tab;
     }
 }
-
-
-/*
-Dimension du tab (dans window)
-couleur arete + background
- */
