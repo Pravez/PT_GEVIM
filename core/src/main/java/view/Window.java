@@ -9,15 +9,13 @@ import files.dot.DotFileManager;
 import files.gml.GmlFileManager;
 import view.editor.Sheet;
 import view.editor.Tab;
+import view.frames.ButtonFactory;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -93,14 +91,14 @@ public class Window extends JFrame {
     private void initStartPanel() {
         this.startPanel = new JPanel();
         this.startPanel.setBackground(null);
-        addImageButtonToPanel(this.startPanel, "New", "core/assets/new-big.png", "Nouveau graphe");
+        this.startPanel.add(ButtonFactory.createImageButton("New", "New", "core/assets/new-big.png", "Nouveau graphe"));
         JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
         separator.setBackground(Color.BLACK);
         separator.setPreferredSize(new Dimension(5, 64));
         this.startPanel.add(Box.createHorizontalStrut(5));
         this.startPanel.add(separator);
         this.startPanel.add(Box.createHorizontalStrut(5));
-        addImageButtonToPanel(this.startPanel, "Open", "core/assets/open-big.png", "Ouvrir un graphe");
+        this.startPanel.add(ButtonFactory.createImageButton("Open", "Open", "core/assets/open-big.png", "Ouvrir un graphe"));
         showStartPanel();
     }
 
@@ -175,17 +173,20 @@ public class Window extends JFrame {
         this.stateButtons = new ArrayList<StateButton>();
         toolBar.setFloatable(false);
 
-        addToolBarButtonWithImage(toolBar, "New", "core/assets/new.png", "Nouveau graphe");
+        toolBar.add(ButtonFactory.createToolBarButtonWithImage("New", "New", "core/assets/new.png", "Nouveau graphe"));
         addToolBarStateButton(toolBar, "core/assets/cursor.png", State.Mode.SELECTION.name(), "Mode édition");
         addToolBarStateButton(toolBar, "core/assets/edit.png", State.Mode.CREATION.name(), "Mode création");
         addToolBarStateButton(toolBar, "core/assets/zoom.png", State.Mode.ZOOM.name(), "Zoom");
-        addToolBarButtonWithImage(toolBar, "Copy", "core/assets/copy.png", "Copier");
-        addToolBarButtonWithImage(toolBar, "Paste", "core/assets/paste.png", "Coller");
-        this.undoButton = addToolBarButtonWithImage(toolBar, "Undo", "core/assets/undo.png", "Annuler");
-        this.redoButton = addToolBarButtonWithImage(toolBar, "Redo", "core/assets/redo.png", "Rétablir");
+        toolBar.add(ButtonFactory.createToolBarButtonWithImage("Copy", "Copy", "core/assets/copy.png", "Copier"));
+        toolBar.add(ButtonFactory.createToolBarButtonWithImage("Paste", "Paste", "core/assets/paste.png", "Coller"));
+        this.undoButton = ButtonFactory.createToolBarButtonWithImage("Undo", "Undo", "core/assets/undo.png", "Annuler");
+        this.redoButton = ButtonFactory.createToolBarButtonWithImage("Redo", "Redo", "core/assets/redo.png", "Rétablir");
 
         this.undoButton.setEnabled(false);
         this.redoButton.setEnabled(false);
+
+        toolBar.add(this.undoButton);
+        toolBar.add(this.redoButton);
 
         super.getContentPane().add(toolBar, BorderLayout.NORTH);
     }
@@ -202,78 +203,6 @@ public class Window extends JFrame {
         StateButton button = new StateButton(fileName, actionCommand, helpMessage);
         this.stateButtons.add(button);
         toolBar.add(button);
-    }
-
-    /**
-     * Méthode privée pour ajouter un bouton avec du texte dans un toolBar
-     *
-     * @param toolBar    le toolBar qui va contenir le bouton
-     * @param buttonName le nom du bouton
-     */
-    private void addToolBarButton(JComponent toolBar, String buttonName) {
-        JButton button = new JButton(buttonName);
-        button.setActionCommand(buttonName);
-        button.addActionListener(new ButtonActionListener(button, null, 0));
-        button.setFocusable(false);
-        toolBar.add(button);
-    }
-
-    /**
-     * Méthode privée pour ajouter un bouton n'influant pas sur les états d'édition, avec une image
-     *
-     * @param toolBar     le JToolBar à qui ajouter le bouton
-     * @param buttonName  Le nom du bouton
-     * @param fileName    Le lien vers l'image du bouton
-     * @param helpMessage le message d'aide du bouton
-     * @return le JButton créé
-     */
-    private JButton addToolBarButtonWithImage(JToolBar toolBar, String buttonName, String fileName, String helpMessage) {
-        Image   img    = Toolkit.getDefaultToolkit().getImage(fileName);
-        JButton button = new JButton();
-        button.setIcon(new ImageIcon(img.getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
-        button.setBounds(0, 0, 20, 20);
-        button.setMargin(new Insets(0, 0, 0, 0));
-        button.setBorder(null);
-        button.addActionListener(new ButtonActionListener(button, null, 0));
-        button.setName(buttonName);
-        button.setActionCommand(buttonName);
-        button.setSelected(false);
-        button.setToolTipText(helpMessage);
-        button.setFocusable(false);
-        toolBar.add(button);
-        return button;
-    }
-
-    /**
-     * Méthode privée pour ajouter un bouton avec une image à une JPanel
-     *
-     * @param panel       le Conteneur
-     * @param buttonName  le nom du bouton
-     * @param fileName    le nom du fichier de l'image
-     * @param helpMessage le message d'aide du bouton
-     */
-    private void addImageButtonToPanel(JPanel panel, String buttonName, String fileName, String helpMessage) {
-        Image   img    = Toolkit.getDefaultToolkit().getImage(fileName);
-        JButton button = new JButton();
-        //button.setIcon(new ImageIcon(img.getScaledInstance(64, 64, Image.SCALE_SMOOTH)));
-        /** **/
-        try {
-            BufferedImage bi = ImageIO.read(new File(fileName));
-            bi.getGraphics().setColor(Color.WHITE);
-            bi.flush();
-            button.setIcon(new ImageIcon(bi.getScaledInstance(64, 64, Image.SCALE_SMOOTH)));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        /** **/
-        button.setBorder(null);
-        button.addActionListener(new ButtonActionListener(button, null, 0));
-        button.setName(buttonName);
-        button.setActionCommand(buttonName);
-        button.setContentAreaFilled(false);
-        button.setToolTipText(helpMessage);
-        button.setFocusable(false);
-        panel.add(button);
     }
 
     /**
