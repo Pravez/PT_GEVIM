@@ -1,13 +1,11 @@
 package controller.state;
 
 import controller.Controller;
-import controller.listeners.ButtonActionListener;
 import data.Graph;
 import view.editor.Tab;
 import view.editor.elements.ElementView;
 import view.editor.elements.VertexView;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -16,23 +14,7 @@ public class SelectionState extends State {
 	public SelectionState(Controller controller) {
 		super(controller);
 	}
-	
-	/**
-	 * Initialize a Popup menu with MenuItems
-	 * @param menuItems the MenuItems to be present in the popUp menu
-	 * @param position la position du PopuMenu
-	 * @return The popup menu created
-	 */
-	private JPopupMenu initElementPopupMenu(String [] menuItems, Point position){
-		JPopupMenu jpm = new JPopupMenu();
-		for(String s : menuItems){
-			JMenuItem jmi = new JMenuItem(s);
-			jmi.addActionListener(new ButtonActionListener(jmi, position, 0));
-			jpm.add(jmi);
-		}
-		return jpm;
-	}
-	
+
 	/**
 	 * Méthode pour gérer la sélection d'un Vertex : 
 	 * - soit on l'ajoute à la sélection si la touche Ctrl est enfoncée
@@ -50,9 +32,7 @@ public class SelectionState extends State {
 	@Override
 	public void click(Tab tab, Graph graph, MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
-			Point show_pos   = new Point(e.getX() - tab.getScrollPane().getViewport().getViewPosition().x, e.getY() - tab.getScrollPane().getViewport().getViewPosition().y);
-			Point effect_pos = new Point((int)(e.getX() / tab.getSheet().getScale()), (int)(e.getY() / tab.getSheet().getScale()));
-			initNewPopupMenu(new String[]{"Paste", "Properties"}, effect_pos).show(tab, show_pos.x, show_pos.y);
+			openTabPopUpMenu(tab, e.getPoint());
 		}
 		this.controller.notifyClearSelection();
 	}
@@ -62,8 +42,7 @@ public class SelectionState extends State {
 		if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
 			this.controller.notifyHandleElement(element);
 			//Création du menu contextuel avec Edit et Delete comme options.
-			JPopupMenu contextMenu = initElementPopupMenu(new String[]{"Edit", "Delete", "Copy", "Paste"}, e.getPoint());
-			contextMenu.show(element, e.getX(), e.getY());
+			initNewPopupMenu(new String[]{"Edit", "Delete", "Copy", "Paste"}, e.getPoint()).show(element, e.getX(), e.getY());
 		}
 	}
 

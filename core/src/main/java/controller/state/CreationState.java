@@ -30,9 +30,15 @@ public class CreationState extends State {
 	@Override
 	public void click(Tab tab, Graph graph, MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
-			Point show_pos   = new Point(e.getX() - tab.getScrollPane().getViewport().getViewPosition().x, e.getY() - tab.getScrollPane().getViewport().getViewPosition().y);
-			Point effect_pos = new Point((int)(e.getX() * tab.getSheet().getScale()), (int)(e.getY() * tab.getSheet().getScale()));
-			initNewPopupMenu(new String[]{"Paste", "Properties"}, effect_pos).show(tab, show_pos.x, show_pos.y);
+			openTabPopUpMenu(tab, e.getPoint());
+		}
+	}
+
+	@Override
+	public void click(ElementView element, MouseEvent e) {
+		if (e.getButton() == MouseEvent.BUTTON3) {
+			this.controller.notifyHandleElement(element);
+			initNewPopupMenu(new String[]{"Edit", "Delete", "Copy", "Paste"}, e.getPoint()).show(element, e.getX(), e.getY());
 		}
 	}
 	
