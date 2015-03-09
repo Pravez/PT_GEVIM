@@ -143,4 +143,15 @@ public abstract class State {
 		}
 		return jpm;
 	}
+
+	/**
+	 * Méthode permettant d'oubrir un PopUp Menu pour le Tab
+	 * @param tab le Tab dans lequel il faut créer le PopUp Menu
+	 * @param mouse_pos position de la souris
+	 */
+	protected void openTabPopUpMenu(Tab tab, Point mouse_pos) {
+		Point show_pos   = new Point(mouse_pos.x - tab.getScrollPane().getViewport().getViewPosition().x, mouse_pos.y - tab.getScrollPane().getViewport().getViewPosition().y);
+		Point effect_pos = new Point((int)(mouse_pos.x / tab.getSheet().getScale()), (int)(mouse_pos.y / tab.getSheet().getScale()));
+		initNewPopupMenu(new String[]{"Paste", "Properties"}, effect_pos).show(tab, show_pos.x, show_pos.y);
+	}
 }
