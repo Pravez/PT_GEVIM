@@ -6,6 +6,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 
@@ -78,20 +79,16 @@ public class ButtonFactory {
      * @param fileName    le nom du fichier de l'image
      * @param helpMessage le message d'aide du bouton
      */
-    public static JButton createImageButton(String buttonName, String actionName, String fileName, String helpMessage) {
-        //Image   img    = Toolkit.getDefaultToolkit().getImage(fileName);
+    public static JButton createImageButton(String buttonName, String actionName, String fileName, String helpMessage, int size) {
+        Image   img    = Toolkit.getDefaultToolkit().getImage(fileName);
         JButton button = new JButton();
-        //button.setIcon(new ImageIcon(img.getScaledInstance(64, 64, Image.SCALE_SMOOTH)));
-        /** **/
+        button.setIcon(new ImageIcon(img.getScaledInstance(size, size, Image.SCALE_SMOOTH)));
         try {
-            BufferedImage bi = ImageIO.read(new File(fileName));
-            bi.getGraphics().setColor(Color.WHITE);
-            bi.flush();
-            button.setIcon(new ImageIcon(bi.getScaledInstance(64, 64, Image.SCALE_SMOOTH)));
+            BufferedImage bi = getColoredImage(ImageIO.read(new File(fileName)), new Color(105, 105, 105));
+            button.setRolloverIcon(new ImageIcon(bi.getScaledInstance(size, size, Image.SCALE_SMOOTH)));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        /** **/
         button.setBorder(null);
         button.addActionListener(new ButtonActionListener(button, null, 0));
         button.setName(buttonName);
@@ -100,5 +97,22 @@ public class ButtonFactory {
         button.setToolTipText(helpMessage);
         button.setFocusable(false);
         return button;
+    }
+
+    private static BufferedImage getColoredImage(BufferedImage image, Color color) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+        WritableRaster raster = image.getRaster();
+
+        for (int xx = 0; xx < width; xx++) {
+            for (int yy = 0; yy < height; yy++) {
+                int[] pixels = raster.getPixel(xx, yy, (int[]) null);
+                pixels[0] = color.getRed();
+                pixels[1] = color.getGreen();
+                pixels[2] = color.getBlue();
+                raster.setPixel(xx, yy, pixels);
+            }
+        }
+        return image;
     }
 }

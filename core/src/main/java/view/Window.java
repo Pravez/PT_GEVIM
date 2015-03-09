@@ -91,14 +91,14 @@ public class Window extends JFrame {
     private void initStartPanel() {
         this.startPanel = new JPanel();
         this.startPanel.setBackground(null);
-        this.startPanel.add(ButtonFactory.createImageButton("New", "New", "core/assets/new-big.png", "Nouveau graphe"));
+        this.startPanel.add(ButtonFactory.createImageButton("New", "New", "core/assets/new-very-big.png", "Nouveau graphe", 128));
         JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
         separator.setBackground(Color.BLACK);
-        separator.setPreferredSize(new Dimension(5, 64));
+        separator.setPreferredSize(new Dimension(15, 128));
         this.startPanel.add(Box.createHorizontalStrut(5));
         this.startPanel.add(separator);
         this.startPanel.add(Box.createHorizontalStrut(5));
-        this.startPanel.add(ButtonFactory.createImageButton("Open", "Open", "core/assets/open-big.png", "Ouvrir un graphe"));
+        this.startPanel.add(ButtonFactory.createImageButton("Open", "Open", "core/assets/open-very-big.png", "Ouvrir un graphe", 128));
         showStartPanel();
     }
 
@@ -259,11 +259,7 @@ public class Window extends JFrame {
         int index = this.tabs.indexOfTab(title);
         JPanel titlePanel = new JPanel(new GridBagLayout());
         titlePanel.setOpaque(false);
-        JButton close = new JButton("x");
-        close.setContentAreaFilled(false);
-        close.setBorder(null);
-        close.setFocusable(false);
-        close.setActionCommand("Close");
+        JButton close = ButtonFactory.createImageButton("Close", "Close", "core/assets/cross.png", "Fermer le graphe", 12);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
