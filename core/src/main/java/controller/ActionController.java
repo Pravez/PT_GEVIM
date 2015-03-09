@@ -115,7 +115,7 @@ public class ActionController {
     }
 
     public static void newTab() {
-        String title = "Sheet" + ActionController.controller.getWindow().getTabCount();
+        String title = "Sheet" + ActionController.controller.getWindow().getTabIndex();
         title = JOptionPane.showInputDialog("Saisissez le nom du nouveau graphe :", title);
         if (title != null && !title.equals("")) {
             Graph graph = ActionController.controller.addNewGraph();

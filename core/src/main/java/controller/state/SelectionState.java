@@ -50,7 +50,9 @@ public class SelectionState extends State {
 	@Override
 	public void click(Tab tab, Graph graph, MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
-			initNewPopupMenu(new String[]{"Paste", "Properties"}, e.getPoint()).show(tab, e.getX(), e.getY());
+			Point show_pos   = new Point(e.getX() - tab.getScrollPane().getViewport().getViewPosition().x, e.getY() - tab.getScrollPane().getViewport().getViewPosition().y);
+			Point effect_pos = new Point((int)(e.getX() / tab.getSheet().getScale()), (int)(e.getY() / tab.getSheet().getScale()));
+			initNewPopupMenu(new String[]{"Paste", "Properties"}, effect_pos).show(tab, show_pos.x, show_pos.y);
 		}
 		this.controller.notifyClearSelection();
 	}

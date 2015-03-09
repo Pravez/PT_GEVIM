@@ -70,7 +70,7 @@ public class Tab extends JSplitPane {
         sheet.setBackground(Color.GRAY);
         sheet.setLayout(null);
         sheet.add(new JLabel(title));
-        sheet.setPreferredSize(new Dimension(1000, 1000));
+        sheet.setPreferredSize(new Dimension(2000, 2000));
         sheet.setMaximumSize(new Dimension(2000, 2000));
 
         scrollPane = new ScrollPane(this, sheet);
@@ -114,7 +114,7 @@ public class Tab extends JSplitPane {
      */
     public void initBoardPanel(Graph graph){
         properties = new PropertyPanel(this.sheet);
-        //properties.setPreferredSize(new Dimension(300, this.getHeight()));
+        properties.setFocusable(false);
 
         minimap = new MiniMap(scrollPane, sheet);
         minimap.setBorder(BorderFactory.createLineBorder(Color.BLACK));

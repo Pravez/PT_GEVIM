@@ -10,11 +10,14 @@ import files.gml.GmlFileManager;
 import view.editor.Sheet;
 import view.editor.Tab;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -25,6 +28,7 @@ import java.util.ArrayList;
 public class Window extends JFrame {
 
     private static final long serialVersionUID = 1L;
+    private static int             tabIndex = 1;
     private Controller             controller;
     private JPanel                 back;
 
@@ -52,6 +56,7 @@ public class Window extends JFrame {
 
         tabs.setOpaque(true);
         tabs.setBackground(Color.GRAY);
+        tabs.setFocusable(false);
 
         this.setFocusable(true);
         this.addKeyListener(new KeyActionListener());
@@ -250,7 +255,17 @@ public class Window extends JFrame {
     private void addImageButtonToPanel(JPanel panel, String buttonName, String fileName, String helpMessage) {
         Image   img    = Toolkit.getDefaultToolkit().getImage(fileName);
         JButton button = new JButton();
-        button.setIcon(new ImageIcon(img.getScaledInstance(64, 64, Image.SCALE_SMOOTH)));
+        //button.setIcon(new ImageIcon(img.getScaledInstance(64, 64, Image.SCALE_SMOOTH)));
+        /** **/
+        try {
+            BufferedImage bi = ImageIO.read(new File(fileName));
+            bi.getGraphics().setColor(Color.WHITE);
+            bi.flush();
+            button.setIcon(new ImageIcon(bi.getScaledInstance(64, 64, Image.SCALE_SMOOTH)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        /** **/
         button.setBorder(null);
         button.addActionListener(new ButtonActionListener(button, null, 0));
         button.setName(buttonName);
@@ -333,7 +348,15 @@ public class Window extends JFrame {
         titlePanel.add(close, gbc);
         close.addActionListener(new ButtonActionListener(close, null, index));
         this.tabs.setTabComponentAt(index, titlePanel);
+        Window.tabIndex++;
     }
+
+    /**
+     * Getter du champs statique donnant le nombre tab créés
+     *
+     * @return tabIndex
+     */
+    public int getTabIndex() { return Window.tabIndex; }
 
     /**
      * Getter du nombre de Tab ouverts

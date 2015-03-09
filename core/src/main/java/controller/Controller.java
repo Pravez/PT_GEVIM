@@ -144,7 +144,7 @@ public class Controller {
 
         Controller controller = new Controller();
         ActionController.setController(controller);
-        Window window = new Window(800, 640, controller);
+        Window window = new Window(1600, 900, controller);
         controller.setWindow(window);
     }
 
@@ -406,6 +406,7 @@ public class Controller {
         switch(type) {
             case "Random Positioning":
                 new RandomPositioning(window.getCurrentSheetViewPort().getViewPosition(), window.getCurrentSheetViewPort().getExtentSize()).run(window.getCurrentTab().getGraph());
+                //remplacer window.getCurrentSheetViewPort().getExtentSize()) par window.getCurrentSheetViewPort().getViewSize() pour l'application de l'algoritme
                 break;
             case "Circular Positioning":
                 new CircularPositioning(window.getCurrentSheetViewPort().getViewPosition(), window.getCurrentSheetViewPort().getExtentSize()).run(window.getCurrentTab().getGraph());

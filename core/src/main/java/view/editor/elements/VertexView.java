@@ -20,8 +20,6 @@ public class VertexView extends ElementView {
     private Color  hoverColor;
     private Point2D.Double scale;
 
-    private Rectangle rec;
-
     //rajouter des statics pour les paramètres par défaut
 
     /**
@@ -34,7 +32,6 @@ public class VertexView extends ElementView {
         this.color      = vertex.getColor();
         this.hoverColor = hoverColor;
         this.scale      = new Point2D.Double(1.0, 1.0);
-        this.rec     = new Rectangle(0, 0, 0, 0);
     }
 
     @Override
@@ -42,8 +39,7 @@ public class VertexView extends ElementView {
         int size = (int) (this.vertex.getSize()*this.scale.x);
         int posx = (int) ((this.vertex.getPosition().x - this.vertex.getSize()/2)*this.scale.x);
         int posy = (int) ((this.vertex.getPosition().y - this.vertex.getSize()/2)*this.scale.y);
-        this.rec = new Rectangle(posx, posy, size, size);
-        return rec.contains(x, y);
+        return new Rectangle(posx, posy, size, size).contains(x, y);
     }
     
     /**
@@ -94,11 +90,6 @@ public class VertexView extends ElementView {
 		
 		Graphics2D     g2d         = ((Graphics2D) g);
 		RenderingHints renderHints = new RenderingHints (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        /** **/
-        g.setColor(Color.RED);
-        g.fillRect(rec.x, rec.y, rec.width, rec.height);
-        /** **/
 
 		g2d.setRenderingHints(renderHints);
 		g.setColor(this.color);
