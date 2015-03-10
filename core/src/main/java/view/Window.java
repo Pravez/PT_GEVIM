@@ -279,6 +279,15 @@ public class Window extends JFrame {
     }
 
     /**
+     * Méthode permettant de savoir si le Tab portant le nom en paramètre existe déjà
+     * @param title le titre du Tab
+     * @return le résultat du test
+     */
+    public boolean tabExists(String title) {
+        return (this.tabs.indexOfTab(title) != -1);
+    }
+
+    /**
      * Getter du champs statique donnant le nombre tab créés
      *
      * @return tabIndex

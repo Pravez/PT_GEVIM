@@ -118,9 +118,15 @@ public class ActionController {
         String title = "Sheet" + ActionController.controller.getWindow().getTabIndex();
         title = JOptionPane.showInputDialog("Saisissez le nom du nouveau graphe :", title);
         if (title != null && !title.equals("")) {
-            Graph graph = ActionController.controller.addNewGraph();
-            graph.setName(title);
-            ActionController.controller.getWindow().addNewTab(graph, title);
+            if (ActionController.controller.getWindow().tabExists(title)) {
+                //Invitation à nommer autrement le nouveau graphe (onglet) créé.
+                JOptionPane.showMessageDialog(ActionController.controller.getWindow(), "Un Graph portant ce nom est déjà ouvert");
+                newTab();
+            } else {
+                Graph graph = ActionController.controller.addNewGraph();
+                graph.setName(title);
+                ActionController.controller.getWindow().addNewTab(graph, title);
+            }
         } else if (title != null && title.equals("")) {
             //Invitation à nommer le nouveau graphe (onglet) créé.
             JOptionPane.showMessageDialog(ActionController.controller.getWindow(), "Nom de graphe attendu.");
