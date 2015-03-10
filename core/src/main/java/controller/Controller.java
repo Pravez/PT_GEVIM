@@ -6,6 +6,7 @@ import algorithm.RandomPositioning;
 import algorithm.VertexColoring;
 import controller.state.CreationState;
 import controller.state.State;
+import data.Edge;
 import data.Graph;
 import data.GraphElement;
 import data.Vertex;
@@ -81,9 +82,19 @@ public class Controller {
      * @param dst le Vertex de destination de l'Edge
      */
     public void addEdge(Vertex src, Vertex dst) {
-        ArrayList<GraphElement> tmp = new ArrayList<>();
-        tmp.add(this.window.getCurrentTab().getGraph().createEdge(this.window.getCurrentSheet().getDefaultVertexesColor(), src, dst, this.window.getCurrentSheet().getDefaultEdgesThickness()));
-        window.getCurrentTab().getUndoRedo().registerAddEdit(tmp);
+        boolean ok = true;
+        ArrayList<Edge> src_edges = src.getEdges();
+        for (Edge e : dst.getEdges()) { // on teste si un Edge entre ces deux Vertex existe déjà
+            if (src_edges.contains(e)) {
+                ok = false;
+                break;
+            }
+        }
+        if (ok) {
+            ArrayList<GraphElement> tmp = new ArrayList<>();
+            tmp.add(this.window.getCurrentTab().getGraph().createEdge(this.window.getCurrentSheet().getDefaultVertexesColor(), src, dst, this.window.getCurrentSheet().getDefaultEdgesThickness()));
+            window.getCurrentTab().getUndoRedo().registerAddEdit(tmp);
+        }
     }
 
     /**
