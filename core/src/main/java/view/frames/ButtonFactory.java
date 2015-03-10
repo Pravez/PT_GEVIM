@@ -5,6 +5,8 @@ import controller.listeners.ButtonActionListener;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.io.File;
@@ -79,17 +81,19 @@ public class ButtonFactory {
      * @param fileName    le nom du fichier de l'image
      * @param helpMessage le message d'aide du bouton
      */
-    public static JButton createImageButton(String buttonName, String actionName, String fileName, String helpMessage, int size) {
+    public static JButton createImageButton(String buttonName, String actionName, String fileName, String helpMessage, Color color, int size) {
         Image   img    = Toolkit.getDefaultToolkit().getImage(fileName);
-        JButton button = new JButton();
+        final JButton button = new JButton();
         button.setIcon(new ImageIcon(img.getScaledInstance(size, size, Image.SCALE_SMOOTH)));
         try {
-            BufferedImage bi = getColoredImage(ImageIO.read(new File(fileName)), new Color(105, 105, 105));
+            BufferedImage bi = getColoredImage(ImageIO.read(new File(fileName)), color);//new Color(105, 105, 105));
             button.setRolloverIcon(new ImageIcon(bi.getScaledInstance(size, size, Image.SCALE_SMOOTH)));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        button.setPreferredSize(new Dimension(size, size));
         button.setBorder(null);
+        button.setBounds(0, 0, size, size);
         button.addActionListener(new ButtonActionListener(button, null, 0));
         button.setName(buttonName);
         button.setActionCommand(actionName);
@@ -114,5 +118,20 @@ public class ButtonFactory {
             }
         }
         return image;
+    }
+
+    public static Box createBoxContainer(AbstractButton button, final Color color, int size) {
+        final Box box = new Box(0);
+        box.setPreferredSize(new Dimension(size, size));
+        box.setBounds(0, 0, size, size);
+        box.setOpaque(true);
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent) { box.setBackground(color); }
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) { box.setBackground(null); }
+        });
+        box.add(button);
+        return box;
     }
 }
