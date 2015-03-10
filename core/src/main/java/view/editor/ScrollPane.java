@@ -70,9 +70,13 @@ public class ScrollPane extends JScrollPane {
         int origin_y = positionY - this.getViewport().getHeight()/2 < 0 ? 0 : positionY - this.getViewport().getHeight()/2;
         int width    = this.sheet.getPreferredSize().width;
         int height   = this.sheet.getPreferredSize().height;
+        /** **/
+        int posX = (int) (this.getViewport().getViewPosition().getX() + this.sheet.getScale()*this.getViewport().getWidth()/2 - scale*this.getViewport().getWidth()/2);
+        int posY = (int) (this.getViewport().getViewPosition().getY() + this.sheet.getScale()*this.getViewport().getHeight()/2 - scale*this.getViewport().getHeight()/2);
+        /** **/
         this.sheet.setScale(scale);
         this.sheet.setPreferredSize(new Dimension((int)(this.sheet.getScale()*this.sheet.getMaximumSize().width), (int) (this.sheet.getScale() * this.sheet.getMaximumSize().height)));
-        this.tab.getMiniMap().setPosition(new Point(origin_x, origin_y), width, height);
+        this.tab.getMiniMap().setPosition(new Point(posX, posY), width, height);
         this.tab.getMiniMap().updateSelectionZone();
         this.sheet.revalidate();
     }
