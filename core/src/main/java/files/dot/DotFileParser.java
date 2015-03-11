@@ -77,6 +77,8 @@ public class DotFileParser extends FileWriter {
     public String convertAttributes(DotElement dotElement){
         StringBuilder dotAttributes = new StringBuilder();
 
+        int i = 0;
+
         HashMap<String, Object> attributes = dotElement.getAttributes();
 
         dotAttributes.append("[");
@@ -85,11 +87,12 @@ public class DotFileParser extends FileWriter {
             dotAttributes.append(s);
             dotAttributes.append("=");
             dotAttributes.append(String.valueOf(attributes.get(s)));
-            dotAttributes.append(",");
+            i++;
+            if(i != attributes.keySet().size())
+                dotAttributes.append(",");
         }
 
         dotAttributes.append("]");
-        dotAttributes.substring(dotAttributes.lastIndexOf(","), dotAttributes.lastIndexOf(","));
 
         return dotAttributes.toString();
     }

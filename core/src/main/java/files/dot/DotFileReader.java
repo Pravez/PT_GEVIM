@@ -88,7 +88,6 @@ public class DotFileReader {
             line = line.replace("[", "");
             line = line.replace("]", "");
             line = line.replace(";", "");
-            line = line.substring(0, line.length()-1);
 
             createAttributes(line, vd);
 
