@@ -55,6 +55,9 @@ public class PropertyPanel extends JTabbedPane implements Observer {
         vertexPropertyTable = new JTable(vertexDatas, columnVertexNames);
         edgePropertyTable = new JTable(edgeDatas, columnEdgeNames);
 
+        vertexPropertyTable.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
+        edgePropertyTable.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
+
         vertexPropertyTable.setFillsViewportHeight(true);
         edgePropertyTable.setFillsViewportHeight(true);
 
@@ -72,6 +75,7 @@ public class PropertyPanel extends JTabbedPane implements Observer {
             @Override
             public void tableChanged(TableModelEvent tableModelEvent) {
                 modifyGraphVertices(tableModelEvent.getFirstRow(), tableModelEvent.getLastRow());
+                vertexPropertyTable.getSelectionModel().clearSelection();
             }
         });
 
@@ -79,6 +83,7 @@ public class PropertyPanel extends JTabbedPane implements Observer {
             @Override
             public void tableChanged(TableModelEvent tableModelEvent) {
                 modifyGraphEdges(tableModelEvent.getFirstRow(), tableModelEvent.getLastRow());
+                edgePropertyTable.getSelectionModel().clearSelection();
             }
         });
 
@@ -100,6 +105,9 @@ public class PropertyPanel extends JTabbedPane implements Observer {
 
         this.addTab("Vertices", vertexScrollPane);
         this.addTab("Edges", edgeScrollPane);
+
+
+
     }
 
     /**

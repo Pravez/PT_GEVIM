@@ -1,9 +1,8 @@
 package view.frames;
 
-import javax.swing.*;
-
 import data.Vertex;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
