@@ -33,6 +33,16 @@ public class Vertex extends GraphElement {
                 default:throw new IllegalArgumentException();
             }
         }
+
+        public static Shape decode(String shape){
+            switch(shape){
+                case "Square": return SQUARE;
+                case "Circle": return CIRCLE;
+                case "Triangle" : return TRIANGLE;
+                case "Cross" : return CROSS;
+                default: throw new IllegalArgumentException();
+            }
+        }
     }
 
     /**

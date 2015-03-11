@@ -8,27 +8,39 @@ import java.io.*;
 
 /**
  * Created by paubreton on 08/03/15.
+ * Classe principale de mangement de la lecture dans un fichier .dot
  */
 public class DotFileReader {
 
     private GraphDot graphDot;
     private File file;
 
+    /**
+     * Constructeur de la classe
+     * @param file Le {@link java.io.File} depuis qui récupérer le {@link files.dot.GraphDot}
+     */
     public DotFileReader(File file) {
         this.file = file;
         graphDot = new GraphDot();
     }
 
+    /**
+     * Méthode de lecture et d'interprétation des données du {@link java.io.File}
+     * @throws IOException Si jamais le fichier n'est pas trouvé
+     */
     public void readFile() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(file));
 
+        //Lecture de toutes les lignes du fichier
         for(String line; (line = reader.readLine()) != null; ) {
             processLine(line);
         }
-
-        //A continuer
     }
 
+    /**
+     * Méthode d'interprétation d'une seul ligne d'un fichier .dot
+     * @param line Le {@link java.lang.String} contenant la ligne
+     */
     public void processLine(String line){
 
         if(line.contains("graph")){
@@ -84,6 +96,11 @@ public class DotFileReader {
         }
     }
 
+    /**
+     * Méthode de création des attributs d'un {@link files.dot.elements.DotElement} à partir d'un {@link java.lang.String}
+     * @param attributes Le {@link java.lang.String} à interpréter
+     * @param elem Le {@link files.dot.elements.DotElement} dans lequel ranger les attributs crées
+     */
     public void createAttributes(String attributes, DotElement elem){
         String[] attributesFile = attributes.split(",");
 
@@ -92,6 +109,10 @@ public class DotFileReader {
         }
     }
 
+    /**
+     * Getter du {@link files.dot.GraphDot} associé à l'instance
+     * @return Un {@link files.dot.GraphDot}
+     */
     public GraphDot getGraphDot(){
         return graphDot;
     }

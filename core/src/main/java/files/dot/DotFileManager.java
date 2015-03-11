@@ -7,17 +7,26 @@ import java.io.IOException;
 
 /**
  * Created by paubreton on 08/03/15.
+ * Classe principale gérant le fait d'écrire ou de lire un fichier .dot
  */
 public class DotFileManager {
 
     private Graph graph;
     private File fileAssociated;
 
+    /**
+     * Constructeur de la classe
+     * @param graph Le {@link data.Graph} associé
+     * @param fileAssociated Le {@link java.io.File} associé
+     */
     public DotFileManager(Graph graph, File fileAssociated) {
         this.graph = graph;
         this.fileAssociated = fileAssociated;
     }
 
+    /**
+     * Méthode princiapel de sauvegarde du {@link data.Graph} dans un fichier .dot (utilise {@link files.dot.DotFileWriter}
+     */
     public void saveToDotFile(){
 
         GraphDot graphDot = new GraphDot();
@@ -31,6 +40,9 @@ public class DotFileManager {
         }
     }
 
+    /**
+     * Méthode principale d'ouverture d'un {@link data.Graph} depuis un fichier .dot (utilise {@link files.dot.DotFileReader}
+     */
     public void openDotFile(){
 
         DotFileReader reader = new DotFileReader(fileAssociated);
@@ -46,6 +58,10 @@ public class DotFileManager {
 
     }
 
+    /**
+     * Getter du {@link data.Graph}
+     * @return Le Graphe
+     */
     public Graph getGraph() {
         return graph;
     }

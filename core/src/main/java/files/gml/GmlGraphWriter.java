@@ -1,5 +1,6 @@
 package files.gml;
 
+import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
 import com.tinkerpop.blueprints.util.io.graphml.GraphMLTokens;
@@ -7,7 +8,6 @@ import com.tinkerpop.blueprints.util.io.graphml.GraphMLWriter;
 import data.Graph;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -48,12 +48,20 @@ public class GmlGraphWriter {
 
         Map<String, String> vertexKeyTypes = new HashMap<String, String>();
         vertexKeyTypes.put("name", GraphMLTokens.STRING);
-        vertexKeyTypes.put("weight", GraphMLTokens.INT);
-        vertexKeyTypes.put("color", "color");
+        vertexKeyTypes.put("size", GraphMLTokens.INT);
+        vertexKeyTypes.put("r", GraphMLTokens.INT);
+        vertexKeyTypes.put("g", GraphMLTokens.INT);
+        vertexKeyTypes.put("b", GraphMLTokens.INT);
         vertexKeyTypes.put("x", GraphMLTokens.DOUBLE);
         vertexKeyTypes.put("y", GraphMLTokens.DOUBLE);
 
+
+
         Map<String, String> edgeKeyTypes = new HashMap<String, String>();
+        edgeKeyTypes.put("r", GraphMLTokens.INT);
+        edgeKeyTypes.put("g", GraphMLTokens.INT);
+        edgeKeyTypes.put("b", GraphMLTokens.INT);
+        edgeKeyTypes.put("size", GraphMLTokens.INT);
 
         gmlWriter.setVertexKeyTypes(vertexKeyTypes);
         gmlWriter.setEdgeKeyTypes(edgeKeyTypes);
@@ -72,8 +80,10 @@ public class GmlGraphWriter {
             if(!vertexMapping.containsKey(v)){
                 Vertex GMLvertex = gmlGraph.addVertex(null);
                 GMLvertex.setProperty("name", v.getLabel());
-                GMLvertex.setProperty("weight", v.getSize());
-                GMLvertex.setProperty("color", "#"+Integer.toHexString(v.getColor().getRGB()).substring(2));
+                GMLvertex.setProperty("size", v.getSize());
+                GMLvertex.setProperty("r", v.getColor().getRed());
+                GMLvertex.setProperty("g", v.getColor().getGreen());
+                GMLvertex.setProperty("b", v.getColor().getBlue());
                 GMLvertex.setProperty("x", v.getPosition().x);
                 GMLvertex.setProperty("y", v.getPosition().y);
                 vertexMapping.put(v, GMLvertex);
@@ -89,8 +99,11 @@ public class GmlGraphWriter {
                 e.setLabel("edge"+e.getValue());
             }
 
-            gmlGraph.addEdge(null, vertexMapping.get(origin), vertexMapping.get(destination), e.getLabel());
-
+            Edge GMLEdge = gmlGraph.addEdge(null, vertexMapping.get(origin), vertexMapping.get(destination), e.getLabel());
+            GMLEdge.setProperty("r", e.getColor().getRed());
+            GMLEdge.setProperty("g", e.getColor().getGreen());
+            GMLEdge.setProperty("b", e.getColor().getBlue());
+            GMLEdge.setProperty("size", e.getThickness());
         }
 
 

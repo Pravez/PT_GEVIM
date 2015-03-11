@@ -7,17 +7,27 @@ import java.io.*;
 
 /**
  * Created by paubreton on 08/03/15.
+ * Classe permettant de manager l'écriture d'un {@link files.dot.GraphDot} dans un fichier
  */
 public class DotFileWriter {
 
     private GraphDot graphDot;
     private File file;
 
+    /**
+     * Constructeur de la classe
+     * @param graphDot Le {@link files.dot.GraphDot} devant être écrit
+     * @param file Le {@link java.io.File} dans lequel sera écrit le {@link files.dot.GraphDot}
+     */
     public DotFileWriter(GraphDot graphDot, File file) {
         this.graphDot = graphDot;
         this.file = file;
     }
 
+    /**
+     * Méthode procédant à l'écriture du {@link files.dot.GraphDot} dans le {@link java.io.File}
+     * @throws IOException Si jamais le fichier n'existe pas
+     */
     public void writeFile() throws IOException {
 
         DotFileParser filewriter = new DotFileParser(file);
