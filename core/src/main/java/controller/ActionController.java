@@ -114,6 +114,10 @@ public class ActionController {
         ActionController.controller.getWindow().callAlgoToolBox();
     }
 
+    public static void selectAll() {
+        ActionController.controller.getWindow().getCurrentSheet().selectAll();
+    }
+
     public static void newTab() {
         String title = "Sheet" + ActionController.controller.getWindow().getTabIndex();
         title = JOptionPane.showInputDialog("Saisissez le nom du nouveau graphe :", title);

@@ -214,6 +214,20 @@ public class Sheet extends JComponent implements Observer {
     }
 
     /**
+     * Méthode permettant de sélectionner la totalité des ElementView du Graph
+     */
+    public void selectAll() {
+        clearSelectedElements();
+        for (ElementView e : this.edges) {
+            selectElement(e);
+        }
+        for (ElementView e : this.vertexes) {
+            selectElement(e);
+        }
+        this.repaint();
+    }
+
+    /**
      * Méthode pour modifier le premier élément sélectionné
      */
     public void modifySelectedElement() {

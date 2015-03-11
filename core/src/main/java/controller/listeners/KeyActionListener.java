@@ -16,6 +16,9 @@ public class KeyActionListener extends KeyAdapter {
     public void keyPressed(KeyEvent e) {
         if (e.isControlDown()) {
             switch(KeyEvent.getKeyText(e.getKeyCode())) {
+                case "A" :
+                    ActionController.selectAll();
+                    break;
                 case "C" :
                     ActionController.copy();
                     break;
