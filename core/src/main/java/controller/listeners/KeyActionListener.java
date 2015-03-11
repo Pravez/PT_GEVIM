@@ -1,9 +1,7 @@
 package controller.listeners;
 
 import controller.ActionController;
-import javafx.scene.input.KeyCode;
 
-import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -41,10 +39,10 @@ public class KeyActionListener extends KeyAdapter {
                     ActionController.closeTab();
                     break;
                 case "O" :
-                    ActionController.openFromGraphml(); // à modifier
+                    ActionController.openGraph();
                     break;
                 case "S" :
-                    ActionController.saveToGraphml(); // à modifier aussi
+                    ActionController.saveGraph();
                     break;
                 default:
                     break;

@@ -198,11 +198,11 @@ public class ActionController {
         ActionController.controller.openFile(new String[]{"DOT files (*.dot)"}, new String[]{"dot"});
     }
 
-    private static void openGraph() {
+    public static void openGraph() {
         ActionController.controller.openFile(new String[]{"GraphML files (*.gml)", "DOT files (*.dot)"}, new String[]{"gml", "dot"});
     }
 
-    private static void saveGraph() {
+    public static void saveGraph() {
         ActionController.controller.save(new String[]{"GraphML files (*.gml)", "DOT files (*.dot)"}, new String[]{"gml", "dot"});
     }
 

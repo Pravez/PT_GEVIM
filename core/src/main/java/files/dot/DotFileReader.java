@@ -75,16 +75,16 @@ public class DotFileReader {
 
             graphDot.getEdges().add(ed);
         }else if(line.contains("}")){
-
+            //Fin de la lecture, ne fait rien
         }else{
 
             VertexDot vd = new VertexDot();
 
             line = line.replace(" ", "");
 
-            vd.setId(Integer.parseInt(line.substring(0,1)));
+            vd.setId(Integer.parseInt(line.substring(0,line.indexOf("["))));
 
-            line = line.substring(1, line.length());
+            line = line.substring(line.indexOf("["), line.length());
             line = line.replace("[", "");
             line = line.replace("]", "");
             line = line.replace(";", "");
