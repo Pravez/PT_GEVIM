@@ -13,6 +13,7 @@ import java.util.HashMap;
 
 /**
  * Created by paubreton on 08/03/15.
+ * Classe permettant de créer un Graphe prêt à être exporté en fichier .dot.
  */
 public class GraphDot {
 
@@ -25,6 +26,10 @@ public class GraphDot {
         edges = new ArrayList<>();
     }
 
+    /**
+     * Méthode créant le GraphDot à partir d'un {@link data.Graph}
+     * @param graph Le {@link data.Graph} à convertir
+     */
     public void createFromGraph(Graph graph){
 
         this.name = graph.getName();
@@ -60,6 +65,10 @@ public class GraphDot {
         }
     }
 
+    /**
+     * Méthode exportant le GraphDot vers un {@link data.Graph}
+     * @return Le {@link data.Graph} créee
+     */
     public Graph exportToGraph(){
         ArrayList<GraphElement> elements = new ArrayList<>();
         HashMap<VertexDot, Vertex> verticesMap = new HashMap<>();
@@ -70,7 +79,8 @@ public class GraphDot {
             position = position.replace(")", "");
             int x = Integer.parseInt(position.split("%")[0]);
             int y = Integer.parseInt(position.split("%")[1]);
-            Vertex v = new Vertex((String)vd.getAttributes().get("label"), Color.BLACK, new Point(x,y),Integer.parseInt((String)vd.getAttributes().get("size")), Vertex.Shape.SQUARE);
+            Color color = Color.decode((String)vd.getAttributes().get("color"));
+            Vertex v = new Vertex((String)vd.getAttributes().get("label"), color, new Point(x,y),Integer.parseInt((String)vd.getAttributes().get("size")), Vertex.Shape.decode((String)vd.getAttributes().get("shape")));
             elements.add(v);
             verticesMap.put(vd, v);
         }
@@ -79,8 +89,10 @@ public class GraphDot {
 
             VertexDot origin = ed.getOrigin();
             VertexDot destination = ed.getDestination();
+            Color color = Color.decode((String)ed.getAttributes().get("color"));
 
-            Edge e = new Edge((String)ed.getAttributes().get("label"), Color.BLACK, verticesMap.get(origin), verticesMap.get(destination), Integer.parseInt((String) ed.getAttributes().get("size")));
+
+            Edge e = new Edge((String)ed.getAttributes().get("label"), color, verticesMap.get(origin), verticesMap.get(destination), Integer.parseInt((String) ed.getAttributes().get("size")));
             elements.add(e);
         }
 
@@ -91,14 +103,27 @@ public class GraphDot {
         return g;
     }
 
+    /**
+     * Getter du nom du graphe
+     * @return Le nom du graphe (string)
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Setter du nom du graphe
+     * @param name Le nom du graphe (string)
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Méthode de récupération d'un {@link files.dot.elements.VertexDot} grâce à son ID.
+     * @param id
+     * @return
+     */
     public VertexDot getVertexById(int id){
         for(VertexDot de : vertices){
             if(de.getId() == id){
@@ -109,10 +134,18 @@ public class GraphDot {
         return null;
     }
 
+    /**
+     * Getter des {@link files.dot.elements.EdgeDot} d'un {@link files.dot.GraphDot}
+     * @return Un {@link java.util.ArrayList} de {@link files.dot.elements.EdgeDot}
+     */
     public ArrayList<EdgeDot> getEdges() {
         return edges;
     }
 
+    /**
+     * Getter des {@link files.dot.elements.VertexDot} d'un {@link files.dot.GraphDot}
+     * @return Un {@link java.util.ArrayList} de {@link files.dot.elements.VertexDot}
+     */
     public ArrayList<VertexDot> getVertices() {
         return vertices;
     }

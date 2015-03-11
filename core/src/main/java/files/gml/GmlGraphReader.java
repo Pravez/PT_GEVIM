@@ -59,7 +59,8 @@ public class GmlGraphReader {
 
         for (Vertex v : this.gmlGraph.getVertices()) {
             if (!vertices.containsKey(v)) {
-                data.Vertex sourceVertex = new data.Vertex((String) v.getProperty("name"), Color.decode((String) v.getProperty("color")), new Point((int) v.getProperty("x"), (int) v.getProperty("y")), (int) v.getProperty("weight"), data.Vertex.Shape.SQUARE);
+                Color color = new Color((int)v.getProperty("r"), (int) v.getProperty("g"), (int) v.getProperty("b"));
+                data.Vertex sourceVertex = new data.Vertex((String) v.getProperty("name"), color, new Point((int) v.getProperty("x"), (int) v.getProperty("y")), (int) v.getProperty("size"), data.Vertex.Shape.SQUARE);
                 vertices.put(v, sourceVertex);
                 graphElements.add(sourceVertex);
             }
@@ -70,8 +71,9 @@ public class GmlGraphReader {
 
             Vertex source = e.getVertex(Direction.OUT);
             Vertex target = e.getVertex(Direction.IN);
+            Color color = new Color((int)e.getProperty("r"), (int) e.getProperty("g"), (int) e.getProperty("b"));
 
-            data.Edge createdEdge = new data.Edge((String) e.getProperty("name"), Color.BLACK, vertices.get(source), vertices.get(target), 1);
+            data.Edge createdEdge = new data.Edge((String) e.getProperty("name"), color, vertices.get(source), vertices.get(target), (int)e.getProperty("size"));
             graphElements.add(createdEdge);
 
         }
