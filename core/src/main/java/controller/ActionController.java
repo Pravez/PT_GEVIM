@@ -150,7 +150,7 @@ public class ActionController {
         ActionController.controller.getWindow().getCurrentSheet().modifyProperties();
     }
 
-    private static void delete() {
+    public static void delete() {
         ActionController.controller.deleteElements();
     }
 

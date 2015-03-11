@@ -1,6 +1,7 @@
 package controller.listeners;
 
 import controller.ActionController;
+import javafx.scene.input.KeyCode;
 
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
@@ -13,7 +14,6 @@ public class KeyActionListener extends KeyAdapter {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println(KeyEvent.getKeyText(e.getKeyCode()));
         if (e.isControlDown()) {
             switch(KeyEvent.getKeyText(e.getKeyCode())) {
                 case "C" :
@@ -21,6 +21,9 @@ public class KeyActionListener extends KeyAdapter {
                     break;
                 case "V" :
                     ActionController.paste(null);
+                    break;
+                case "X" :
+                    ActionController.cut();
                     break;
                 case "Z" :
                     ActionController.undo();
@@ -40,14 +43,11 @@ public class KeyActionListener extends KeyAdapter {
                 case "S" :
                     ActionController.saveToGraphml(); // à modifier aussi
                     break;
-                case "Retour arrière" :
-                    //ActionController.
-                    break;
-                case "Supprimer" :
-                    break;
                 default:
                     break;
             }
+        } else if (KeyEvent.getKeyText(e.getKeyCode()) == "Retour arrière" || KeyEvent.getKeyText(e.getKeyCode()) == "Supprimer") {
+            ActionController.delete();
         }
     }
 }
