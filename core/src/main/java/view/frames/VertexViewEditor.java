@@ -31,15 +31,18 @@ public class VertexViewEditor extends JDialog {
 
 
     private Vertex     vertex;
+    private boolean    alreadyValidated;
+    private boolean    cannotQuit;
 
     /**
      * Constructeur qui prend les données d'un {@link view.editor.elements.VertexView} et les associe à chaque champ du JDialog
      * @param v le vecteur utilisé
      */
-    public VertexViewEditor(Vertex v) {
+    public VertexViewEditor(Vertex v, Component parent) {
 
-        setTitle("Vertex Editor");
+        setTitle("Editeur de noeuds");
 
+        setLocationRelativeTo(parent);
         setContentPane(this.contentPane);
         setModal(true);
         getRootPane().setDefaultButton(this.buttonOK);
@@ -99,6 +102,12 @@ public class VertexViewEditor extends JDialog {
 
         }
 
+        //Used to inform the user one time
+        alreadyValidated = false;
+
+        //Détermine si l'utilisateur peut quitter ou non la fenêtre
+        cannotQuit = false;
+
         //Setting the color
         vertexColoration.setBackground(this.vertex.getColor());
         vertexColoration.addMouseListener(new MouseListener() {
@@ -128,19 +137,17 @@ public class VertexViewEditor extends JDialog {
      * Méthode appellée à l'appui du bouton OK, qui enregistre toutes les données modifiées.
      */
     private void onOK() {
-    	this.vertex.setLabel(this.vertexName.getText());
-    	this.vertex.setSize(Integer.parseInt(this.vertexWidth.getText()));
-    	this.vertex.setPosition(new Point(Integer.parseInt(this.vertexX.getText()), Integer.parseInt(this.vertexY.getText())));
-        this.vertex.setColor(this.vertexColoration.getBackground());
+
+        cannotQuit = verifyModifications();
 
         switch((String)this.vertexShape.getSelectedItem()){
-            case "Circle":
+            case "Cercle":
                 this.vertex.setShape(CIRCLE);
                 break;
-            case "Square":
+            case "Carré":
                 this.vertex.setShape(SQUARE);
                 break;
-            case "Cross":
+            case "Croix":
                 this.vertex.setShape(CROSS);
                 break;
             case "Triangle":
@@ -150,14 +157,20 @@ public class VertexViewEditor extends JDialog {
                 break;
         }
 
-        dispose();
+        if(!alreadyValidated && Integer.parseInt(this.vertexWidth.getText())<5){
+            JOptionPane.showMessageDialog(this, "Attention, votre noeud peut s'avérer être trop petit.", "Information", JOptionPane.INFORMATION_MESSAGE);
+            alreadyValidated = true;
+        }else {
+            if(!cannotQuit) {
+                dispose();
+            }
+        }
     }
 
     /**
      * Méthode appellée à l'appui du Cancel, qui quitte le JDialog sans rien enregistrer
      */
     private void onCancel() {
-    	// add your code here if necessary
         dispose();
     }
 
@@ -175,5 +188,36 @@ public class VertexViewEditor extends JDialog {
      */
     public Vertex getModifiedVertex(){
         return this.vertex;
+    }
+
+    private boolean verifyModifications(){
+
+        boolean mustBeVerified = false;
+        this.vertex.setLabel(this.vertexName.getText());
+        this.vertex.setColor(this.vertexColoration.getBackground());
+
+        //Verifie la taille
+        if(Integer.parseInt(this.vertexWidth.getText()) <= 0){
+            JOptionPane.showMessageDialog(this, "La taille ne peut être inférieure ou égale à 0.", "Attention", JOptionPane.ERROR_MESSAGE);
+            this.vertexWidth.setText(String.valueOf(this.vertex.getSize()));
+            mustBeVerified = true;
+        }else{
+            this.vertex.setSize(Integer.parseInt(this.vertexWidth.getText()));
+        }
+
+        //Vérifie la position
+        if(Integer.parseInt(this.vertexX.getText())<=0){
+            JOptionPane.showMessageDialog(this, "La position x ne peut être inférieure ou égale à 0.", "Attention", JOptionPane.ERROR_MESSAGE);
+            this.vertexX.setText(String.valueOf(this.vertex.getPosition().x));
+            mustBeVerified = true;
+        }else if(Integer.parseInt(this.vertexY.getText()) <= 0){
+            JOptionPane.showMessageDialog(this, "La position y ne peut être inférieure ou égale à 0.", "Attention", JOptionPane.ERROR_MESSAGE);
+            this.vertexY.setText(String.valueOf(this.vertex.getPosition().y));
+            mustBeVerified = true;
+        }else {
+            this.vertex.setPosition(new Point(Integer.parseInt(this.vertexX.getText()), Integer.parseInt(this.vertexY.getText())));
+        }
+
+        return mustBeVerified;
     }
 }

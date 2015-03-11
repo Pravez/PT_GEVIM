@@ -183,7 +183,7 @@ public class VertexView extends ElementView {
      */
     @Override
     public void modify(Graph graph){
-        VertexViewEditor edit = new VertexViewEditor(this.vertex);
+        VertexViewEditor edit = new VertexViewEditor(this.vertex, this);
 
         Vertex newVertex = edit.getModifiedVertex();
 

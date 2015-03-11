@@ -32,7 +32,7 @@ public class ColorChooser extends JDialog {
      * @param bg La couleur de base
      */
     public void initComponents(Color bg) {
-        this.setTitle("Color chooser");
+        this.setTitle("Sélection de couleurs");
 
         JPanel contentPane = new JPanel();
         JPanel buttonsPane = new JPanel(new GridLayout(1,2));
@@ -46,7 +46,7 @@ public class ColorChooser extends JDialog {
 
 
         JButton buttonOK     = new JButton("Ok");
-        JButton buttonCancel = new JButton("Cancel");
+        JButton buttonCancel = new JButton("Annuler");
 
         contentPane.add(colorPane);
         contentPane.add(buttonsPane);

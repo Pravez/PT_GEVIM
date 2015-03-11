@@ -230,7 +230,7 @@ public class EdgeView extends ElementView {
      */
     @Override
     public void modify(Graph graph) {
-        EdgeViewEditor edit = new EdgeViewEditor(this.edge, graph);
+        EdgeViewEditor edit = new EdgeViewEditor(this.edge, graph, this);
 
         Edge newEdge = edit.getModifiedEdge();
 

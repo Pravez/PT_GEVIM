@@ -211,34 +211,34 @@ public class Window extends JFrame {
     private void initMenu() {
         super.setJMenuBar(new JMenuBar());
 
-        JMenu file = this.addMenu("File");
+        JMenu file = this.addMenu("Fichier");
         JMenu edition = this.addMenu("Edition");
 
-        JMenu open = new JMenu("Open");
-        this.addJMenuItem(open, "from GraphML...", "from GraphML...");
-        this.addJMenuItem(open, "from GraphViz...", "from GraphViz...");
+        JMenu open = new JMenu("Ouvrir");
+        this.addJMenuItem(open, "depuis GraphML...", "from GraphML...");
+        this.addJMenuItem(open, "depuis GraphViz...", "from GraphViz...");
 
-        JMenu saveas = new JMenu("Save as ...");
+        JMenu saveas = new JMenu("Sauvegarder comme ...");
         this.addJMenuItem(saveas, "GraphML...", "GraphML...");
         this.addJMenuItem(saveas, "GraphViz...", "GraphViz...");
 
 
-        this.addJMenuItem(file, "New", "New");
+        this.addJMenuItem(file, "Nouveau", "New");
         file.add(open);
 
         file.addSeparator();
-        this.addJMenuItem(file, "Save", "Save");
+        this.addJMenuItem(file, "Sauvegarder", "Save");
         file.add(saveas);
 
         file.addSeparator();
-        this.addJMenuItem(file, "Close", "Close");
+        this.addJMenuItem(file, "Fermer", "Close");
 
-        this.addJMenuItem(edition, "Undo", "Undo");
-        this.addJMenuItem(edition, "Redo", "Redo");
-        this.addJMenuItem(edition, "Copy", "Copy");
-        this.addJMenuItem(edition, "Paste", "Paste");
+        this.addJMenuItem(edition, "Annuler", "Undo");
+        this.addJMenuItem(edition, "Refaire", "Redo");
+        this.addJMenuItem(edition, "Copier", "Copy");
+        this.addJMenuItem(edition, "Coller", "Paste");
 
-        this.addJMenuItem(edition, "Algorithms", "Algorithms");
+        this.addJMenuItem(edition, "Algorithmes", "Algorithms");
 
         /*
         this.addJMenuItem(algorithm, "Random Positioning");

@@ -5,6 +5,7 @@ import data.Graph;
 import data.Vertex;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 /**
@@ -25,20 +26,26 @@ public class EdgeViewEditor extends JDialog {
     private Edge              edge;
     private Graph             graph;
 
+    private boolean           cannotQuit;
+
     /**
      * Constructeur de l'éditeur de {@link data.Edge}, il initialise les composants et lie les données du graphe
      * aux siennes.
      * @param edge Le edge concerné pour la modification
      * @param graph Le graphe dans lequel se situe le edge
      */
-    public EdgeViewEditor(Edge edge, Graph graph) {
-        this.setTitle("Edge editor");
+    public EdgeViewEditor(Edge edge, Graph graph, Component parent) {
+        this.setTitle("Editeur d'aretes");
 
         initComponents(edge, graph);
 
+        setLocationRelativeTo(parent);
         setContentPane(this.contentPane);
         setModal(true);
         getRootPane().setDefaultButton(this.buttonOK);
+
+        //Vérificateur de données
+        cannotQuit = false;
 
         this.buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -122,20 +129,10 @@ public class EdgeViewEditor extends JDialog {
      * détruit pas l'instance).
      */
     private void onOK() {
-        this.edge.setColor(this.edgeViewColor.getBackground());
-        this.edge.setThickness(Integer.parseInt(this.edgeThickness.getText()));
 
-        String originValue = ((String)originVertex.getSelectedItem());
-        String destinationValue = ((String)destinationVertex.getSelectedItem());
+        cannotQuit = verifyModifications();
 
-        //Si le Vertex de départ est le même que celui d'arrivée
-        if(originValue.equals(destinationValue)){
-            JOptionPane.showMessageDialog(null, "Les vertex de départ et d'arrivée doivent être différents", "Erreur", JOptionPane.ERROR_MESSAGE);
-
-        }else {
-            this.edge.setOrigin(this.graph.getVertexes().get(this.graph.getElementIndexWithLabel(originValue)));
-            this.edge.setDestination(this.graph.getVertexes().get(this.graph.getElementIndexWithLabel(destinationValue)));
-
+        if(!cannotQuit) {
             dispose();
         }
     }
@@ -160,4 +157,33 @@ public class EdgeViewEditor extends JDialog {
      * @return Le {@link data.Edge} associé à la fenêtre.
      */
     public Edge getModifiedEdge(){ return this.edge; }
+
+    private boolean verifyModifications(){
+         boolean mustBeVerified = false;
+
+        this.edge.setColor(this.edgeViewColor.getBackground());
+
+
+        if(Integer.parseInt(this.edgeThickness.getText()) <= 0){
+            JOptionPane.showMessageDialog(this, "La taille doit être supérieure à 0.", "Erreur", JOptionPane.ERROR_MESSAGE);
+            this.edgeThickness.setText(String.valueOf(this.edge.getThickness()));
+            mustBeVerified = true;
+        }else {
+            this.edge.setThickness(Integer.parseInt(this.edgeThickness.getText()));
+        }
+
+        String originValue = ((String)originVertex.getSelectedItem());
+        String destinationValue = ((String)destinationVertex.getSelectedItem());
+
+        //Si le Vertex de départ est le même que celui d'arrivée
+        if(originValue.equals(destinationValue)){
+            JOptionPane.showMessageDialog(null, "Les vertex de départ et d'arrivée doivent être différents", "Erreur", JOptionPane.ERROR_MESSAGE);
+            mustBeVerified = true;
+        }else {
+            this.edge.setOrigin(this.graph.getVertexes().get(this.graph.getElementIndexWithLabel(originValue)));
+            this.edge.setDestination(this.graph.getVertexes().get(this.graph.getElementIndexWithLabel(destinationValue)));
+        }
+
+        return mustBeVerified;
+    }
 }

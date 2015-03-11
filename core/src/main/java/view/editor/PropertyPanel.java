@@ -41,12 +41,12 @@ public class PropertyPanel extends JTabbedPane implements Observer {
         graph.addObserver(this);
 
         columnVertexNames = new Vector<>();
-        columnVertexNames.add("Label");
-        columnVertexNames.add("Size");
+        columnVertexNames.add("Nom");
+        columnVertexNames.add("Taille");
 
         columnEdgeNames = new Vector<>();
-        columnEdgeNames.add("Label");
-        columnEdgeNames.add("Size");
+        columnEdgeNames.add("Nom");
+        columnEdgeNames.add("Taille");
 
         vertexDatas = new Vector<>();
         edgeDatas = new Vector<>();
@@ -103,8 +103,8 @@ public class PropertyPanel extends JTabbedPane implements Observer {
             }
         });
 
-        this.addTab("Vertices", vertexScrollPane);
-        this.addTab("Edges", edgeScrollPane);
+        this.addTab("Noeuds", vertexScrollPane);
+        this.addTab("Arêtes", edgeScrollPane);
 
 
 
@@ -142,8 +142,15 @@ public class PropertyPanel extends JTabbedPane implements Observer {
             String newLabel = (String) edgePropertyTable.getModel().getValueAt(i,0);
             int newThickness = Integer.parseInt((String) edgePropertyTable.getModel().getValueAt(i, 1));
             int id = Integer.parseInt(edgeDatas.get(i).get(2));
-            (this.graph.getEdges().get(this.graph.getElementIndexWithId(id))).setThickness(newThickness);
+
             (this.graph.getEdges().get(this.graph.getElementIndexWithId(id))).setLabel(newLabel);
+
+            if(mustVerifyIntegerDatas(newThickness)){
+                int previousThickness = (this.graph.getEdges().get(this.graph.getElementIndexWithId(id))).getThickness();
+                edgePropertyTable.getModel().setValueAt(String.valueOf(previousThickness), i, 1);
+            }else {
+                (this.graph.getEdges().get(this.graph.getElementIndexWithId(id))).setThickness(newThickness);
+            }
         }
 
         this.graph.setChanged();
@@ -159,8 +166,16 @@ public class PropertyPanel extends JTabbedPane implements Observer {
             String newLabel = (String) vertexPropertyTable.getModel().getValueAt(i,0);
             int newSize = Integer.parseInt((String) vertexPropertyTable.getModel().getValueAt(i, 1));
             int id = Integer.parseInt(vertexDatas.get(i).get(2));
-            (this.graph.getVertexes().get(this.graph.getElementIndexWithId(id))).setSize(newSize);
+
             (this.graph.getVertexes().get(this.graph.getElementIndexWithId(id))).setLabel(newLabel);
+
+            if(mustVerifyIntegerDatas(newSize)){
+                int previousSize = (this.graph.getVertexes().get(this.graph.getElementIndexWithId(id))).getSize();
+                vertexPropertyTable.getModel().setValueAt(String.valueOf(previousSize), i, 1);
+            }else {
+                (this.graph.getVertexes().get(this.graph.getElementIndexWithId(id))).setSize(newSize);
+            }
+
         }
 
         this.graph.setChanged();
@@ -194,5 +209,20 @@ public class PropertyPanel extends JTabbedPane implements Observer {
 
         vertexPropertyTable.updateUI();
         edgePropertyTable.updateUI();
+    }
+
+    /**
+     * Méthode de vérification d'une donnée entière, pour éviter d'avoir des entiers inférieurs à 0.
+     * @param data L'entier devant être vérifié
+     * @return True s'il doit être vérifié, false sinon
+     */
+    private boolean mustVerifyIntegerDatas(int data){
+
+        if(data <= 0){
+            JOptionPane.showMessageDialog(null, "La donnée doit être supérieure à 0.", "Erreur", JOptionPane.ERROR_MESSAGE);
+            return true;
+        }else{
+            return false;
+        }
     }
 }
