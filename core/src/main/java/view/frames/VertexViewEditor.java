@@ -190,6 +190,11 @@ public class VertexViewEditor extends JDialog {
         return this.vertex;
     }
 
+
+    /**
+     * Méthode locale permettant de vérifier la modification des informations par l'utilisateur.
+     * @return True si les données doivent être revues, false sinon
+     */
     private boolean verifyModifications(){
 
         boolean mustBeVerified = false;

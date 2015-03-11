@@ -158,6 +158,10 @@ public class EdgeViewEditor extends JDialog {
      */
     public Edge getModifiedEdge(){ return this.edge; }
 
+    /**
+     * Méthode locale permettant de vérifier la modification des informations par l'utilisateur.
+     * @return True si les données doivent être revues, false sinon
+     */
     private boolean verifyModifications(){
          boolean mustBeVerified = false;
 
