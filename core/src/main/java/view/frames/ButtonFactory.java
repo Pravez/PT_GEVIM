@@ -26,7 +26,7 @@ public class ButtonFactory {
         button.setBorder(null);
         button.setFocusable(false);
         button.setActionCommand(actionCommand);
-        button.addActionListener(new ButtonActionListener(button, null, 0));
+        button.addActionListener(new ButtonActionListener(button, null, ""));
         button.setToolTipText(helpMessage);
         return button;
     }
@@ -43,7 +43,7 @@ public class ButtonFactory {
         JButton button = new JButton(buttonName);
         button.setActionCommand(actionName);
         button.setToolTipText(helpMessage);
-        button.addActionListener(new ButtonActionListener(button, null, 0));
+        button.addActionListener(new ButtonActionListener(button, null, ""));
         button.setFocusable(false);
         return button;
     }
@@ -64,7 +64,7 @@ public class ButtonFactory {
         button.setBounds(0, 0, 20, 20);
         button.setMargin(new Insets(0, 0, 0, 0));
         button.setBorder(null);
-        button.addActionListener(new ButtonActionListener(button, null, 0));
+        button.addActionListener(new ButtonActionListener(button, null, ""));
         button.setName(buttonName);
         button.setActionCommand(actionName);
         button.setSelected(false);
@@ -80,21 +80,25 @@ public class ButtonFactory {
      * @param actionName l'action associé au buton
      * @param fileName    le nom du fichier de l'image
      * @param helpMessage le message d'aide du bouton
+     * @param color la couleur de l'image au survol du bouton
+     * @param size la taille de l'image
+     * @param tabTitle le titre de l'onglet où l'action du bouton va être lancée
      */
-    public static JButton createImageButton(String buttonName, String actionName, String fileName, String helpMessage, Color color, int size) {
+    public static JButton createImageButton(String buttonName, String actionName, String fileName, String helpMessage, Color color, int size, String tabTitle) {
         Image   img    = Toolkit.getDefaultToolkit().getImage(fileName);
         final JButton button = new JButton();
         button.setIcon(new ImageIcon(img.getScaledInstance(size, size, Image.SCALE_SMOOTH)));
         try {
             BufferedImage bi = getColoredImage(ImageIO.read(new File(fileName)), color);//new Color(105, 105, 105));
             button.setRolloverIcon(new ImageIcon(bi.getScaledInstance(size, size, Image.SCALE_SMOOTH)));
+            button.setPressedIcon(new ImageIcon(bi.getScaledInstance(size, size, Image.SCALE_SMOOTH)));
         } catch (IOException e) {
             e.printStackTrace();
         }
         button.setPreferredSize(new Dimension(size, size));
         button.setBorder(null);
         button.setBounds(0, 0, size, size);
-        button.addActionListener(new ButtonActionListener(button, null, 0));
+        button.addActionListener(new ButtonActionListener(button, null, tabTitle));
         button.setName(buttonName);
         button.setActionCommand(actionName);
         button.setContentAreaFilled(false);
@@ -124,12 +128,13 @@ public class ButtonFactory {
         final Box box = new Box(0);
         box.setPreferredSize(new Dimension(size, size));
         box.setBounds(0, 0, size, size);
-        box.setOpaque(true);
+        box.setBackground(color);
+        box.setOpaque(false);
         button.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseEntered(MouseEvent mouseEvent) { box.setBackground(color); }
+            public void mouseEntered(MouseEvent mouseEvent) { box.setOpaque(true); }
             @Override
-            public void mouseExited(MouseEvent mouseEvent) { box.setBackground(null); }
+            public void mouseExited(MouseEvent mouseEvent) { box.setOpaque(false); }
         });
         box.add(button);
         return box;

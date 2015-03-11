@@ -138,7 +138,7 @@ public abstract class State {
 		JPopupMenu jpm = new JPopupMenu();
 		for(String s : menuItems){
 			JMenuItem jmi = new JMenuItem(s);
-			jmi.addActionListener(new ButtonActionListener(jmi, position, 0));
+			jmi.addActionListener(new ButtonActionListener(jmi, position, ""));
 			jpm.add(jmi);
 		}
 		return jpm;

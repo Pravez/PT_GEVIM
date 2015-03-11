@@ -346,15 +346,15 @@ public class Controller {
         if (this.window.getTabCount() > 0) {
             if(this.window.getCurrentSheet().getFile() == null) {
                 if (JOptionPane.showConfirmDialog(this.window, "Graphe non sauvegardé, souhaitez vous fermer ce graphe ?", "Fermer le graphe", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
-                    this.graphs.remove(this.graphs.get(this.window.getCurrentTabIndex()));
-                    this.window.getTabs().removeTabAt(this.window.getCurrentTabIndex());
+                    this.graphs.remove(this.graphs.get(tabIndex));
+                    this.window.getTabs().removeTabAt(tabIndex);
                     if (this.window.getTabCount() == 0) {
                         this.window.showStartPanel();
                     }
                 }
-            }else{
-                this.graphs.remove(this.graphs.get(this.window.getCurrentTabIndex()));
-                this.window.getTabs().removeTabAt(this.window.getCurrentTabIndex());
+            } else {
+                this.graphs.remove(this.graphs.get(tabIndex));
+                this.window.getTabs().removeTabAt(tabIndex);
                 if (this.window.getTabCount() == 0) {
                     this.window.showStartPanel();
                 }

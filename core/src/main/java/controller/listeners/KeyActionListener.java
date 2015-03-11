@@ -2,6 +2,7 @@ package controller.listeners;
 
 import controller.ActionController;
 
+import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -12,6 +13,7 @@ public class KeyActionListener extends KeyAdapter {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        System.out.println(KeyEvent.getKeyText(e.getKeyCode()));
         if (e.isControlDown()) {
             switch(KeyEvent.getKeyText(e.getKeyCode())) {
                 case "C" :
@@ -37,6 +39,11 @@ public class KeyActionListener extends KeyAdapter {
                     break;
                 case "S" :
                     ActionController.saveToGraphml(); // à modifier aussi
+                    break;
+                case "Retour arrière" :
+                    //ActionController.
+                    break;
+                case "Supprimer" :
                     break;
                 default:
                     break;

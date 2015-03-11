@@ -91,14 +91,14 @@ public class Window extends JFrame {
     private void initStartPanel() {
         this.startPanel = new JPanel();
         this.startPanel.setBackground(null);
-        this.startPanel.add(ButtonFactory.createImageButton("New", "New", "core/assets/new-very-big.png", "Nouveau graphe", new Color(105, 105, 105), 128));
+        this.startPanel.add(ButtonFactory.createImageButton("New", "New", "core/assets/new-very-big.png", "Nouveau graphe", new Color(105, 105, 105), 128, ""));
         JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
         separator.setBackground(Color.BLACK);
         separator.setPreferredSize(new Dimension(15, 128));
         this.startPanel.add(Box.createHorizontalStrut(5));
         this.startPanel.add(separator);
         this.startPanel.add(Box.createHorizontalStrut(5));
-        this.startPanel.add(ButtonFactory.createImageButton("Open", "Open", "core/assets/open-very-big.png", "Ouvrir un graphe", new Color(105, 105, 105), 128));
+        this.startPanel.add(ButtonFactory.createImageButton("Open", "Open", "core/assets/open-very-big.png", "Ouvrir un graphe", new Color(105, 105, 105), 128, ""));
         showStartPanel();
     }
 
@@ -136,7 +136,7 @@ public class Window extends JFrame {
         });
 
         //Icone de l'application
-        //setIconImage(Toolkit.getDefaultToolkit().getImage("appIcon.png"));
+        setIconImage(Toolkit.getDefaultToolkit().getImage("core/assets/LogoGevim.png"));
     }
 
     /**
@@ -161,7 +161,7 @@ public class Window extends JFrame {
         JMenuItem item = new JMenuItem(label);
         item.setActionCommand(action);
         menu.add(item);
-        item.addActionListener(new ButtonActionListener(item, null, 0));
+        item.addActionListener(new ButtonActionListener(item, null, ""));
     }
 
     /**
@@ -256,10 +256,8 @@ public class Window extends JFrame {
         }
 
         this.tabs.addTab(title, new Tab(graph, title, this.controller));
-        int index = this.tabs.indexOfTab(title);
         JPanel titlePanel = new JPanel(new GridBagLayout());
         titlePanel.setOpaque(false);
-        JButton close = ButtonFactory.createImageButton("Close", "Close", "core/assets/cross.png", "Fermer le graphe", Color.WHITE, 12);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -271,11 +269,19 @@ public class Window extends JFrame {
         gbc.gridx++;
         gbc.weightx = 0;
 
-        titlePanel.add(ButtonFactory.createBoxContainer(close, new Color(212, 0, 0), 12), gbc);
+        titlePanel.add(ButtonFactory.createBoxContainer(ButtonFactory.createImageButton("Close", "Close", "core/assets/cross.png", "Fermer le graphe", Color.WHITE, 12, title), new Color(212, 0, 0), 12), gbc);
 
-        close.addActionListener(new ButtonActionListener(close, null, index));
-        this.tabs.setTabComponentAt(index, titlePanel);
+        this.tabs.setTabComponentAt(this.tabs.indexOfTab(title), titlePanel);
         Window.tabIndex++;
+    }
+
+    /**
+     * Méthode permettant de savoir l'index du Tab dont le titre est donné en paramètre
+     * @param title le titre de l'onglet
+     * @return l'index du Tab dans la liste des Tab
+     */
+    public int getTabIndexOf(String title) {
+        return this.tabs.indexOfTab(title);
     }
 
     /**
@@ -288,7 +294,7 @@ public class Window extends JFrame {
     }
 
     /**
-     * Getter du champs statique donnant le nombre tab créés
+     * Getter du champs statique donnant le nombre de tab créés
      *
      * @return tabIndex
      */

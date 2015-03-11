@@ -18,7 +18,7 @@ public class StateButton extends JButton {
         setBorder(null);
         setFocusable(false);
         setActionCommand(actionCommand);
-        addActionListener(new ButtonActionListener(this, null, 0));
+        addActionListener(new ButtonActionListener(this, null, ""));
         setToolTipText(helpMessage);
     }
 }

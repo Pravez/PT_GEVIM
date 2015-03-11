@@ -17,11 +17,11 @@ public class ActionController {
         ActionController.controller = controller;
     }
 
-    public static void handleButton(AbstractButton button, Point position, int tabIndex) {
+    public static void handleButton(AbstractButton button, Point position, String tabTitle) {
         if (button.getClass() == StateButton.class) { // bouton de contrôle de l'Etat du Controller
             ActionController.controller.changeState(button.getActionCommand());
         } else { // tous les autres boutons du programme
-            handleMenuButton(button.getActionCommand(), position, tabIndex);
+            handleMenuButton(button.getActionCommand(), position, ActionController.controller.getWindow().getTabIndexOf(tabTitle));
         }
     }
 
