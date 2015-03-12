@@ -147,7 +147,7 @@ public class ActionController {
     }
 
     private static void edit() {
-        ActionController.controller.getWindow().getCurrentSheet().modifySelectedElement();
+        ActionController.controller.getWindow().getCurrentSheet().modifySelectedElements();
     }
 
     private static void properties() {

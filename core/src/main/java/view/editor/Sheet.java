@@ -8,11 +8,15 @@ import view.Observer;
 import view.editor.elements.EdgeView;
 import view.editor.elements.ElementView;
 import view.editor.elements.VertexView;
+import view.frames.ElementsEditor;
 import view.frames.SheetPropertiesViewEditor;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.ListIterator;
@@ -230,9 +234,15 @@ public class Sheet extends JComponent implements Observer {
     /**
      * Méthode pour modifier le premier élément sélectionné
      */
-    public void modifySelectedElement() {
-    	/// A modifier --> soit modifier tous, soit le premier qui est un VertexView
-    	selectedElements.get(0).modify(this.graph);
+    public void modifySelectedElements() {
+        if(selectedElements.size()==1){
+            selectedElements.get(0).modify(this.graph);
+
+        }else if(selectedElements.size()>=2){
+            modifyElements();
+
+        }
+
         this.graph.setChanged();
         this.repaint();
     }
@@ -659,6 +669,23 @@ public class Sheet extends JComponent implements Observer {
     }
 
     public void setScale(double scale) { this.scale = scale; }
+
+    public void modifyElements(){
+        ElementsEditor elementsViewEditor = new ElementsEditor(this.selectedElements);
+
+        ArrayList<ElementView> modifiedElements = elementsViewEditor.getElements();
+
+        for(int i=0;i<modifiedElements.size();i++){
+            this.selectedElements.get(i).getGraphElement().setColor(modifiedElements.get(i).getGraphElement().getColor());
+            this.selectedElements.get(i).getGraphElement().setLabel(modifiedElements.get(i).getGraphElement().getLabel());
+
+            if(this.selectedElements.get(i).getGraphElement().isVertex()){
+                ((Vertex)this.selectedElements.get(i).getGraphElement()).setSize(((Vertex)modifiedElements.get(i).getGraphElement()).getSize());
+            }else{
+                ((Edge)this.selectedElements.get(i).getGraphElement()).setThickness(((Edge)modifiedElements.get(i).getGraphElement()).getThickness());
+            }
+        }
+    }
 
 
 }
