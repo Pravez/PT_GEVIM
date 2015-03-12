@@ -135,8 +135,7 @@ public class Window extends JFrame {
             }
         });
 
-        //Icone de l'application
-        setIconImage(Toolkit.getDefaultToolkit().getImage("core/assets/LogoGevim.png"));
+        setIconImage(Toolkit.getDefaultToolkit().getImage("core/assets/LogoGevim.png")); //Icone de l'application
     }
 
     /**

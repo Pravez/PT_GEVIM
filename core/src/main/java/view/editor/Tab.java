@@ -50,6 +50,9 @@ public class Tab extends JSplitPane {
         });
     }
 
+    /**
+     * Méthode privée appelée à chaque redimensionnement du composant
+     */
     private void resize() {
         double dividerLocation = 0.75;
         this.setDividerLocation(dividerLocation);
@@ -106,7 +109,6 @@ public class Tab extends JSplitPane {
 
         this.add(scrollPane);
     }
-
 
     /**
      * Initialisation du BoardPanel, la {@link javax.swing.JPanel} qui contiendra la {@link view.editor.MiniMap}, le {@link undoRedo.UndoPanel} et le {@link view.editor.PropertyPanel}
@@ -173,5 +175,9 @@ public class Tab extends JSplitPane {
         return this.undoredo;
     }
 
+    /**
+     * Getter des Propriétés
+     * @return properties
+     */
     public PropertyPanel getProperties() { return this.properties; }
 }

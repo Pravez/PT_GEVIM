@@ -17,20 +17,6 @@ import java.io.IOException;
  */
 public class ButtonFactory {
 
-    public static JButton createStateButton(String fileName, String actionCommand, String helpMessage) {
-        JButton button = new JButton();
-        Image img = Toolkit.getDefaultToolkit().getImage(fileName);
-        button.setIcon(new ImageIcon(img.getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
-        button.setBounds(0, 0, 20, 20);
-        button.setMargin(new Insets(0, 0, 0, 0));
-        button.setBorder(null);
-        button.setFocusable(false);
-        button.setActionCommand(actionCommand);
-        button.addActionListener(new ButtonActionListener(button, null, ""));
-        button.setToolTipText(helpMessage);
-        return button;
-    }
-
     /**
      * Méthode statique pour créer un bouton avec du texte destiné à un ToolBar
      *
@@ -107,6 +93,12 @@ public class ButtonFactory {
         return button;
     }
 
+    /**
+     * Méthode privée et statique permettant de retourner une image dont les couleurs ont été changées selon celle spécifiée en paramètre, de la colorier
+     * @param image l'image de départ
+     * @param color la couleur à affecter
+     * @return la nouvelle image recoloriée
+     */
     private static BufferedImage getColoredImage(BufferedImage image, Color color) {
         int width = image.getWidth();
         int height = image.getHeight();
@@ -124,6 +116,13 @@ public class ButtonFactory {
         return image;
     }
 
+    /**
+     * Méthode statique permettant de créer une boite conteneur d'un AbstractButton en ayant une couleur au survol spécifique
+     * @param button le bouton qui est contenu dans la boite
+     * @param color la couleur de la boite au survol
+     * @param size la dimension de la boite
+     * @return la boite créée
+     */
     public static Box createBoxContainer(AbstractButton button, final Color color, int size) {
         final Box box = new Box(0);
         box.setPreferredSize(new Dimension(size, size));

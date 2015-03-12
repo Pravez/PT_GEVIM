@@ -76,7 +76,9 @@ public class ScrollPane extends JScrollPane {
         /** **/
         this.sheet.setScale(scale);
         this.sheet.setPreferredSize(new Dimension((int)(this.sheet.getScale()*this.sheet.getMaximumSize().width), (int) (this.sheet.getScale() * this.sheet.getMaximumSize().height)));
-        this.tab.getMiniMap().setPosition(new Point(posX, posY), width, height);
+        //this.getHorizontalScrollBar().setValue(posX);
+        //this.getVerticalScrollBar().setValue(posY);
+        //this.tab.getMiniMap().setPosition(new Point(posX, posY), width, height);
         this.tab.getMiniMap().updateSelectionZone();
         this.sheet.revalidate();
     }

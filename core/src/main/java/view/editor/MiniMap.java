@@ -150,6 +150,12 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
 		this.pane.getVerticalScrollBar().setValue((int) (1.0*origin.y*this.sheet.getSize().height/this.getPreferredSize().height));
 	}
 
+    /**
+     * Méthode permettant de modifier la position des scrollers du ScrollPane
+     * @param position la nouvelle position du point d'origine du viewport
+     * @param width l'ancienne largeur du viewPort
+     * @param height l'ancienne hauteur du viewPort
+     */
     public void setPosition(Point position, int width, int height) {
         this.pane.getHorizontalScrollBar().setValue((int) (1.0*position.x*this.sheet.getPreferredSize().width/width));
         this.pane.getVerticalScrollBar().setValue((int) (1.0*position.y*this.sheet.getPreferredSize().height/height));
