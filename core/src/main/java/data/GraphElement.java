@@ -11,7 +11,7 @@ public abstract class GraphElement {
 	private String label;
 	private int    value;
 	private Color  color;
-	
+
 	/**
 	 * Constructeur de la classe GraphElement
 	 * @param label l'étiquette de l'élément
