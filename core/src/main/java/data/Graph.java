@@ -12,25 +12,14 @@ import java.util.ArrayList;
  */
 public class Graph extends Observable {
 
-	protected UndoManager     undo = new UndoManager();
-
     private ArrayList<GraphElement> elements;
-
-    private String            name;
+    private String                  name;
 
     /**
      * Constructeur de la classe Graph
      */
     public Graph() {
         this.elements = new ArrayList<GraphElement>();
-    }
-
-    /**
-     * Constructeur par copie de la classe Graph
-     * @param g le Graph à copier
-     */
-    public Graph(Graph g) {
-    	this.elements = new ArrayList<GraphElement>(g.elements);
     }
 
     /**
