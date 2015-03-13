@@ -10,9 +10,10 @@ public class Edge extends GraphElement {
 
     private static int CURRENT_VALUE = 0;
 
-    private Vertex origin;
-    private Vertex destination;
-    private int    thickness;
+    private Vertex  origin;
+    private Vertex  destination;
+    private int     thickness;
+    private Color   color = Color.BLACK;
     
     /**
      * Constructeur de la classe Edge
@@ -23,10 +24,11 @@ public class Edge extends GraphElement {
      * @param thickness l'épaisseur de l'Edge
      */
     public Edge(String label, Color color, Vertex origin, Vertex destination, int thickness) {
-    	super(label, CURRENT_VALUE, color);
+    	super(label, CURRENT_VALUE);
         this.origin      = origin;
         this.destination = destination;
         this.thickness   = thickness;
+        this.color = color;
         origin.addEdge(this);
         destination.addEdge(this);
         CURRENT_VALUE++;
@@ -40,10 +42,11 @@ public class Edge extends GraphElement {
      * @param thickness l'épaisseur de l'Edge
      */
     public Edge(Color color, Vertex origin, Vertex destination, int thickness) {
-    	super("edge"+CURRENT_VALUE, CURRENT_VALUE, color);
+    	super("edge"+CURRENT_VALUE, CURRENT_VALUE);
         this.origin      = origin;
         this.destination = destination;
         this.thickness   = thickness;
+        this.color=color;
         origin.addEdge(this);
         destination.addEdge(this);
         CURRENT_VALUE++;
@@ -87,7 +90,25 @@ public class Edge extends GraphElement {
     public void setDestination(Vertex destination) {
         this.destination = destination;
     }
-    
+
+    /**
+     * Getter de la couleur de l'Edge
+     * @return la couleur de l'Edge
+     */
+    @Override
+    public Color getColor() {
+        return color;
+    }
+
+    /**
+     * Setter de la couleur de l'Edge
+     * @param color la nouvelle couleur de l'Edge
+     */
+    @Override
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
     /**
      * Getter de l'épaisseur de l'Edge
      * @return l'épaisseur de l'Edge

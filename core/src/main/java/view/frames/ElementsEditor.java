@@ -85,8 +85,6 @@ public class ElementsEditor extends JDialog {
     }
 
     private void onOK() {
-
-
         if(!verifyModifications()) {
             if (!alreadyValidated && Integer.parseInt(this.elementsSize.getText()) < 5) {
                 JOptionPane.showMessageDialog(this, "Attention vous editez des noeuds, il se pourrait qu'ils soient trop petits.", "Information", JOptionPane.INFORMATION_MESSAGE);
@@ -114,7 +112,8 @@ public class ElementsEditor extends JDialog {
                 ev.getGraphElement().setLabel(this.elementsName.getText());
             }
             if(validColor.isSelected()) {
-                ev.getGraphElement().setColor(this.elementsColor.getBackground());
+                if(ev.getGraphElement().isVertex())
+                    ev.getGraphElement().setColor(this.elementsColor.getBackground());
             }
         }
 

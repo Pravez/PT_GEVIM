@@ -92,7 +92,7 @@ public class Controller {
         }
         if (ok) {
             ArrayList<GraphElement> tmp = new ArrayList<>();
-            tmp.add(this.window.getCurrentTab().getGraph().createEdge(this.window.getCurrentSheet().getDefaultVertexesColor(), src, dst, this.window.getCurrentSheet().getDefaultEdgesThickness()));
+            tmp.add(this.window.getCurrentTab().getGraph().createEdge(this.window.getCurrentSheet().getDefaultVerticesColor(), src, dst, this.window.getCurrentSheet().getDefaultEdgesThickness()));
             window.getCurrentTab().getUndoRedo().registerAddEdit(tmp);
         }
     }

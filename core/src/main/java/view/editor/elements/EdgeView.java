@@ -1,8 +1,8 @@
 package view.editor.elements;
 
 import data.Edge;
-import data.GraphElement;
 import data.Graph;
+import data.GraphElement;
 import view.frames.EdgeViewEditor;
 
 import java.awt.*;
@@ -34,11 +34,11 @@ public class EdgeView extends ElementView {
      * @param origin le VertexView d'origine
      * @param destination le VertexView de destination
      */
-    public EdgeView(Edge edge, int hoverThickness, Color hoverColor, VertexView origin, VertexView destination) {
+    public EdgeView(Edge edge, int hoverThickness, Color color, Color hoverColor, VertexView origin, VertexView destination) {
     	this.edge           = edge;
     	this.thickness      = edge.getThickness();
         this.hoverThickness = hoverThickness;
-        this.color          = edge.getColor();
+        this.color          = color;
         this.hoverColor     = hoverColor;
         this.origin         = origin;
         this.destination    = destination;

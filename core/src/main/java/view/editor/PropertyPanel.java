@@ -117,7 +117,7 @@ public class PropertyPanel extends JTabbedPane implements Observer {
     private void addVerticesToSelectedElements(int[] selectedRows) {
         sheet.clearSelectedElements();
         for(int i : selectedRows){
-            sheet.selectElement(sheet.getVertexes().get(i));
+            sheet.selectElement(sheet.getVertices().get(i));
         }
     }
 

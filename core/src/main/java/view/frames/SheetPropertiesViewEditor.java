@@ -34,22 +34,22 @@ public class SheetPropertiesViewEditor extends JDialog {
 
     // JLabel for each attribute
     JLabel jl_defaultBackgroundColor;
-    JLabel jl_defaultVertexesColor;
+    JLabel jl_defaultVerticesColor;
     JLabel jl_defaultEdgesColor;
 
-    JLabel jl_defaultVertexesSize;
+    JLabel jl_defaultVerticesSize;
     JLabel jl_defaultEdgesThickness;
-    JLabel jl_defaultVertexesShape;
+    JLabel jl_defaultVerticesShape;
 
     // Attributes for modifications
     private JPanel defaultBackgroundColor;
-    private JPanel defaultVertexesColor;
+    private JPanel defaultVerticesColor;
     private JPanel defaultEdgesColor;
 
-    private JTextField defaultVertexesSize;
+    private JTextField defaultVerticesSize;
     private JTextField defaultEdgesThickness;
 
-    private JComboBox<Vertex.Shape> defaultVertexesShape;
+    private JComboBox<Vertex.Shape> defaultVerticesShape;
 
     private Sheet tab;
 
@@ -58,37 +58,37 @@ public class SheetPropertiesViewEditor extends JDialog {
         // Initialisation des attributs de propriété
         this.tab = tab;
         this.defaultBackgroundColor = new JPanel();
-        this.defaultVertexesColor = new JPanel();
+        this.defaultVerticesColor = new JPanel();
         this.defaultEdgesColor = new JPanel();
-        this.defaultVertexesSize = new JTextField();
+        this.defaultVerticesSize = new JTextField();
         this.defaultEdgesThickness = new JTextField();
-        this.defaultVertexesShape = new JComboBox<>();
+        this.defaultVerticesShape = new JComboBox<>();
 
 
         this.defaultBackgroundColor.setBackground(Color.LIGHT_GRAY); /// En attente d'implémentation dans la classe Tab
-        this.defaultVertexesColor.setBackground(this.tab.getDefaultVertexesColor());
-        this.defaultEdgesColor.setBackground(this.tab.getDefaultVertexesColor());
+        this.defaultVerticesColor.setBackground(this.tab.getDefaultVerticesColor());
+        this.defaultEdgesColor.setBackground(this.tab.getDefaultEdgesColor());
 
-        this.defaultVertexesSize.setText(String.valueOf(this.tab.getDefaultVertexesSize()));
+        this.defaultVerticesSize.setText(String.valueOf(this.tab.getDefaultVerticesSize()));
         this.defaultEdgesThickness.setText(String.valueOf(this.tab.getDefaultEdgesThickness()));
 
-        this.defaultVertexesShape.addItem(Vertex.Shape.SQUARE);
-        this.defaultVertexesShape.addItem(Vertex.Shape.CIRCLE);
-        this.defaultVertexesShape.addItem(Vertex.Shape.TRIANGLE);
-        this.defaultVertexesShape.addItem(Vertex.Shape.CROSS);
+        this.defaultVerticesShape.addItem(Vertex.Shape.SQUARE);
+        this.defaultVerticesShape.addItem(Vertex.Shape.CIRCLE);
+        this.defaultVerticesShape.addItem(Vertex.Shape.TRIANGLE);
+        this.defaultVerticesShape.addItem(Vertex.Shape.CROSS);
 
-        switch(this.tab.getDefaultVertexesShape()){
+        switch(this.tab.getDefaultVerticesShape()){
             case SQUARE:
-                this.defaultVertexesShape.setSelectedIndex(0);
+                this.defaultVerticesShape.setSelectedIndex(0);
                 break;
             case CIRCLE:
-                this.defaultVertexesShape.setSelectedIndex(1);
+                this.defaultVerticesShape.setSelectedIndex(1);
                 break;
             case TRIANGLE:
-                this.defaultVertexesShape.setSelectedIndex(2);
+                this.defaultVerticesShape.setSelectedIndex(2);
                 break;
             case CROSS:
-                this.defaultVertexesShape.setSelectedIndex(3);
+                this.defaultVerticesShape.setSelectedIndex(3);
                 break;
             default:
                 break;
@@ -96,10 +96,10 @@ public class SheetPropertiesViewEditor extends JDialog {
 
         // Initialisation des différents éléments graphiques, d'organisation,et labels
         this.jl_defaultBackgroundColor = new JLabel("Background color (not implemented)");
-        this.jl_defaultVertexesColor = new JLabel("Vertexes color : ");
+        this.jl_defaultVerticesColor = new JLabel("Vertices color : ");
         this.jl_defaultEdgesColor = new JLabel("Edges color : ");
-        this.jl_defaultVertexesSize = new JLabel("Vertexes size : ");
-        this.jl_defaultVertexesShape = new JLabel("Vertexes shape : ");
+        this.jl_defaultVerticesSize = new JLabel("Vertices size : ");
+        this.jl_defaultVerticesShape = new JLabel("Vertices shape : ");
         this.jl_defaultEdgesThickness = new JLabel("Edges thickness : ");
 
         contentLayout = new GridBagLayout();
@@ -114,7 +114,7 @@ public class SheetPropertiesViewEditor extends JDialog {
 
         // Propriétés de la fenêtre et positionnement de ses éléments
         setTitle("Sheet Properties");
-        this.setPreferredSize(new Dimension(500,500));
+        this.setPreferredSize(new Dimension(500, 500));
         setLocationRelativeTo(null);
         setModal(true);
         setContentPane(this.contentPane);
@@ -125,21 +125,21 @@ public class SheetPropertiesViewEditor extends JDialog {
         constraintsLayout.fill = GridBagConstraints.HORIZONTAL;
         constraintsLayout.gridx=0;
         constraintsLayout.gridy=0;
-        contentPane.add(jl_defaultVertexesSize,constraintsLayout);
+        contentPane.add(jl_defaultVerticesSize,constraintsLayout);
         constraintsLayout.gridx=1;
-        contentPane.add(defaultVertexesSize,constraintsLayout);
+        contentPane.add(defaultVerticesSize,constraintsLayout);
 
         constraintsLayout.gridx=0;
         constraintsLayout.gridy=1;
-        contentPane.add(jl_defaultVertexesShape,constraintsLayout);
+        contentPane.add(jl_defaultVerticesShape,constraintsLayout);
         constraintsLayout.gridx=1;
-        contentPane.add(defaultVertexesShape, constraintsLayout);
+        contentPane.add(defaultVerticesShape, constraintsLayout);
 
         constraintsLayout.gridx=0;
         constraintsLayout.gridy=2;
-        contentPane.add(jl_defaultVertexesColor,constraintsLayout);
+        contentPane.add(jl_defaultVerticesColor,constraintsLayout);
         constraintsLayout.gridx=1;
-        contentPane.add(defaultVertexesColor,constraintsLayout);
+        contentPane.add(defaultVerticesColor,constraintsLayout);
 
         constraintsLayout.gridx=0;
         constraintsLayout.gridy=3;
@@ -183,23 +183,27 @@ public class SheetPropertiesViewEditor extends JDialog {
             }
         });
 
-        this.defaultVertexesColor.addMouseListener(new MouseListener() {
+        this.defaultVerticesColor.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
-                onColor(defaultVertexesColor);
+                onColor(defaultVerticesColor);
             }
 
             @Override
-            public void mousePressed(MouseEvent mouseEvent) { }
+            public void mousePressed(MouseEvent mouseEvent) {
+            }
 
             @Override
-            public void mouseReleased(MouseEvent mouseEvent) { }
+            public void mouseReleased(MouseEvent mouseEvent) {
+            }
 
             @Override
-            public void mouseEntered(MouseEvent mouseEvent) { }
+            public void mouseEntered(MouseEvent mouseEvent) {
+            }
 
             @Override
-            public void mouseExited(MouseEvent mouseEvent) { }
+            public void mouseExited(MouseEvent mouseEvent) {
+            }
         });
 
         this.defaultEdgesColor.addMouseListener(new MouseListener() {
@@ -260,32 +264,34 @@ public class SheetPropertiesViewEditor extends JDialog {
     }
 
     /**
-     * Méthode appellée à l'appui du bouton OK, qui enregistre toutes les données modifiées.
+     * Méthode appellée à l'appui du bouton OK (ou de la touche ENTER), qui enregistre toutes les données modifiées.
      */
     private void onOK() {
-        this.tab.setDefaultVertexesSize(Integer.valueOf(this.defaultVertexesSize.getText()));
-        this.tab.setDefaultVertexesColor(this.defaultVertexesColor.getBackground());
+        this.tab.setDefaultVerticesSize(Integer.valueOf(this.defaultVerticesSize.getText()));
+        this.tab.setDefaultVerticesColor(this.defaultVerticesColor.getBackground());
         this.tab.setDefaultEdgesColor(this.defaultEdgesColor.getBackground());
         this.tab.setDefaultEdgesThickness(Integer.valueOf(defaultEdgesThickness.getText()));
         //this.tab.setDefaultBackgroundColor(this.defaultBackgroundColor.getBackground());   ||** Background color à implémenter dans Tab !!
 
-        switch(this.defaultVertexesShape.getSelectedItem().toString()){
-            case "CIRCLE":
-                this.tab.setDefaultVertexesShape(Vertex.Shape.CIRCLE);
+        switch(this.defaultVerticesShape.getSelectedItem().toString()){
+            case "Circle":
+                this.tab.setDefaultVerticesShape(Vertex.Shape.CIRCLE);
                 break;
-            case "SQUARE":
-                this.tab.setDefaultVertexesShape(Vertex.Shape.SQUARE);
+            case "Square":
+                this.tab.setDefaultVerticesShape(Vertex.Shape.SQUARE);
                 break;
-            case "CROSS":
-                this.tab.setDefaultVertexesShape(Vertex.Shape.CROSS);
+            case "Cross":
+                this.tab.setDefaultVerticesShape(Vertex.Shape.CROSS);
                 break;
-            case "TRIANGLE":
-                this.tab.setDefaultVertexesShape(Vertex.Shape.TRIANGLE);
+            case "Triangle":
+                this.tab.setDefaultVerticesShape(Vertex.Shape.TRIANGLE);
                 break;
             default:
                 System.out.println("DEFAULT");
                 break;
         }
+        System.out.println("propColor V: "+this.defaultVerticesColor.getBackground());
+        System.out.println("propColor E: "+this.defaultEdgesColor.getBackground());
 
         dispose();
     }

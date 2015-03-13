@@ -1,6 +1,5 @@
 package data;
 
-import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -68,7 +67,7 @@ public class Graph extends Observable {
     		if (!elements.get(i).isVertex()) {
     			int origin      = elements.indexOf(((Edge)elements.get(i)).getOrigin());
     			int destination = elements.indexOf(((Edge)elements.get(i)).getDestination());
-    			new_elements.set(i, new Edge(elements.get(i). getLabel(), elements.get(i).getColor(), (Vertex)new_elements.get(origin), (Vertex)new_elements.get(destination), ((Edge)elements.get(i)).getThickness()));
+    			new_elements.set(i, new Edge(elements.get(i). getLabel(), ((Edge) elements.get(i)).getColor(), (Vertex)new_elements.get(origin), (Vertex)new_elements.get(destination), ((Edge)elements.get(i)).getThickness()));
     		}
     	}
     	return new_elements;
@@ -114,7 +113,7 @@ public class Graph extends Observable {
     		if (!elements.get(i).isVertex()) {
     			int origin      = elements.indexOf(((Edge)elements.get(i)).getOrigin());
     			int destination = elements.indexOf(((Edge)elements.get(i)).getDestination());
-    			new_elements.set(i, new Edge(elements.get(i). getLabel(), elements.get(i).getColor(), (Vertex)new_elements.get(origin), (Vertex)new_elements.get(destination), ((Edge)elements.get(i)).getThickness()));
+    			new_elements.set(i, new Edge(elements.get(i). getLabel(), ((Edge) elements.get(i)).getColor(), (Vertex)new_elements.get(origin), (Vertex)new_elements.get(destination), ((Edge)elements.get(i)).getThickness()));
     		}
     	}
     	return new_elements;

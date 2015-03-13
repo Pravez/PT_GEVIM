@@ -32,20 +32,20 @@ public class Sheet extends JComponent implements Observer {
     private Controller             controller;
     
     private ArrayList<EdgeView>    edges;
-    private ArrayList<VertexView>  vertexes;
+    private ArrayList<VertexView> vertices;
     
     private ArrayList<ElementView> selectedElements;
     private ArrayList<ElementView> currentSelectedElements;
     
     private String                 name;
     private String                 file;
-    private Color                  defaultVertexesColor;
+    private Color                  defaultVerticesColor;
     private Color                  defaultEdgesColor;
     private Color                  defaultSelectedColor;
     private int                    defaultSelectedThickness;
     private int                    defaultEdgesThickness;
-    private int                    defaultVertexesSize;
-    private Vertex.Shape           defaultVertexesShape;
+    private int defaultVerticesSize;
+    private Vertex.Shape defaultVerticesShape;
     
     /** Sélection par zone **/
     private Rectangle              selectionZone;
@@ -86,17 +86,17 @@ public class Sheet extends JComponent implements Observer {
         this.controller               = controller;
         
         this.edges                    = new ArrayList<>();
-        this.vertexes                 = new ArrayList<>();
+        this.vertices = new ArrayList<>();
         this.selectedElements         = new ArrayList<>();
         this.currentSelectedElements  = new ArrayList<>();
         
-        this.defaultVertexesColor     = Color.BLACK;
+        this.defaultVerticesColor     = Color.BLACK;
         this.defaultEdgesColor        = Color.BLACK;
         this.defaultSelectedColor     = Color.BLUE;
         this.defaultEdgesThickness    = 1;
         this.defaultSelectedThickness = 2;
-        this.defaultVertexesSize      = 15;
-        this.defaultVertexesShape     = Vertex.Shape.SQUARE;
+        this.defaultVerticesSize = 15;
+        this.defaultVerticesShape = Vertex.Shape.SQUARE;
         
         this.selectionColor           = new Color(172, 211, 244);
         this.selectionBorderColor     = new Color(107, 153, 189);
@@ -115,8 +115,8 @@ public class Sheet extends JComponent implements Observer {
      * @return un boolean avec le résultat
      */
     public boolean canAddVertex(Point position) {
-    	for (VertexView v : this.vertexes) {
-    		int margin = this.defaultVertexesSize /2;
+    	for (VertexView v : this.vertices) {
+    		int margin = this.defaultVerticesSize /2;
     		int side   = v.getWidth() + margin*3; 
     		if (new Rectangle(v.getPosition().x - margin, v.getPosition().y - margin, side, side).contains(position))
     			return false;
@@ -146,7 +146,7 @@ public class Sheet extends JComponent implements Observer {
             e.paintComponent(g, this.scale, this.scale);
         }
         // dessiner tous les VertexView
-        for (VertexView v : this.vertexes) {
+        for (VertexView v : this.vertices) {
             v.paintComponent(g, this.scale, this.scale);
         }
     }
@@ -155,32 +155,32 @@ public class Sheet extends JComponent implements Observer {
      * Getter de la forme par défaut des VertexView
      * @return la forme par défaut des VertexView
      */
-    public Vertex.Shape getDefaultVertexesShape() { // pourquoi cela ne serait pas dans les Vertex plutôt ? Est-ce que tous les Vertex doivent avoir la même forme ?
-        return defaultVertexesShape;
+    public Vertex.Shape getDefaultVerticesShape() { // pourquoi cela ne serait pas dans les Vertex plutôt ? Est-ce que tous les Vertex doivent avoir la même forme ?
+        return defaultVerticesShape;
     }
 
     /**
      * Setter de la forme par défaut des VertexView
-     * @param defaultVertexesShape la nouvelle forme des VertexView
+     * @param defaultVerticesShape la nouvelle forme des VertexView
      */
-    public void setDefaultVertexesShape(Vertex.Shape defaultVertexesShape) {
-        this.defaultVertexesShape = defaultVertexesShape;
+    public void setDefaultVerticesShape(Vertex.Shape defaultVerticesShape) {
+        this.defaultVerticesShape = defaultVerticesShape;
     }
 
     /**
      * Getter de la liste des VertexView du Tab
      * @return la liste des VertexView
      */
-    public ArrayList<VertexView> getVertexes() {
-        return vertexes;
+    public ArrayList<VertexView> getVertices() {
+        return vertices;
     }
 
     /**
      * Setter de la liste des VertexView du Tab
-     * @param vertexes la nouvelle liste des VertexView
+     * @param vertices la nouvelle liste des VertexView
      */
-    public void setVertexes(ArrayList<VertexView> vertexes) {
-        this.vertexes = vertexes;
+    public void setVertices(ArrayList<VertexView> vertices) {
+        this.vertices = vertices;
     }
 
     /**
@@ -225,7 +225,7 @@ public class Sheet extends JComponent implements Observer {
         for (ElementView e : this.edges) {
             selectElement(e);
         }
-        for (ElementView e : this.vertexes) {
+        for (ElementView e : this.vertices) {
             selectElement(e);
         }
         this.repaint();
@@ -251,17 +251,15 @@ public class Sheet extends JComponent implements Observer {
      * Méthode pour modifier tous les éléments existants
      */
     public void modifyProperties() {
-        System.out.println("Appel constructeur");
         SheetPropertiesViewEditor tpve = new SheetPropertiesViewEditor(this);
-        System.out.println("Modifications");
-        this.setDefaultVertexesSize(tpve.getTab().getDefaultVertexesSize());
-        this.setDefaultVertexesColor(tpve.getTab().getDefaultVertexesColor());
+        this.setDefaultVerticesSize(tpve.getTab().getDefaultVerticesSize());
+        this.setDefaultVerticesColor(tpve.getTab().getDefaultVerticesColor());
         this.setDefaultEdgesThickness(tpve.getTab().getDefaultEdgesThickness());
         this.setDefaultEdgesColor(tpve.getTab().getDefaultEdgesColor());
-        this.setDefaultVertexesShape(tpve.getTab().getDefaultVertexesShape());
+        this.setDefaultVerticesShape(tpve.getTab().getDefaultVerticesShape());
         this.graph.setChanged();
 
-        //this.tab.*******************defaultBackgroundColor                                 A faire éventuellement (changer le background complet du tab
+        //this.tab.*******************defaultBackgroundColor ++A faire éventuellement (changer le background complet du tab
     }
 
     /**
@@ -374,7 +372,7 @@ public class Sheet extends JComponent implements Observer {
      */
 	public void selectElementsInZone() {
 		clearSelectedElements();
-		for (VertexView v : this.vertexes) {
+		for (VertexView v : this.vertices) {
             Point position = new Point((int)(v.getPosition().x * this.scale), (int)(v.getPosition().y * this.scale));
 			if (this.selectionZone.contains(position)) {
 				selectElement(v);
@@ -402,7 +400,7 @@ public class Sheet extends JComponent implements Observer {
 		for (ElementView e : this.currentSelectedElements) {
 			selectElement(e);
 		}
-		for (VertexView v : this.vertexes) {
+		for (VertexView v : this.vertices) {
 			if (this.selectionZone.contains(v.getPosition())) {
 				selectElement(v);
 				this.currentSelectedElements.add(v);
@@ -499,8 +497,8 @@ public class Sheet extends JComponent implements Observer {
      * Getter de la couleur par défaut des VertexView
      * @return la couleur par défaut
      */
-    public Color getDefaultVertexesColor() {
-        return this.defaultVertexesColor;
+    public Color getDefaultVerticesColor() {
+        return this.defaultVerticesColor;
     }
 
     /**
@@ -513,10 +511,10 @@ public class Sheet extends JComponent implements Observer {
 
     /**
      * Setter de la couleur par défaut des VertexView
-     * @param defaultVertexesColor la nouvelle couleur par défaut
+     * @param defaultVerticesColor la nouvelle couleur par défaut
      */
-    public void setDefaultVertexesColor(Color defaultVertexesColor) {
-        this.defaultVertexesColor = defaultVertexesColor;
+    public void setDefaultVerticesColor(Color defaultVerticesColor) {
+        this.defaultVerticesColor = defaultVerticesColor;
     }
 
     /**
@@ -531,16 +529,16 @@ public class Sheet extends JComponent implements Observer {
      * Getter de la taille par défaut des VertexView
      * @return la taille par défaut
      */
-    public int getDefaultVertexesSize() {
-        return this.defaultVertexesSize;
+    public int getDefaultVerticesSize() {
+        return this.defaultVerticesSize;
     }
 
     /**
      * Setter de la taille par défaut des VertexView
-     * @param defaultVertexesSize la nouvelle taille par défaut
+     * @param defaultVerticesSize la nouvelle taille par défaut
      */
-    public void setDefaultVertexesSize(int defaultVertexesSize) {
-        this.defaultVertexesSize = defaultVertexesSize;
+    public void setDefaultVerticesSize(int defaultVerticesSize) {
+        this.defaultVerticesSize = defaultVerticesSize;
     }
 
     /**
@@ -581,7 +579,7 @@ public class Sheet extends JComponent implements Observer {
             @Override
             public void mouseDragged(MouseEvent e) { controller.getState().drag(vertexView, e); }
         });
-        this.vertexes.add(vertexView);
+        this.vertices.add(vertexView);
         super.add(vertexView);
     }
     
@@ -592,7 +590,7 @@ public class Sheet extends JComponent implements Observer {
      * @param destination le VertexView de destination de l'EdgeView
      */
     public void addEdge(Edge edge, VertexView origin, VertexView destination ){
-    	final EdgeView edgeView = new EdgeView(edge, this.defaultSelectedThickness, this.defaultSelectedColor, origin, destination);
+    	final EdgeView edgeView = new EdgeView(edge, this.defaultSelectedThickness, this.defaultEdgesColor, this.defaultSelectedColor, origin, destination);
     	edgeView.addMouseListener(new MouseAdapter() {
     		@Override
 			public void mouseClicked(MouseEvent e) {
@@ -624,7 +622,7 @@ public class Sheet extends JComponent implements Observer {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void update(Observable observable, Object object) {
-        this.vertexes.clear();
+        this.vertices.clear();
         this.edges.clear();
 		super.removeAll();
 		// pour chaque GraphElement du Graph
@@ -633,7 +631,7 @@ public class Sheet extends JComponent implements Observer {
 				addVertex((Vertex)element);
 			} else {
 				VertexView src= null, dst = null;
-	            ListIterator<VertexView> search = vertexes.listIterator();
+	            ListIterator<VertexView> search = vertices.listIterator();
 
 	            while (search.hasNext() && (src == null || dst == null)){
 	                VertexView tmp = search.next();
