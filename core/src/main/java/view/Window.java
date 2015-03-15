@@ -238,12 +238,6 @@ public class Window extends JFrame {
         this.addJMenuItem(edition, "Coller", "Paste");
 
         this.addJMenuItem(edition, "Algorithmes", "Algorithms");
-
-        /*
-        this.addJMenuItem(algorithm, "Random Positioning");
-        this.addJMenuItem(algorithm, "Circular Positioning");
-        this.addJMenuItem(algorithm, "Vertex Size Coloring");
-        this.addJMenuItem(algorithm, "Vertex Number of Edges Coloring ");*/
     }
 
     /**

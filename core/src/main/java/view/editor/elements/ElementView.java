@@ -3,7 +3,7 @@ package view.editor.elements;
 import data.Graph;
 import data.GraphElement;
 
-import javax.swing.JComponent;
+import javax.swing.*;
 
 /**
  * Classe mère de tous les éléments visuels de la feuille de dessin. {@link VertexView} et {@link EdgeView} en héritent.

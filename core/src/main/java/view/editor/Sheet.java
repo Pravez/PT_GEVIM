@@ -32,7 +32,7 @@ public class Sheet extends JComponent implements Observer {
     private Controller             controller;
     
     private ArrayList<EdgeView>    edges;
-    private ArrayList<VertexView> vertices;
+    private ArrayList<VertexView>  vertices;
     
     private ArrayList<ElementView> selectedElements;
     private ArrayList<ElementView> currentSelectedElements;
