@@ -1,7 +1,5 @@
 package data;
 
-import data.Edge;
-import data.Vertex;
 import junit.framework.TestCase;
 
 import java.awt.*;

@@ -57,6 +57,7 @@ public class Edge extends GraphElement {
         this.origin = element.origin;
         this.destination = element.destination;
         this.thickness = element.thickness;
+        this.color = element.color;
     }
 
     /**
