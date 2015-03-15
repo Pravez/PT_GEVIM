@@ -1,3 +1,5 @@
+package data;
+
 import data.Edge;
 import data.Graph;
 import data.GraphElement;

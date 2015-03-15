@@ -1,6 +1,5 @@
-import data.Edge;
-import data.GraphElement;
-import data.Vertex;
+package data;
+
 import junit.framework.TestCase;
 
 import java.awt.*;
