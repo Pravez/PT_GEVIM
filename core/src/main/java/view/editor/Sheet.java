@@ -4,8 +4,6 @@ import controller.Controller;
 import data.*;
 import files.dot.DotFileManager;
 import files.gml.GmlFileManager;
-import undoRedo.PropertiesEdit;
-import undoRedo.SnapProperties;
 import view.Observer;
 import view.editor.elements.EdgeView;
 import view.editor.elements.ElementView;
@@ -672,11 +670,38 @@ public class Sheet extends JComponent implements Observer {
     public void setScale(double scale) { this.scale = scale; }
 
     public void modifyElements(){
-        ElementsEditor elementsViewEditor = new ElementsEditor(this.selectedElements);
-        ArrayList<ElementView> modifiedElements = elementsViewEditor.getElements();
-        ArrayList<GraphElement> modifiedGraphElement= new ArrayList<>();
+        ElementsEditor elementsViewEditor = new ElementsEditor();
 
+        boolean colorModified = elementsViewEditor.getColorWasModified();
+        boolean sizeModified = elementsViewEditor.getSizeWasModified();
+        boolean labelModified = elementsViewEditor.getNameswWereModified();
 
+        Color modifiedColor = colorModified ? elementsViewEditor.getNewColor() : null;
+        int modifiedSize = sizeModified ? elementsViewEditor.getNewSize() : 0;
+        String modifiedLabel = labelModified ? elementsViewEditor.getNewName() : "none";
+
+        if(colorModified || sizeModified || labelModified) {
+            for (ElementView ev : this.selectedElements) {
+
+                GraphElement temp = ev.getGraphElement();
+
+                if (colorModified) {
+                    temp.setColor(modifiedColor);
+                }
+                if (sizeModified) {
+                    if (temp.isVertex()) {
+                        ((Vertex) temp).setSize(modifiedSize);
+                    } else {
+                        ((Edge) temp).setThickness(modifiedSize);
+                    }
+                }
+                if (labelModified) {
+                    temp.setLabel(modifiedLabel);
+                }
+            }
+        }
+
+        /*
 
         ArrayList<SnapProperties> propertiesBefore = new ArrayList<>();
 
@@ -724,7 +749,7 @@ public class Sheet extends JComponent implements Observer {
         if(elementsViewEditor.getSizeWasModified())
             snap.setSize(elementsViewEditor.getNewSize());
 
-        tab.getUndoRedo().registerPropertiesEdit(propertiesBefore, snap);
+        tab.getUndoRedo().registerPropertiesEdit(propertiesBefore, snap);*/
 
     }
 

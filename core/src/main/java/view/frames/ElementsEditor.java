@@ -1,16 +1,8 @@
 package view.frames;
 
-import data.Edge;
-import data.Vertex;
-import org.jdom2.Element;
-import view.editor.elements.EdgeView;
-import view.editor.elements.ElementView;
-import view.editor.elements.VertexView;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 
 public class ElementsEditor extends JDialog {
     private JPanel contentPane;
@@ -24,36 +16,16 @@ public class ElementsEditor extends JDialog {
     private JCheckBox validSize;
     private JCheckBox validColor;
 
+    private Color selectedColor;
+    private int selectedSize;
+    private String selectedName;
 
     private boolean alreadyValidated;
 
-    private ArrayList<ElementView> elements;
-
-    public ElementsEditor(ArrayList<ElementView> elements) {
+    public ElementsEditor() {
 
         this.setTitle("Editeur d'elements");
 
-        ArrayList<ElementView> clone = new ArrayList<ElementView> (elements.size());
-        for (int i = 0 ; i < elements.size() ; i++) {
-            clone.add(null);
-        }
-        // on ajoute tous les sommets dans la liste des nouveaux GraphElement
-        for (int i = 0 ; i < elements.size() ; i++) {
-            if (elements.get(i).isVertexView()) {
-                clone.set(i, new VertexView((VertexView) elements.get(i)));
-            }
-        }
-        // on ajoute les edges une fois que tous les sommets on été ajoutés dans la liste des nouveaux GraphElement
-        for (int i = 0 ; i < elements.size() ; i++) {
-            if (!elements.get(i).isVertexView()) {
-                int origin      = elements.indexOf(((EdgeView)elements.get(i)).getOrigin());
-                int destination = elements.indexOf(((EdgeView)elements.get(i)).getDestination());
-
-                    clone.set(i, new EdgeView((Edge)((EdgeView) elements.get(i)).getEdge(),((EdgeView) elements.get(i)).getHoverThickness(),((EdgeView) elements.get(i)).getHoverColor(), (VertexView)clone.get(origin),(VertexView)clone.get(destination) ) );
-            }
-        }
-
-        this.elements = clone;
         setContentPane(contentPane);
         setModal(true);
         setLocationRelativeTo(null);
@@ -90,6 +62,10 @@ public class ElementsEditor extends JDialog {
         validNames.setSelected(true);
         validColor.setSelected(true);
         validSize.setSelected(true);
+
+        selectedColor = Color.BLACK;
+        selectedSize = 15;
+        selectedName = "element";
 
         elementsColor.setBackground(Color.black);
         elementsSize.setText("15");
@@ -131,45 +107,32 @@ public class ElementsEditor extends JDialog {
     private boolean verifyModifications(){
         boolean mustBeVerified = false;
 
-        for(ElementView ev : elements){
-            if(validNames.isSelected()) {
-                ev.getGraphElement().setLabel(this.elementsName.getText());
-            }
-            if(validColor.isSelected()) {
-                if(ev.getGraphElement().isVertex())
-                    ev.getGraphElement().setColor(this.elementsColor.getBackground());
-            }
+        if(validNames.isSelected()) {
+            selectedName = this.elementsName.getText();
+        }
+        if(validColor.isSelected()) {
+            selectedColor = this.elementsColor.getBackground();
         }
 
-        if(Integer.parseInt(this.elementsSize.getText())<=0 && validSize.isSelected()){
+        if(validSize.isSelected() && Integer.parseInt(this.elementsSize.getText())<=0){
             JOptionPane.showMessageDialog(this, "La taille doit être supérieure à 0.", "Erreur", JOptionPane.ERROR_MESSAGE);
             this.elementsSize.setText("15");
             mustBeVerified = true;
         }
 
         if(!mustBeVerified && validSize.isSelected()){
-            for(ElementView ev : elements){
-                if(ev.getGraphElement().isVertex()){
-                    ((Vertex)ev.getGraphElement()).setSize(Integer.parseInt(this.elementsSize.getText()));
-                }else{
-                    ((Edge)ev.getGraphElement()).setThickness(Integer.parseInt(this.elementsSize.getText()));
-                }
-            }
+            selectedSize = Integer.parseInt(this.elementsSize.getText());
         }
 
         return mustBeVerified;
-    }
-
-    public ArrayList<ElementView> getElements(){
-        return this.elements;
     }
 
 
     public boolean getColorWasModified () {return validColor.isSelected();}
     public boolean getNameswWereModified () {return validNames.isSelected();}
     public boolean getSizeWasModified () {return validSize.isSelected();}
-    public int getNewSize () {return Integer.parseInt(elementsSize.getText());}
-    public Color getNewColor () {return elementsColor.getBackground();}
-    public String getNewName(){return elementsName.getText();}
+    public int getNewSize () {return selectedSize;}
+    public Color getNewColor () {return selectedColor;}
+    public String getNewName(){return selectedName;}
     
 }

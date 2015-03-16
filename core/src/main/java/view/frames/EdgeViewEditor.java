@@ -184,8 +184,8 @@ public class EdgeViewEditor extends JDialog {
             JOptionPane.showMessageDialog(null, "Les vertex de départ et d'arrivée doivent être différents", "Erreur", JOptionPane.ERROR_MESSAGE);
             mustBeVerified = true;
         }else {
-            this.edge.setOrigin(this.graph.getVertexes().get(this.graph.getElementIndexWithLabel(originValue)));
-            this.edge.setDestination(this.graph.getVertexes().get(this.graph.getElementIndexWithLabel(destinationValue)));
+            this.edge.setOrigin((Vertex)this.graph.getGraphElements().get(this.graph.getElementIndexWithLabel(originValue)));
+            this.edge.setDestination((Vertex)this.graph.getGraphElements().get(this.graph.getElementIndexWithLabel(destinationValue)));
         }
 
         return mustBeVerified;
