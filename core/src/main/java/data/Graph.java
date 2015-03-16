@@ -224,10 +224,28 @@ public class Graph extends Observable {
     	if (element.isVertex()) {
     		for(Edge e : ((Vertex) element).getEdges()){
                 this.elements.remove(e);
+                clearLinkedVertices(e);
             }
-    	}
+    	}else{
+            clearLinkedVertices((Edge) element);
+        }
         this.elements.remove(element);
         this.setChanged();
+    }
+    
+    public void clearLinkedVertices(Edge e){
+        
+        int originPosition = e.getDestination().getEdges().indexOf(e);
+        int destinationPosition = e.getOrigin().getEdges().indexOf(e);
+        
+        if(originPosition != -1){
+            e.getDestination().getEdges().remove(originPosition);
+        }
+        if(destinationPosition != -1){
+            e.getOrigin().getEdges().remove(destinationPosition);
+        }
+
+
     }
 
 	/**
