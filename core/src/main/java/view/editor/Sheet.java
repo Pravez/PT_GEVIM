@@ -89,7 +89,7 @@ public class Sheet extends JComponent implements Observer {
         this.controller               = controller;
         
         this.edges                    = new ArrayList<>();
-        this.vertices = new ArrayList<>();
+        this.vertices                 = new ArrayList<>();
         this.selectedElements         = new ArrayList<>();
         this.currentSelectedElements  = new ArrayList<>();
         
@@ -98,8 +98,8 @@ public class Sheet extends JComponent implements Observer {
         this.defaultSelectedColor     = Color.BLUE;
         this.defaultEdgesThickness    = 1;
         this.defaultSelectedThickness = 2;
-        this.defaultVerticesSize = 15;
-        this.defaultVerticesShape = Vertex.Shape.SQUARE;
+        this.defaultVerticesSize      = 15;
+        this.defaultVerticesShape     = Vertex.Shape.SQUARE;
         
         this.selectionColor           = new Color(172, 211, 244);
         this.selectionBorderColor     = new Color(107, 153, 189);
@@ -260,9 +260,7 @@ public class Sheet extends JComponent implements Observer {
         this.setDefaultEdgesThickness(tpve.getTab().getDefaultEdgesThickness());
         this.setDefaultEdgesColor(tpve.getTab().getDefaultEdgesColor());
         this.setDefaultVerticesShape(tpve.getTab().getDefaultVerticesShape());
-        this.graph.setChanged();
-
-        //this.tab.*******************defaultBackgroundColor ++A faire éventuellement (changer le background complet du tab
+        //this.tab.*******************defaultBackgroundColor ++A faire éventuellement (changer le background complet du tab)
     }
 
     /**
@@ -593,7 +591,7 @@ public class Sheet extends JComponent implements Observer {
      * @param destination le VertexView de destination de l'EdgeView
      */
     public void addEdge(Edge edge, VertexView origin, VertexView destination ){
-    	final EdgeView edgeView = new EdgeView(edge, this.defaultSelectedThickness, this.defaultEdgesColor, this.defaultSelectedColor, origin, destination);
+    	final EdgeView edgeView = new EdgeView(edge, this.defaultSelectedThickness, this.defaultSelectedColor, origin, destination);
     	edgeView.addMouseListener(new MouseAdapter() {
     		@Override
 			public void mouseClicked(MouseEvent e) {

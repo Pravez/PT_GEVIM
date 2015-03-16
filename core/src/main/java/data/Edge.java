@@ -13,7 +13,6 @@ public class Edge extends GraphElement {
     private Vertex  origin;
     private Vertex  destination;
     private int     thickness;
-    private Color   color = Color.BLACK;
     
     /**
      * Constructeur de la classe Edge
@@ -28,7 +27,6 @@ public class Edge extends GraphElement {
         this.origin      = origin;
         this.destination = destination;
         this.thickness   = thickness;
-        this.color = color;
         origin.addEdge(this);
         destination.addEdge(this);
         CURRENT_VALUE++;
@@ -46,7 +44,6 @@ public class Edge extends GraphElement {
         this.origin      = origin;
         this.destination = destination;
         this.thickness   = thickness;
-        this.color=color;
         origin.addEdge(this);
         destination.addEdge(this);
         CURRENT_VALUE++;
@@ -57,7 +54,6 @@ public class Edge extends GraphElement {
         this.origin = element.origin;
         this.destination = element.destination;
         this.thickness = element.thickness;
-        this.color = element.color;
     }
 
     /**
@@ -90,24 +86,6 @@ public class Edge extends GraphElement {
      */
     public void setDestination(Vertex destination) {
         this.destination = destination;
-    }
-
-    /**
-     * Getter de la couleur de l'Edge
-     * @return la couleur de l'Edge
-     */
-    @Override
-    public Color getColor() {
-        return color;
-    }
-
-    /**
-     * Setter de la couleur de l'Edge
-     * @param color la nouvelle couleur de l'Edge
-     */
-    @Override
-    public void setColor(Color color) {
-        this.color = color;
     }
 
     /**
