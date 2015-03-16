@@ -108,6 +108,36 @@ public class UndoPanel extends JPanel {
         undoSupport_.postEdit(edit);
     }
 
+public void registerPropertiesEdit(ArrayList<GraphElement> editedElements, SnapProperties snapAfter)
+{
+ArrayList<SnapProperties> propertiesBefore = new ArrayList<>();
+    
+    SnapProperties tmpSnap;
+    for(GraphElement g : editedElements)
+    {
+        tmpSnap=new SnapProperties();
+        tmpSnap.setIndex(g.getValue());
+        if(g.isVertex())
+        {
+            tmpSnap.setSize(((Vertex) g).getSize());
+        }
+        else
+        {
+            tmpSnap.setSize(((Edge) g).getThickness());
+        }
+
+        tmpSnap.setLabel(g.getLabel());
+        tmpSnap.setColor(g.getColor());
+
+        propertiesBefore.add(tmpSnap);
+    }
+    
+    UndoableEdit edit = new PropertiesEdit(graph, propertiesBefore,snapAfter);
+    undoSupport_.postEdit(edit);
+    
+}
+    
+    
     public void undo() {
         if (undoManager_.canUndo()) {
             undoManager_.undo();
