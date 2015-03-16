@@ -71,8 +71,8 @@ public class ScrollPane extends JScrollPane {
         int width    = this.sheet.getPreferredSize().width;
         int height   = this.sheet.getPreferredSize().height;
         /** **/
-        int posX = (int) (this.getViewport().getViewPosition().getX() + this.sheet.getScale()*this.getViewport().getWidth()/2 - scale*this.getViewport().getWidth()/2);
-        int posY = (int) (this.getViewport().getViewPosition().getY() + this.sheet.getScale()*this.getViewport().getHeight()/2 - scale*this.getViewport().getHeight()/2);
+        int posX = (int) (this.getViewport().getViewPosition().getX() - this.sheet.getScale()*this.getViewport().getWidth()/2 + scale*this.getViewport().getWidth()/2);
+        int posY = (int) (this.getViewport().getViewPosition().getY() - this.sheet.getScale()*this.getViewport().getHeight()/2 + scale*this.getViewport().getHeight()/2);
         /** **/
         this.sheet.setScale(scale);
         this.sheet.setPreferredSize(new Dimension((int)(this.sheet.getScale()*this.sheet.getMaximumSize().width), (int) (this.sheet.getScale() * this.sheet.getMaximumSize().height)));
@@ -81,5 +81,7 @@ public class ScrollPane extends JScrollPane {
         //this.tab.getMiniMap().setPosition(new Point(posX, posY), width, height);
         this.tab.getMiniMap().updateSelectionZone();
         this.sheet.revalidate();
+        this.getHorizontalScrollBar().setValue(posX);
+        this.getVerticalScrollBar().setValue(posY);
     }
 }
