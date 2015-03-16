@@ -41,6 +41,7 @@ public class Tab extends JSplitPane {
 
         this.setLeftComponent(this.scrollPane);
         this.setRightComponent(this.boardPanel);
+        this.setDividerSize(10);
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -128,6 +129,7 @@ public class Tab extends JSplitPane {
         toolBar.setFloatable(false);
         undoredo   = new UndoPanel(graph);
         boardPanel = new JPanel(new BorderLayout());//new GridLayout(3,1));
+        boardPanel.setMinimumSize(new Dimension((int) (0.75*this.getPreferredSize().width), this.getPreferredSize().height));
         boardPanel.add(toolBar);
         boardPanel.add(properties);
         boardPanel.add(minimap, BorderLayout.PAGE_END);

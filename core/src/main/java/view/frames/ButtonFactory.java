@@ -94,12 +94,12 @@ public class ButtonFactory {
     }
 
     /**
-     * Méthode privée et statique permettant de retourner une image dont les couleurs ont été changées selon celle spécifiée en paramètre, de la colorier
+     * Méthode statique permettant de retourner une image dont les couleurs ont été changées selon celle spécifiée en paramètre, de la colorier
      * @param image l'image de départ
      * @param color la couleur à affecter
      * @return la nouvelle image recoloriée
      */
-    private static BufferedImage getColoredImage(BufferedImage image, Color color) {
+    public static BufferedImage getColoredImage(BufferedImage image, Color color) {
         int width = image.getWidth();
         int height = image.getHeight();
         WritableRaster raster = image.getRaster();

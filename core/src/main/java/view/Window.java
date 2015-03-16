@@ -30,12 +30,16 @@ public class Window extends JFrame {
     private Controller             controller;
     private JPanel                 back;
 
-    /* tabs, ensemble des onglets */
+    /* L'ensemble des onglets */
     private JTabbedPane            tabs;
+    /* La liste des Boutons permettant de changer d'état */
     private ArrayList<StateButton> stateButtons;
+    /* Le bouton Undo */
     private JButton                undoButton;
+    /* Le bouton Redo */
     private JButton                redoButton;
 
+    /* Le Paneau initial à l'ouverture du programme */
     private JPanel                 startPanel;
 
     /**
@@ -68,7 +72,7 @@ public class Window extends JFrame {
     public void showStartPanel() {
         this.back.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.anchor = GridBagConstraints.NORTH;
         gbc.weighty = 1;
         this.back.add(this.startPanel, gbc);
         this.tabs.setVisible(false);
@@ -90,15 +94,23 @@ public class Window extends JFrame {
      */
     private void initStartPanel() {
         this.startPanel = new JPanel();
+        this.startPanel.setLayout(new BorderLayout());
         this.startPanel.setBackground(null);
-        this.startPanel.add(ButtonFactory.createImageButton("New", "New", "core/assets/new-very-big.png", "Nouveau graphe", new Color(105, 105, 105), 128, ""));
+        JLabel background = new JLabel("");
+        background.setIcon(new javax.swing.ImageIcon("core/assets/Gevim.png"));
+        background.setBounds(0, 0, 915, 379);
+        this.startPanel.add(background, BorderLayout.NORTH);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(ButtonFactory.createImageButton("New", "New", "core/assets/new-very-big.png", "Nouveau graphe", new Color(105, 105, 105), 128, ""));
         JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
         separator.setBackground(Color.BLACK);
         separator.setPreferredSize(new Dimension(15, 128));
-        this.startPanel.add(Box.createHorizontalStrut(5));
-        this.startPanel.add(separator);
-        this.startPanel.add(Box.createHorizontalStrut(5));
-        this.startPanel.add(ButtonFactory.createImageButton("Open", "Open", "core/assets/open-very-big.png", "Ouvrir un graphe", new Color(105, 105, 105), 128, ""));
+        buttonPanel.setBackground(null);
+        buttonPanel.add(Box.createHorizontalStrut(5));
+        buttonPanel.add(separator);
+        buttonPanel.add(Box.createHorizontalStrut(5));
+        buttonPanel.add(ButtonFactory.createImageButton("Open", "Open", "core/assets/open-very-big.png", "Ouvrir un graphe", new Color(105, 105, 105), 128, ""));
+        this.startPanel.add(buttonPanel, BorderLayout.CENTER);
         showStartPanel();
     }
 
@@ -107,7 +119,6 @@ public class Window extends JFrame {
      */
     private void initBackPanel() {
         this.back = new JPanel();
-        this.back.setBackground(Color.WHITE);
         this.getContentPane().add(this.back);
     }
 
@@ -320,6 +331,11 @@ public class Window extends JFrame {
         return getCurrentTab().getSheet();
     }
 
+    /**
+     * Renvoi du {@link javax.swing.JViewport} du {@link java.awt.ScrollPane} du {@link view.editor.Tab} couramment sélectionné
+     *
+     * @return le {@link javax.swing.JViewport} du {@link java.awt.ScrollPane} du {@link view.editor.Tab} couramment sélectionné
+     */
     public JViewport getCurrentSheetViewPort() {
         return getCurrentTab().getScrollPane().getViewport();
     }
