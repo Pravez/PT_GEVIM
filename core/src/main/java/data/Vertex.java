@@ -10,8 +10,6 @@ import java.util.ArrayList;
  */
 public class Vertex extends GraphElement {
 
-    private static int CURRENT_VALUE = 0;
-
     private Point           position;
     private int             size;
     private Shape           shape;
@@ -55,12 +53,11 @@ public class Vertex extends GraphElement {
      */
     //CONSTRUCTEUR JAMAIS UTILISE, A SUPPRIMER
     public Vertex(String label, Color color, Point position, int size, Shape shape) {
-    	super(label, CURRENT_VALUE, color);
+    	super(label, color);
         this.position = position;
         this.size     = size;
         this.shape    = shape;
         this.edges    = new ArrayList<Edge>();
-        CURRENT_VALUE++;
     }
 
     public Vertex(Vertex element) {
@@ -79,12 +76,11 @@ public class Vertex extends GraphElement {
      * @param shape la forme du Vertex
      */
     public Vertex(Color color, Point position, int size, Shape shape) {
-    	super("node"+CURRENT_VALUE,CURRENT_VALUE, color);
+    	super("node", color);
         this.position = position;
         this.size     = size;
         this.shape    = shape;
         this.edges    = new ArrayList<Edge>();
-        CURRENT_VALUE++;
     }
     
     /**

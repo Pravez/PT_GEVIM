@@ -4,7 +4,6 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * Created by Corentin Davidenko on 04/02/15.
  * Class to manage the interactions between edges, vertexes and users. It possesses an UndoManager to
  * manage undo actions. It is associated to a file and has the different default settings for the vertexes
  * and the edges.
@@ -67,7 +66,7 @@ public class Graph extends Observable {
     		if (!elements.get(i).isVertex()) {
     			int origin      = elements.indexOf(((Edge)elements.get(i)).getOrigin());
     			int destination = elements.indexOf(((Edge)elements.get(i)).getDestination());
-    			new_elements.set(i, new Edge(elements.get(i). getLabel(), ((Edge) elements.get(i)).getColor(), (Vertex)new_elements.get(origin), (Vertex)new_elements.get(destination), ((Edge)elements.get(i)).getThickness()));
+    			new_elements.set(i, new Edge(elements.get(i). getLabel(), elements.get(i).getColor(), (Vertex)new_elements.get(origin), (Vertex)new_elements.get(destination), ((Edge)elements.get(i)).getThickness()));
     		}
     	}
     	return new_elements;
@@ -113,7 +112,7 @@ public class Graph extends Observable {
     		if (!elements.get(i).isVertex()) {
     			int origin      = elements.indexOf(((Edge)elements.get(i)).getOrigin());
     			int destination = elements.indexOf(((Edge)elements.get(i)).getDestination());
-    			new_elements.set(i, new Edge(elements.get(i). getLabel(), ((Edge) elements.get(i)).getColor(), (Vertex)new_elements.get(origin), (Vertex)new_elements.get(destination), ((Edge)elements.get(i)).getThickness()));
+    			new_elements.set(i, new Edge(elements.get(i). getLabel(), elements.get(i).getColor(), (Vertex)new_elements.get(origin), (Vertex)new_elements.get(destination), ((Edge)elements.get(i)).getThickness()));
     		}
     	}
     	return new_elements;
@@ -232,7 +231,11 @@ public class Graph extends Observable {
         this.elements.remove(element);
         this.setChanged();
     }
-    
+
+    /**
+     * Méthode nettoyant la présence d'une {@link data.Edge} dans ses Vertices d'origine et de destination
+     * @param e L'edge à supprimer des Vertices d'origine et de destination
+     */
     public void clearLinkedVertices(Edge e){
         
         int originPosition = e.getDestination().getEdges().indexOf(e);
@@ -257,26 +260,6 @@ public class Graph extends Observable {
 		this.elements.add(element);
 		this.setChanged();
 	}
-
-    public int getElementIndexWithId(int id){
-        for(int i = 0; i<this.elements.size();i++){
-            if(elements.get(i).getValue() == id){
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
-    public int getElementIndexWithLabel(String label) {
-        for(int i = 0; i<this.elements.size();i++){
-            if(elements.get(i).getLabel().equals(label)){
-                return i;
-            }
-        }
-
-        return -1;
-    }
 
 
 	/**

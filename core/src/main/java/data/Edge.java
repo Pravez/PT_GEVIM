@@ -8,8 +8,6 @@ import java.awt.Color;
  */
 public class Edge extends GraphElement {
 
-    private static int CURRENT_VALUE = 0;
-
     private Vertex  origin;
     private Vertex  destination;
     private int     thickness;
@@ -23,13 +21,13 @@ public class Edge extends GraphElement {
      * @param thickness l'épaisseur de l'Edge
      */
     public Edge(String label, Color color, Vertex origin, Vertex destination, int thickness) {
-    	super(label, CURRENT_VALUE, color);
+    	super(label, color);
         this.origin      = origin;
         this.destination = destination;
         this.thickness   = thickness;
         origin.addEdge(this);
         destination.addEdge(this);
-        CURRENT_VALUE++;
+
     }
 
     /**
@@ -40,13 +38,12 @@ public class Edge extends GraphElement {
      * @param thickness l'épaisseur de l'Edge
      */
     public Edge(Color color, Vertex origin, Vertex destination, int thickness) {
-    	super("edge"+CURRENT_VALUE, CURRENT_VALUE, color);
+    	super("edge", color);
         this.origin      = origin;
         this.destination = destination;
         this.thickness   = thickness;
         origin.addEdge(this);
         destination.addEdge(this);
-        CURRENT_VALUE++;
     }
 
     public Edge(Edge element) {

@@ -143,13 +143,13 @@ public class PropertyPanel extends JTabbedPane implements Observer {
             int newThickness = Integer.parseInt((String) edgePropertyTable.getModel().getValueAt(i, 1));
             int id = Integer.parseInt(edgeDatas.get(i).get(2));
 
-            (this.graph.getEdges().get(this.graph.getElementIndexWithId(id))).setLabel(newLabel);
+            this.graph.getFromValue(id).setLabel(newLabel);
 
             if(mustVerifyIntegerDatas(newThickness)){
-                int previousThickness = (this.graph.getEdges().get(this.graph.getElementIndexWithId(id))).getThickness();
+                int previousThickness = ((Edge)this.graph.getFromValue(id)).getThickness();
                 edgePropertyTable.getModel().setValueAt(String.valueOf(previousThickness), i, 1);
             }else {
-                (this.graph.getEdges().get(this.graph.getElementIndexWithId(id))).setThickness(newThickness);
+                ((Edge)this.graph.getFromValue(id)).setThickness(newThickness);
             }
         }
 
@@ -167,13 +167,13 @@ public class PropertyPanel extends JTabbedPane implements Observer {
             int newSize = Integer.parseInt((String) vertexPropertyTable.getModel().getValueAt(i, 1));
             int id = Integer.parseInt(vertexDatas.get(i).get(2));
 
-            (this.graph.getVertexes().get(this.graph.getElementIndexWithId(id))).setLabel(newLabel);
+            this.graph.getFromValue(id).setLabel(newLabel);
 
             if(mustVerifyIntegerDatas(newSize)){
-                int previousSize = (this.graph.getVertexes().get(this.graph.getElementIndexWithId(id))).getSize();
+                int previousSize = ((Vertex)this.graph.getFromValue(id)).getSize();
                 vertexPropertyTable.getModel().setValueAt(String.valueOf(previousSize), i, 1);
             }else {
-                (this.graph.getVertexes().get(this.graph.getElementIndexWithId(id))).setSize(newSize);
+                ((Vertex)this.graph.getFromValue(id)).setSize(newSize);
             }
 
         }
