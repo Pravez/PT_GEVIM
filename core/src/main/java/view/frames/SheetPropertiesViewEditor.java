@@ -95,12 +95,12 @@ public class SheetPropertiesViewEditor extends JDialog {
         }
 
         // Initialisation des différents éléments graphiques, d'organisation,et labels
-        this.jl_defaultBackgroundColor = new JLabel("Background color (not implemented)");
-        this.jl_defaultVerticesColor = new JLabel("Vertices color : ");
-        this.jl_defaultEdgesColor = new JLabel("Edges color : ");
-        this.jl_defaultVerticesSize = new JLabel("Vertices size : ");
-        this.jl_defaultVerticesShape = new JLabel("Vertices shape : ");
-        this.jl_defaultEdgesThickness = new JLabel("Edges thickness : ");
+        this.jl_defaultBackgroundColor = new JLabel("Couleur de fond :");
+        this.jl_defaultVerticesColor = new JLabel("Couleur des noeuds :");
+        this.jl_defaultEdgesColor = new JLabel("Couleur des arêtes :");
+        this.jl_defaultVerticesSize = new JLabel("Taille des noeuds :");
+        this.jl_defaultVerticesShape = new JLabel("Forme des noeuds :");
+        this.jl_defaultEdgesThickness = new JLabel("Epaisseur des arêtes :");
 
         contentLayout = new GridBagLayout();
         contentPane = new JPanel();
@@ -110,18 +110,17 @@ public class SheetPropertiesViewEditor extends JDialog {
         buttonCancel = new JButton();
 
         buttonOK.setText("Ok");
-        buttonCancel.setText("Cancel");
+        buttonCancel.setText("Annuler");
 
         // Propriétés de la fenêtre et positionnement de ses éléments
-        setTitle("Sheet Properties");
-        this.setPreferredSize(new Dimension(500, 500));
-        setLocationRelativeTo(null);
+        setTitle("Propriétés");
         setModal(true);
         setContentPane(this.contentPane);
         contentPane.setLayout(contentLayout);
         //contentPane.add(jl_defaultBackgroundColor,constraintsLayout); à traiter...
         //contentPane.add(defaultBackgroundColor,constraintsLayout);
 
+        constraintsLayout.insets = new Insets(2,2,2,2);
         constraintsLayout.fill = GridBagConstraints.HORIZONTAL;
         constraintsLayout.gridx=0;
         constraintsLayout.gridy=0;
@@ -259,6 +258,8 @@ public class SheetPropertiesViewEditor extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
+        this.setPreferredSize(new Dimension(280,225));
+        setLocationRelativeTo(null);
         this.pack();
         this.setVisible(true);
     }
