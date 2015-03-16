@@ -10,15 +10,17 @@ public abstract class GraphElement {
 	
 	private String label;
 	private int    value;
+	private Color color;
 
 	/**
 	 * Constructeur de la classe GraphElement
 	 * @param label l'étiquette de l'élément
 	 * @param value la valeur de l'élément
 	 */
-	public GraphElement(String label, int value) {
+	public GraphElement(String label, int value, Color color) {
 		this(value);
 		this.label = label;
+		this.color = color;
 	}
 	
 	/**
@@ -32,6 +34,7 @@ public abstract class GraphElement {
 	public GraphElement(GraphElement graphElement) {
 		this.label = graphElement.label;
 		this.value = graphElement.value;
+		this.color = graphElement.color;
 	}
 
 	/**
@@ -76,11 +79,15 @@ public abstract class GraphElement {
 	 * Méthode pour récupérer la couleur du GraphElement
 	 * @return la couleur du GraphElement
 	 */
-	public abstract Color getColor();
+	public Color getColor(){
+		return color;
+	}
 
 	/**
 	 * Méthode pour récupérer la couleur du GraphElement
 	 * @param color la couleur du GraphElement
 	 */
-	public abstract void setColor(Color color);
+	public void setColor(Color color){
+		this.color = color;
+	}
 }
