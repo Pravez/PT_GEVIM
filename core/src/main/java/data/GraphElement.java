@@ -7,20 +7,27 @@ import java.awt.*;
  * Classe GraphElement, les Vertex et les Edge héritent de cette classe qui regroupe les éléments communs
  */
 public abstract class GraphElement {
-	
-	private String label;
+
+    private static int CURRENT_VALUE = 0;
+
+
+    private String label;
 	private int    value;
-	private Color color;
+	private Color  color;
 
 	/**
 	 * Constructeur de la classe GraphElement
 	 * @param label l'étiquette de l'élément
-	 * @param value la valeur de l'élément
 	 */
-	public GraphElement(String label, int value, Color color) {
-		this(value);
-		this.label = label;
+	public GraphElement(String label, Color color) {
+		this(CURRENT_VALUE);
+        if(label == "edge" || label == "node"){
+            this.label = label+CURRENT_VALUE;
+        }else {
+            this.label = label;
+        }
 		this.color = color;
+        CURRENT_VALUE++;
 	}
 	
 	/**

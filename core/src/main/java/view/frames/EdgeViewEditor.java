@@ -7,6 +7,7 @@ import data.Vertex;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.HashMap;
 
 /**
  * Classe permettant d'éditer un {@link data.Edge} avec plusieurs champs. C'est avant tout visuel avec plusieurs champs
@@ -25,6 +26,8 @@ public class EdgeViewEditor extends JDialog {
 
     private Edge              edge;
     private Graph             graph;
+
+    private HashMap<String, Integer> verticesID;
 
     private boolean           cannotQuit;
 
@@ -88,9 +91,12 @@ public class EdgeViewEditor extends JDialog {
         this.edgeThickness.setText(String.valueOf(edge.getThickness()));
 
         String vertexLabel;
+        verticesID = new HashMap<>();
+
 
         for(Vertex v : this.graph.getVertexes()){
             vertexLabel = v.getLabel();
+            verticesID.put(v.getLabel(), v.getValue());
 
             this.originVertex.addItem(vertexLabel);
             this.destinationVertex.addItem(vertexLabel);
@@ -103,23 +109,11 @@ public class EdgeViewEditor extends JDialog {
         }
 
         this.edgeViewColor.setBackground(edge.getColor());
-        this.edgeViewColor.addMouseListener(new MouseListener() {
+        this.edgeViewColor.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 onColor();
             }
-
-            @Override
-            public void mousePressed(MouseEvent mouseEvent) { }
-
-            @Override
-            public void mouseReleased(MouseEvent mouseEvent) { }
-
-            @Override
-            public void mouseEntered(MouseEvent mouseEvent) { }
-
-            @Override
-            public void mouseExited(MouseEvent mouseEvent) { }
         });
     }
 
@@ -184,8 +178,8 @@ public class EdgeViewEditor extends JDialog {
             JOptionPane.showMessageDialog(null, "Les vertex de départ et d'arrivée doivent être différents", "Erreur", JOptionPane.ERROR_MESSAGE);
             mustBeVerified = true;
         }else {
-            this.edge.setOrigin((Vertex)this.graph.getGraphElements().get(this.graph.getElementIndexWithLabel(originValue)));
-            this.edge.setDestination((Vertex)this.graph.getGraphElements().get(this.graph.getElementIndexWithLabel(destinationValue)));
+            this.edge.setOrigin((Vertex)this.graph.getFromValue(verticesID.get(originValue)));
+            this.edge.setDestination((Vertex)this.graph.getFromValue(verticesID.get(destinationValue)));
         }
 
         return mustBeVerified;

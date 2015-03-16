@@ -110,23 +110,11 @@ public class VertexViewEditor extends JDialog {
 
         //Setting the color
         vertexColoration.setBackground(this.vertex.getColor());
-        vertexColoration.addMouseListener(new MouseListener() {
+        vertexColoration.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 onColor();
             }
-
-            @Override
-            public void mousePressed(MouseEvent mouseEvent) { }
-
-            @Override
-            public void mouseReleased(MouseEvent mouseEvent) { }
-
-            @Override
-            public void mouseEntered(MouseEvent mouseEvent) { }
-
-            @Override
-            public void mouseExited(MouseEvent mouseEvent) { }
         });
 
         this.pack();
