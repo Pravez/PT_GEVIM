@@ -36,7 +36,16 @@ public class PropertiesEdit extends AbstractUndoableEdit {
 
         for(int i=0; i<propertiesBefore.size(); i++)
         {
-            graph.getGraphElements().get(propertiesBefore.get(i).getIndex()).setColor(propertiesBefore.get(i).getColor());
+            GraphElement tmp = graph.getGraphElements().get(propertiesBefore.get(i).getIndex());
+
+            tmp.setColor(propertiesBefore.get(i).getColor());
+            tmp.setLabel(propertiesBefore.get(i).getLabel());
+
+            if (tmp.isVertex())
+                ((Vertex) tmp).setSize(propertiesBefore.get(i).getSize());
+            else
+                ((Edge) tmp).setThickness(propertiesBefore.get(i).getSize());
+
             graph.setChanged();
 
         }
@@ -52,7 +61,18 @@ public class PropertiesEdit extends AbstractUndoableEdit {
         for(int i=0; i<propertiesBefore.size(); i++)
         {
             GraphElement tmp = graph.getGraphElements().get(propertiesBefore.get(i).getIndex());
+
+            if(propertiesAfter.getColor()!=null)
             tmp.setColor(propertiesAfter.getColor());
+            if(propertiesAfter.getLabel()!=null)
+            tmp.setLabel(propertiesAfter.getLabel());
+
+            if(propertiesAfter.getSize()!=-1) {
+                if (tmp.isVertex())
+                    ((Vertex) tmp).setSize(propertiesAfter.getSize());
+                else
+                    ((Edge) tmp).setThickness(propertiesAfter.getSize());
+            }
             graph.setChanged();
 
         }
