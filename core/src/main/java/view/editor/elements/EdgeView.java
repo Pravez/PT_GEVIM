@@ -35,6 +35,7 @@ public class EdgeView extends ElementView {
      * @param destination le VertexView de destination
      */
     public EdgeView(Edge edge, int hoverThickness, Color hoverColor, VertexView origin, VertexView destination) {
+        super(edge.getColor(), hoverColor);
     	this.edge           = edge;
     	this.thickness      = edge.getThickness();
         this.hoverThickness = hoverThickness;
@@ -143,38 +144,6 @@ public class EdgeView extends ElementView {
      */
     public void setHoverThickness(int thickness) {
         this.hoverThickness = thickness;
-    }
-
-    /**
-     * Getter de la couleur de l'EdgeView
-     * @return la couleur de l'EdgeView
-     */
-    public Color getColor() {
-        return this.color;
-    }
-
-    /**
-     * Setter de la couleur de l'EdgeView
-     * @param color la nouvelle couleur de l'EdgeView
-     */
-    public void setColor(Color color) {
-        this.color = color;
-    }
-    
-    /**
-     * Getter de la couleur de l'EdgeView lorsque l'EdgeView est sélectionné
-     * @return la couleur de l'EdgeView lorsque l'EdgeView est sélectionné
-     */
-    public Color getHoverColor() {
-        return this.hoverColor;
-    }
-
-    /**
-     * Setter de la couleur de l'EdgeView lorsque l'EdgeView est sélectionné
-     * @param color la nouvelle couleur de l'EdgeView lorsque l'EdgeView est sélectionné
-     */
-    public void setHoverColor(Color color) {
-        this.hoverColor = color;
     }
 
     /**

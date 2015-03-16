@@ -66,19 +66,13 @@ public class ScrollPane extends JScrollPane {
      * @param scale la valeur de l'échelle du zoom
      */
     private void zoom(int positionX, int positionY, double scale) {
-        int origin_x = positionX - this.getViewport().getWidth()/2 < 0 ? 0 : positionX - this.getViewport().getWidth()/2;
-        int origin_y = positionY - this.getViewport().getHeight()/2 < 0 ? 0 : positionY - this.getViewport().getHeight()/2;
-        int width    = this.sheet.getPreferredSize().width;
-        int height   = this.sheet.getPreferredSize().height;
-        /** **/
         int posX = (int) (this.getViewport().getViewPosition().getX() - this.sheet.getScale()*this.getViewport().getWidth()/2 + scale*this.getViewport().getWidth()/2);
         int posY = (int) (this.getViewport().getViewPosition().getY() - this.sheet.getScale()*this.getViewport().getHeight()/2 + scale*this.getViewport().getHeight()/2);
-        /** **/
+        //int gapX = (int) (positionX*(this.sheet.getScale() - scale));
+        //int gapY = (int) (positionY*(this.sheet.getScale() - scale));
+
         this.sheet.setScale(scale);
         this.sheet.setPreferredSize(new Dimension((int)(this.sheet.getScale()*this.sheet.getMaximumSize().width), (int) (this.sheet.getScale() * this.sheet.getMaximumSize().height)));
-        //this.getHorizontalScrollBar().setValue(posX);
-        //this.getVerticalScrollBar().setValue(posY);
-        //this.tab.getMiniMap().setPosition(new Point(posX, posY), width, height);
         this.tab.getMiniMap().updateSelectionZone();
         this.sheet.revalidate();
         this.getHorizontalScrollBar().setValue(posX);

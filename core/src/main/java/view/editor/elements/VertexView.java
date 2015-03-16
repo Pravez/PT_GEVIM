@@ -14,11 +14,8 @@ import java.awt.geom.Point2D;
  */
 public class VertexView extends ElementView {
 
-	private static final long serialVersionUID = 1L;
 	private Vertex         vertex;
-    private Color          color;
-    private Color          hoverColor;
-    private Point2D.Double scale;
+	private Point2D.Double scale;
 
     /**
      * Constructeur de la classe VertexView
@@ -26,10 +23,9 @@ public class VertexView extends ElementView {
      * @param hoverColor couleur du VertexView lorsqu'il est sélectionné
      */
     public VertexView(Vertex vertex, Color hoverColor) {
-    	this.vertex     = vertex;
-        this.color      = vertex.getColor();
-        this.hoverColor = hoverColor;
-        this.scale      = new Point2D.Double(1.0, 1.0);
+		super(vertex.getColor(), hoverColor);
+    	this.vertex = vertex;
+        this.scale  = new Point2D.Double(1.0, 1.0);
     }
 
     @Override
@@ -120,43 +116,11 @@ public class VertexView extends ElementView {
     }
     
     /**
-     * Setter de la couleur du VertexView
-     * @param color nouvelle couleur du VertexView
-     */
-    public void setColor(Color color) {
-        this.color = color;
-    }
-    
-    /**
-     * Setter de la couleur du VertexView lorsqu'il est sélectionné
-     * @param color nouvelle couleur du VertexView lorsqu'il est sélectionné
-     */
-    public void setHoverColor(Color color) {
-    	this.hoverColor = color;
-    }
-    
-    /**
      * Setter de la position du VertexView
      * @param position la nouvelle position
      */
     public void setPosition(Point position) {
     	this.vertex.setPosition(position);
-    }
-    
-    /**
-     * Getter de la couleur du VertexView
-     * @return la couleur du VertexView
-     */
-    public Color getColor() {
-        return this.color;
-    }
-    
-    /**
-     * Getter de la couleur du VertexView lorsqu'il est sélectionné
-     * @return la couleur du VertexView lorsqu'il est sélectionné
-     */
-    public Color getHoverColor() {
-        return this.hoverColor;
     }
        
     /**
