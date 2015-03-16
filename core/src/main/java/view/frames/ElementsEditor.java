@@ -139,4 +139,13 @@ public class ElementsEditor extends JDialog {
     public ArrayList<ElementView> getElements(){
         return this.elements;
     }
+
+
+    public boolean getColorWasModified () {return validColor.isSelected();}
+    public boolean getNameswWereModified () {return validNames.isSelected();}
+    public boolean getSizeWasModified () {return validSize.isSelected();}
+    public int getNewSize () {return Integer.parseInt(elementsSize.getText());}
+    public Color getNewColor () {return elementsColor.getBackground();}
+    public String getNewName(){return elementsName.getText();}
+    
 }
