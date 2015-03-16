@@ -28,6 +28,7 @@ import java.util.ListIterator;
 public class Sheet extends JComponent implements Observer {
 
 	private static final long      serialVersionUID = 1L;
+    private Tab                    tab;
     private Graph                  graph;
     private Controller             controller;
     
@@ -77,11 +78,13 @@ public class Sheet extends JComponent implements Observer {
 
     /**
      * Constructeur du Tab, l'onglet. Un onglet est associé à un {@link data.Graph}
+     * @param tab l'onglet Tab qui a créé la Feuille de dessin
      * @param graph le Graph observé
      * @param controller le Controller de l'application
      */
-    public Sheet(Graph graph, Controller controller) {
+    public Sheet(Tab tab, Graph graph, Controller controller) {
         super();
+        this.tab                      = tab;
         this.graph                    = graph;
         this.controller               = controller;
         

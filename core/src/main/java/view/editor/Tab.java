@@ -66,7 +66,7 @@ public class Tab extends JSplitPane {
      * @param graph Le {@link data.Graph} auquel est associé la Sheet
      */
     public void initSheet(String title, final Graph graph){
-        sheet = new Sheet(graph, this.controller);
+        sheet = new Sheet(this, graph, this.controller);
         graph.addObserver(sheet);
 
         sheet.setName(title);
