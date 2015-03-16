@@ -16,7 +16,6 @@ public class Vertex extends GraphElement {
     private int             size;
     private Shape           shape;
     private ArrayList<Edge> edges;
-    private Color color;
 
     public static enum Shape {
         SQUARE,
@@ -61,7 +60,6 @@ public class Vertex extends GraphElement {
         this.size     = size;
         this.shape    = shape;
         this.edges    = new ArrayList<Edge>();
-        this.color = color;
         CURRENT_VALUE++;
     }
 
@@ -70,7 +68,6 @@ public class Vertex extends GraphElement {
         this.position = new Point(element.position);
         this.size     = element.size;
         this.shape    = Shape.valueOf(element.shape.name());
-        this.color = element.color;
         this.edges    = new ArrayList<Edge>();
     }
 
@@ -87,7 +84,6 @@ public class Vertex extends GraphElement {
         this.size     = size;
         this.shape    = shape;
         this.edges    = new ArrayList<Edge>();
-        this.color = color;
         CURRENT_VALUE++;
     }
     
@@ -185,20 +181,4 @@ public class Vertex extends GraphElement {
 	public boolean isVertex() {
 		return true;
 	}
-
-    /**
-     * Setter de la couleur de l'Edge
-     * @return la couleur de l'Edge
-     */
-    public Color getColor(){
-        return this.color;
-    }
-
-    /**
-     * Setter de la couleur de l'Edge
-     * @param color la nouvelle couleur de l'Edge
-     */
-    public void setColor(Color color){
-        this.color=color;
-    }
 }

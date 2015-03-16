@@ -117,7 +117,7 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
      * @param destination le VertexView de destination de l'EdgeView
      */
     public void addEdge(Edge edge, VertexView origin, VertexView destination ){
-    	EdgeView edgeView = new EdgeView(edge, 2, edge.getColor(), Color.BLUE, origin, destination);
+    	EdgeView edgeView = new EdgeView(edge, 2, Color.BLUE, origin, destination);
         this.edges.add(edgeView);
         super.add(edgeView);
     }
