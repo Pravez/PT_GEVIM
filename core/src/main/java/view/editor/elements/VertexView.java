@@ -28,6 +28,13 @@ public class VertexView extends ElementView {
         this.scale  = new Point2D.Double(1.0, 1.0);
     }
 
+	public VertexView(VertexView element) {
+		super(element);
+		this.vertex = new Vertex(element.vertex);
+		this.scale     = element.scale;
+
+	}
+
     @Override
     public boolean contains(int x, int y) {
         int size = (int) (this.vertex.getSize()*this.scale.x);
@@ -185,5 +192,10 @@ public class VertexView extends ElementView {
      */
 	public void move(Point vector) {
 		this.vertex.setPosition(new Point(this.vertex.getPosition().x + vector.x, this.vertex.getPosition().y + vector.y));		
+	}
+
+	@Override
+	public boolean isVertexView() {
+		return true;
 	}
 }

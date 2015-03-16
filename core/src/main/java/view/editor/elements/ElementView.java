@@ -19,7 +19,12 @@ public abstract class ElementView extends JComponent {
 		this.color      = color;
 		this.hoverColor = hoverColor;
 	}
-	
+
+	public ElementView(ElementView element) {
+		this.hoverColor = element.hoverColor;
+		this.color = element.color;
+	}
+
 	public abstract void updateHover(boolean isHover);
 	public abstract void modify(Graph graph);
 	public abstract GraphElement getGraphElement();
@@ -55,4 +60,7 @@ public abstract class ElementView extends JComponent {
 	public void setHoverColor(Color color) {
 		this.hoverColor = color;
 	}
+
+	public abstract boolean isVertexView();
+
 }

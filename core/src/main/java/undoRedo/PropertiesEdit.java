@@ -36,7 +36,9 @@ public class PropertiesEdit extends AbstractUndoableEdit {
 
         for(int i=0; i<propertiesBefore.size(); i++)
         {
-            graph.getGraphElements().get(propertiesBefore.get(i).getIndex()).setColor(new Color(67, 163, 242));
+            graph.getGraphElements().get(propertiesBefore.get(i).getIndex()).setColor(propertiesBefore.get(i).getColor());
+            graph.setChanged();
+
         }
 
     }
@@ -49,7 +51,10 @@ public class PropertiesEdit extends AbstractUndoableEdit {
 
         for(int i=0; i<propertiesBefore.size(); i++)
         {
-            graph.getGraphElements().get(propertiesBefore.get(i).getIndex()).setColor(propertiesAfter.getColor());
+            GraphElement tmp = graph.getGraphElements().get(propertiesBefore.get(i).getIndex());
+            tmp.setColor(propertiesAfter.getColor());
+            graph.setChanged();
+
         }
 
     }

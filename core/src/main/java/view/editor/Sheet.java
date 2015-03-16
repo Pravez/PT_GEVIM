@@ -680,28 +680,32 @@ public class Sheet extends JComponent implements Observer {
 
         ArrayList<SnapProperties> propertiesBefore = new ArrayList<>();
 
-    /*    SnapProperties tmpSnap;
-        for(GraphElement g : editedElements)
-        {
+
+
+
+        for(int i=0;i<modifiedElements.size();i++){
+
+
+            SnapProperties tmpSnap;
+
             tmpSnap=new SnapProperties();
-            tmpSnap.setIndex(g.getValue());
-            if(g.isVertex())
+            tmpSnap.setIndex(this.selectedElements.get(i).getGraphElement().getValue());
+            if( this.selectedElements.get(i).getGraphElement().isVertex())
             {
-                tmpSnap.setSize(((Vertex) g).getSize());
+                tmpSnap.setSize(((Vertex)  this.selectedElements.get(i).getGraphElement()).getSize());
             }
             else
             {
-                tmpSnap.setSize(((Edge) g).getThickness());
+                tmpSnap.setSize(((Edge)  this.selectedElements.get(i).getGraphElement()).getThickness());
             }
 
-            tmpSnap.setLabel(g.getLabel());
-            tmpSnap.setColor(g.getColor());
+            tmpSnap.setLabel(this.selectedElements.get(i).getGraphElement().getLabel());
+            tmpSnap.setColor(this.selectedElements.get(i).getGraphElement().getColor());
 
             propertiesBefore.add(tmpSnap);
-        }*/
-        
-        
-        for(int i=0;i<modifiedElements.size();i++){
+
+
+
             this.selectedElements.get(i).getGraphElement().setColor(modifiedElements.get(i).getGraphElement().getColor());
             this.selectedElements.get(i).getGraphElement().setLabel(modifiedElements.get(i).getGraphElement().getLabel());
 
@@ -721,7 +725,7 @@ public class Sheet extends JComponent implements Observer {
         if(elementsViewEditor.getSizeWasModified())
             snap.setSize(elementsViewEditor.getNewSize());
 
-        tab.getUndoRedo().registerPropertiesEdit(modifiedGraphElement, snap);
+        tab.getUndoRedo().registerPropertiesEdit(propertiesBefore, snap);
 
     }
 

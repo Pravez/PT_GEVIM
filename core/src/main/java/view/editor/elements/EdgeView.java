@@ -215,4 +215,8 @@ public class EdgeView extends ElementView {
 	public GraphElement getGraphElement() {
 		return this.edge;
 	}
+    @Override
+    public boolean isVertexView() {
+        return false;
+    }
 }

@@ -2,7 +2,10 @@ package view.frames;
 
 import data.Edge;
 import data.Vertex;
+import org.jdom2.Element;
+import view.editor.elements.EdgeView;
 import view.editor.elements.ElementView;
+import view.editor.elements.VertexView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,7 +32,28 @@ public class ElementsEditor extends JDialog {
     public ElementsEditor(ArrayList<ElementView> elements) {
 
         this.setTitle("Editeur d'elements");
-        this.elements = elements;
+
+        ArrayList<ElementView> clone = new ArrayList<ElementView> (elements.size());
+        for (int i = 0 ; i < elements.size() ; i++) {
+            clone.add(null);
+        }
+        // on ajoute tous les sommets dans la liste des nouveaux GraphElement
+        for (int i = 0 ; i < elements.size() ; i++) {
+            if (elements.get(i).isVertexView()) {
+                clone.set(i, new VertexView((VertexView) elements.get(i)));
+            }
+        }
+        // on ajoute les edges une fois que tous les sommets on été ajoutés dans la liste des nouveaux GraphElement
+        for (int i = 0 ; i < elements.size() ; i++) {
+            if (!elements.get(i).isVertexView()) {
+                int origin      = elements.indexOf(((EdgeView)elements.get(i)).getOrigin());
+                int destination = elements.indexOf(((EdgeView)elements.get(i)).getDestination());
+
+                    clone.set(i, new EdgeView((Edge)((EdgeView) elements.get(i)).getEdge(),((EdgeView) elements.get(i)).getHoverThickness(),((EdgeView) elements.get(i)).getHoverColor(), (VertexView)clone.get(origin),(VertexView)clone.get(destination) ) );
+            }
+        }
+
+        this.elements = clone;
         setContentPane(contentPane);
         setModal(true);
         setLocationRelativeTo(null);
