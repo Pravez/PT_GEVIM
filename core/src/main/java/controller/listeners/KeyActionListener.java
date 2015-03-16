@@ -35,6 +35,9 @@ public class KeyActionListener extends KeyAdapter {
                 case "N" :
                     ActionController.newTab();
                     break;
+                case "T" :
+                    ActionController.newTab();
+                    break;
                 case "W" :
                     ActionController.closeTab();
                     break;
