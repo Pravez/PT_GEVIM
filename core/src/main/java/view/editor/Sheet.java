@@ -686,10 +686,9 @@ public class Sheet extends JComponent implements Observer {
         for(int i=0;i<modifiedElements.size();i++){
 
 
-            SnapProperties tmpSnap;
+            SnapProperties tmpSnap = new SnapProperties();
 
-            tmpSnap=new SnapProperties();
-            tmpSnap.setIndex(this.selectedElements.get(i).getGraphElement().getValue());
+            tmpSnap.setIndex(this.graph.getGraphElements().indexOf(this.selectedElements.get(i).getGraphElement()));
             if( this.selectedElements.get(i).getGraphElement().isVertex())
             {
                 tmpSnap.setSize(((Vertex)  this.selectedElements.get(i).getGraphElement()).getSize());
