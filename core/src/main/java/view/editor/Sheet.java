@@ -45,8 +45,8 @@ public class Sheet extends JComponent implements Observer {
     private Color                  defaultSelectedColor;
     private int                    defaultSelectedThickness;
     private int                    defaultEdgesThickness;
-    private int defaultVerticesSize;
-    private Vertex.Shape defaultVerticesShape;
+    private int                    defaultVerticesSize;
+    private Vertex.Shape           defaultVerticesShape;
     
     /** Sélection par zone **/
     private Rectangle              selectionZone;
@@ -280,7 +280,7 @@ public class Sheet extends JComponent implements Observer {
     public void moveSelectedElements(Point vector) {
     	for (ElementView element : this.selectedElements) {
     		if (element.getGraphElement().isVertex()) {
-    			((VertexView)element).move(vector);
+    			((VertexView)element).move(new Point((int)(vector.x/this.scale), (int)(vector.y/this.scale)));
     		}
     	}
     }
@@ -356,7 +356,7 @@ public class Sheet extends JComponent implements Observer {
      * @param position Point jusqu'où elle va
      */
     public void launchTemporarilyEdge(Point origin, Point position) {
-        this.originEdge = origin;
+        this.originEdge      = origin;
         this.destinationEdge = position;
         this.repaint();
     }

@@ -45,7 +45,7 @@ public class CreationState extends State {
 	@Override
 	public void drag(VertexView vertex, MouseEvent e) {
 		this.dragging = true;
-		this.controller.notifyDraggingEdge(vertex.getPosition(), e.getPoint());
+		this.controller.notifyDraggingEdge(vertex.getScaledPosition(), e.getPoint());
 	}
 	
 	@Override

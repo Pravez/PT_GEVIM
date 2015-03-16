@@ -15,12 +15,10 @@ import java.awt.geom.Point2D;
 public class VertexView extends ElementView {
 
 	private static final long serialVersionUID = 1L;
-	private Vertex vertex;
-    private Color  color;
-    private Color  hoverColor;
+	private Vertex         vertex;
+    private Color          color;
+    private Color          hoverColor;
     private Point2D.Double scale;
-
-    //rajouter des statics pour les paramètres par défaut
 
     /**
      * Constructeur de la classe VertexView
@@ -166,8 +164,16 @@ public class VertexView extends ElementView {
      * @return la position du VertexView
      */
     public Point getPosition() {
-    	return this.vertex.getPosition();
+		return this.vertex.getPosition();
     }
+
+	/**
+	 * Getter de la position effective du VertexView en fonction du zoom
+	 * @return la position effective à l'écran du Vertex
+	 */
+	public Point getScaledPosition() {
+		return new Point((int)(this.vertex.getPosition().x*this.scale.getX()), (int)(this.vertex.getPosition().y*this.scale.getY()));
+	}
     
     /**
      * Méthode appelée pour mettre à jour les paramètres d'affichage du VertexView s'il est sélectionné ou non
