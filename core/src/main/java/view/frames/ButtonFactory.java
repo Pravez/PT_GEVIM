@@ -66,21 +66,22 @@ public class ButtonFactory {
      * @param actionName l'action associé au buton
      * @param fileName    le nom du fichier de l'image
      * @param helpMessage le message d'aide du bouton
-     * @param color la couleur de l'image au survol du bouton
+     * @param color la couleur de l'image par défaut
+     * @param hoverColor la couleur de l'image au survol du bouton
      * @param size la taille de l'image
      * @param tabTitle le titre de l'onglet où l'action du bouton va être lancée
      */
-    public static JButton createImageButton(String buttonName, String actionName, String fileName, String helpMessage, Color color, int size, String tabTitle) {
-        Image   img    = Toolkit.getDefaultToolkit().getImage(fileName);
+    public static JButton createImageButton(String buttonName, String actionName, String fileName, String helpMessage, Color color, Color hoverColor, int size, String tabTitle) {
+        //Image img            = Toolkit.getDefaultToolkit().getImage(fileName);
         final JButton button = new JButton();
-        button.setIcon(new ImageIcon(img.getScaledInstance(size, size, Image.SCALE_SMOOTH)));
+        //button.setIcon(new ImageIcon(img.getScaledInstance(size, size, Image.SCALE_SMOOTH)));
         try {
-            BufferedImage bi = getColoredImage(ImageIO.read(new File(fileName)), color);//new Color(105, 105, 105));
-            button.setRolloverIcon(new ImageIcon(bi.getScaledInstance(size, size, Image.SCALE_SMOOTH)));
-            button.setPressedIcon(new ImageIcon(bi.getScaledInstance(size, size, Image.SCALE_SMOOTH)));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            BufferedImage img = getColoredImage(ImageIO.read(new File(fileName)), color);
+            button.setIcon(new ImageIcon(img.getScaledInstance(size, size, Image.SCALE_SMOOTH)));
+            BufferedImage imgHover = getColoredImage(ImageIO.read(new File(fileName)), hoverColor);
+            button.setRolloverIcon(new ImageIcon(imgHover.getScaledInstance(size, size, Image.SCALE_SMOOTH)));
+            button.setPressedIcon(new ImageIcon(imgHover.getScaledInstance(size, size, Image.SCALE_SMOOTH)));
+        } catch (IOException e) { e.printStackTrace(); }
         button.setPreferredSize(new Dimension(size, size));
         button.setBorder(null);
         button.setBounds(0, 0, size, size);

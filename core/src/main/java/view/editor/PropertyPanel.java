@@ -36,6 +36,8 @@ public class PropertyPanel extends JTabbedPane implements Observer {
      */
     public PropertyPanel(Sheet sheet){
 
+        this.setUI(new CustomTabbedPaneUI());
+
         this.sheet = sheet;
         this.graph = sheet.getGraph();
         graph.addObserver(this);
@@ -103,11 +105,17 @@ public class PropertyPanel extends JTabbedPane implements Observer {
             }
         });
 
-        this.addTab("Noeuds", vertexScrollPane);
-        this.addTab("Arêtes", edgeScrollPane);
+        addColoredTab("Noeuds", vertexScrollPane);
+        addColoredTab("Arêtes", edgeScrollPane);
+    }
 
-
-
+    private void addColoredTab(String title, JComponent component) {
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel(title);
+        label.setForeground(new Color(237, 237, 237));
+        this.addTab(title, component);
+        panel.add(label);
+        this.setComponentAt(this.indexOfTab(title), panel);
     }
 
     /**

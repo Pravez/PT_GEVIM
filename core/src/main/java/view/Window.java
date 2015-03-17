@@ -7,15 +7,18 @@ import controller.state.State;
 import data.Graph;
 import files.dot.DotFileManager;
 import files.gml.GmlFileManager;
+import view.editor.CustomTabbedPaneUI;
 import view.editor.Sheet;
 import view.editor.Tab;
 import view.frames.ButtonFactory;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -96,12 +99,17 @@ public class Window extends JFrame {
         this.startPanel = new JPanel();
         this.startPanel.setLayout(new BorderLayout());
         this.startPanel.setBackground(null);
+        Color logoColor  = new Color(181, 181, 181);
+        Color buttonColor = new Color(181, 181, 181);
+        Color hoverColor  = new Color(105, 105, 105);
         JLabel background = new JLabel("");
-        background.setIcon(new javax.swing.ImageIcon("core/assets/Gevim.png"));
+        try {
+            background.setIcon(new ImageIcon(ButtonFactory.getColoredImage(ImageIO.read(new File("core/assets/Gevim.png")), logoColor)));
+        } catch (IOException e) { }
         background.setBounds(0, 0, 915, 379);
         this.startPanel.add(background, BorderLayout.NORTH);
         JPanel buttonPanel = new JPanel();
-        buttonPanel.add(ButtonFactory.createImageButton("New", "New", "core/assets/new-very-big.png", "Nouveau graphe", new Color(105, 105, 105), 128, ""));
+        buttonPanel.add(ButtonFactory.createImageButton("New", "New", "core/assets/new-very-big.png", "Nouveau graphe", buttonColor, hoverColor, 128, ""));
         JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
         separator.setBackground(Color.BLACK);
         separator.setPreferredSize(new Dimension(15, 128));
@@ -109,7 +117,7 @@ public class Window extends JFrame {
         buttonPanel.add(Box.createHorizontalStrut(5));
         buttonPanel.add(separator);
         buttonPanel.add(Box.createHorizontalStrut(5));
-        buttonPanel.add(ButtonFactory.createImageButton("Open", "Open", "core/assets/open-very-big.png", "Ouvrir un graphe", new Color(105, 105, 105), 128, ""));
+        buttonPanel.add(ButtonFactory.createImageButton("Open", "Open", "core/assets/open-very-big.png", "Ouvrir un graphe", buttonColor, hoverColor, 128, ""));
         this.startPanel.add(buttonPanel, BorderLayout.CENTER);
         showStartPanel();
     }
@@ -119,6 +127,7 @@ public class Window extends JFrame {
      */
     private void initBackPanel() {
         this.back = new JPanel();
+        this.back.setBackground(new Color(64, 64, 64));
         this.getContentPane().add(this.back);
     }
 
@@ -139,6 +148,7 @@ public class Window extends JFrame {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         this.tabs = new JTabbedPane(SwingConstants.TOP);
+        this.tabs.setUI(new CustomTabbedPaneUI());
         this.tabs.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -268,12 +278,18 @@ public class Window extends JFrame {
         gbc.gridy = 0;
         gbc.weightx = 1;
 
-        titlePanel.add(new JLabel(title), gbc);
+        JLabel label = new JLabel("   " + title);
+        label.setForeground(new Color(237, 237, 237));
+        titlePanel.add(label, gbc);
         titlePanel.add(Box.createHorizontalStrut(25));
         gbc.gridx++;
         gbc.weightx = 0;
 
-        titlePanel.add(ButtonFactory.createBoxContainer(ButtonFactory.createImageButton("Close", "Close", "core/assets/cross.png", "Fermer le graphe", Color.WHITE, 12, title), new Color(212, 0, 0), 12), gbc);
+        Color crossColor      = new Color(136, 136, 136);
+        Color hoverColor      = new Color(255, 255, 255);
+        Color crossBackground = new Color(212, 0, 0);
+
+        titlePanel.add(ButtonFactory.createBoxContainer(ButtonFactory.createImageButton("Close", "Close", "core/assets/cross.png", "Fermer le graphe", crossColor, hoverColor, 12, title), crossBackground, 12), gbc);
 
         this.tabs.setTabComponentAt(this.tabs.indexOfTab(title), titlePanel);
         Window.tabIndex++;
