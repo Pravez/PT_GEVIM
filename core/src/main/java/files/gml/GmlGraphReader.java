@@ -57,10 +57,39 @@ public class GmlGraphReader {
         ArrayList<GraphElement> graphElements = new ArrayList<>();
         HashMap<Vertex, data.Vertex> vertices = new HashMap<>();
 
+        Color color;
+        String name;
+        Point point;
+        int size;
+
         for (Vertex v : this.gmlGraph.getVertices()) {
             if (!vertices.containsKey(v)) {
-                Color color = new Color((int)v.getProperty("r"), (int) v.getProperty("g"), (int) v.getProperty("b"));
-                data.Vertex sourceVertex = new data.Vertex((String) v.getProperty("name"), color, new Point((int) v.getProperty("x"), (int) v.getProperty("y")), (int) v.getProperty("size"), data.Vertex.Shape.SQUARE);
+
+                if(v.getProperty("r")!=null) {
+                    color = new Color((int) v.getProperty("r"), (int) v.getProperty("g"), (int) v.getProperty("b"));
+                }else{
+                    color = Color.BLACK;
+                }
+
+                if(v.getProperty("name")!=null){
+                    name = v.getProperty("name");
+                }else{
+                    name = "element";
+                }
+
+                if(v.getProperty("x")!=null && v.getProperty("y")!=null){
+                    point = new Point((int) v.getProperty("x"), (int) v.getProperty("y"));
+                }else{
+                    point = new Point(50, 50);
+                }
+
+                if(v.getProperty("width")!=null){
+                    size = v.getProperty("width");
+                }else{
+                    size = 15;
+                }
+
+                data.Vertex sourceVertex = new data.Vertex(name, color, point, size, data.Vertex.Shape.SQUARE);
                 vertices.put(v, sourceVertex);
                 graphElements.add(sourceVertex);
             }
@@ -71,9 +100,26 @@ public class GmlGraphReader {
 
             Vertex source = e.getVertex(Direction.OUT);
             Vertex target = e.getVertex(Direction.IN);
-            Color color = new Color((int)e.getProperty("r"), (int) e.getProperty("g"), (int) e.getProperty("b"));
 
-            data.Edge createdEdge = new data.Edge((String) e.getProperty("name"), color, vertices.get(source), vertices.get(target), (int)e.getProperty("size"));
+            if(e.getProperty("r")!=null){
+                color = new Color((int)e.getProperty("r"), (int) e.getProperty("g"), (int) e.getProperty("b"));
+            }else{
+                color = Color.BLACK;
+            }
+
+            if(e.getProperty("name")!=null){
+                name = e.getProperty("name");
+            }else{
+                name = "element";
+            }
+
+            if(e.getProperty("width")!=null){
+                size = e.getProperty("width");
+            }else{
+                size = 1;
+            }
+
+            data.Edge createdEdge = new data.Edge(name, color, vertices.get(source), vertices.get(target), size);
             graphElements.add(createdEdge);
 
         }

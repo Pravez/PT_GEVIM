@@ -406,7 +406,7 @@ public class Controller {
             }
 
             //Si le fichier ne possède pas la bonne extension
-            if (!file.getName().endsWith(".gml") && !file.getName().endsWith(".dot")) {
+            if (!file.getName().endsWith(".graphml") && !file.getName().endsWith(".dot")) {
                 JOptionPane.showMessageDialog(null, "Impossible d'utiliser ce format", "Erreur", JOptionPane.ERROR_MESSAGE);
                 file = null;
             }
@@ -447,7 +447,7 @@ public class Controller {
             File file = this.chooseFile(extensions, descriptions);
 
             if(file != null) {
-                if (file.getName().contains(".gml")) {
+                if (file.getName().contains(".graphml")) {
                     this.window.openGML(file);
                 } else if (file.getName().contains(".dot")) {
                     this.window.openDOT(file);

@@ -6,8 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import static data.Vertex.Shape.*;
-
 /**
  * Created by Paul Breton
  * Classe "visuelle" qui permet de modifier toutes les données d'un {@link data.Vertex} avec une interface graphique.
@@ -29,8 +27,12 @@ public class VertexViewEditor extends JDialog {
 
     private JComboBox<Vertex.Shape> vertexShape;
 
+    private Color newColor;
+    private String newLabel;
+    private Point newPosition;
+    private int newWidth;
+    private Vertex.Shape newShape;
 
-    private Vertex     vertex;
     private boolean    alreadyValidated;
     private boolean    cannotQuit;
 
@@ -75,16 +77,20 @@ public class VertexViewEditor extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
 
-        this.vertex = v;
+        this.newLabel = v.getLabel();
+        this.newColor = v.getColor();
+        this.newWidth = v.getSize();
+        this.newShape = v.getShape();
+        this.newPosition = v.getPosition();
 
-        this.vertexWidth.setText(String.valueOf(this.vertex.getSize()));
-        this.vertexX.setText(String.valueOf(this.vertex.getPosition().x));
-        this.vertexY.setText(String.valueOf(this.vertex.getPosition().y));
+        this.vertexWidth.setText(String.valueOf(this.newWidth));
+        this.vertexX.setText(String.valueOf(this.newPosition.x));
+        this.vertexY.setText(String.valueOf(this.newPosition.y));
 
-        if(this.vertex.getLabel()!=null) this.vertexName.setText(String.valueOf(this.vertex.getLabel()));
+        if(this.newLabel !=null) this.vertexName.setText(String.valueOf(this.newLabel));
         else this.vertexName.setText("");
 
-        switch(this.vertex.getShape()){
+        switch(this.newShape){
             case CIRCLE:
                 this.vertexShape.setSelectedIndex(1);
                 break;
@@ -108,8 +114,8 @@ public class VertexViewEditor extends JDialog {
         //Détermine si l'utilisateur peut quitter ou non la fenêtre
         cannotQuit = false;
 
-        //Setting the color
-        vertexColoration.setBackground(this.vertex.getColor());
+        //Setting the newColor
+        vertexColoration.setBackground(this.newColor);
         vertexColoration.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
@@ -130,16 +136,16 @@ public class VertexViewEditor extends JDialog {
 
         switch((String)this.vertexShape.getSelectedItem()){
             case "Cercle":
-                this.vertex.setShape(CIRCLE);
+                this.newShape = Vertex.Shape.CIRCLE;
                 break;
             case "Carré":
-                this.vertex.setShape(SQUARE);
+                this.newShape = Vertex.Shape.SQUARE;
                 break;
             case "Croix":
-                this.vertex.setShape(CROSS);
+                this.newShape = Vertex.Shape.CROSS;
                 break;
             case "Triangle":
-                this.vertex.setShape(TRIANGLE);
+                this.newShape = Vertex.Shape.TRIANGLE;
                 break;
             default:
                 break;
@@ -170,12 +176,25 @@ public class VertexViewEditor extends JDialog {
         this.vertexColoration.setBackground(cc.getColor());
     }
 
-    /**
-     * Renvoie les données du Vertex qui a été modifié, associé à l'instance de la classe {@link VertexViewEditor}
-     * @return le Vertex modifié
-     */
-    public Vertex getModifiedVertex(){
-        return this.vertex;
+
+    public Color getNewColor() {
+        return newColor;
+    }
+
+    public String getNewLabel() {
+        return newLabel;
+    }
+
+    public Point getNewPosition() {
+        return newPosition;
+    }
+
+    public int getNewWidth() {
+        return newWidth;
+    }
+
+    public Vertex.Shape getNewShape(){
+        return newShape;
     }
 
 
@@ -186,29 +205,29 @@ public class VertexViewEditor extends JDialog {
     private boolean verifyModifications(){
 
         boolean mustBeVerified = false;
-        this.vertex.setLabel(this.vertexName.getText());
-        this.vertex.setColor(this.vertexColoration.getBackground());
+        this.newLabel = (this.vertexName.getText());
+        this.newColor = (this.vertexColoration.getBackground());
 
         //Verifie la taille
         if(Integer.parseInt(this.vertexWidth.getText()) <= 0){
             JOptionPane.showMessageDialog(this, "La taille ne peut être inférieure ou égale à 0.", "Attention", JOptionPane.ERROR_MESSAGE);
-            this.vertexWidth.setText(String.valueOf(this.vertex.getSize()));
+            this.vertexWidth.setText(String.valueOf(this.newWidth));
             mustBeVerified = true;
         }else{
-            this.vertex.setSize(Integer.parseInt(this.vertexWidth.getText()));
+            this.newWidth = (Integer.parseInt(this.vertexWidth.getText()));
         }
 
-        //Vérifie la position
+        //Vérifie la newPosition
         if(Integer.parseInt(this.vertexX.getText())<=0){
-            JOptionPane.showMessageDialog(this, "La position x ne peut être inférieure ou égale à 0.", "Attention", JOptionPane.ERROR_MESSAGE);
-            this.vertexX.setText(String.valueOf(this.vertex.getPosition().x));
+            JOptionPane.showMessageDialog(this, "La newPosition x ne peut être inférieure ou égale à 0.", "Attention", JOptionPane.ERROR_MESSAGE);
+            this.vertexX.setText(String.valueOf(this.newPosition.x));
             mustBeVerified = true;
         }else if(Integer.parseInt(this.vertexY.getText()) <= 0){
-            JOptionPane.showMessageDialog(this, "La position y ne peut être inférieure ou égale à 0.", "Attention", JOptionPane.ERROR_MESSAGE);
-            this.vertexY.setText(String.valueOf(this.vertex.getPosition().y));
+            JOptionPane.showMessageDialog(this, "La newPosition y ne peut être inférieure ou égale à 0.", "Attention", JOptionPane.ERROR_MESSAGE);
+            this.vertexY.setText(String.valueOf(this.newPosition.y));
             mustBeVerified = true;
         }else {
-            this.vertex.setPosition(new Point(Integer.parseInt(this.vertexX.getText()), Integer.parseInt(this.vertexY.getText())));
+            this.newPosition = (new Point(Integer.parseInt(this.vertexX.getText()), Integer.parseInt(this.vertexY.getText())));
         }
 
         return mustBeVerified;

@@ -1,13 +1,8 @@
 package view.editor;
 
-import javax.swing.*;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicGraphicsUtils;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
-import javax.swing.text.View;
 import java.awt.*;
 import java.awt.geom.Path2D;
-import java.util.Arrays;
 
 /**
  * Created by Admin on 17/03/2015.
@@ -131,7 +126,7 @@ public class CustomTabbedPaneUI extends BasicTabbedPaneUI {
     if (tabPane.isEnabled() && tabPane.isEnabledAt(tabIndex)) {
     Color fg = tabPane.getForegroundAt(tabIndex);
     if (isSelected && (fg instanceof UIResource)) {
-    Color selectedFG = UIManager.getColor("TabbedPane.selectedForeground");
+    Color selectedFG = UIManager.getNewColor("TabbedPane.selectedForeground");
     if (selectedFG != null) {
     fg = selectedFG;
     }
@@ -182,7 +177,7 @@ public class CustomTabbedPaneUI extends BasicTabbedPaneUI {
         if (tabPane.hasFocus() && isSelected) {
             System.out.println("paintFocusIndicator");
             g.setColor(Color.RED);
-            //g.setColor(UIManager.getColor("ScrollBar.thumbShadow"));
+            //g.setColor(UIManager.getNewColor("ScrollBar.thumbShadow"));
             g.drawPolygon(shape);
         }
     }*/

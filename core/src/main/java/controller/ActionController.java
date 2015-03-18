@@ -183,7 +183,7 @@ public class ActionController {
     }
 
     public static void saveToGraphml() {
-        ActionController.controller.saveFile(new String[]{"GraphML files (*.gml)"}, new String[]{"gml"});
+        ActionController.controller.saveFile(new String[]{"GraphML files (*.graphml)"}, new String[]{"graphml"});
     }
 
     public static void saveToGraphviz() {
@@ -191,7 +191,7 @@ public class ActionController {
     }
 
     public static void openFromGraphml() {
-        ActionController.controller.openFile(new String[]{"GraphML files (*.gml)"}, new String[]{"gml"});
+        ActionController.controller.openFile(new String[]{"GraphML files (*.graphml)"}, new String[]{"graphml"});
     }
 
     public static void openFromGraphviz() {
@@ -199,11 +199,11 @@ public class ActionController {
     }
 
     public static void openGraph() {
-        ActionController.controller.openFile(new String[]{"GraphML files (*.gml)", "DOT files (*.dot)"}, new String[]{"gml", "dot"});
+        ActionController.controller.openFile(new String[]{"GraphML files (*.graphml)", "DOT files (*.dot)"}, new String[]{"graphml", "dot"});
     }
 
     public static void saveGraph() {
-        ActionController.controller.save(new String[]{"GraphML files (*.gml)", "DOT files (*.dot)"}, new String[]{"gml", "dot"});
+        ActionController.controller.save(new String[]{"GraphML files (*.graphml)", "DOT files (*.dot)"}, new String[]{"graphml", "dot"});
     }
 
     public static void applyAlgorithm(String name) {

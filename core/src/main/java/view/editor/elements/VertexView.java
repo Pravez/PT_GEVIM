@@ -162,11 +162,11 @@ public class VertexView extends ElementView {
     public void modify(Graph graph){
         VertexViewEditor edit = new VertexViewEditor(this.vertex, this);
 
-        Vertex newVertex = edit.getModifiedVertex();
-
-        this.vertex.setSize(newVertex.getSize());
-        this.vertex.setPosition(newVertex.getPosition());
-        this.vertex.setLabel(newVertex.getLabel());
+        this.vertex.setSize(edit.getNewWidth());
+        this.vertex.setPosition(edit.getNewPosition());
+        this.vertex.setLabel(edit.getNewLabel());
+        this.vertex.setShape(edit.getNewShape());
+        this.vertex.setColor(edit.getNewColor());
     }
 
     /**
