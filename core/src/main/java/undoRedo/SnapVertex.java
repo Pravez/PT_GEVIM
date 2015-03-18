@@ -7,6 +7,8 @@ import data.Vertex;
  */
 public class SnapVertex extends SnapProperties {
 
+    private Vertex.Shape shape;
+
     public Vertex.Shape getShape() {
         return shape;
     }
@@ -14,8 +16,6 @@ public class SnapVertex extends SnapProperties {
     public void setShape(Vertex.Shape shape) {
         this.shape = shape;
     }
-
-    private Vertex.Shape shape;
 
     public SnapVertex()
     {

@@ -18,8 +18,8 @@ public class VertexEdit {
 
     public VertexEdit(Graph model, SnapVertex before,SnapVertex after) {
         graph=model;
-        vertexBefore=after;
-        vertexAfter=before;
+        vertexBefore=before;
+        vertexAfter=after;
     }
 
     public void undo() throws CannotUndoException {
@@ -34,10 +34,17 @@ public class VertexEdit {
 
     public void redo() throws CannotUndoException {
 
-        graph.getVertexes().get(vertexAfter.getIndex()).setColor(vertexAfter.getColor());
-        graph.getVertexes().get(vertexAfter.getIndex()).setLabel(vertexAfter.getLabel());
-        graph.getVertexes().get(vertexAfter.getIndex()).setSize(vertexAfter.getSize());
-        graph.getVertexes().get(vertexAfter.getIndex()).setShape(vertexAfter.getShape());
+        if(vertexAfter.getColor()!=null)
+            graph.getVertexes().get(vertexAfter.getIndex()).setColor(vertexAfter.getColor());
+
+        if(vertexAfter.getLabel()!=null)
+            graph.getVertexes().get(vertexAfter.getIndex()).setLabel(vertexAfter.getLabel());
+
+        if(vertexAfter.getSize()!=-1)
+            graph.getVertexes().get(vertexAfter.getIndex()).setSize(vertexAfter.getSize());
+
+        if(vertexAfter.getShape()!=null)
+            graph.getVertexes().get(vertexAfter.getIndex()).setShape(vertexAfter.getShape());
 
 
     }
