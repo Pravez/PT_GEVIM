@@ -105,8 +105,10 @@ public class PropertyPanel extends JTabbedPane implements Observer {
             }
         });
 
-        addColoredTab("Noeuds", vertexScrollPane);
-        addColoredTab("Arêtes", edgeScrollPane);
+        /*addColoredTab("Noeuds", vertexScrollPane);
+        addColoredTab("Arêtes", edgeScrollPane);*/
+        this.addTab("Noeuds", vertexScrollPane);
+        this.addTab("Arêtes", edgeScrollPane);
     }
 
     private void addColoredTab(String title, JComponent component) {

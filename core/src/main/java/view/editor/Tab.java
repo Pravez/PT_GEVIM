@@ -15,11 +15,17 @@ import java.awt.event.*;
 public class Tab extends JSplitPane {
 
     private Controller    controller;
+    /* Panel de droite */
     private JPanel        boardPanel;
+    /* MiniMap dans la boardPanel */
     private MiniMap       minimap;
+    /* Panel de Propriétés */
     private PropertyPanel properties;
+    /* ScrollPane */
     private ScrollPane    scrollPane;
+    /* Sheet, feuille de dessin */
     private Sheet         sheet;
+    /* UndoPanel (non affiché) */
     private UndoPanel     undoredo;
 
     /**
@@ -49,6 +55,14 @@ public class Tab extends JSplitPane {
                 resize();
             }
         });
+        setColors();
+    }
+
+    public void setColors() {
+        this.boardPanel.setOpaque(true);
+        this.boardPanel.setBackground(new Color(59, 59, 59));
+        this.scrollPane.setOpaque(true);
+        this.scrollPane.setBackground(new Color(47, 47, 47));
     }
 
     /**

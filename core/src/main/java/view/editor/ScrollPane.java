@@ -1,5 +1,7 @@
 package view.editor;
 
+import view.editor.elements.CustomScrollBarUI;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -22,6 +24,8 @@ public class ScrollPane extends JScrollPane {
         this.tab   = tab;
         this.sheet = sheet;
         this.setWheelScrollingEnabled(false); // désactiver le scroll des scrollbars --> pour le zoom qui utilise l'événement mouse wheel
+        this.horizontalScrollBar.setUI(new CustomScrollBarUI());
+        this.verticalScrollBar.setUI(new CustomScrollBarUI());
     }
 
     /**
