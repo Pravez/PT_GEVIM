@@ -59,10 +59,9 @@ public class Tab extends JSplitPane {
     }
 
     public void setColors() {
-        this.boardPanel.setOpaque(true);
-        this.boardPanel.setBackground(new Color(59, 59, 59));
         this.scrollPane.setOpaque(true);
         this.scrollPane.setBackground(new Color(47, 47, 47));
+        this.scrollPane.setBorder(null);
     }
 
     /**

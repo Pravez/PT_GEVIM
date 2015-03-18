@@ -63,6 +63,8 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
 	 * @param g les Graphics
 	 */
 	public void paintComponent(Graphics g) {
+        g.setColor(new Color(59, 59, 59));
+        g.fillRect(0, 0, super.getWidth(), super.getHeight());
 		g.setColor(this.selectionColor);
 		g.fillRect(this.selectionZone.x, this.selectionZone.y, this.selectionZone.width, this.selectionZone.height);
 		g.setColor(this.selectionBorderColor);

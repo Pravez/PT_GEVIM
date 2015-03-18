@@ -1,4 +1,4 @@
-package view.editor.elements;
+package view.editor;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
@@ -29,12 +29,27 @@ public class CustomScrollBarUI extends BasicScrollBarUI {
      */
     @Override
     protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
-        int gap = 5;
+        int gap    = 3;
+        int border = 3;
+        int x = thumbBounds.x;
+        int y = thumbBounds.y;
+        int w = thumbBounds.width;
+        int h = thumbBounds.height;
         g.setColor(new Color(111, 111, 111));
-        if (thumbBounds.width > thumbBounds.height) { // barre horizontale
-            g.fillRect(thumbBounds.x, thumbBounds.y + gap, thumbBounds.width, thumbBounds.height - gap);
+        if (w > h) { // barre horizontale
+            h -= 4;
+            int[] xpoints = new int[] {x, x + border, x + border, x + w - border, x + w - border, x + w, x + w, x };
+            int[] ypoints = new int[] {y + gap + border, y + gap + border, y + gap, y + gap, y + gap + border, y + gap + border, y + gap + h, y + gap + h};
+            g.fillPolygon(xpoints, ypoints, xpoints.length);
+            g.fillOval(x, y + gap, border*2, border*2);
+            g.fillOval(x + w - border*2, y + gap, border*2, border*2);
         } else { // barre verticale
-            g.fillRect(thumbBounds.x + gap, thumbBounds.y, thumbBounds.width - gap, thumbBounds.height);
+            w--;
+            int[] xpoints = new int[] {x + gap, x + gap + border, x + gap + border, x + w, x + w, x + gap + border, x + gap + border, x + gap };
+            int[] ypoints = new int[] {y + border, y + border, y, y, y + h, y + h, y + h - border, y + h - border};
+            g.fillPolygon(xpoints, ypoints, xpoints.length);
+            g.fillOval(x + gap, y, border*2, border*2);
+            g.fillOval(x + gap, y + h - border*2, border*2, border*2);
         }
     }
 

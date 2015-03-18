@@ -60,7 +60,7 @@ public class Window extends JFrame {
         initStartPanel();
 
         tabs.setOpaque(true);
-        tabs.setBackground(Color.GRAY);
+        tabs.setBackground(new Color(93, 93, 93));
         tabs.setFocusable(false);
 
         this.setFocusable(true);

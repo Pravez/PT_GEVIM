@@ -169,10 +169,10 @@ public class CustomTabbedPaneUI extends BasicTabbedPaneUI {
         Graphics2D g2D = (Graphics2D) g;
         g2D.setColor(isSelected ? this.borderSelectColor : this.borderDeSelectColor);
         Path2D p = new Path2D.Double();
-        p.moveTo(x, y+h-1);
+        p.moveTo(x, y + h - 2);
         p.lineTo(x, y);
-        p.lineTo(x+w, y);
-        p.lineTo(x + w, y + h - 1);
+        p.lineTo(x + w, y);
+        p.lineTo(x + w, y + h - 2);
         g2D.draw(p);
     }
 
