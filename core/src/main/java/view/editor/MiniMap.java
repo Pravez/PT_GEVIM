@@ -18,8 +18,10 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
 
 	private static final long serialVersionUID = 1L;
 	
-	private ScrollPane pane;
-	private Sheet sheet;
+	private ScrollPane             pane;
+	private Sheet                  sheet;
+
+    private Color                  backColor;
 	
 	private ArrayList<EdgeView>    edges;
     private ArrayList<VertexView>  vertexes;
@@ -40,8 +42,7 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
         this.edges                = new ArrayList<EdgeView>();
         this.vertexes             = new ArrayList<VertexView>();
 
-        this.selectionColor       = new Color(172, 211, 244);
-        this.selectionBorderColor = new Color(107, 153, 189);
+        setDarkTheme();
         updateSelectionZone();
         this.addMouseListener(new MouseAdapter() {
             @Override
@@ -58,12 +59,24 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
         this.setVisible(true);
     }
 
+    public void setDarkTheme() {
+        this.backColor            = new Color(59, 59, 59);
+        this.selectionColor       = new Color(226, 226, 226);
+        this.selectionBorderColor = new Color(155, 155, 155);
+    }
+
+    public void setLightTheme() {
+        this.backColor            = Color.LIGHT_GRAY;
+        this.selectionColor       = new Color(172, 211, 244);
+        this.selectionBorderColor = new Color(107, 153, 189);
+    }
+
 	/**
 	 * Override de la méthode paintComponent pour dessiner le graph
 	 * @param g les Graphics
 	 */
 	public void paintComponent(Graphics g) {
-        g.setColor(new Color(59, 59, 59));
+        g.setColor(this.backColor);
         g.fillRect(0, 0, super.getWidth(), super.getHeight());
 		g.setColor(this.selectionColor);
 		g.fillRect(this.selectionZone.x, this.selectionZone.y, this.selectionZone.width, this.selectionZone.height);

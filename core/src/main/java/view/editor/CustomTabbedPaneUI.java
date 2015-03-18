@@ -80,7 +80,7 @@ public class CustomTabbedPaneUI extends BasicTabbedPaneUI {
     @Override
     protected void paintTabBackground(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected) {
         Graphics2D g2D = (Graphics2D) g;
-        Polygon shape     = new Polygon(new int[]{x, x + w, x + w, x}, new int[]{y, y, y + h, y + h}, 4);
+        Polygon shape  = new Polygon(new int[]{x, x + w, x + w, x}, new int[]{y, y, y + h, y + h}, 4);
         g2D.setColor(isSelected ? this.selectColor : this.deSelectColor);
         g2D.fill(shape);
         if (this.runCount > 1) {

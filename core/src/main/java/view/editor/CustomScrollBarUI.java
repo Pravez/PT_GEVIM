@@ -29,7 +29,7 @@ public class CustomScrollBarUI extends BasicScrollBarUI {
      */
     @Override
     protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
-        int gap    = 3;
+        int gap    = 6;
         int border = 3;
         int x = thumbBounds.x;
         int y = thumbBounds.y;

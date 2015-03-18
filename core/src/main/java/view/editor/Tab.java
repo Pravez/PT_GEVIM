@@ -5,6 +5,9 @@ import data.Graph;
 import undoRedo.UndoPanel;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.plaf.basic.BasicSplitPaneDivider;
+import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -37,8 +40,8 @@ public class Tab extends JSplitPane {
     public Tab(Graph graph, String title, Controller controller) {
         super(JSplitPane.HORIZONTAL_SPLIT);
 
-        this.setOneTouchExpandable(true);
-        this.setContinuousLayout(true);
+        this.setOneTouchExpandable(false);
+        this.setContinuousLayout(false);
 
         this.controller = controller;
 
@@ -62,6 +65,22 @@ public class Tab extends JSplitPane {
         this.scrollPane.setOpaque(true);
         this.scrollPane.setBackground(new Color(47, 47, 47));
         this.scrollPane.setBorder(null);
+        this.setUI(new BasicSplitPaneUI() {
+            public BasicSplitPaneDivider createDefaultDivider() {
+                BasicSplitPaneDivider divider = new BasicSplitPaneDivider(this) {
+                    public void setBorder(Border b) { }
+
+                    @Override
+                    public void paint(Graphics g) {
+                        g.setColor(new Color(93, 93, 93)); // couleur du diviseur du JSplitPane
+                        g.fillRect(0, 0, getSize().width, getSize().height);
+                        super.paint(g);
+                    }
+                };
+                divider.setCursor(Cursor.getDefaultCursor());
+                return divider;
+            }
+        });
     }
 
     /**

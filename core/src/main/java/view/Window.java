@@ -99,9 +99,9 @@ public class Window extends JFrame {
         this.startPanel = new JPanel();
         this.startPanel.setLayout(new BorderLayout());
         this.startPanel.setBackground(null);
-        Color logoColor  = new Color(181, 181, 181);
-        Color buttonColor = new Color(181, 181, 181);
-        Color hoverColor  = new Color(105, 105, 105);
+        Color logoColor  = new Color(95, 95, 95);
+        Color buttonColor = new Color(205, 205, 205);
+        Color hoverColor  = new Color(134, 134, 134);
         JLabel background = new JLabel("");
         try {
             background.setIcon(new ImageIcon(ButtonFactory.getColoredImage(ImageIO.read(new File("core/assets/Gevim.png")), logoColor)));
@@ -111,7 +111,7 @@ public class Window extends JFrame {
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(ButtonFactory.createImageButton("New", "New", "core/assets/new-very-big.png", "Nouveau graphe", buttonColor, hoverColor, 128, ""));
         JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
-        separator.setBackground(Color.BLACK);
+        separator.setBackground(buttonColor);
         separator.setPreferredSize(new Dimension(15, 128));
         buttonPanel.setBackground(null);
         buttonPanel.add(Box.createHorizontalStrut(5));
@@ -166,8 +166,16 @@ public class Window extends JFrame {
      * @return Le menu crée après avoir été ajouté
      */
     private JMenu addMenu(String menuText) {
-        JMenu menu = new JMenu(menuText);
+        JMenu menu = createJMenu(menuText);
         super.getJMenuBar().add(menu);
+        return menu;
+    }
+
+    private JMenu createJMenu(String menuText) {
+        JMenu menu = new JMenu(menuText);
+        menu.setOpaque(true);
+        menu.setForeground(new Color(232, 232, 232));
+        menu.setBackground(new Color(93, 93, 93));
         return menu;
     }
 
@@ -179,6 +187,9 @@ public class Window extends JFrame {
      */
     private void addJMenuItem(JMenu menu, String label, String action) {
         JMenuItem item = new JMenuItem(label);
+        item.setOpaque(true);
+        item.setForeground(new Color(232, 232, 232));
+        item.setBackground(new Color(93, 93, 93));
         item.setActionCommand(action);
         menu.add(item);
         item.addActionListener(new ButtonActionListener(item, null, ""));
@@ -229,16 +240,26 @@ public class Window extends JFrame {
      * Méthode initialisant tous les menus pour utiliser les fonctions du logiciel (enregistrement, algorithmes ...)
      */
     private void initMenu() {
-        super.setJMenuBar(new JMenuBar());
+        super.setJMenuBar(new JMenuBar() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setColor(this.getBackground());
+                g2d.fillRect(0, 0, getWidth() - 1, getHeight() - 1);
+
+            }
+        });
+        super.getJMenuBar().setBackground(new Color(93, 93, 93));
 
         JMenu file = this.addMenu("Fichier");
         JMenu edition = this.addMenu("Edition");
 
-        JMenu open = new JMenu("Ouvrir");
+        JMenu open = createJMenu("Ouvrir");
         this.addJMenuItem(open, "depuis GraphML...", "from GraphML...");
         this.addJMenuItem(open, "depuis GraphViz...", "from GraphViz...");
 
-        JMenu saveas = new JMenu("Sauvegarder comme ...");
+        JMenu saveas = createJMenu("Sauvegarder comme ...");
         this.addJMenuItem(saveas, "GraphML...", "GraphML...");
         this.addJMenuItem(saveas, "GraphViz...", "GraphViz...");
 
