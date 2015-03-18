@@ -2,13 +2,14 @@ package undoRedo;
 
 import data.Graph;
 
+import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotUndoException;
 import java.util.ArrayList;
 
 /**
  * Created by bendossantos on 18/03/15.
  */
-public class VertexEdit {
+public class VertexEdit extends AbstractUndoableEdit {
 
 
     private SnapVertex vertexBefore;

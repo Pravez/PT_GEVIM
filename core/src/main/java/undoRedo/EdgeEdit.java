@@ -2,55 +2,59 @@ package undoRedo;
 
 import data.Graph;
 
+import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotUndoException;
+import java.util.ArrayList;
 
 /**
  * Created by bendossantos on 18/03/15.
  */
-public class EdgeEdit {
+public class EdgeEdit extends AbstractUndoableEdit {
 
 
-    private SnapEdge edgeBefore;
-    private SnapEdge edgeAfter;
+    private ArrayList<SnapEdge> edgesBefore;
+    private ArrayList<SnapEdge> edgesAfter;
 
     private Graph graph;
 
-    public EdgeEdit(Graph model, SnapEdge before,SnapEdge after) {
+    public EdgeEdit(Graph model, ArrayList<SnapEdge> before, ArrayList<SnapEdge> after) {
         graph=model;
-        edgeAfter=after;
-        edgeBefore=before;
+        edgesAfter=after;
+        edgesBefore=before;
     }
 
 
     public void undo() throws CannotUndoException {
+        
+        for(SnapEdge s : edgesBefore) {
+            graph.getEdges().get(s.getIndex()).setColor(s.getColor());
+            graph.getEdges().get(s.getIndex()).setLabel(s.getLabel());
+            graph.getEdges().get(s.getIndex()).setThickness(s.getSize());
+            graph.getEdges().get(s.getIndex()).setDestination(graph.getVertexes().get(s.getIndexDestination()));
+            graph.getEdges().get(s.getIndex()).setOrigin(graph.getVertexes().get(s.getIndexSource()));
 
-        graph.getEdges().get(edgeBefore.getIndex()).setColor(edgeBefore.getColor());
-        graph.getEdges().get(edgeBefore.getIndex()).setLabel(edgeBefore.getLabel());
-        graph.getEdges().get(edgeBefore.getIndex()).setThickness(edgeBefore.getSize());
-        graph.getEdges().get(edgeBefore.getIndex()).setDestination(graph.getVertexes().get(edgeBefore.getIndexDestination()));
-        graph.getEdges().get(edgeBefore.getIndex()).setOrigin(graph.getVertexes().get(edgeBefore.getIndexSource()));
-
-
+        }
 
     }
 
     public void redo() throws CannotUndoException {
+/*
+        for(SnapEdge s : edgesBefore) {
+            if (edgeAfter.getColor() != null)
+                graph.getVertexes().get(edgeBefore.getIndex()).setColor(edgeAfter.getColor());
 
-        if(edgeAfter.getColor()!=null)
-            graph.getVertexes().get(edgeBefore.getIndex()).setColor(edgeAfter.getColor());
+            if (edgeAfter.getLabel() != null)
+                graph.getVertexes().get(edgeBefore.getIndex()).setLabel(edgeAfter.getLabel());
 
-        if(edgeAfter.getLabel()!=null)
-            graph.getVertexes().get(edgeBefore.getIndex()).setLabel(edgeAfter.getLabel());
+            if (edgeAfter.getSize() != -1)
+                graph.getVertexes().get(edgeBefore.getIndex()).setSize(edgeAfter.getSize());
 
-        if(edgeAfter.getSize()!=-1)
-            graph.getVertexes().get(edgeBefore.getIndex()).setSize(edgeAfter.getSize());
+            if (edgeAfter.getIndexDestination() != -1)
+                graph.getEdges().get(edgeBefore.getIndex()).setDestination(graph.getVertexes().get(edgeAfter.getIndexDestination()));
 
-        if(edgeAfter.getIndexDestination()!=-1)
-            graph.getEdges().get(edgeBefore.getIndex()).setDestination(graph.getVertexes().get(edgeAfter.getIndexDestination()));
-
-        if(edgeAfter.getIndexSource()!=-1)
-            graph.getEdges().get(edgeBefore.getIndex()).setOrigin(graph.getVertexes().get(edgeAfter.getIndexSource()));
-
+            if (edgeAfter.getIndexSource() != -1)
+                graph.getEdges().get(edgeBefore.getIndex()).setOrigin(graph.getVertexes().get(edgeAfter.getIndexSource()));
+        }*/
     }
 
     public boolean canUndo() { return true; }
