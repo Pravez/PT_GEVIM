@@ -756,15 +756,15 @@ public class Sheet extends JComponent implements Observer {
                 tmpSnap.setSize(((Edge)  this.selectedElements.get(i).getGraphElement()).getThickness());
             }
 
-            tmpSnap.setLabel(this.selectedElements.get(i).getGraphElement().getLabel());
-            tmpSnap.setColor(this.selectedElements.get(i).getGraphElement().getColor());
+            tmpSnap.setLabel(this.selectedElements.get(i).getGraphElement().getNewLabel());
+            tmpSnap.setColor(this.selectedElements.get(i).getGraphElement().getNewColor());
 
             propertiesBefore.add(tmpSnap);
 
 
 
-            this.selectedElements.get(i).getGraphElement().setColor(modifiedElements.get(i).getGraphElement().getColor());
-            this.selectedElements.get(i).getGraphElement().setLabel(modifiedElements.get(i).getGraphElement().getLabel());
+            this.selectedElements.get(i).getGraphElement().setColor(modifiedElements.get(i).getGraphElement().getNewColor());
+            this.selectedElements.get(i).getGraphElement().setLabel(modifiedElements.get(i).getGraphElement().getNewLabel());
 
             modifiedGraphElement.add(this.selectedElements.get(i).getGraphElement());
 
