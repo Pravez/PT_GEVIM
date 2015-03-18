@@ -4,6 +4,7 @@ import controller.Controller;
 import data.*;
 import files.dot.DotFileManager;
 import files.gml.GmlFileManager;
+import undoRedo.SnapProperties;
 import view.Observer;
 import view.editor.elements.EdgeView;
 import view.editor.elements.ElementView;
@@ -680,10 +681,25 @@ public class Sheet extends JComponent implements Observer {
         int modifiedSize = sizeModified ? elementsViewEditor.getNewSize() : 0;
         String modifiedLabel = labelModified ? elementsViewEditor.getNewName() : "none";
 
+        ArrayList<SnapProperties> propertiesBefore = new ArrayList<>();
+
+
         if(colorModified || sizeModified || labelModified) {
             for (ElementView ev : this.selectedElements) {
-
+                SnapProperties tmpSnap = new SnapProperties();
                 GraphElement temp = ev.getGraphElement();
+
+                //On récupère les propriétés avant les modifications
+                tmpSnap.setIndex(this.graph.getGraphElements().indexOf(temp));
+                tmpSnap.setColor(temp.getColor());
+                tmpSnap.setLabel(temp.getLabel());
+                if (temp.isVertex()) {
+                    tmpSnap.setSize(((Vertex) temp).getSize());
+                } else
+                    tmpSnap.setSize(((Edge) temp).getThickness());
+
+
+
 
                 if (colorModified) {
                     temp.setColor(modifiedColor);
@@ -694,11 +710,28 @@ public class Sheet extends JComponent implements Observer {
                     } else {
                         ((Edge) temp).setThickness(modifiedSize);
                     }
+
                 }
                 if (labelModified) {
                     temp.setLabel(modifiedLabel);
                 }
+                propertiesBefore.add(tmpSnap);
             }
+            
+            SnapProperties propertiesAfter = new SnapProperties();
+            if (colorModified) {
+                propertiesAfter.setColor(modifiedColor);
+            }
+            if (sizeModified) {
+                propertiesAfter.setSize(modifiedSize);
+
+            }
+            if (labelModified) {
+                propertiesAfter.setLabel(modifiedLabel);
+            }
+            
+            tab.getUndoRedo().registerPropertiesEdit(propertiesBefore, propertiesAfter);
+
         }
 
         /*
