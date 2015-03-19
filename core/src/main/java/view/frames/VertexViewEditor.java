@@ -35,7 +35,11 @@ public class VertexViewEditor extends JDialog {
 
     private Vertex initialVertex;
 
-    private boolean hasBeenModified;
+    private boolean colorModified;
+    private boolean labelModified;
+    private boolean positionModified;
+    private boolean widthModified;
+    private boolean shapeModified;
 
     private boolean    alreadyValidated;
     private boolean    cannotQuit;
@@ -88,7 +92,11 @@ public class VertexViewEditor extends JDialog {
 
     private void initComponents(Vertex v){
 
-        hasBeenModified = false;
+        this.labelModified = false;
+        this.widthModified = false;
+        this.colorModified = false;
+        this.shapeModified = false;
+        this.positionModified = false;
 
         this.initialVertex = v;
         this.newLabel = v.getLabel();
@@ -227,10 +235,16 @@ public class VertexViewEditor extends JDialog {
 
     private void hasBeenModified(){
 
-        if(newColor == initialVertex.getColor() || newLabel.equals(initialVertex.getLabel()) || newPosition == initialVertex.getPosition()){
-            hasBeenModified = true;
-        }else if(newShape == initialVertex.getShape() || newWidth == initialVertex.getSize()){
-            hasBeenModified = true;
+        if (newLabel.equals(initialVertex.getLabel())) {
+            labelModified = true;
+        } else if (newPosition == initialVertex.getPosition()) {
+            positionModified = true;
+        } else if (newColor == initialVertex.getColor()) {
+            colorModified = true;
+        } else if (newWidth == initialVertex.getSize()) {
+            widthModified = true;
+        } else if (newShape == initialVertex.getShape()) {
+            shapeModified = true;
         }
     }
 
@@ -255,7 +269,23 @@ public class VertexViewEditor extends JDialog {
         return newShape;
     }
 
-    public boolean isHasBeenModified() {
-        return hasBeenModified;
+    public boolean isColorModified() {
+        return colorModified;
+    }
+
+    public boolean isLabelModified() {
+        return labelModified;
+    }
+
+    public boolean isPositionModified() {
+        return positionModified;
+    }
+
+    public boolean isWidthModified() {
+        return widthModified;
+    }
+
+    public boolean isShapeModified() {
+        return shapeModified;
     }
 }
