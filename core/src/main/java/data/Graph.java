@@ -221,10 +221,18 @@ public class Graph extends Observable {
      */
     public void removeGraphElement(GraphElement element) {
     	if (element.isVertex()) {
+            //On utilise un endroit temporaire où l'on stocke les Edges à supprimer dans les Vertices pour
+            //eviter les accès concurrents lors de la lecture dans les edges du vertex
+            ArrayList<Edge> toClear = new ArrayList<>();
+
     		for(Edge e : ((Vertex) element).getEdges()){
+                toClear.add(e);
                 this.elements.remove(e);
+            }
+            for(Edge e : toClear){
                 clearLinkedVertices(e);
             }
+            toClear.clear();
     	}else{
             clearLinkedVertices((Edge) element);
         }
@@ -247,8 +255,6 @@ public class Graph extends Observable {
         if(destinationPosition != -1){
             e.getOrigin().getEdges().remove(destinationPosition);
         }
-
-
     }
 
 	/**

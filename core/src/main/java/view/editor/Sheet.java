@@ -844,6 +844,4 @@ public class Sheet extends JComponent implements Observer {
 
         return true;
     }
-
-
 }
