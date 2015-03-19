@@ -228,19 +228,19 @@ public class EdgeViewEditor extends JDialog {
 
     private void hasBeenModified(){
 
-        if (label.equals(initialEdge.getLabel())) {
+        if (!label.equals(initialEdge.getLabel())) {
             labelModified = true;
         }
-        if (width == initialEdge.getThickness()) {
+        if (width != initialEdge.getThickness()) {
             widthModified = true;
         }
-        if (color == initialEdge.getColor()) {
+        if (color != initialEdge.getColor()) {
             colorModified = true;
         }
-        if (origin.getValue() == initialEdge.getOrigin().getValue()) {
+        if (origin.getValue() != initialEdge.getOrigin().getValue()) {
             originModified = true;
         }
-        if (destination.getValue() == initialEdge.getDestination().getValue()) {
+        if (destination.getValue() != initialEdge.getDestination().getValue()) {
             destinationModified = true;
         }
     }

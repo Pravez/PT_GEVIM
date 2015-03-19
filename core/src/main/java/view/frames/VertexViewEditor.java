@@ -235,19 +235,19 @@ public class VertexViewEditor extends JDialog {
 
     private void hasBeenModified(){
 
-        if (newLabel.equals(initialVertex.getLabel())) {
+        if (!newLabel.equals(initialVertex.getLabel())) {
             labelModified = true;
         }
-        if (newPosition == initialVertex.getPosition()) {
+        if (newPosition != initialVertex.getPosition()) {
             positionModified = true;
         }
-        if (newColor == initialVertex.getColor()) {
+        if (newColor != initialVertex.getColor()) {
             colorModified = true;
         }
-        if (newWidth == initialVertex.getSize()) {
+        if (newWidth != initialVertex.getSize()) {
             widthModified = true;
         }
-        if (newShape == initialVertex.getShape()) {
+        if (newShape != initialVertex.getShape()) {
             shapeModified = true;
         }
     }
