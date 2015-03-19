@@ -68,7 +68,10 @@ public class Edge extends GraphElement {
      * @param origin le nouveau Vertex d'origine
      */
     public void setOrigin(Vertex origin) {
+
+        this.origin.getEdges().remove(this);
         this.origin = origin;
+        origin.addEdge(this);
     }
 
     /**
@@ -84,7 +87,10 @@ public class Edge extends GraphElement {
      * @param destination le nouveau Vertex de destination
      */
     public void setDestination(Vertex destination) {
+
+        this.destination.getEdges().remove(this);
         this.destination = destination;
+        destination.addEdge(this);
     }
 
     /**
@@ -102,6 +108,7 @@ public class Edge extends GraphElement {
     public void setThickness(int thickness) {
     	this.thickness = thickness;
     }
+
 
 	@Override
 	public boolean isVertex() {

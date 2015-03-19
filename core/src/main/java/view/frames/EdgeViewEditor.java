@@ -34,6 +34,14 @@ public class EdgeViewEditor extends JDialog {
     private Vertex origin;
     private Vertex destination;
 
+    private boolean labelModified;
+    private boolean colorModified;
+    private boolean widthModified;
+    private boolean originModified;
+    private boolean destinationModified;
+
+    private Edge initialEdge;
+
     private boolean           cannotQuit;
 
     /**
@@ -91,6 +99,14 @@ public class EdgeViewEditor extends JDialog {
      */
     private void initComponents(Edge edge, Graph graph) {
 
+        this.labelModified = false;
+        this.widthModified = false;
+        this.colorModified = false;
+        this.originModified = false;
+        this.destinationModified = false;
+
+        this.initialEdge = edge;
+
         this.graph = graph;
 
         this.label = edge.getLabel();
@@ -141,6 +157,7 @@ public class EdgeViewEditor extends JDialog {
         cannotQuit = verifyModifications();
 
         if(!cannotQuit) {
+            hasBeenModified();
             dispose();
         }
     }
@@ -208,6 +225,25 @@ public class EdgeViewEditor extends JDialog {
         return mustBeVerified;
     }
 
+    private void hasBeenModified(){
+
+        if (label.equals(initialEdge.getLabel())) {
+            labelModified = true;
+        }
+        if (width == initialEdge.getThickness()) {
+            widthModified = true;
+        }
+        if (color == initialEdge.getColor()) {
+            colorModified = true;
+        }
+        if (origin.getValue() == initialEdge.getOrigin().getValue()) {
+            originModified = true;
+        }
+        if (destination.getValue() == initialEdge.getDestination().getValue()) {
+            destinationModified = true;
+        }
+    }
+
     public Vertex getDestination() {
         return destination;
     }
@@ -226,5 +262,25 @@ public class EdgeViewEditor extends JDialog {
 
     public String getLabel() {
         return label;
+    }
+
+    public boolean isLabelModified() {
+        return labelModified;
+    }
+
+    public boolean isColorModified() {
+        return colorModified;
+    }
+
+    public boolean isWidthModified() {
+        return widthModified;
+    }
+
+    public boolean isOriginModified() {
+        return originModified;
+    }
+
+    public boolean isDestinationModified() {
+        return destinationModified;
     }
 }

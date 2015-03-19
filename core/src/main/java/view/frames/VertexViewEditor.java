@@ -237,13 +237,17 @@ public class VertexViewEditor extends JDialog {
 
         if (newLabel.equals(initialVertex.getLabel())) {
             labelModified = true;
-        } else if (newPosition == initialVertex.getPosition()) {
+        }
+        if (newPosition == initialVertex.getPosition()) {
             positionModified = true;
-        } else if (newColor == initialVertex.getColor()) {
+        }
+        if (newColor == initialVertex.getColor()) {
             colorModified = true;
-        } else if (newWidth == initialVertex.getSize()) {
+        }
+        if (newWidth == initialVertex.getSize()) {
             widthModified = true;
-        } else if (newShape == initialVertex.getShape()) {
+        }
+        if (newShape == initialVertex.getShape()) {
             shapeModified = true;
         }
     }
