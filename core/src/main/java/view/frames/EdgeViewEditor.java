@@ -185,6 +185,7 @@ public class EdgeViewEditor extends JDialog {
          boolean mustBeVerified = false;
 
         this.color = this.edgeViewColor.getBackground();
+        this.label = this.edgeViewName.getText();
 
 
         if(Integer.parseInt(this.edgeThickness.getText()) <= 0){

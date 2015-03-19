@@ -10,6 +10,7 @@ import view.editor.elements.ElementView;
 import view.editor.elements.VertexView;
 import view.frames.ElementsEditor;
 import view.frames.SheetPropertiesViewEditor;
+import view.frames.VerticesEditor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -676,63 +677,108 @@ public class Sheet extends JComponent implements Observer {
     public void setScale(double scale) { this.scale = scale; }
 
     public void modifyElements(){
-        ElementsEditor elementsViewEditor = new ElementsEditor();
 
-        boolean colorModified = elementsViewEditor.getColorWasModified();
-        boolean sizeModified = elementsViewEditor.getSizeWasModified();
-        boolean labelModified = elementsViewEditor.getNameswWereModified();
+        if(selectionComposedByVerticesOnly()){
 
-        Color modifiedColor = colorModified ? elementsViewEditor.getNewColor() : null;
-        int modifiedSize = sizeModified ? elementsViewEditor.getNewSize() : 0;
-        String modifiedLabel = labelModified ? elementsViewEditor.getNewName() : "none";
+            VerticesEditor verticesEditor = new VerticesEditor(this.selectedElements.get(0));
 
-        ArrayList<SnapProperties> propertiesBefore = new ArrayList<>();
+            if(!verticesEditor.isCancelled()) {
 
+                boolean colorModified = verticesEditor.isColorModified();
+                boolean labelModified = verticesEditor.isLabelModified();
+                boolean sizeModified = verticesEditor.isSizeModified();
+                boolean shapeModified = verticesEditor.isShapeModified();
 
-        if(colorModified || sizeModified || labelModified) {
-            for (ElementView ev : this.selectedElements) {
-                SnapProperties tmpSnap = new SnapProperties();
-                GraphElement temp = ev.getGraphElement();
+                Color modifiedColor = colorModified ? verticesEditor.getNewColor() : null;
+                String modifiedLabel = labelModified ? verticesEditor.getNewLabel() : "none";
+                int modifiedSize = sizeModified ? verticesEditor.getNewSize() : 0;
+                Vertex.Shape modifiedShape = shapeModified ? verticesEditor.getNewShape() : null;
 
-                //On récupère les propriétés avant les modifications
-                tmpSnap.setIndex(this.graph.getGraphElements().indexOf(temp));
-                tmpSnap.setColor(temp.getColor());
-                tmpSnap.setLabel(temp.getLabel());
+                if (colorModified || labelModified || shapeModified || sizeModified) {
 
-                if (temp.isVertex()) {
-                    tmpSnap.setSize(((Vertex) temp).getSize());
-                } else
-                    tmpSnap.setSize(((Edge) temp).getThickness());
-                if (colorModified) {
-                    temp.setColor(modifiedColor);
-                }
-                if (sizeModified) {
-                    if (temp.isVertex()) {
-                        ((Vertex) temp).setSize(modifiedSize);
-                    } else {
-                        ((Edge) temp).setThickness(modifiedSize);
+                    for (ElementView ev : this.selectedElements) {
+                        Vertex v = (Vertex) ev.getGraphElement();
+                        if (colorModified) {
+                            v.setColor(modifiedColor);
+                        }
+                        if (labelModified) {
+                            v.setLabel(modifiedLabel);
+                        }
+                        if (shapeModified) {
+                            v.setShape(modifiedShape);
+                        }
+                        if (sizeModified) {
+                            v.setSize(modifiedSize);
+                        }
                     }
 
                 }
-                if (labelModified) {
-                    temp.setLabel(modifiedLabel);
-                }
-                propertiesBefore.add(tmpSnap);
             }
-            
-            SnapProperties propertiesAfter = new SnapProperties();
-            if (colorModified) {
-                propertiesAfter.setColor(modifiedColor);
-            }
-            if (sizeModified) {
-                propertiesAfter.setSize(modifiedSize);
 
+        }else{
+
+            ElementsEditor elementsViewEditor = new ElementsEditor(this.selectedElements.get(0));
+
+            if(!elementsViewEditor.isCancelled()) {
+
+                boolean colorModified = elementsViewEditor.isColorModified();
+                boolean sizeModified = elementsViewEditor.isSizeModified();
+                boolean labelModified = elementsViewEditor.isLabelModified();
+
+                Color modifiedColor = colorModified ? elementsViewEditor.getNewColor() : null;
+                int modifiedSize = sizeModified ? elementsViewEditor.getNewSize() : 0;
+                String modifiedLabel = labelModified ? elementsViewEditor.getNewName() : "none";
+
+                ArrayList<SnapProperties> propertiesBefore = new ArrayList<>();
+
+
+                if (colorModified || sizeModified || labelModified) {
+                    for (ElementView ev : this.selectedElements) {
+                        SnapProperties tmpSnap = new SnapProperties();
+                        GraphElement temp = ev.getGraphElement();
+
+                        //On récupère les propriétés avant les modifications
+                        tmpSnap.setIndex(this.graph.getGraphElements().indexOf(temp));
+                        tmpSnap.setColor(temp.getColor());
+                        tmpSnap.setLabel(temp.getLabel());
+
+                        if (temp.isVertex()) {
+                            tmpSnap.setSize(((Vertex) temp).getSize());
+                        } else
+                            tmpSnap.setSize(((Edge) temp).getThickness());
+                        if (colorModified) {
+                            temp.setColor(modifiedColor);
+                        }
+                        if (sizeModified) {
+                            if (temp.isVertex()) {
+                                ((Vertex) temp).setSize(modifiedSize);
+                            } else {
+                                ((Edge) temp).setThickness(modifiedSize);
+                            }
+
+                        }
+                        if (labelModified) {
+                            temp.setLabel(modifiedLabel);
+                        }
+                        propertiesBefore.add(tmpSnap);
+                    }
+
+                    SnapProperties propertiesAfter = new SnapProperties();
+
+                    if (colorModified) {
+                        propertiesAfter.setColor(modifiedColor);
+                    }
+                    if (sizeModified) {
+                        propertiesAfter.setSize(modifiedSize);
+
+                    }
+                    if (labelModified) {
+                        propertiesAfter.setLabel(modifiedLabel);
+                    }
+
+                    tab.getUndoRedo().registerPropertiesEdit(propertiesBefore, propertiesAfter);
+                }
             }
-            if (labelModified) {
-                propertiesAfter.setLabel(modifiedLabel);
-            }
-            
-            tab.getUndoRedo().registerPropertiesEdit(propertiesBefore, propertiesAfter);
 
         }
 
@@ -777,15 +823,26 @@ public class Sheet extends JComponent implements Observer {
             }
         }
         SnapProperties snap = new SnapProperties();
-        if(elementsViewEditor.getColorWasModified())
+        if(elementsViewEditor.isColorModified())
             snap.setColor(elementsViewEditor.getNewColor());
         if (elementsViewEditor.getNameswWereModified())
             snap.setLabel(elementsViewEditor.getNewName());
-        if(elementsViewEditor.getSizeWasModified())
+        if(elementsViewEditor.isSizeModified())
             snap.setSize(elementsViewEditor.getNewSize());
 
         tab.getUndoRedo().registerPropertiesEdit(propertiesBefore, snap);*/
 
+    }
+
+    public boolean selectionComposedByVerticesOnly(){
+
+        for(ElementView ev : this.selectedElements){
+            if(!ev.getGraphElement().isVertex()){
+                return false;
+            }
+        }
+
+        return true;
     }
 
 

@@ -25,11 +25,16 @@ public class VerticesEditor extends JDialog {
     private Color newColor;
     private Vertex.Shape newShape;
 
-    public VerticesEditor() {
+    private boolean cancelled;
+
+    public VerticesEditor(Component parent) {
+
+        this.setTitle("Editeur de plusieurs noeuds");
 
         initComponents();
         setContentPane(contentPane);
         setModal(true);
+        setLocationRelativeTo(parent);
         getRootPane().setDefaultButton(buttonOK);
 
         buttonOK.addActionListener(new ActionListener() {
@@ -68,9 +73,16 @@ public class VerticesEditor extends JDialog {
         shapeModified.setSelected(true);
         sizeModified.setSelected(true);
 
-        verticesLabel.setText("vertex");
-        verticesSize.setText("15");
+        newLabel = "vertex";
+        newColor = Color.BLACK;
+        newShape = Vertex.Shape.SQUARE;
+        newSize = 15;
+
+        verticesLabel.setText(newLabel);
+        verticesSize.setText(String.valueOf(newSize));
         verticesShape.setSelectedIndex(0);
+        verticesColor.setBackground(newColor);
+
         alreadyValidated = false;
 
         verticesColor.addMouseListener(new MouseAdapter() {
@@ -86,11 +98,15 @@ public class VerticesEditor extends JDialog {
     }
 
     private void onOK() {
+
+        cancelled = false;
         if(!verifyModifications()) {
             if (!alreadyValidated && Integer.parseInt(this.verticesSize.getText()) < 5) {
                 JOptionPane.showMessageDialog(this, "Attention vous editez des noeuds, il se pourrait qu'ils soient trop petits.", "Information", JOptionPane.INFORMATION_MESSAGE);
                 alreadyValidated = true;
             } else {
+
+
                 dispose();
             }
         }
@@ -99,6 +115,7 @@ public class VerticesEditor extends JDialog {
     }
 
     private void onCancel() {
+        cancelled = true;
         dispose();
     }
 
@@ -128,7 +145,22 @@ public class VerticesEditor extends JDialog {
         }
 
         if(shapeModified.isSelected()){
-            newShape = Vertex.Shape.decode((String)this.verticesShape.getSelectedItem());
+            switch((String)this.verticesShape.getSelectedItem()){
+                case "Cercle":
+                    this.newShape = Vertex.Shape.CIRCLE;
+                    break;
+                case "Carré":
+                    this.newShape = Vertex.Shape.SQUARE;
+                    break;
+                case "Croix":
+                    this.newShape = Vertex.Shape.CROSS;
+                    break;
+                case "Triangle":
+                    this.newShape = Vertex.Shape.TRIANGLE;
+                    break;
+                default:
+                    break;
+            }
         }
 
         return mustBeVerified;
@@ -148,5 +180,25 @@ public class VerticesEditor extends JDialog {
 
     public Vertex.Shape getNewShape() {
         return newShape;
+    }
+
+    public boolean isColorModified(){
+        return colorModified.isSelected();
+    }
+
+    public boolean isLabelModified(){
+        return labelModified.isSelected();
+    }
+
+    public boolean isSizeModified(){
+        return sizeModified.isSelected();
+    }
+
+    public boolean isShapeModified(){
+        return shapeModified.isSelected();
+    }
+
+    public boolean isCancelled() {
+        return cancelled;
     }
 }

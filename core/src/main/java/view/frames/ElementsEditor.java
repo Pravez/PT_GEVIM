@@ -21,15 +21,16 @@ public class ElementsEditor extends JDialog {
     private String selectedName;
 
     private boolean alreadyValidated;
+    private boolean cancelled;
 
-    public ElementsEditor() {
+    public ElementsEditor(Component parent) {
 
         this.setTitle("Editeur d'elements");
 
         initComponents();
         setContentPane(contentPane);
         setModal(true);
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(parent);
         getRootPane().setDefaultButton(buttonOK);
 
         buttonOK.addActionListener(new ActionListener() {
@@ -90,6 +91,8 @@ public class ElementsEditor extends JDialog {
     }
 
     private void onOK() {
+        cancelled = false;
+
         if(!verifyModifications()) {
             if (!alreadyValidated && Integer.parseInt(this.elementsSize.getText()) < 5) {
                 JOptionPane.showMessageDialog(this, "Attention vous editez des noeuds, il se pourrait qu'ils soient trop petits.", "Information", JOptionPane.INFORMATION_MESSAGE);
@@ -101,6 +104,7 @@ public class ElementsEditor extends JDialog {
     }
 
     private void onCancel() {
+        cancelled = true;
         dispose();
     }
 
@@ -133,11 +137,14 @@ public class ElementsEditor extends JDialog {
     }
 
 
-    public boolean getColorWasModified () {return validColor.isSelected();}
-    public boolean getNameswWereModified () {return validNames.isSelected();}
-    public boolean getSizeWasModified () {return validSize.isSelected();}
+    public boolean isColorModified() {return validColor.isSelected();}
+    public boolean isLabelModified() {return validNames.isSelected();}
+    public boolean isSizeModified() {return validSize.isSelected();}
     public int getNewSize () {return selectedSize;}
     public Color getNewColor () {return selectedColor;}
     public String getNewName(){return selectedName;}
-    
+
+    public boolean isCancelled() {
+        return cancelled;
+    }
 }

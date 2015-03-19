@@ -154,23 +154,6 @@ public class VertexViewEditor extends JDialog {
 
         cannotQuit = verifyModifications();
 
-        switch((String)this.vertexShape.getSelectedItem()){
-            case "Cercle":
-                this.newShape = Vertex.Shape.CIRCLE;
-                break;
-            case "Carré":
-                this.newShape = Vertex.Shape.SQUARE;
-                break;
-            case "Croix":
-                this.newShape = Vertex.Shape.CROSS;
-                break;
-            case "Triangle":
-                this.newShape = Vertex.Shape.TRIANGLE;
-                break;
-            default:
-                break;
-        }
-
         if(!alreadyValidated && Integer.parseInt(this.vertexWidth.getText())<5){
             JOptionPane.showMessageDialog(this, "Attention, votre noeud peut s'avérer être trop petit.", "Information", JOptionPane.INFORMATION_MESSAGE);
             alreadyValidated = true;
@@ -207,6 +190,23 @@ public class VertexViewEditor extends JDialog {
         boolean mustBeVerified = false;
         this.newLabel = (this.vertexName.getText());
         this.newColor = (this.vertexColoration.getBackground());
+
+        switch((String)this.vertexShape.getSelectedItem()){
+            case "Cercle":
+                this.newShape = Vertex.Shape.CIRCLE;
+                break;
+            case "Carré":
+                this.newShape = Vertex.Shape.SQUARE;
+                break;
+            case "Croix":
+                this.newShape = Vertex.Shape.CROSS;
+                break;
+            case "Triangle":
+                this.newShape = Vertex.Shape.TRIANGLE;
+                break;
+            default:
+                break;
+        }
 
         //Verifie la taille
         if(Integer.parseInt(this.vertexWidth.getText()) <= 0){
