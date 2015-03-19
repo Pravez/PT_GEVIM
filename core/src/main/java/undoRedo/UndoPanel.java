@@ -117,17 +117,26 @@ public class UndoPanel extends JPanel {
 
     }
 
-    public void registerSingleTypeEdit(SnapProperties propertiesBefore, SnapProperties snapAfter)
+    public void registerSingleTypeEdit(ArrayList <SnapProperties> propertiesBefore, SnapProperties snapAfter)
     {
 
 
+
         UndoableEdit edit;
-        if(propertiesBefore.isSnapVertex()){
-           edit = new VertexEdit(graph, (SnapVertex)propertiesBefore,(SnapVertex)snapAfter);
+        if(propertiesBefore.get(0).isSnapVertex()){
+
+            ArrayList<SnapVertex> toSnapVertex = new ArrayList<>();
+            for(SnapProperties s : propertiesBefore)
+            {
+             toSnapVertex.add((SnapVertex)s);
+            }
+
+
+           edit = new VertexEdit(graph, toSnapVertex,(SnapVertex)snapAfter);
 
         }
         else
-            edit = new EdgeEdit(graph, (SnapEdge)propertiesBefore,(SnapEdge)snapAfter);
+            edit = new EdgeEdit(graph, (SnapEdge)propertiesBefore.get(0),(SnapEdge)snapAfter);
 
         undoSupport_.postEdit(edit);
 

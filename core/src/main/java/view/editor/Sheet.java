@@ -254,7 +254,9 @@ public class Sheet extends JComponent implements Observer {
 
             }
             SnapProperties snapAfter= selectedElements.get(0).modify(this.graph);
-            tab.getUndoRedo().registerSingleTypeEdit(snapBefore, snapAfter);
+            ArrayList<SnapProperties> snapToArray = new ArrayList();
+            snapToArray.add(snapBefore);
+            tab.getUndoRedo().registerSingleTypeEdit(snapToArray, snapAfter);
 
         }else if(selectedElements.size()>=2){
             modifyElements();
@@ -694,9 +696,11 @@ public class Sheet extends JComponent implements Observer {
 
         if(selectionComposedByVerticesOnly()){
 
+            ArrayList<SnapProperties> verticesBefore = new ArrayList<>();
+
             VerticesEditor verticesEditor = new VerticesEditor(this.selectedElements.get(0));
 
-            if(!verticesEditor.isCancelled()) {
+            if(!verticesEditor.isNotModified()) {
 
                 boolean colorModified = verticesEditor.isColorModified();
                 boolean labelModified = verticesEditor.isLabelModified();
@@ -712,6 +716,11 @@ public class Sheet extends JComponent implements Observer {
 
                     for (ElementView ev : this.selectedElements) {
                         Vertex v = (Vertex) ev.getGraphElement();
+
+                        SnapVertex tmpSnap = new SnapVertex(v, graph.getVertexes().indexOf(v));
+                        verticesBefore.add(tmpSnap);
+
+
                         if (colorModified) {
                             v.setColor(modifiedColor);
                         }
@@ -726,6 +735,22 @@ public class Sheet extends JComponent implements Observer {
                         }
                     }
 
+                    SnapVertex verticesAfter = new SnapVertex();
+                    if (colorModified) {
+                        verticesAfter.setColor(modifiedColor);
+                    }
+                    if (labelModified) {
+                        verticesAfter.setLabel(modifiedLabel);
+                    }
+                    if (shapeModified) {
+                        verticesAfter.setShape(modifiedShape);
+                    }
+                    if (sizeModified) {
+                        verticesAfter.setSize(modifiedSize);
+                    }
+
+                    tab.getUndoRedo().registerSingleTypeEdit(verticesBefore, verticesAfter);
+
                 }
             }
 
@@ -733,7 +758,7 @@ public class Sheet extends JComponent implements Observer {
 
             ElementsEditor elementsViewEditor = new ElementsEditor(this.selectedElements.get(0));
 
-            if(!elementsViewEditor.isCancelled()) {
+            if(!elementsViewEditor.isNotModified()) {
 
                 boolean colorModified = elementsViewEditor.isColorModified();
                 boolean sizeModified = elementsViewEditor.isSizeModified();

@@ -7,7 +7,6 @@ import data.Vertex;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.HashMap;
 
 /**
  * Classe permettant d'éditer un {@link data.Edge} avec plusieurs champs. C'est avant tout visuel avec plusieurs champs
@@ -26,7 +25,6 @@ public class EdgeViewEditor extends JDialog {
     private JTextField        edgeViewName;
 
     private Graph             graph;
-    private HashMap<String, Integer> verticesID;
 
     private String label;
     private Color color;
@@ -39,6 +37,8 @@ public class EdgeViewEditor extends JDialog {
     private boolean widthModified;
     private boolean originModified;
     private boolean destinationModified;
+
+    private boolean notModified;
 
     private Edge initialEdge;
 
@@ -99,6 +99,8 @@ public class EdgeViewEditor extends JDialog {
      */
     private void initComponents(Edge edge, Graph graph) {
 
+        this.notModified = false;
+
         this.labelModified = false;
         this.widthModified = false;
         this.colorModified = false;
@@ -118,12 +120,10 @@ public class EdgeViewEditor extends JDialog {
         this.edgeThickness.setText(String.valueOf(this.width));
         this.edgeViewName.setText(this.label);
 
-        verticesID = new HashMap<>();
         String currentOrigin;
         String currentDestination;
 
         for(Vertex v : this.graph.getVertexes()){
-            verticesID.put(v.getLabel(), v.getValue());
 
             currentDestination = v.getLabel() + "  | "+v.getValue();
             currentOrigin = v.getLabel() + "  | "+v.getValue();
@@ -157,8 +157,11 @@ public class EdgeViewEditor extends JDialog {
         cannotQuit = verifyModifications();
 
         if(!cannotQuit) {
-            hasBeenModified();
-            dispose();
+            if(!hasBeenModified()){
+                onCancel();
+            }else {
+                dispose();
+            }
         }
     }
 
@@ -166,6 +169,7 @@ public class EdgeViewEditor extends JDialog {
      * A l'appel du bouton Cancel : ferme la fenêtre
      */
     private void onCancel() {
+        notModified = true;
         dispose();
     }
 
@@ -226,23 +230,32 @@ public class EdgeViewEditor extends JDialog {
         return mustBeVerified;
     }
 
-    private void hasBeenModified(){
+    private boolean hasBeenModified(){
+
+        boolean modified = false;
 
         if (!label.equals(initialEdge.getLabel())) {
             labelModified = true;
+            modified = true;
         }
         if (width != initialEdge.getThickness()) {
             widthModified = true;
+            modified = true;
         }
         if (color != initialEdge.getColor()) {
             colorModified = true;
+            modified = true;
         }
         if (origin.getValue() != initialEdge.getOrigin().getValue()) {
             originModified = true;
+            modified = true;
         }
         if (destination.getValue() != initialEdge.getDestination().getValue()) {
             destinationModified = true;
+            modified = true;
         }
+
+        return modified;
     }
 
     public Vertex getDestination() {
@@ -283,5 +296,9 @@ public class EdgeViewEditor extends JDialog {
 
     public boolean isDestinationModified() {
         return destinationModified;
+    }
+
+    public boolean isNotModified() {
+        return notModified;
     }
 }
