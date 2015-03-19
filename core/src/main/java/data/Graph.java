@@ -294,5 +294,17 @@ public class Graph extends Observable {
         return null;
     }
 
+    public boolean existsBetweenVertices(Vertex one, Vertex two){
+        for(Edge Oe : one.getEdges()){
+            for(Edge Te : two.getEdges()){
+                if(Oe.equals(Te)){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
 
 }

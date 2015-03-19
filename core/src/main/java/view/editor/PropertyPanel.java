@@ -2,6 +2,7 @@ package view.editor;
 
 import data.*;
 import view.Observer;
+import view.UIElements.CustomTabbedPaneUI;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;

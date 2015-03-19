@@ -23,11 +23,16 @@ public class EdgeViewEditor extends JDialog {
     private JComboBox<String> originVertex;
     private JComboBox<String> destinationVertex;
     private JPanel            edgeViewColor;
+    private JTextField        edgeViewName;
 
-    private Edge              edge;
     private Graph             graph;
-
     private HashMap<String, Integer> verticesID;
+
+    private String label;
+    private Color color;
+    private int width;
+    private Vertex origin;
+    private Vertex destination;
 
     private boolean           cannotQuit;
 
@@ -86,25 +91,34 @@ public class EdgeViewEditor extends JDialog {
      */
     private void initComponents(Edge edge, Graph graph) {
 
-        this.edge  = edge;
         this.graph = graph;
-        this.edgeThickness.setText(String.valueOf(edge.getThickness()));
 
-        String vertexLabel;
+        this.label = edge.getLabel();
+        this.color = edge.getColor();
+        this.width = edge.getThickness();
+        this.origin = edge.getOrigin();
+        this.destination = edge.getDestination();
+
+        this.edgeThickness.setText(String.valueOf(this.width));
+        this.edgeViewName.setText(this.label);
+
         verticesID = new HashMap<>();
-
+        String currentOrigin;
+        String currentDestination;
 
         for(Vertex v : this.graph.getVertexes()){
-            vertexLabel = v.getLabel();
             verticesID.put(v.getLabel(), v.getValue());
 
-            this.originVertex.addItem(vertexLabel);
-            this.destinationVertex.addItem(vertexLabel);
+            currentDestination = v.getLabel() + "  | "+v.getValue();
+            currentOrigin = v.getLabel() + "  | "+v.getValue();
 
-            if (this.edge.getOrigin().getLabel().equals(vertexLabel)) {
-                this.originVertex.setSelectedItem(vertexLabel);
-            } else if (this.edge.getDestination().getLabel().equals(vertexLabel)) {
-                this.destinationVertex.setSelectedItem(vertexLabel);
+            this.originVertex.addItem(currentOrigin);
+            this.destinationVertex.addItem(currentDestination);
+
+            if (this.origin.getValue() == v.getValue()) {
+                this.originVertex.setSelectedItem(currentOrigin);
+            } else if (this.destination.getValue() == v.getValue()) {
+                this.destinationVertex.setSelectedItem(currentDestination);
             }
         }
 
@@ -147,41 +161,70 @@ public class EdgeViewEditor extends JDialog {
     }
 
     /**
-     * Méthode pour récupérer le {@link data.Edge} de la fenêtre qui a été modifié
-     * @return Le {@link data.Edge} associé à la fenêtre.
-     */
-    public Edge getModifiedEdge(){ return this.edge; }
-
-    /**
      * Méthode locale permettant de vérifier la modification des informations par l'utilisateur.
      * @return True si les données doivent être revues, false sinon
      */
     private boolean verifyModifications(){
          boolean mustBeVerified = false;
 
-        this.edge.setColor(this.edgeViewColor.getBackground());
+        this.color = this.edgeViewColor.getBackground();
 
 
         if(Integer.parseInt(this.edgeThickness.getText()) <= 0){
             JOptionPane.showMessageDialog(this, "La taille doit être supérieure à 0.", "Erreur", JOptionPane.ERROR_MESSAGE);
-            this.edgeThickness.setText(String.valueOf(this.edge.getThickness()));
+            this.edgeThickness.setText(String.valueOf(this.width));
             mustBeVerified = true;
         }else {
-            this.edge.setThickness(Integer.parseInt(this.edgeThickness.getText()));
+            this.width = Integer.parseInt(this.edgeThickness.getText());
         }
 
+
         String originValue = ((String)originVertex.getSelectedItem());
+        originValue = originValue.substring(originValue.indexOf('|')+2, originValue.length());
         String destinationValue = ((String)destinationVertex.getSelectedItem());
+        destinationValue = destinationValue.substring(destinationValue.indexOf('|')+2, destinationValue.length());
+
 
         //Si le Vertex de départ est le même que celui d'arrivée
         if(originValue.equals(destinationValue)){
             JOptionPane.showMessageDialog(null, "Les vertex de départ et d'arrivée doivent être différents", "Erreur", JOptionPane.ERROR_MESSAGE);
             mustBeVerified = true;
         }else {
-            this.edge.setOrigin((Vertex)this.graph.getFromValue(verticesID.get(originValue)));
-            this.edge.setDestination((Vertex)this.graph.getFromValue(verticesID.get(destinationValue)));
+
+            Vertex tempOrigin = (Vertex)this.graph.getFromValue(Integer.parseInt(originValue));
+            Vertex tempDestination = (Vertex)this.graph.getFromValue(Integer.parseInt(destinationValue));
+
+            if((tempOrigin != this.origin || tempDestination!=this.destination) && this.graph.existsBetweenVertices(tempOrigin, tempDestination)){
+                JOptionPane.showMessageDialog(null, "Il existe deja une arete entre ces deux sommets.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                mustBeVerified = true;
+            }else{
+                this.origin = tempOrigin;
+                this.destination = tempDestination;
+            }
+
+
         }
 
         return mustBeVerified;
+    }
+
+    public Vertex getDestination() {
+        return destination;
+    }
+
+    public Vertex getOrigin() {
+        return origin;
+    }
+
+    public int getThickness() {
+        return width;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public String getLabel() {
+        return label;
     }
 }

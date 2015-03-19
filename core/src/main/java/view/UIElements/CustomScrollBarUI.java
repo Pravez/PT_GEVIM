@@ -1,4 +1,4 @@
-package view.editor;
+package view.UIElements;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;

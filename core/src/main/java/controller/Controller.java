@@ -473,7 +473,7 @@ public class Controller {
             File file = this.chooseFile(extensions, descriptions);
 
             if(file != null) {
-                if (file.getName().contains(".gml")) {
+                if (file.getName().contains(".graphml")) {
                     this.window.getCurrentSheet().saveToGML(file);
                 } else if (file.getName().contains(".dot")) {
                     this.window.getCurrentSheet().saveToVIZ(file);
@@ -495,7 +495,7 @@ public class Controller {
             }
 
             if(file != null) {
-                if (file.getName().contains(".gml")) {
+                if (file.getName().contains(".graphml")) {
                     this.window.getCurrentSheet().saveToGML(file);
                 } else if (file.getName().contains(".dot")) {
                     this.window.getCurrentSheet().saveToVIZ(file);

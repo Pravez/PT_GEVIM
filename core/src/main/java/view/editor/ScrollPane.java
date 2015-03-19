@@ -1,5 +1,7 @@
 package view.editor;
 
+import view.UIElements.CustomScrollBarUI;
+
 import javax.swing.*;
 import java.awt.*;
 

@@ -201,10 +201,11 @@ public class EdgeView extends ElementView {
     public void modify(Graph graph) {
         EdgeViewEditor edit = new EdgeViewEditor(this.edge, graph, this);
 
-        Edge newEdge = edit.getModifiedEdge();
-
-        this.edge.setThickness(newEdge.getThickness());
-        this.edge.setColor(newEdge.getColor());
+        this.edge.setThickness(edit.getThickness());
+        this.edge.setLabel(edit.getLabel());
+        this.edge.setColor(edit.getColor());
+        this.edge.setOrigin(edit.getOrigin());
+        this.edge.setDestination(edit.getDestination());
     }
 
     /**

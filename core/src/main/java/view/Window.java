@@ -7,7 +7,7 @@ import controller.state.State;
 import data.Graph;
 import files.dot.DotFileManager;
 import files.gml.GmlFileManager;
-import view.editor.CustomTabbedPaneUI;
+import view.UIElements.CustomTabbedPaneUI;
 import view.editor.Sheet;
 import view.editor.Tab;
 import view.frames.ButtonFactory;
