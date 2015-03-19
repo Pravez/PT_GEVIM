@@ -1,6 +1,7 @@
 package view.frames;
 
 import controller.listeners.ButtonActionListener;
+import view.UIElements.CustomUIManager;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -35,10 +36,72 @@ public class ButtonFactory {
     }
 
     /**
+     * Méthode statique pour créer une JToolBar
+     *
+     * @return la JToolBar créée
+     */
+    public static JToolBar createToolBar() {
+        JToolBar toolBar = CustomUIManager.addToolBar(new JToolBar());
+        return toolBar;
+    }
+
+    /**
+     * Méthode statique pour créer un JMenuBar
+     *
+     * @return le JMenuBar créé
+     */
+    public static JMenuBar createJMenuBar() {
+        JMenuBar menuBar = new JMenuBar() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setColor(this.getBackground());
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
+        menuBar.setBorderPainted(false);
+        CustomUIManager.addMenuBar(menuBar);
+        return menuBar;
+    }
+
+    /**
+     * Méthode statique pour créer un bouton de menu JMenu
+     *
+     * @param menuText le texte du bouton
+     * @return le JMenu créé
+     */
+    public static JMenu createJMenu(String menuText) {
+        return (JMenu) CustomUIManager.addMenuItem(new JMenu(menuText));
+    }
+
+    /**
+     * Méthode statique pour créer un item de Menu JMenuItem
+     *
+     * @param label le texte du bouton
+     * @param actionCommand l'action associée au bouton
+     * @return
+     */
+    public static JMenuItem createJMenuItem(String label, String actionCommand) {
+        JMenuItem menuItem = CustomUIManager.addMenuItem(new JMenuItem(label));
+        menuItem.setActionCommand(actionCommand);
+        return menuItem;
+    }
+
+    /**
+     * Méthode statique pour créer un séparateur dans les menus (popup)
+     *
+     * @return le JSeparator créé
+     */
+    public static JSeparator createSeparator() {
+        return CustomUIManager.addSeparator(new JSeparator(SwingConstants.HORIZONTAL));
+    }
+
+    /**
      * Méthode statique pour créer un bouton avec une image
      *
      * @param buttonName  Le nom du bouton
-     * @param actionName l'action associé au buton
+     * @param actionName l'action associée au bouton
      * @param fileName    Le lien vers l'image du bouton
      * @param helpMessage le message d'aide du bouton
      * @return le JButton créé

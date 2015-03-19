@@ -10,6 +10,7 @@ import data.Edge;
 import data.Graph;
 import data.GraphElement;
 import data.Vertex;
+import view.UIElements.CustomUIManager;
 import view.Window;
 import view.editor.elements.ElementView;
 
@@ -149,8 +150,9 @@ public class Controller {
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            UIManager.put("PopupMenu.background", new Color(0));
+            //UIManager.put("PopupMenu.background", new Color(0));
             UIManager.put("PopupMenu.border", BorderFactory.createEmptyBorder());
+            CustomUIManager.setDarkTheme();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -8,6 +8,7 @@ import data.Graph;
 import files.dot.DotFileManager;
 import files.gml.GmlFileManager;
 import view.UIElements.CustomTabbedPaneUI;
+import view.UIElements.CustomUIManager;
 import view.editor.Sheet;
 import view.editor.Tab;
 import view.frames.ButtonFactory;
@@ -166,24 +167,9 @@ public class Window extends JFrame {
      * @return Le menu crée après avoir été ajouté
      */
     private JMenu addMenu(String menuText) {
-        JMenu menu = createJMenu(menuText);
+        JMenu menu = ButtonFactory.createJMenu(menuText);
         super.getJMenuBar().add(menu);
         return menu;
-    }
-
-    private JMenu createJMenu(String menuText) {
-        JMenu menu = new JMenu(menuText);
-        menu.setOpaque(true);
-        menu.setForeground(new Color(232, 232, 232));
-        menu.setBackground(new Color(93, 93, 93));
-        return menu;
-    }
-
-    private void addSeparator(JMenu menu) {
-        JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
-        separator.setBackground(new Color(66, 66, 66));
-        separator.setForeground(new Color(47, 47, 47));
-        menu.add(separator);
     }
 
     /**
@@ -193,11 +179,7 @@ public class Window extends JFrame {
      * @param label label of the item
      */
     private void addJMenuItem(JMenu menu, String label, String action) {
-        JMenuItem item = new JMenuItem(label);
-        item.setOpaque(true);
-        item.setForeground(new Color(232, 232, 232));
-        item.setBackground(new Color(93, 93, 93));
-        item.setActionCommand(action);
+        JMenuItem item = ButtonFactory.createJMenuItem(label, action);
         menu.add(item);
         item.addActionListener(new ButtonActionListener(item, null, ""));
     }
@@ -206,7 +188,7 @@ public class Window extends JFrame {
      * Method to init the tool menu bar (undo, redo, copy, paste...)
      */
     private void initToolMenuBar() {
-        JToolBar toolBar      = new JToolBar();
+        JToolBar toolBar  = ButtonFactory.createToolBar();
         toolBar.setFocusable(false);
         this.stateButtons = new ArrayList<StateButton>();
         toolBar.setFloatable(false);
@@ -247,38 +229,27 @@ public class Window extends JFrame {
      * Méthode initialisant tous les menus pour utiliser les fonctions du logiciel (enregistrement, algorithmes ...)
      */
     private void initMenu() {
-        super.setJMenuBar(new JMenuBar() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g;
-                g2d.setColor(this.getBackground());
-                g2d.fillRect(0, 0, getWidth() - 1, getHeight() - 1);
-
-            }
-        });
-        super.getJMenuBar().setBackground(new Color(93, 93, 93));
+        super.setJMenuBar(ButtonFactory.createJMenuBar());
 
         JMenu file = this.addMenu("Fichier");
         JMenu edition = this.addMenu("Edition");
 
-        JMenu open = createJMenu("Ouvrir");
+        JMenu open = ButtonFactory.createJMenu("Ouvrir");
         this.addJMenuItem(open, "depuis GraphML...", "from GraphML...");
         this.addJMenuItem(open, "depuis GraphViz...", "from GraphViz...");
 
-        JMenu saveas = createJMenu("Sauvegarder comme ...");
+        JMenu saveas = ButtonFactory.createJMenu("Sauvegarder comme ...");
         this.addJMenuItem(saveas, "GraphML...", "GraphML...");
         this.addJMenuItem(saveas, "GraphViz...", "GraphViz...");
-
 
         this.addJMenuItem(file, "Nouveau", "New");
         file.add(open);
 
-        addSeparator(file);
+        file.add(ButtonFactory.createSeparator());
         this.addJMenuItem(file, "Sauvegarder", "Save");
         file.add(saveas);
 
-        addSeparator(file);
+        file.add(ButtonFactory.createSeparator());
         this.addJMenuItem(file, "Fermer", "Close");
 
         this.addJMenuItem(edition, "Annuler", "Undo");
