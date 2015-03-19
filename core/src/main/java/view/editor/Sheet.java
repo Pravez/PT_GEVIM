@@ -625,22 +625,29 @@ public class Sheet extends JComponent implements Observer {
         this.vertices.clear();
         this.edges.clear();
 		super.removeAll();
+
+        ArrayList<GraphElement> elements = (ArrayList<GraphElement>)object;
 		// pour chaque GraphElement du Graph
-		for (GraphElement element : (ArrayList<GraphElement>)object) {
-			if (element.isVertex()) {
-				addVertex((Vertex)element);
-			} else {
+		for (GraphElement element : elements) {
+            if (element.isVertex()) {
+                addVertex((Vertex) element);
+            }
+        }
+
+        for(GraphElement element : elements){
+            if(!element.isVertex()) {
 				VertexView src= null, dst = null;
 	            ListIterator<VertexView> search = vertices.listIterator();
 
 	            while (search.hasNext() && (src == null || dst == null)){
 	                VertexView tmp = search.next();
-	                if (tmp.getVertex() == ((Edge) element).getOrigin()) src = tmp;
-	                else if (tmp.getVertex() == ((Edge) element).getDestination()) dst = tmp;
+	                if (tmp.getVertex().getValue() == ((Edge) element).getOrigin().getValue()) src = tmp;
+	                else if (tmp.getVertex().getValue() == ((Edge) element).getDestination().getValue()) dst = tmp;
 	            }
 	            if ( src != null && dst != null) addEdge((Edge) element, src, dst);
 			}
 		}
+
 		this.repaint();
 	}
 
