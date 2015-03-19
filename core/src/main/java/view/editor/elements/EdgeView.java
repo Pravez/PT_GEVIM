@@ -3,6 +3,8 @@ package view.editor.elements;
 import data.Edge;
 import data.Graph;
 import data.GraphElement;
+import undoRedo.SnapEdge;
+import undoRedo.SnapProperties;
 import view.frames.EdgeViewEditor;
 
 import java.awt.*;
@@ -198,14 +200,29 @@ public class EdgeView extends ElementView {
      * @param graph Le {@link data.Graph} sur lequel se situe l'Edge qui est l'objet de la modification
      */
     @Override
-    public void modify(Graph graph) {
+    public SnapProperties modify(Graph graph) {
         EdgeViewEditor edit = new EdgeViewEditor(this.edge, graph, this);
+
+        SnapEdge snap = new SnapEdge();
 
         this.edge.setThickness(edit.getThickness());
         this.edge.setLabel(edit.getLabel());
         this.edge.setColor(edit.getColor());
         this.edge.setOrigin(edit.getOrigin());
         this.edge.setDestination(edit.getDestination());
+        if(edit.isWidthModified())
+        snap.setSize(edit.getThickness());
+        if(edit.isLabelModified())
+        snap.setLabel(edit.getLabel());
+        if(edit.isColorModified())
+        snap.setColor(edit.getColor());
+        if(edit.isDestinationModified())
+        snap.setDestination(edit.getDestination());
+        if(edit.isOriginModified())
+        snap.setSource(edit.getOrigin());
+
+        return snap;
+
     }
 
     /**

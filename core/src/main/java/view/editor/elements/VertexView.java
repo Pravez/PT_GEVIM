@@ -3,6 +3,8 @@ package view.editor.elements;
 import data.Graph;
 import data.GraphElement;
 import data.Vertex;
+import undoRedo.SnapProperties;
+import undoRedo.SnapVertex;
 import view.frames.VertexViewEditor;
 
 import java.awt.*;
@@ -159,7 +161,9 @@ public class VertexView extends ElementView {
      * Méthode appellée pour invoquer un JDialog permettant de modifier les informations d'un VertexView dans le détail.
      */
     @Override
-    public void modify(Graph graph){
+    public SnapProperties modify(Graph graph){
+
+		SnapVertex snap = new SnapVertex();
         VertexViewEditor edit = new VertexViewEditor(this.vertex, this);
 
         this.vertex.setSize(edit.getNewWidth());
@@ -167,6 +171,18 @@ public class VertexView extends ElementView {
         this.vertex.setLabel(edit.getNewLabel());
         this.vertex.setShape(edit.getNewShape());
         this.vertex.setColor(edit.getNewColor());
+		if(edit.isWidthModified())
+		snap.setSize(edit.getNewWidth());
+		if(edit.isPositionModified())
+		snap.setPosition(edit.getNewPosition());
+		if(edit.isLabelModified())
+		snap.setLabel(edit.getNewLabel());
+		if(edit.isShapeModified())
+		snap.setShape(edit.getNewShape());
+		if(edit.isColorModified())
+		snap.setColor(edit.getNewColor());
+
+		return snap;
     }
 
     /**

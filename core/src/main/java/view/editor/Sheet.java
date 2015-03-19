@@ -4,7 +4,9 @@ import controller.Controller;
 import data.*;
 import files.dot.DotFileManager;
 import files.gml.GmlFileManager;
+import undoRedo.SnapEdge;
 import undoRedo.SnapProperties;
+import undoRedo.SnapVertex;
 import view.editor.elements.EdgeView;
 import view.editor.elements.ElementView;
 import view.editor.elements.VertexView;
@@ -240,7 +242,19 @@ public class Sheet extends JComponent implements Observer {
      */
     public void modifySelectedElements() {
         if(selectedElements.size()==1){
-            selectedElements.get(0).modify(this.graph);
+
+            SnapProperties snapBefore;
+            if(selectedElements.get(0).isVertexView()) {
+                snapBefore = new SnapVertex((Vertex) selectedElements.get(0).getGraphElement(), graph.getVertexes().indexOf(selectedElements.get(0)));
+                snapBefore.setIndex(graph.getVertexes().indexOf( selectedElements.get(0).getGraphElement()));
+            }
+            else {
+                snapBefore = new SnapEdge((Edge) selectedElements.get(0).getGraphElement(), graph.getEdges().indexOf(selectedElements.get(0)));
+                snapBefore.setIndex(graph.getEdges().indexOf( selectedElements.get(0).getGraphElement()));
+
+            }
+            SnapProperties snapAfter= selectedElements.get(0).modify(this.graph);
+            tab.getUndoRedo().registerSingleTypeEdit(snapBefore, snapAfter);
 
         }else if(selectedElements.size()>=2){
             modifyElements();

@@ -1,5 +1,7 @@
 package undoRedo;
 
+import data.GraphElement;
+
 import java.awt.*;
 
 /**
@@ -52,4 +54,7 @@ public class SnapProperties {
 
 
     }
+
+    public boolean isSnapVertex(){ return false; }
+
 }

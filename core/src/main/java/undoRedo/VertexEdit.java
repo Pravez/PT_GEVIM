@@ -29,6 +29,8 @@ public class VertexEdit extends AbstractUndoableEdit {
         graph.getVertexes().get(vertexBefore.getIndex()).setLabel(vertexBefore.getLabel());
         graph.getVertexes().get(vertexBefore.getIndex()).setSize(vertexBefore.getSize());
         graph.getVertexes().get(vertexBefore.getIndex()).setShape(vertexBefore.getShape());
+        graph.getVertexes().get(vertexBefore.getIndex()).setPosition(vertexBefore.getPosition());
+        graph.setChanged();
 
 
     }
@@ -36,16 +38,21 @@ public class VertexEdit extends AbstractUndoableEdit {
     public void redo() throws CannotUndoException {
 
         if(vertexAfter.getColor()!=null)
-            graph.getVertexes().get(vertexAfter.getIndex()).setColor(vertexAfter.getColor());
+            graph.getVertexes().get(vertexBefore.getIndex()).setColor(vertexAfter.getColor());
 
         if(vertexAfter.getLabel()!=null)
-            graph.getVertexes().get(vertexAfter.getIndex()).setLabel(vertexAfter.getLabel());
+            graph.getVertexes().get(vertexBefore.getIndex()).setLabel(vertexAfter.getLabel());
 
         if(vertexAfter.getSize()!=-1)
-            graph.getVertexes().get(vertexAfter.getIndex()).setSize(vertexAfter.getSize());
+            graph.getVertexes().get(vertexBefore.getIndex()).setSize(vertexAfter.getSize());
 
         if(vertexAfter.getShape()!=null)
-            graph.getVertexes().get(vertexAfter.getIndex()).setShape(vertexAfter.getShape());
+            graph.getVertexes().get(vertexBefore.getIndex()).setShape(vertexAfter.getShape());
+
+        if(vertexAfter.getPosition()!=null)
+        graph.getVertexes().get(vertexBefore.getIndex()).setPosition(vertexAfter.getPosition());
+
+        graph.setChanged();
 
 
     }

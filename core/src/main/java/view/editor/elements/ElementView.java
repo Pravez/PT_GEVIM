@@ -2,6 +2,7 @@ package view.editor.elements;
 
 import data.Graph;
 import data.GraphElement;
+import undoRedo.SnapProperties;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +27,7 @@ public abstract class ElementView extends JComponent {
 	}
 
 	public abstract void updateHover(boolean isHover);
-	public abstract void modify(Graph graph);
+	public abstract SnapProperties modify(Graph graph);
 	public abstract GraphElement getGraphElement();
 
 	/**

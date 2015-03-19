@@ -1,35 +1,48 @@
 package undoRedo;
 
+import data.Edge;
+import data.Vertex;
+
 /**
  * Created by bendossantos on 18/03/15.
  */
 public class SnapEdge extends SnapProperties {
 
-  private int indexSource;
-  private int indexDestination;
+  private Vertex source;
+  private Vertex destination;
 
     public SnapEdge()
     {
         super();
-        indexSource=-1;
-        indexDestination=-1;
+        source =null;
+        destination =null;
     }
 
+    public SnapEdge(Edge e, int index) {
 
-    public int getIndexDestination() {
-        return indexDestination;
+        setIndex(index);
+        setSize(e.getThickness());
+        setColor(e.getColor());
+        setLabel(e.getLabel());
+        setDestination(e.getDestination());
+        setSource(e.getOrigin());
+
     }
 
-    public void setIndexDestination(int indexDestination) {
-        this.indexDestination = indexDestination;
+    public Vertex getSource() {
+        return source;
     }
 
-    public int getIndexSource() {
-        return indexSource;
+    public void setSource(Vertex source) {
+        this.source = source;
     }
 
-    public void setIndexSource(int indexSource) {
-        this.indexSource = indexSource;
+    public Vertex getDestination() {
+        return destination;
+    }
+
+    public void setDestination(Vertex destination) {
+        this.destination = destination;
     }
 
 }
