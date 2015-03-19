@@ -243,7 +243,6 @@ public class Sheet extends JComponent implements Observer {
 
         }else if(selectedElements.size()>=2){
             modifyElements();
-
         }
 
         this.graph.setChanged();

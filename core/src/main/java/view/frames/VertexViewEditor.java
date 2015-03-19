@@ -33,6 +33,10 @@ public class VertexViewEditor extends JDialog {
     private int newWidth;
     private Vertex.Shape newShape;
 
+    private Vertex initialVertex;
+
+    private boolean hasBeenModified;
+
     private boolean    alreadyValidated;
     private boolean    cannotQuit;
 
@@ -43,6 +47,8 @@ public class VertexViewEditor extends JDialog {
     public VertexViewEditor(Vertex v, Component parent) {
 
         setTitle("Editeur de noeuds");
+
+        initComponents(v);
 
         setLocationRelativeTo(parent);
         setContentPane(this.contentPane);
@@ -76,7 +82,15 @@ public class VertexViewEditor extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
+        this.pack();
+        this.setVisible(true);
+    }
 
+    private void initComponents(Vertex v){
+
+        hasBeenModified = false;
+
+        this.initialVertex = v;
         this.newLabel = v.getLabel();
         this.newColor = v.getColor();
         this.newWidth = v.getSize();
@@ -123,8 +137,6 @@ public class VertexViewEditor extends JDialog {
             }
         });
 
-        this.pack();
-        this.setVisible(true);
     }
 
     /**
@@ -156,6 +168,7 @@ public class VertexViewEditor extends JDialog {
             alreadyValidated = true;
         }else {
             if(!cannotQuit) {
+                hasBeenModified();
                 dispose();
             }
         }
@@ -174,27 +187,6 @@ public class VertexViewEditor extends JDialog {
     private void onColor(){
         ColorChooser cc = new ColorChooser(this.vertexColoration.getBackground());
         this.vertexColoration.setBackground(cc.getColor());
-    }
-
-
-    public Color getNewColor() {
-        return newColor;
-    }
-
-    public String getNewLabel() {
-        return newLabel;
-    }
-
-    public Point getNewPosition() {
-        return newPosition;
-    }
-
-    public int getNewWidth() {
-        return newWidth;
-    }
-
-    public Vertex.Shape getNewShape(){
-        return newShape;
     }
 
 
@@ -231,5 +223,39 @@ public class VertexViewEditor extends JDialog {
         }
 
         return mustBeVerified;
+    }
+
+    private void hasBeenModified(){
+
+        if(newColor == initialVertex.getColor() || newLabel.equals(initialVertex.getLabel()) || newPosition == initialVertex.getPosition()){
+            hasBeenModified = true;
+        }else if(newShape == initialVertex.getShape() || newWidth == initialVertex.getSize()){
+            hasBeenModified = true;
+        }
+    }
+
+
+    public Color getNewColor() {
+        return newColor;
+    }
+
+    public String getNewLabel() {
+        return newLabel;
+    }
+
+    public Point getNewPosition() {
+        return newPosition;
+    }
+
+    public int getNewWidth() {
+        return newWidth;
+    }
+
+    public Vertex.Shape getNewShape(){
+        return newShape;
+    }
+
+    public boolean isHasBeenModified() {
+        return hasBeenModified;
     }
 }
