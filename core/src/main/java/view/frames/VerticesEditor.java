@@ -25,7 +25,7 @@ public class VerticesEditor extends JDialog {
     private Color newColor;
     private Vertex.Shape newShape;
 
-    private boolean cancelled;
+    private boolean notModified;
 
     public VerticesEditor(Component parent) {
 
@@ -73,6 +73,9 @@ public class VerticesEditor extends JDialog {
         shapeModified.setSelected(true);
         sizeModified.setSelected(true);
 
+        notModified = false;
+
+
         newLabel = "vertex";
         newColor = Color.BLACK;
         newShape = Vertex.Shape.SQUARE;
@@ -99,23 +102,22 @@ public class VerticesEditor extends JDialog {
 
     private void onOK() {
 
-        cancelled = false;
         if(!verifyModifications()) {
             if (!alreadyValidated && Integer.parseInt(this.verticesSize.getText()) < 5) {
                 JOptionPane.showMessageDialog(this, "Attention vous editez des noeuds, il se pourrait qu'ils soient trop petits.", "Information", JOptionPane.INFORMATION_MESSAGE);
                 alreadyValidated = true;
             } else {
-
-
-                dispose();
+                if(!hasBeenModified()){
+                    onCancel();
+                }else {
+                    dispose();
+                }
             }
         }
-
-        dispose();
     }
 
     private void onCancel() {
-        cancelled = true;
+        notModified = true;
         dispose();
     }
 
@@ -166,6 +168,26 @@ public class VerticesEditor extends JDialog {
         return mustBeVerified;
     }
 
+    public boolean hasBeenModified(){
+
+        boolean modified = false;
+
+        if(!newLabel.equals("vertex")){
+            modified = true;
+        }
+        if(newSize != 15){
+            modified = true;
+        }
+        if(newShape != Vertex.Shape.SQUARE){
+            modified = true;
+        }
+        if(newColor != Color.BLACK){
+            modified = true;
+        }
+
+        return modified;
+    }
+
     public String getNewLabel() {
         return newLabel;
     }
@@ -198,7 +220,7 @@ public class VerticesEditor extends JDialog {
         return shapeModified.isSelected();
     }
 
-    public boolean isCancelled() {
-        return cancelled;
+    public boolean isNotModified() {
+        return notModified;
     }
 }

@@ -696,7 +696,7 @@ public class Sheet extends JComponent implements Observer {
 
             VerticesEditor verticesEditor = new VerticesEditor(this.selectedElements.get(0));
 
-            if(!verticesEditor.isCancelled()) {
+            if(!verticesEditor.isNotModified()) {
 
                 boolean colorModified = verticesEditor.isColorModified();
                 boolean labelModified = verticesEditor.isLabelModified();
@@ -733,7 +733,7 @@ public class Sheet extends JComponent implements Observer {
 
             ElementsEditor elementsViewEditor = new ElementsEditor(this.selectedElements.get(0));
 
-            if(!elementsViewEditor.isCancelled()) {
+            if(!elementsViewEditor.isNotModified()) {
 
                 boolean colorModified = elementsViewEditor.isColorModified();
                 boolean sizeModified = elementsViewEditor.isSizeModified();

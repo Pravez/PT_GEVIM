@@ -43,6 +43,7 @@ public class VertexViewEditor extends JDialog {
 
     private boolean    alreadyValidated;
     private boolean    cannotQuit;
+    private boolean    notModified;
 
     /**
      * Constructeur qui prend les données d'un {@link view.editor.elements.VertexView} et les associe à chaque champ du JDialog
@@ -91,6 +92,8 @@ public class VertexViewEditor extends JDialog {
     }
 
     private void initComponents(Vertex v){
+
+        this.notModified = false;
 
         this.labelModified = false;
         this.widthModified = false;
@@ -159,8 +162,11 @@ public class VertexViewEditor extends JDialog {
             alreadyValidated = true;
         }else {
             if(!cannotQuit) {
-                hasBeenModified();
-                dispose();
+                if(!hasBeenModified()){
+                    onCancel();
+                }else {
+                    dispose();
+                }
             }
         }
     }
@@ -169,6 +175,7 @@ public class VertexViewEditor extends JDialog {
      * Méthode appellée à l'appui du Cancel, qui quitte le JDialog sans rien enregistrer
      */
     private void onCancel() {
+        notModified = true;
         dispose();
     }
 
@@ -233,23 +240,32 @@ public class VertexViewEditor extends JDialog {
         return mustBeVerified;
     }
 
-    private void hasBeenModified(){
+    private boolean hasBeenModified(){
+
+        boolean modified = false;
 
         if (!newLabel.equals(initialVertex.getLabel())) {
             labelModified = true;
+            modified = true;
         }
         if (newPosition != initialVertex.getPosition()) {
             positionModified = true;
+            modified = true;
         }
         if (newColor != initialVertex.getColor()) {
             colorModified = true;
+            modified = true;
         }
         if (newWidth != initialVertex.getSize()) {
             widthModified = true;
+            modified = true;
         }
         if (newShape != initialVertex.getShape()) {
             shapeModified = true;
+            modified = true;
         }
+
+        return modified;
     }
 
 
@@ -291,5 +307,9 @@ public class VertexViewEditor extends JDialog {
 
     public boolean isShapeModified() {
         return shapeModified;
+    }
+
+    public boolean isNotModified() {
+        return notModified;
     }
 }

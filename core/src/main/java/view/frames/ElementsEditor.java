@@ -21,7 +21,7 @@ public class ElementsEditor extends JDialog {
     private String selectedName;
 
     private boolean alreadyValidated;
-    private boolean cancelled;
+    private boolean notModified;
 
     public ElementsEditor(Component parent) {
 
@@ -72,13 +72,15 @@ public class ElementsEditor extends JDialog {
         validColor.setSelected(true);
         validSize.setSelected(true);
 
+        notModified = false;
+
         selectedColor = Color.BLACK;
         selectedSize = 15;
         selectedName = "element";
 
-        elementsColor.setBackground(Color.black);
-        elementsSize.setText("15");
-        elementsName.setText("element");
+        elementsColor.setBackground(selectedColor);
+        elementsSize.setText(String.valueOf(selectedSize));
+        elementsName.setText(selectedName);
         alreadyValidated = false;
 
         elementsColor.addMouseListener(new MouseAdapter() {
@@ -91,20 +93,23 @@ public class ElementsEditor extends JDialog {
     }
 
     private void onOK() {
-        cancelled = false;
 
         if(!verifyModifications()) {
             if (!alreadyValidated && Integer.parseInt(this.elementsSize.getText()) < 5) {
                 JOptionPane.showMessageDialog(this, "Attention vous editez des noeuds, il se pourrait qu'ils soient trop petits.", "Information", JOptionPane.INFORMATION_MESSAGE);
                 alreadyValidated = true;
             } else {
-                dispose();
+                if(!hasBeenModified()){
+                    onCancel();
+                }else{
+                    dispose();
+                }
             }
         }
     }
 
     private void onCancel() {
-        cancelled = true;
+        notModified = true;
         dispose();
     }
 
@@ -136,6 +141,22 @@ public class ElementsEditor extends JDialog {
         return mustBeVerified;
     }
 
+    public boolean hasBeenModified(){
+        boolean modified = false;
+
+        if(selectedSize != 15){
+            modified = true;
+        }
+        if(selectedColor != Color.BLACK){
+            modified = true;
+        }
+        if(selectedName != "element"){
+            modified = true;
+        }
+
+        return modified;
+    }
+
 
     public boolean isColorModified() {return validColor.isSelected();}
     public boolean isLabelModified() {return validNames.isSelected();}
@@ -144,7 +165,7 @@ public class ElementsEditor extends JDialog {
     public Color getNewColor () {return selectedColor;}
     public String getNewName(){return selectedName;}
 
-    public boolean isCancelled() {
-        return cancelled;
+    public boolean isNotModified() {
+        return notModified;
     }
 }
