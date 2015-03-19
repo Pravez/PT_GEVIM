@@ -83,8 +83,8 @@ public class GmlGraphReader {
                     point = new Point(50, 50);
                 }
 
-                if(v.getProperty("width")!=null){
-                    size = v.getProperty("width");
+                if(v.getProperty("size")!=null){
+                    size = v.getProperty("size");
                 }else{
                     size = 15;
                 }
@@ -113,8 +113,8 @@ public class GmlGraphReader {
                 name = "element";
             }
 
-            if(e.getProperty("width")!=null){
-                size = e.getProperty("width");
+            if(e.getProperty("size")!=null){
+                size = e.getProperty("size");
             }else{
                 size = 1;
             }
