@@ -179,6 +179,13 @@ public class Window extends JFrame {
         return menu;
     }
 
+    private void addSeparator(JMenu menu) {
+        JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
+        separator.setBackground(new Color(66, 66, 66));
+        separator.setForeground(new Color(47, 47, 47));
+        menu.add(separator);
+    }
+
     /**
      * Adds to a menu a JMenuItem with a listener
      *
@@ -267,11 +274,11 @@ public class Window extends JFrame {
         this.addJMenuItem(file, "Nouveau", "New");
         file.add(open);
 
-        file.addSeparator();
+        addSeparator(file);
         this.addJMenuItem(file, "Sauvegarder", "Save");
         file.add(saveas);
 
-        file.addSeparator();
+        addSeparator(file);
         this.addJMenuItem(file, "Fermer", "Close");
 
         this.addJMenuItem(edition, "Annuler", "Undo");
