@@ -458,6 +458,8 @@ public class Window extends JFrame {
     public void callAlgoToolBox(){
         AlgorithmSelector al = new AlgorithmSelector();
         String selectedAlgorithm = (String)al.getSelectedAlgorithm();
-        controller.applyAlgorithm(selectedAlgorithm);
+        if(selectedAlgorithm != null) {
+            controller.applyAlgorithm(selectedAlgorithm);
+        }
     }
 }

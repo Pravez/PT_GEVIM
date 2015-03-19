@@ -51,6 +51,8 @@ public class Edge extends GraphElement {
         this.origin = element.origin;
         this.destination = element.destination;
         this.thickness = element.thickness;
+        element.getDestination().addEdge(this);
+        element.getOrigin().addEdge(this);
     }
 
     /**

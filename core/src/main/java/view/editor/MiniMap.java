@@ -4,7 +4,6 @@ import data.Edge;
 import data.GraphElement;
 import data.Observable;
 import data.Vertex;
-import view.Observer;
 import view.editor.elements.EdgeView;
 import view.editor.elements.VertexView;
 

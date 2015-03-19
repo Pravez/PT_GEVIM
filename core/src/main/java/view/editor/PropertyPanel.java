@@ -1,7 +1,6 @@
 package view.editor;
 
 import data.*;
-import view.Observer;
 import view.UIElements.CustomTabbedPaneUI;
 
 import javax.swing.*;
@@ -193,7 +192,7 @@ public class PropertyPanel extends JTabbedPane implements Observer {
     }
 
     /**
-     * Méthode d'update overridée de l'interface {@link view.Observer}. Elle fait un "refresh" des données du {@link javax.swing.JTable}
+     * Méthode d'update overridée de l'interface {@link Observer}. Elle fait un "refresh" des données du {@link javax.swing.JTable}
      * @param observable la classe observée
      * @param object l'objet de la classe observée ayant été modifié
      */

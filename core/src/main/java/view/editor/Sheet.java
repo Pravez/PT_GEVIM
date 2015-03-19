@@ -5,7 +5,6 @@ import data.*;
 import files.dot.DotFileManager;
 import files.gml.GmlFileManager;
 import undoRedo.SnapProperties;
-import view.Observer;
 import view.editor.elements.EdgeView;
 import view.editor.elements.ElementView;
 import view.editor.elements.VertexView;
@@ -24,7 +23,7 @@ import java.util.ListIterator;
 
 /**
  * Created by Corentin Davidenko on 04/02/15
- * Classe Sheet, feuille de dessin affichant un {@link data.Graph} dans l'application, est un {@link view.Observer} de la classe Graph
+ * Classe Sheet, feuille de dessin affichant un {@link data.Graph} dans l'application, est un {@link Observer} de la classe Graph
  */
 public class Sheet extends JComponent implements Observer {
 
@@ -619,7 +618,7 @@ public class Sheet extends JComponent implements Observer {
     /**
      * Méthode pour supprimer la liste des VertexView et en recréer à partir des données du Graph observé
      * (non-Javadoc)
-     * @see view.Observer#update(data.Observable, java.lang.Object)
+     * @see Observer#update(data.Observable, java.lang.Object)
      */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -693,14 +692,11 @@ public class Sheet extends JComponent implements Observer {
                 tmpSnap.setIndex(this.graph.getGraphElements().indexOf(temp));
                 tmpSnap.setColor(temp.getColor());
                 tmpSnap.setLabel(temp.getLabel());
+
                 if (temp.isVertex()) {
                     tmpSnap.setSize(((Vertex) temp).getSize());
                 } else
                     tmpSnap.setSize(((Edge) temp).getThickness());
-
-
-
-
                 if (colorModified) {
                     temp.setColor(modifiedColor);
                 }
