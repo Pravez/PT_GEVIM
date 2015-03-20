@@ -18,9 +18,7 @@ public class ActionController {
     }
 
     public static void handleButton(AbstractButton button, Point position, String tabTitle) {
-        System.out.println(button.getClass());
         if (button.getClass() == StateButton.class) { // bouton de contrôle de l'Etat du Controller
-            System.out.println("Change state");
             ActionController.controller.changeState(button.getActionCommand());
         } else { // tous les autres boutons du programme
             handleMenuButton(button.getActionCommand(), position, ActionController.controller.getWindow().getTabIndexOf(tabTitle));

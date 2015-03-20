@@ -60,8 +60,6 @@ public class Window extends JFrame {
         initToolMenuBar();
         initStartPanel();
 
-        tabs.setOpaque(true);
-        tabs.setBackground(new Color(93, 93, 93));
         tabs.setFocusable(false);
 
         this.setFocusable(true);
@@ -147,7 +145,7 @@ public class Window extends JFrame {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        this.tabs = new JTabbedPane(SwingConstants.TOP);
+        this.tabs = CustomUIManager.addTab(new JTabbedPane(SwingConstants.TOP));
         this.tabs.setUI(new CustomTabbedPaneUI());
         this.tabs.addChangeListener(new ChangeListener() {
             @Override
@@ -231,14 +229,14 @@ public class Window extends JFrame {
     private void initMenu() {
         super.setJMenuBar(ButtonFactory.createJMenuBar());
 
-        JMenu file = this.addMenu("Fichier");
+        JMenu file    = this.addMenu("Fichier");
         JMenu edition = this.addMenu("Edition");
 
-        JMenu open = ButtonFactory.createJMenu("Ouvrir");
+        JMenu open    = ButtonFactory.createJMenu("Ouvrir");
         this.addJMenuItem(open, "depuis GraphML...", "from GraphML...");
         this.addJMenuItem(open, "depuis GraphViz...", "from GraphViz...");
 
-        JMenu saveas = ButtonFactory.createJMenu("Sauvegarder comme ...");
+        JMenu saveas  = ButtonFactory.createJMenu("Sauvegarder comme ...");
         this.addJMenuItem(saveas, "GraphML...", "GraphML...");
         this.addJMenuItem(saveas, "GraphViz...", "GraphViz...");
 
@@ -269,21 +267,12 @@ public class Window extends JFrame {
         }
 
         this.tabs.addTab(title, new Tab(graph, title, this.controller));
-        JPanel titlePanel = new JPanel(new GridBagLayout());
-        titlePanel.setOpaque(false);
-
+        JPanel titlePanel = CustomUIManager.addTabComponent("   " + title);
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.weightx = 1;
-
-        JLabel label = new JLabel("   " + title);
-        label.setForeground(new Color(237, 237, 237));
-        titlePanel.add(label, gbc);
-        titlePanel.add(Box.createHorizontalStrut(25));
-        gbc.gridx++;
+        gbc.gridx = 1;
         gbc.weightx = 0;
-
+        titlePanel.add(Box.createHorizontalStrut(25));
         Color crossBackground = new Color(212, 0, 0);
         titlePanel.add(ButtonFactory.createBoxContainer(ButtonFactory.createBasicReverseImageButton("Close", "Close", "core/assets/cross.png", "Fermer le graphe", 12, title), crossBackground, 12), gbc);
 

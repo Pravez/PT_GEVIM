@@ -2,6 +2,7 @@ package view.editor;
 
 import data.*;
 import view.UIElements.CustomTabbedPaneUI;
+import view.UIElements.CustomUIManager;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
@@ -35,7 +36,6 @@ public class PropertyPanel extends JTabbedPane implements Observer {
      * @param sheet Le {@link Sheet} correspondant
      */
     public PropertyPanel(Sheet sheet){
-
         this.setUI(new CustomTabbedPaneUI());
 
         this.sheet = sheet;
@@ -105,19 +105,13 @@ public class PropertyPanel extends JTabbedPane implements Observer {
             }
         });
 
-        /*addColoredTab("Noeuds", vertexScrollPane);
-        addColoredTab("Arêtes", edgeScrollPane);*/
-        this.addTab("Noeuds", vertexScrollPane);
-        this.addTab("Arêtes", edgeScrollPane);
+        addColoredTab("Noeuds", vertexScrollPane);
+        addColoredTab("Arêtes", edgeScrollPane);
     }
 
     private void addColoredTab(String title, JComponent component) {
-        JPanel panel = new JPanel();
-        JLabel label = new JLabel(title);
-        label.setForeground(new Color(237, 237, 237));
-        this.addTab(title, component);
-        panel.add(label);
-        this.setComponentAt(this.indexOfTab(title), panel);
+        super.addTab(title, component);
+        super.setTabComponentAt(super.indexOfTab(title), CustomUIManager.addTabComponent(title));
     }
 
     /**

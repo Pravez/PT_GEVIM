@@ -1,6 +1,7 @@
 package view.UIElements;
 
 import view.ImageButton;
+import view.editor.Tab;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
  */
 public class CustomUIManager {
 
+    private static ArrayList<JLabel>      labels    = new ArrayList<>();
     private static ArrayList<JButton>     buttons    = new ArrayList<>();
     private static ArrayList<JMenuItem>   menuItems  = new ArrayList<>();
     private static ArrayList<JSeparator>  separators = new ArrayList<>();
@@ -20,6 +22,10 @@ public class CustomUIManager {
     private static ArrayList<JToolBar>    toolBars   = new ArrayList<>();
     private static ArrayList<ImageButton> imageButtons = new ArrayList<>();
     private static ArrayList<ImageButton> reverseImageButtons = new ArrayList<>();
+    private static ArrayList<JTabbedPane> tabs = new ArrayList<>();
+
+    /* Couleur des Tab */
+    private static Color                 tabsColor;
 
     /* Couleur des Images */
     private static Color                 imageColor;
@@ -55,6 +61,28 @@ public class CustomUIManager {
         CustomUIManager.buttons.add(button);
         colorButton(button);
         return button;
+    }
+
+    public static JTabbedPane addTab(JTabbedPane tabs) {
+        CustomUIManager.tabs.add(tabs);
+        tabs.setOpaque(true);
+        colorTabs(tabs);
+        return tabs;
+    }
+
+    public static JPanel addTabComponent(String title) {
+        JPanel panel = new JPanel(new GridBagLayout());
+        panel.setOpaque(false);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1;
+
+        JLabel label = new JLabel(title);
+        colorLabel(label);
+        panel.add(label, gbc);
+        return panel;
     }
 
     public static ImageButton addImageButton(ImageButton button) {
@@ -96,6 +124,8 @@ public class CustomUIManager {
     }
 
     public static void setDarkTheme() {
+        CustomUIManager.tabsColor        = new Color(93, 93, 93);
+
         CustomUIManager.imageColor       = new Color(230, 230, 230);
         CustomUIManager.imageHoverColor       = new Color(124, 124, 124);
 
@@ -119,6 +149,8 @@ public class CustomUIManager {
     }
 
     public static void setLightTheme() {
+        CustomUIManager.tabsColor        = new Color(93, 93, 93);
+
         CustomUIManager.imageColor       = new Color(230, 230, 230);
         CustomUIManager.imageHoverColor       = new Color(124, 124, 124);
 
@@ -139,6 +171,14 @@ public class CustomUIManager {
         CustomUIManager.separatorForeground = new Color(47, 47, 47);
 
         UIManager.put("PopupMenu.border", BorderFactory.createLineBorder(CustomUIManager.separatorForeground, 1));
+    }
+
+    private static void colorLabel(JLabel label) {
+        label.setForeground(CustomUIManager.menuForeground);
+    }
+
+    private static void colorTabs(JTabbedPane tabs) {
+        tabs.setBackground(CustomUIManager.tabsColor);
     }
 
     private static ImageButton colorImageButton(ImageButton imageButton) {
