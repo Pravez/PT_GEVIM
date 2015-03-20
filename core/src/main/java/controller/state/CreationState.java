@@ -8,6 +8,7 @@ import view.editor.elements.VertexView;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
 
 public class CreationState extends State {
 
@@ -38,7 +39,8 @@ public class CreationState extends State {
 	public void click(ElementView element, MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON3) {
 			this.controller.notifyHandleElement(element);
-			initNewPopupMenu(new String[]{"Edit", "Delete", "Copy", "Paste"}, e.getPoint()).show(element, e.getX(), e.getY());
+            HashMap<String, String> menus = new HashMap<String, String>(){{put("Edit", "Editer");}{put("Delete", "Supprimer");}{put("Copy", "Copier");}{put("Paste", "Coller");}};
+			initNewPopupMenu(menus, e.getPoint()).show(element, e.getX(), e.getY());
 		}
 	}
 	
