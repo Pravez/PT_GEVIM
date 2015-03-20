@@ -29,22 +29,22 @@ import java.util.ArrayList;
  */
 public class Window extends JFrame {
 
-    private static final long serialVersionUID = 1L;
-    private static int             tabIndex = 1;
-    private Controller             controller;
-    private JPanel                 back;
+    private static final long  serialVersionUID = 1L;
+    private static int         tabIndex = 1;
+    private Controller         controller;
+    private JPanel             back;
 
     /* L'ensemble des onglets */
-    private JTabbedPane            tabs;
+    private JTabbedPane        tabs;
     /* La liste des Boutons permettant de changer d'état */
     private ArrayList<StateButton> stateButtons;
     /* Le bouton Undo */
-    private JButton                undoButton;
+    private JButton            undoButton;
     /* Le bouton Redo */
-    private JButton                redoButton;
+    private JButton            redoButton;
 
     /* Le Paneau initial à l'ouverture du programme */
-    private JPanel                 startPanel;
+    private JPanel             startPanel;
 
     /**
      * Constructeur de la classe Window
@@ -105,12 +105,12 @@ public class Window extends JFrame {
         Color hoverColor  = new Color(134, 134, 134);
         JLabel background = new JLabel("");
         try {
-            background.setIcon(new ImageIcon(ButtonFactory.getColoredImage(ImageIO.read(new File("core/assets/Gevim.png")), logoColor)));
+            background.setIcon(new ImageIcon(CustomUIManager.getColoredImage(ImageIO.read(new File("core/assets/Gevim.png")), logoColor)));
         } catch (IOException e) { }
         background.setBounds(0, 0, 915, 379);
         this.startPanel.add(background, BorderLayout.NORTH);
         JPanel buttonPanel = new JPanel();
-        buttonPanel.add(ButtonFactory.createImageButton("New", "New", "core/assets/new-very-big.png", "Nouveau graphe", buttonColor, hoverColor, 128, ""));
+        buttonPanel.add(ButtonFactory.createBasicImageButton("New", "New", "core/assets/new-very-big.png", "Nouveau graphe", 128, ""));
         JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
         separator.setBackground(buttonColor);
         separator.setPreferredSize(new Dimension(15, 128));
@@ -118,7 +118,7 @@ public class Window extends JFrame {
         buttonPanel.add(Box.createHorizontalStrut(5));
         buttonPanel.add(separator);
         buttonPanel.add(Box.createHorizontalStrut(5));
-        buttonPanel.add(ButtonFactory.createImageButton("Open", "Open", "core/assets/open-very-big.png", "Ouvrir un graphe", buttonColor, hoverColor, 128, ""));
+        buttonPanel.add(ButtonFactory.createBasicImageButton("Open", "Open", "core/assets/open-very-big.png", "Ouvrir un graphe", 128, ""));
         this.startPanel.add(buttonPanel, BorderLayout.CENTER);
         showStartPanel();
     }
@@ -190,17 +190,17 @@ public class Window extends JFrame {
     private void initToolMenuBar() {
         JToolBar toolBar  = ButtonFactory.createToolBar();
         toolBar.setFocusable(false);
-        this.stateButtons = new ArrayList<StateButton>();
+        this.stateButtons = new ArrayList<>();
         toolBar.setFloatable(false);
 
-        toolBar.add(ButtonFactory.createToolBarButtonWithImage("New", "New", "core/assets/new.png", "Nouveau graphe"));
-        addToolBarStateButton(toolBar, "core/assets/cursor.png", State.Mode.SELECTION.name(), "Mode édition");
-        addToolBarStateButton(toolBar, "core/assets/edit.png", State.Mode.CREATION.name(), "Mode création");
-        addToolBarStateButton(toolBar, "core/assets/zoom.png", State.Mode.ZOOM.name(), "Zoom");
-        toolBar.add(ButtonFactory.createToolBarButtonWithImage("Copy", "Copy", "core/assets/copy.png", "Copier"));
-        toolBar.add(ButtonFactory.createToolBarButtonWithImage("Paste", "Paste", "core/assets/paste.png", "Coller"));
-        this.undoButton = ButtonFactory.createToolBarButtonWithImage("Undo", "Undo", "core/assets/undo.png", "Annuler");
-        this.redoButton = ButtonFactory.createToolBarButtonWithImage("Redo", "Redo", "core/assets/redo.png", "Rétablir");
+        toolBar.add(ButtonFactory.createImageButton("New", "New", "core/assets/new.png", "Nouveau graphe", 20, ""));
+        addToolBarStateButton(toolBar, State.Mode.SELECTION.name(), "core/assets/cursor.png", "Mode édition");
+        addToolBarStateButton(toolBar, State.Mode.CREATION.name(), "core/assets/edit.png", "Mode création");
+        addToolBarStateButton(toolBar, State.Mode.ZOOM.name(), "core/assets/zoom.png",  "Mode Zoom");
+        toolBar.add(ButtonFactory.createImageButton("Copy", "Copy", "core/assets/copy.png", "Copier", 20, ""));
+        toolBar.add(ButtonFactory.createImageButton("Paste", "Paste", "core/assets/paste.png", "Coller", 20, ""));
+        this.undoButton = ButtonFactory.createImageButton("Undo", "Undo", "core/assets/undo.png", "Annuler", 20, "");
+        this.redoButton = ButtonFactory.createImageButton("Redo", "Redo", "core/assets/redo.png", "Rétablir", 20, "");
 
         this.undoButton.setEnabled(false);
         this.redoButton.setEnabled(false);
@@ -215,12 +215,12 @@ public class Window extends JFrame {
      * Méthode privée pour ajouter un StateButton avec une image dans un toolBar
      *
      * @param toolBar       le toolBar qui va contenir le bouton
-     * @param fileName      le nom du fichier de l'image à charger
      * @param actionCommand la commande qui sera appellée lors du clic sur le bouton
+     * @param fileName      le nom du fichier de l'image à charger
      * @param helpMessage   le message d'aide du bouton
      */
-    private void addToolBarStateButton(JToolBar toolBar, String fileName, String actionCommand, String helpMessage) {
-        StateButton button = new StateButton(fileName, actionCommand, helpMessage);
+    private void addToolBarStateButton(JToolBar toolBar, String actionCommand, String fileName, String helpMessage) {
+        StateButton button = ButtonFactory.createStateButton(actionCommand, actionCommand, fileName, helpMessage, 20);
         this.stateButtons.add(button);
         toolBar.add(button);
     }
@@ -284,11 +284,11 @@ public class Window extends JFrame {
         gbc.gridx++;
         gbc.weightx = 0;
 
-        Color crossColor      = new Color(136, 136, 136);
-        Color hoverColor      = new Color(255, 255, 255);
+        //Color crossColor      = new Color(136, 136, 136);
+        //Color hoverColor      = new Color(255, 255, 255);
         Color crossBackground = new Color(212, 0, 0);
 
-        titlePanel.add(ButtonFactory.createBoxContainer(ButtonFactory.createImageButton("Close", "Close", "core/assets/cross.png", "Fermer le graphe", crossColor, hoverColor, 12, title), crossBackground, 12), gbc);
+        titlePanel.add(ButtonFactory.createBoxContainer(ButtonFactory.createBasicReverseImageButton("Close", "Close", "core/assets/cross.png", "Fermer le graphe", 12, title), crossBackground, 12), gbc);
 
         this.tabs.setTabComponentAt(this.tabs.indexOfTab(title), titlePanel);
         Window.tabIndex++;
@@ -370,7 +370,7 @@ public class Window extends JFrame {
      * @param state l'état / mode du Controller
      */
     public void setState(State state) {
-        for (StateButton button : this.stateButtons) {
+        for (JButton button : this.stateButtons) {
             button.setSelected(button.getActionCommand().equals(state.getMode()));
         }
     }

@@ -1,24 +1,13 @@
 package view;
 
-import controller.listeners.ButtonActionListener;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
- * Created by aledufrenne on 08/03/2015.
+ * Created by aledufrenne on 20/03/15.
  */
-public class StateButton extends JButton {
+public class StateButton extends ImageButton {
 
-    public StateButton(String fileName, String actionCommand, String helpMessage) {
-        Image img = Toolkit.getDefaultToolkit().getImage(fileName);
-        setIcon(new ImageIcon(img.getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
-        setBounds(0, 0, 20, 20);
-        setMargin(new Insets(0, 0, 0, 0));
-        setBorder(null);
-        setFocusable(false);
-        setActionCommand(actionCommand);
-        addActionListener(new ButtonActionListener(this, null, ""));
-        setToolTipText(helpMessage);
+    public StateButton(BufferedImage image, int size) {
+        super(image, size);
     }
 }
