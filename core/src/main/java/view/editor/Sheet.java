@@ -5,6 +5,7 @@ import data.*;
 import files.dot.DotFileManager;
 import files.gml.GmlFileManager;
 import undoRedo.SnapEdge;
+import undoRedo.SnapPosition;
 import undoRedo.SnapProperties;
 import undoRedo.SnapVertex;
 import view.editor.elements.EdgeView;
@@ -292,11 +293,29 @@ public class Sheet extends JComponent implements Observer {
      * @param vector le décalage à effectuer pour chaque élément par rapport à leur position
      */
     public void moveSelectedElements(Point vector) {
+
+        ArrayList<SnapPosition> before = new ArrayList<>();
+        ArrayList<SnapPosition> after = new ArrayList<>();
+        Point tmpPosition;
+        SnapPosition snap;
+        int tmpIndex;
     	for (ElementView element : this.selectedElements) {
     		if (element.getGraphElement().isVertex()) {
-    			((VertexView)element).move(new Point((int)(vector.x/this.scale), (int)(vector.y/this.scale)));
-    		}
+                tmpPosition=((Vertex) (((VertexView) element).getGraphElement())).getPosition();
+                tmpIndex=graph.getVertexes().indexOf((Vertex) (((VertexView) element).getGraphElement()));
+                snap = new SnapPosition(tmpPosition,tmpIndex );
+                before.add(snap);
+                        ((VertexView) element).move(new Point((int) (vector.x / this.scale), (int) (vector.y / this.scale)));
+                tmpPosition=((Vertex) (((VertexView) element).getGraphElement())).getPosition();
+                snap = new SnapPosition(tmpPosition, tmpIndex);
+                after.add(snap);
+
+
+            }
     	}
+
+        tab.getUndoRedo().registerMoveEdit(before, after);
+
     }
     
     /**

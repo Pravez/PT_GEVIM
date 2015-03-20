@@ -205,6 +205,7 @@ public class Window extends JFrame {
         this.undoButton.setEnabled(false);
         this.redoButton.setEnabled(false);
 
+
         toolBar.add(this.undoButton);
         toolBar.add(this.redoButton);
 
@@ -430,6 +431,7 @@ public class Window extends JFrame {
         AlgorithmSelector al = new AlgorithmSelector();
         String selectedAlgorithm = (String)al.getSelectedAlgorithm();
         if(selectedAlgorithm != null) {
+        //    getCurrentTab().getGraph().getGraphElements();
             controller.applyAlgorithm(selectedAlgorithm);
         }
     }

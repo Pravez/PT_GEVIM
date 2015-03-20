@@ -110,9 +110,15 @@ public class UndoPanel extends JPanel {
 
     public void registerPropertiesEdit(ArrayList<SnapProperties> propertiesBefore, SnapProperties snapAfter)
     {
-
-
         UndoableEdit edit = new PropertiesEdit(graph, propertiesBefore,snapAfter);
+        undoSupport_.postEdit(edit);
+
+    }
+
+    public void registerMoveEdit(ArrayList<SnapPosition> positionsBefore, ArrayList<SnapPosition> positionsAfter)
+    {
+
+        UndoableEdit edit = new MoveEdit(graph, positionsBefore,positionsAfter);
         undoSupport_.postEdit(edit);
 
     }
