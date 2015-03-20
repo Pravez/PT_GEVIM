@@ -56,6 +56,12 @@ public class CustomUIManager {
     /* Couleurs des JSeparator */
     private static Color                 separatorForeground;
 
+    /* Couleurs pour les JTabbedPane */
+    public static Color                  selectedTabColor;
+    public static Color                  selectedTabBorderColor;
+    public static Color                  deselectedTabColor;
+    public static Color                  deselectedTabBorderColor;
+
     public static Color getButtonHoverBackground() {
         return CustomUIManager.buttonHoverBackground;
     }
@@ -134,55 +140,69 @@ public class CustomUIManager {
     }
 
     public static void setDarkTheme() {
-        CustomUIManager.panelColor      = new Color(64, 64, 64);
+        CustomUIManager.panelColor               = new Color(64, 64, 64);
 
-        CustomUIManager.tabsColor        = new Color(93, 93, 93);
+        CustomUIManager.tabsColor                = new Color(93, 93, 93);
 
-        CustomUIManager.imageColor       = new Color(230, 230, 230);
-        CustomUIManager.imageHoverColor       = new Color(124, 124, 124);
+        CustomUIManager.imageColor               = new Color(230, 230, 230);
+        CustomUIManager.imageHoverColor          = new Color(124, 124, 124);
 
-        CustomUIManager.buttonBackground = new Color(93, 93, 93);
-        CustomUIManager.buttonHoverBackground = new Color(72, 72, 72);
+        CustomUIManager.buttonBackground         = new Color(93, 93, 93);
+        CustomUIManager.buttonHoverBackground    = new Color(72, 72, 72);
 
-        CustomUIManager.menuBarBackground = new Color(93, 93, 93);
+        CustomUIManager.menuBarBackground        = new Color(93, 93, 93);
 
-        CustomUIManager.toolBarBackground = new Color(93, 93, 93);
+        CustomUIManager.toolBarBackground        = new Color(93, 93, 93);
 
-        CustomUIManager.topBorderColor    = new Color(16, 16, 16);
-        CustomUIManager.bottomBorderColor    = new Color(137, 137, 137);
+        CustomUIManager.topBorderColor           = new Color(16, 16, 16);
+        CustomUIManager.bottomBorderColor        = new Color(137, 137, 137);
 
-        CustomUIManager.menuBackground = new Color(93, 93, 93);
-        CustomUIManager.menuForeground = new Color(232, 232, 232);
+        CustomUIManager.menuBackground           = new Color(93, 93, 93);
+        CustomUIManager.menuForeground           = new Color(232, 232, 232);
 
-        CustomUIManager.separatorForeground = new Color(47, 47, 47);
+        CustomUIManager.separatorForeground      = new Color(47, 47, 47);
+
+        CustomUIManager.selectedTabColor         = new Color(93, 93, 93);
+        CustomUIManager.selectedTabBorderColor   = new Color(204, 204, 204);
+        CustomUIManager.deselectedTabColor       = new Color(65, 65, 65);
+        CustomUIManager.deselectedTabBorderColor = new Color(28, 28, 28);
 
         UIManager.put("PopupMenu.border", BorderFactory.createLineBorder(CustomUIManager.separatorForeground, 1));
     }
 
     public static void setLightTheme() {
-        CustomUIManager.panelColor      = new Color(64, 64, 64);
+        CustomUIManager.panelColor               = new Color(230, 230, 230);
 
-        CustomUIManager.tabsColor        = new Color(93, 93, 93);
+        CustomUIManager.tabsColor                = new Color(230, 230, 230);
 
-        CustomUIManager.imageColor       = new Color(230, 230, 230);
-        CustomUIManager.imageHoverColor       = new Color(124, 124, 124);
+        CustomUIManager.imageColor               = new Color(0, 0, 0);
+        CustomUIManager.imageHoverColor          = new Color(82, 82, 82);
 
-        CustomUIManager.buttonBackground = new Color(93, 93, 93);
-        CustomUIManager.buttonHoverBackground = new Color(72, 72, 72);
+        CustomUIManager.buttonBackground         = new Color(230, 230, 230);
+        CustomUIManager.buttonHoverBackground    = new Color(170, 170, 170);
 
-        CustomUIManager.menuBarBackground = new Color(93, 93, 93);
+        CustomUIManager.menuBarBackground        = new Color(230, 230, 230);
 
-        CustomUIManager.toolBarBackground = new Color(93, 93, 93);
+        CustomUIManager.toolBarBackground        = new Color(230, 230, 230);
 
-        CustomUIManager.topBorderColor    = new Color(16, 16, 16);
-        CustomUIManager.bottomBorderColor    = new Color(137, 137, 137);
+        CustomUIManager.topBorderColor           = new Color(91, 91, 91);
+        CustomUIManager.bottomBorderColor        = new Color(230, 230, 230);
 
-        CustomUIManager.menuBackground = new Color(93, 93, 93);
-        CustomUIManager.menuForeground = new Color(232, 232, 232);
+        CustomUIManager.menuBackground           = new Color(230, 230, 230);
+        CustomUIManager.menuForeground           = new Color(8, 8, 8);
 
-        CustomUIManager.separatorForeground = new Color(47, 47, 47);
+        CustomUIManager.separatorForeground      = new Color(142, 142, 142);
+
+        CustomUIManager.selectedTabColor         = new Color(248, 248, 248);
+        CustomUIManager.selectedTabBorderColor   = new Color(137, 137, 137);
+        CustomUIManager.deselectedTabColor       = new Color(230, 230, 230);
+        CustomUIManager.deselectedTabBorderColor = new Color(137, 137, 137);
 
         UIManager.put("PopupMenu.border", BorderFactory.createLineBorder(CustomUIManager.separatorForeground, 1));
+        UIManager.put("TabbedPane.shadow", CustomUIManager.deselectedTabColor);
+        UIManager.put("TabbedPane.darkShadow", CustomUIManager.deselectedTabColor);
+        UIManager.put("TabbedPane.highlight", CustomUIManager.selectedTabBorderColor);
+        UIManager.put("TabbedPane.light", CustomUIManager.deselectedTabColor);
     }
 
     private static void colorPanel(JPanel panel) {

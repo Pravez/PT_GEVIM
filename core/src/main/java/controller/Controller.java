@@ -150,10 +150,10 @@ public class Controller {
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            UIManager.getDefaults().put("TabbedPane.contentBorderInsets", new Insets(0,0,0,0));
-            UIManager.getDefaults().put("TabbedPane.tabAreaInsets", new Insets(0,0,0,0));
+            UIManager.getDefaults().put("TabbedPane.contentBorderInsets", new Insets(5, 0, 0, 0));
+            UIManager.getDefaults().put("TabbedPane.tabAreaInsets", new Insets(0, 0, 0, 0));
             UIManager.getDefaults().put("TabbedPane.tabsOverlapBorder", true);
-            CustomUIManager.setDarkTheme();
+            CustomUIManager.setLightTheme();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -162,7 +162,7 @@ public class Controller {
 
         Controller controller = new Controller();
         ActionController.setController(controller);
-        Window window = new Window((int)dimension.getWidth()-100, (int)dimension.getHeight()-50, controller);
+        Window window = new Window((int)dimension.getWidth()-100, (int)dimension.getHeight()-150, controller);
         controller.setWindow(window);
 
     }
