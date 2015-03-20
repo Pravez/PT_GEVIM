@@ -32,6 +32,10 @@ public class CustomUIManager {
     /* Couleur des JMenuBar */
     private static Color                 menuBarBackground;
 
+    /* Couleur des Bordures des JMenuBar & JToolBar */
+    private static Color                 topBorderColor;
+    private static Color                 bottomBorderColor;
+
     /* Couleur des JToolBar */
     private static Color                 toolBarBackground;
 
@@ -102,11 +106,16 @@ public class CustomUIManager {
 
         CustomUIManager.toolBarBackground = new Color(93, 93, 93);
 
+        CustomUIManager.topBorderColor    = new Color(16, 16, 16);
+        CustomUIManager.bottomBorderColor    = new Color(137, 137, 137);
+
         CustomUIManager.menuBackground = new Color(93, 93, 93);
         CustomUIManager.menuForeground = new Color(232, 232, 232);
 
-        CustomUIManager.separatorBackground = new Color(66, 66, 66);
+        CustomUIManager.separatorBackground = CustomUIManager.menuBackground;//new Color(66, 66, 66);
         CustomUIManager.separatorForeground = new Color(47, 47, 47);
+
+        UIManager.put("PopupMenu.border", BorderFactory.createLineBorder(CustomUIManager.separatorForeground, 1));
     }
 
     public static void setLightTheme() {
@@ -120,11 +129,16 @@ public class CustomUIManager {
 
         CustomUIManager.toolBarBackground = new Color(93, 93, 93);
 
+        CustomUIManager.topBorderColor    = new Color(16, 16, 16);
+        CustomUIManager.bottomBorderColor    = new Color(137, 137, 137);
+
         CustomUIManager.menuBackground = new Color(93, 93, 93);
         CustomUIManager.menuForeground = new Color(232, 232, 232);
 
-        CustomUIManager.separatorBackground = new Color(66, 66, 66);
+        CustomUIManager.separatorBackground = new Color(0, 0, 0, 0);//new Color(66, 66, 66);
         CustomUIManager.separatorForeground = new Color(47, 47, 47);
+
+        UIManager.put("PopupMenu.border", BorderFactory.createLineBorder(CustomUIManager.separatorForeground, 1));
     }
 
     private static ImageButton colorImageButton(ImageButton imageButton) {
@@ -155,6 +169,8 @@ public class CustomUIManager {
 
     private static void colorToolBar(JToolBar toolBar) {
         toolBar.setBackground(CustomUIManager.toolBarBackground);
+        toolBar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, CustomUIManager.topBorderColor),
+                BorderFactory.createMatteBorder(1, 0, 1, 0, CustomUIManager.bottomBorderColor)));
     }
 
     private static void colorMenuItem(JMenuItem menuItem) {

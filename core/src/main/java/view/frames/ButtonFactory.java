@@ -2,6 +2,7 @@ package view.frames;
 
 import controller.listeners.ButtonActionListener;
 import view.ImageButton;
+import view.ImageMenuItem;
 import view.StateButton;
 import view.UIElements.CustomUIManager;
 
@@ -118,8 +119,8 @@ public class ButtonFactory {
         ImageButton button = null;
         try {
             button = new ImageButton(ImageIO.read(new File(fileName)), size);
-            button.setPreferredSize(new Dimension(size + 5, size + 5));
-            setCommonProperties(button, buttonName, actionName, helpMessage, size + 5, tabTitle);
+            button.setPreferredSize(new Dimension(size, size));
+            setCommonProperties(button, buttonName, actionName, helpMessage, size, tabTitle);
         } catch (IOException e) { }
         return button;
     }
@@ -128,12 +129,34 @@ public class ButtonFactory {
         StateButton button = null;
         try {
             button = new StateButton(ImageIO.read(new File(fileName)), size);
-            button.setPreferredSize(new Dimension(size + 5, size + 5));
-            setCommonProperties(button, buttonName, actionName, helpMessage, size + 5, "");
+            button.setPreferredSize(new Dimension(size, size));
+            setCommonProperties(button, buttonName, actionName, helpMessage, size, "");
         } catch (IOException e) { }
         CustomUIManager.addImageButton(button);
         button.setContentAreaFilled(false);
         return button;
+    }
+
+    /**
+     * Méthode statique pour créer un bouton avec une image pour les items de menu
+     *
+     * @param buttonName  le nom du bouton
+     * @param actionName l'action associé au buton
+     * @param fileName    le nom du fichier de l'image
+     * @param helpMessage le message d'aide du bouton
+     * @param size la taille de l'image
+     * @return l'ImageMenuItem créé
+     */
+    public static ImageMenuItem createImageMenuItem(String buttonName, String actionName, String fileName, String helpMessage, int size) {
+        ImageMenuItem item = null;
+        try {
+            item = new ImageMenuItem(ImageIO.read(new File(fileName)), size);
+            item.setPreferredSize(new Dimension(size, size));
+            setCommonProperties(item, buttonName, actionName, helpMessage, size, "");
+        } catch (IOException e) { }
+        CustomUIManager.addImageButton(item);
+        item.setContentAreaFilled(false);
+        return item;
     }
 
     /**

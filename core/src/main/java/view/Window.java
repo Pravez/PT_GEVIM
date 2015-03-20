@@ -102,7 +102,6 @@ public class Window extends JFrame {
         this.startPanel.setBackground(null);
         Color logoColor  = new Color(95, 95, 95);
         Color buttonColor = new Color(205, 205, 205);
-        Color hoverColor  = new Color(134, 134, 134);
         JLabel background = new JLabel("");
         try {
             background.setIcon(new ImageIcon(CustomUIManager.getColoredImage(ImageIO.read(new File("core/assets/Gevim.png")), logoColor)));
@@ -188,19 +187,20 @@ public class Window extends JFrame {
      * Method to init the tool menu bar (undo, redo, copy, paste...)
      */
     private void initToolMenuBar() {
+        int buttonSize = 32;
         JToolBar toolBar  = ButtonFactory.createToolBar();
         toolBar.setFocusable(false);
         this.stateButtons = new ArrayList<>();
         toolBar.setFloatable(false);
 
-        toolBar.add(ButtonFactory.createImageButton("New", "New", "core/assets/new.png", "Nouveau graphe", 20, ""));
+        toolBar.add(ButtonFactory.createImageMenuItem("New", "New", "core/assets/new.png", "Nouveau graphe", buttonSize));
         addToolBarStateButton(toolBar, State.Mode.SELECTION.name(), "core/assets/cursor.png", "Mode édition");
         addToolBarStateButton(toolBar, State.Mode.CREATION.name(), "core/assets/edit.png", "Mode création");
         addToolBarStateButton(toolBar, State.Mode.ZOOM.name(), "core/assets/zoom.png",  "Mode Zoom");
-        toolBar.add(ButtonFactory.createImageButton("Copy", "Copy", "core/assets/copy.png", "Copier", 20, ""));
-        toolBar.add(ButtonFactory.createImageButton("Paste", "Paste", "core/assets/paste.png", "Coller", 20, ""));
-        this.undoButton = ButtonFactory.createImageButton("Undo", "Undo", "core/assets/undo.png", "Annuler", 20, "");
-        this.redoButton = ButtonFactory.createImageButton("Redo", "Redo", "core/assets/redo.png", "Rétablir", 20, "");
+        toolBar.add(ButtonFactory.createImageMenuItem("Copy", "Copy", "core/assets/copy.png", "Copier", buttonSize));
+        toolBar.add(ButtonFactory.createImageMenuItem("Paste", "Paste", "core/assets/paste.png", "Coller", buttonSize));
+        this.undoButton = ButtonFactory.createImageMenuItem("Undo", "Undo", "core/assets/undo.png", "Annuler", buttonSize);
+        this.redoButton = ButtonFactory.createImageMenuItem("Redo", "Redo", "core/assets/redo.png", "Rétablir", buttonSize);
 
         this.undoButton.setEnabled(false);
         this.redoButton.setEnabled(false);
@@ -220,7 +220,7 @@ public class Window extends JFrame {
      * @param helpMessage   le message d'aide du bouton
      */
     private void addToolBarStateButton(JToolBar toolBar, String actionCommand, String fileName, String helpMessage) {
-        StateButton button = ButtonFactory.createStateButton(actionCommand, actionCommand, fileName, helpMessage, 20);
+        StateButton button = ButtonFactory.createStateButton(actionCommand, actionCommand, fileName, helpMessage, 32);
         this.stateButtons.add(button);
         toolBar.add(button);
     }
@@ -284,10 +284,7 @@ public class Window extends JFrame {
         gbc.gridx++;
         gbc.weightx = 0;
 
-        //Color crossColor      = new Color(136, 136, 136);
-        //Color hoverColor      = new Color(255, 255, 255);
         Color crossBackground = new Color(212, 0, 0);
-
         titlePanel.add(ButtonFactory.createBoxContainer(ButtonFactory.createBasicReverseImageButton("Close", "Close", "core/assets/cross.png", "Fermer le graphe", 12, title), crossBackground, 12), gbc);
 
         this.tabs.setTabComponentAt(this.tabs.indexOfTab(title), titlePanel);
