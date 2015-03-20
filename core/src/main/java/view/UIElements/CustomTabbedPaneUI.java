@@ -171,6 +171,13 @@ public class CustomTabbedPaneUI extends BasicTabbedPaneUI {
         g2D.draw(p);
     }
 
+    @Override
+    protected void paintContentBorder(Graphics g, int tabPlacement, int selectedIndex) {
+        /*g.setColor(Color.RED);
+        g.fillRect(0, 0, 50, 10);*/
+        super.paintContentBorder(g, tabPlacement, selectedIndex);
+    }
+
     /*@Override
     protected void paintFocusIndicator(Graphics g, int tabPlacement, Rectangle[] rects, int tabIndex, Rectangle iconRect, Rectangle textRect, boolean isSelected) {
         super.paintFocusIndicator();

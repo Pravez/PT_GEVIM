@@ -6,6 +6,7 @@ import undoRedo.SnapProperties;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * Classe mère de tous les éléments visuels de la feuille de dessin. {@link VertexView} et {@link EdgeView} en héritent.
@@ -15,15 +16,18 @@ public abstract class ElementView extends JComponent {
 	protected static final long serialVersionUID = 1L;
 	protected Color color;
 	protected Color hoverColor;
+    protected Point2D.Double scale;
 
 	public ElementView(Color color, Color hoverColor) {
 		this.color      = color;
 		this.hoverColor = hoverColor;
+        this.scale      = new Point2D.Double(1.0, 1.0);
 	}
 
 	public ElementView(ElementView element) {
 		this.hoverColor = element.hoverColor;
-		this.color = element.color;
+		this.color      = element.color;
+        this.scale      = element.scale;
 	}
 
 	public abstract void updateHover(boolean isHover);

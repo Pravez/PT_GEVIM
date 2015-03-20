@@ -43,6 +43,7 @@ public class Tab extends JSplitPane {
 
         this.setOneTouchExpandable(false);
         this.setContinuousLayout(false);
+        this.setBorder(BorderFactory.createEmptyBorder());
 
         this.controller = controller;
 

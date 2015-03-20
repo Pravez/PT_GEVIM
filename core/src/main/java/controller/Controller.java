@@ -150,7 +150,9 @@ public class Controller {
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            //UIManager.put("PopupMenu.background", new Color(0));
+            UIManager.getDefaults().put("TabbedPane.contentBorderInsets", new Insets(0,0,0,0));
+            UIManager.getDefaults().put("TabbedPane.tabAreaInsets", new Insets(0,0,0,0));
+            UIManager.getDefaults().put("TabbedPane.tabsOverlapBorder", true);
             CustomUIManager.setDarkTheme();
         } catch (Exception e) {
             e.printStackTrace();

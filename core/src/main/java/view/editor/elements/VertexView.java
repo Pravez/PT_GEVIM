@@ -17,7 +17,6 @@ import java.awt.geom.Point2D;
 public class VertexView extends ElementView {
 
 	private Vertex         vertex;
-	private Point2D.Double scale;
 
     /**
      * Constructeur de la classe VertexView
@@ -27,14 +26,11 @@ public class VertexView extends ElementView {
     public VertexView(Vertex vertex, Color hoverColor) {
 		super(vertex.getColor(), hoverColor);
     	this.vertex = vertex;
-        this.scale  = new Point2D.Double(1.0, 1.0);
     }
 
 	public VertexView(VertexView element) {
 		super(element);
 		this.vertex = new Vertex(element.vertex);
-		this.scale     = element.scale;
-
 	}
 
     @Override

@@ -128,8 +128,7 @@ public class Window extends JFrame {
      * Initialise le {@link javax.swing.JPanel} de fond, le principal qui va stocker l'ensemble des items de Swing.
      */
     private void initBackPanel() {
-        this.back = new JPanel();
-        this.back.setBackground(new Color(64, 64, 64));
+        this.back = CustomUIManager.addPanel(new JPanel());
         this.getContentPane().add(this.back);
     }
 

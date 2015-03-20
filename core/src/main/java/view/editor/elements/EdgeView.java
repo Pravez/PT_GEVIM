@@ -8,6 +8,7 @@ import undoRedo.SnapProperties;
 import view.frames.EdgeViewEditor;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 import static java.lang.Math.sqrt;
 
@@ -73,10 +74,10 @@ public class EdgeView extends ElementView {
         }
 
         // on instancie les différents points de la zone autour de l'EdgeView
-        Point p1 = new Point(this.origin.getPosition().x + vector_x, this.origin.getPosition().y + vector_y);
-        Point p2 = new Point(this.destination.getPosition().x + vector_x, this.destination.getPosition().y + vector_y);
-        Point p3 = new Point(this.destination.getPosition().x - vector_x, this.destination.getPosition().y - vector_y);
-        Point p4 = new Point(this.origin.getPosition().x - vector_x, this.origin.getPosition().y - vector_y);
+        Point p1 = new Point((int) ((this.origin.getPosition().x + vector_x)*this.scale.x), (int) ((this.origin.getPosition().y + vector_y)*this.scale.y));
+        Point p2 = new Point((int) ((this.destination.getPosition().x + vector_x)*this.scale.x), (int) ((this.destination.getPosition().y + vector_y)*this.scale.y));
+        Point p3 = new Point((int) ((this.destination.getPosition().x - vector_x)*this.scale.x), (int) ((this.destination.getPosition().y - vector_y)*this.scale.y));
+        Point p4 = new Point((int) ((this.origin.getPosition().x - vector_x)*this.scale.x), (int) ((this.origin.getPosition().y - vector_y)*this.scale.y));
         return new Polygon(new int[] { p1.x, p2.x, p3.x, p4.x }, new int[] { p1.y, p2.y, p3.y, p4.y }, 4).contains(x, y);
     }
     
@@ -101,6 +102,7 @@ public class EdgeView extends ElementView {
     }
     
     public void paintComponent(Graphics g, double scaleX, double scaleY) {
+        this.scale = new Point2D.Double(scaleX, scaleY);
     	g.setFont(super.getFont());
     	Stroke oldStroke = ((Graphics2D) g).getStroke();
 		

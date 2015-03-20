@@ -19,10 +19,8 @@ public class ImageMenuItem extends ImageButton {
         ButtonModel m = getModel();
         if (m.isPressed() || m.isRollover() || m.isSelected()) {
             g.setColor(CustomUIManager.getButtonHoverBackground());
-        } else {
-            g.setColor(getBackground());
+            g.fillRoundRect(0, 0, getWidth(), getHeight(), 5, 5);
         }
-        g.fillRoundRect(0, 0, getWidth(), getHeight(), 5, 5);
         super.paintComponent(g);
     }
 }

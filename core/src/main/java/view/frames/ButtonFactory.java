@@ -102,7 +102,13 @@ public class ButtonFactory {
      * @return le JSeparator créé
      */
     public static JSeparator createSeparator() {
-        return CustomUIManager.addSeparator(new JSeparator(SwingConstants.HORIZONTAL));
+        return CustomUIManager.addSeparator(new JSeparator(SwingConstants.HORIZONTAL){
+            @Override
+            protected void paintComponent(Graphics g) {
+                g.setColor(getForeground());
+                g.fillRect(0, 0, getWidth(), getHeight());
+            }
+        });
     }
 
     private static ImageButton createSimpleImageButton(String buttonName, String actionName, String fileName, String helpMessage, int size, String tabTitle) {
@@ -246,5 +252,8 @@ public class ButtonFactory {
         button.setSelected(false);
         button.setToolTipText(helpMessage);
         button.setFocusable(false);
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        button.setContentAreaFilled(false);
     }
 }

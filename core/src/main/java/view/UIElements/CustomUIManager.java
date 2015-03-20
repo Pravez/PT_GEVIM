@@ -23,9 +23,13 @@ public class CustomUIManager {
     private static ArrayList<ImageButton> imageButtons = new ArrayList<>();
     private static ArrayList<ImageButton> reverseImageButtons = new ArrayList<>();
     private static ArrayList<JTabbedPane> tabs = new ArrayList<>();
+    private static ArrayList<JPanel>      panels = new ArrayList<>();
 
     /* Couleur des Tab */
     private static Color                 tabsColor;
+
+    /* Couleur des JPanel */
+    private static Color                 panelColor;
 
     /* Couleur des Images */
     private static Color                 imageColor;
@@ -50,7 +54,6 @@ public class CustomUIManager {
     private static Color                 menuForeground;
 
     /* Couleurs des JSeparator */
-    private static Color                 separatorBackground;
     private static Color                 separatorForeground;
 
     public static Color getButtonHoverBackground() {
@@ -61,6 +64,12 @@ public class CustomUIManager {
         CustomUIManager.buttons.add(button);
         colorButton(button);
         return button;
+    }
+
+    public static JPanel addPanel(JPanel panel) {
+        CustomUIManager.panels.add(panel);
+        colorPanel(panel);
+        return panel;
     }
 
     public static JTabbedPane addTab(JTabbedPane tabs) {
@@ -119,11 +128,14 @@ public class CustomUIManager {
 
     public static JSeparator addSeparator(JSeparator separator) {
         CustomUIManager.separators.add(separator);
+        separator.setPreferredSize(new Dimension(separator.getWidth(), 2));
         colorSeparator(separator);
         return separator;
     }
 
     public static void setDarkTheme() {
+        CustomUIManager.panelColor      = new Color(64, 64, 64);
+
         CustomUIManager.tabsColor        = new Color(93, 93, 93);
 
         CustomUIManager.imageColor       = new Color(230, 230, 230);
@@ -142,13 +154,14 @@ public class CustomUIManager {
         CustomUIManager.menuBackground = new Color(93, 93, 93);
         CustomUIManager.menuForeground = new Color(232, 232, 232);
 
-        CustomUIManager.separatorBackground = CustomUIManager.menuBackground;//new Color(66, 66, 66);
         CustomUIManager.separatorForeground = new Color(47, 47, 47);
 
         UIManager.put("PopupMenu.border", BorderFactory.createLineBorder(CustomUIManager.separatorForeground, 1));
     }
 
     public static void setLightTheme() {
+        CustomUIManager.panelColor      = new Color(64, 64, 64);
+
         CustomUIManager.tabsColor        = new Color(93, 93, 93);
 
         CustomUIManager.imageColor       = new Color(230, 230, 230);
@@ -167,10 +180,13 @@ public class CustomUIManager {
         CustomUIManager.menuBackground = new Color(93, 93, 93);
         CustomUIManager.menuForeground = new Color(232, 232, 232);
 
-        CustomUIManager.separatorBackground = new Color(0, 0, 0, 0);//new Color(66, 66, 66);
         CustomUIManager.separatorForeground = new Color(47, 47, 47);
 
         UIManager.put("PopupMenu.border", BorderFactory.createLineBorder(CustomUIManager.separatorForeground, 1));
+    }
+
+    private static void colorPanel(JPanel panel) {
+        panel.setBackground(CustomUIManager.panelColor);
     }
 
     private static void colorLabel(JLabel label) {
@@ -219,7 +235,6 @@ public class CustomUIManager {
     }
 
     private static void colorSeparator(JSeparator separator) {
-        separator.setBackground(CustomUIManager.separatorBackground);
         separator.setForeground(CustomUIManager.separatorForeground);
     }
 
