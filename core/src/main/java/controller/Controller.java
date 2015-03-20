@@ -162,6 +162,7 @@ public class Controller {
         ActionController.setController(controller);
         Window window = new Window((int)dimension.getWidth()-100, (int)dimension.getHeight()-50, controller);
         controller.setWindow(window);
+
     }
 
     /**

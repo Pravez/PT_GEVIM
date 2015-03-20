@@ -1,4 +1,4 @@
-package view;
+package view.theme;
 
 import java.awt.image.BufferedImage;
 

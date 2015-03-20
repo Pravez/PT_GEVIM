@@ -684,7 +684,7 @@ public class Sheet extends JComponent implements Observer {
 			}
 		}
 
-		this.repaint();
+        this.repaint();
 	}
 
     /**

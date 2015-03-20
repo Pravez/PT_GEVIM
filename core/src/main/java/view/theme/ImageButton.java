@@ -1,4 +1,4 @@
-package view;
+package view.theme;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;

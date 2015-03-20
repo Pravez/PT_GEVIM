@@ -1,7 +1,7 @@
 package controller;
 
 import data.Graph;
-import view.StateButton;
+import view.theme.StateButton;
 
 import javax.swing.*;
 import java.awt.*;

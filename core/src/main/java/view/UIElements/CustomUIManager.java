@@ -1,7 +1,7 @@
 package view.UIElements;
 
-import view.ImageButton;
-import view.editor.Tab;
+import view.theme.ImageButton;
+
 
 import javax.swing.*;
 import java.awt.*;
