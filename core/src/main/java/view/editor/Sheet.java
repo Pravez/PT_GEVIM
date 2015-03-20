@@ -366,6 +366,7 @@ public class Sheet extends JComponent implements Observer {
      */
     public void launchSelectionZone(Point origin, Point position) {
 		setSelectionZone(origin, position);
+        clearSelectedElements();
 		selectElementsInZone();
 		this.repaint();
 	}
@@ -379,7 +380,11 @@ public class Sheet extends JComponent implements Observer {
      */
     public void addToSelectionZone(Point origin, Point position) {
 		setSelectionZone(origin, position);
-		manageElementsInZone();
+        clearSelectedElements();
+        for (ElementView e : this.currentSelectedElements) {
+            selectElement(e);
+        }
+        selectElementsInZone();
 		this.repaint();
 	}
 
@@ -404,10 +409,9 @@ public class Sheet extends JComponent implements Observer {
     }
 	
     /**
-     * Méthode pour sélectionner les ElementView présents dans la zone de sélection en la vidant au préalable
+     * Méthode pour sélectionner les ElementView présents dans la zone de sélection
      */
 	public void selectElementsInZone() {
-		clearSelectedElements();
 		for (VertexView v : this.vertices) {
             Point position = new Point((int)(v.getPosition().x * this.scale), (int)(v.getPosition().y * this.scale));
 			if (this.selectionZone.contains(position)) {
@@ -419,31 +423,6 @@ public class Sheet extends JComponent implements Observer {
             Point positionO = new Point((int)(e.getOrigin().getPosition().x * this.scale), (int)(e.getOrigin().getPosition().y * this.scale));
             Point positionD = new Point((int)(e.getDestination().getPosition().x * this.scale), (int)(e.getDestination().getPosition().y * this.scale));
 			if (this.selectionZone.contains(positionO) && this.selectionZone.contains(positionD)) {
-				selectElement(e);
-				this.currentSelectedElements.add(e);
-			}
-		}
-	}
-	
-	/**
-	 * Méthode permettant de gérer la sélection des ElementView dans la zone de sélection avec la touche Ctrl enfoncée
-     *  - on vide la liste des éléments sélectionnés
-     *  - on rajoute ceux qui étaient sélectionnés avant
-     *  - on rajoute ceux qui sont dans la nouvelle zone de sélection
-	 */
-	public void manageElementsInZone() {
-		clearSelectedElements();
-		for (ElementView e : this.currentSelectedElements) {
-			selectElement(e);
-		}
-		for (VertexView v : this.vertices) {
-			if (this.selectionZone.contains(v.getPosition())) {
-				selectElement(v);
-				this.currentSelectedElements.add(v);
-			}
-		}
-		for (EdgeView e : this.edges) {
-			if (edgeIsInSelectionZone(e)) {
 				selectElement(e);
 				this.currentSelectedElements.add(e);
 			}
