@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.util.HashMap;
 
 public abstract class State {
 	
@@ -130,14 +131,16 @@ public abstract class State {
 	
 	/**
 	 * Méthode permettant de créer un PopupMenu
-	 * @param menuItems les MenuItems présents dans le PopuMenu
+	 * @param menuItems les MenuItems présents dans le PopuMenu (Map contenant d'un coté le string de la commande, de l'autre
+     *                  le string qui sera affiché).
 	 * @param position la position du PopupMenu
 	 * @return le PopupMenu créé
 	 */
-	protected JPopupMenu initNewPopupMenu(String [] menuItems, Point position){
+	protected JPopupMenu initNewPopupMenu(HashMap<String, String> menuItems,  Point position){
 		JPopupMenu jpm = new JPopupMenu();
-		for(String s : menuItems){
-			JMenuItem jmi = new JMenuItem(s);
+		for(String s : menuItems.keySet()){
+			JMenuItem jmi = new JMenuItem(menuItems.get(s));
+            jmi.setActionCommand(s);
 			jmi.addActionListener(new ButtonActionListener(jmi, position, ""));
 			jpm.add(jmi);
 		}
@@ -152,6 +155,6 @@ public abstract class State {
 	protected void openTabPopUpMenu(Tab tab, Point mouse_pos) {
 		Point show_pos   = new Point(mouse_pos.x - tab.getScrollPane().getViewport().getViewPosition().x, mouse_pos.y - tab.getScrollPane().getViewport().getViewPosition().y);
 		Point effect_pos = new Point((int)(mouse_pos.x / tab.getSheet().getScale()), (int)(mouse_pos.y / tab.getSheet().getScale()));
-		initNewPopupMenu(new String[]{"Paste", "Properties"}, effect_pos).show(tab, show_pos.x, show_pos.y);
+		initNewPopupMenu(new HashMap<String, String>(){{put("Paste", "Coller");}{put("Properties", "Proprietes");}}, effect_pos).show(tab, show_pos.x, show_pos.y);
 	}
 }

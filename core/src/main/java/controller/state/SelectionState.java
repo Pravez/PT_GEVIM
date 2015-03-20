@@ -8,6 +8,7 @@ import view.editor.elements.VertexView;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
 
 public class SelectionState extends State {
 
@@ -42,7 +43,8 @@ public class SelectionState extends State {
 		if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
 			this.controller.notifyHandleElement(element);
 			//Création du menu contextuel avec Edit et Delete comme options.
-			initNewPopupMenu(new String[]{"Edit", "Delete", "Copy", "Paste"}, e.getPoint()).show(element, e.getX(), e.getY());
+            HashMap<String, String> menus = new HashMap<String, String>(){{put("Edit", "Editer");}{put("Delete", "Supprimer");}{put("Copy", "Copier");}{put("Paste", "Coller");}};
+            initNewPopupMenu(menus, e.getPoint()).show(element, e.getX(), e.getY());
 		}
 	}
 
@@ -86,7 +88,7 @@ public class SelectionState extends State {
 	}
 	
 	@Override
-	public void released(Tab tab, Graph grap, MouseEvent e) {
+	public void released(Tab tab, Graph graph, MouseEvent e) {
 		if (this.dragging) {
 			this.controller.notifyEndDragging();
 		}
