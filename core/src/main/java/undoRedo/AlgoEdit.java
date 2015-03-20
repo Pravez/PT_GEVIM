@@ -12,27 +12,46 @@ import java.util.ArrayList;
  */
 public class AlgoEdit extends AbstractUndoableEdit {
 
-    private EdgeEdit edgeEdits;
-    private VertexEdit vertexEdits;
+    private ArrayList<SnapVertex> verticesBefore;
+    private ArrayList<SnapVertex> verticesAfter;
 
     private Graph graph;
-    public AlgoEdit(Graph model, EdgeEdit edges,VertexEdit vertices) {
+
+    public AlgoEdit(Graph model, ArrayList<SnapVertex> before, ArrayList<SnapVertex> after) {
         graph=model;
-        edgeEdits=edges;
-        vertexEdits=vertices;
+        verticesBefore =before;
+        verticesAfter=after;
     }
 
-
     public void undo() throws CannotUndoException {
-        vertexEdits.undo();
-        edgeEdits.undo();
+
+        for(SnapVertex s : verticesBefore) {
+            graph.getVertexes().get(s.getIndex()).setColor(s.getColor());
+            graph.getVertexes().get(s.getIndex()).setLabel(s.getLabel());
+            graph.getVertexes().get(s.getIndex()).setSize(s.getSize());
+            graph.getVertexes().get(s.getIndex()).setShape(s.getShape());
+            graph.getVertexes().get(s.getIndex()).setPosition(s.getPosition());
+            graph.setChanged();
+        }
 
     }
 
     public void redo() throws CannotUndoException {
 
-        vertexEdits.redo();
-        edgeEdits.redo();
+
+
+
+            for(SnapVertex s : verticesAfter) {
+                graph.getVertexes().get(s.getIndex()).setColor(s.getColor());
+                graph.getVertexes().get(s.getIndex()).setLabel(s.getLabel());
+                graph.getVertexes().get(s.getIndex()).setSize(s.getSize());
+                graph.getVertexes().get(s.getIndex()).setShape(s.getShape());
+                graph.getVertexes().get(s.getIndex()).setPosition(s.getPosition());
+                graph.setChanged();
+            }
+
+            graph.setChanged();
+
 
     }
 

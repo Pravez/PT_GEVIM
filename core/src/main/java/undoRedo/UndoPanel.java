@@ -148,6 +148,13 @@ public class UndoPanel extends JPanel {
 
     }
 
+    public void registerAlgoEdit(ArrayList<SnapVertex> verticesBefore, ArrayList<SnapVertex> verticesAfter)
+    {
+        UndoableEdit edit = new AlgoEdit(graph, verticesBefore,verticesAfter);
+        undoSupport_.postEdit(edit);
+
+    }
+
 
     public void undo() {
         if (undoManager_.canUndo()) {

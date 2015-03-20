@@ -5,8 +5,11 @@ import controller.listeners.ButtonActionListener;
 import controller.listeners.KeyActionListener;
 import controller.state.State;
 import data.Graph;
+import data.GraphElement;
+import data.Vertex;
 import files.dot.DotFileManager;
 import files.gml.GmlFileManager;
+import undoRedo.SnapVertex;
 import view.UIElements.CustomTabbedPaneUI;
 import view.UIElements.CustomUIManager;
 import view.editor.Sheet;
@@ -417,8 +420,29 @@ public class Window extends JFrame {
         AlgorithmSelector al = new AlgorithmSelector();
         String selectedAlgorithm = (String)al.getSelectedAlgorithm();
         if(selectedAlgorithm != null) {
-        //    getCurrentTab().getGraph().getGraphElements();
+
+            //Sauvegarde des propriétés de l'ensemble des graphElements
+
+        ArrayList<Vertex> elements=  getCurrentTab().getGraph().getVertexes();
+        ArrayList<SnapVertex> before = new ArrayList<>();
+        ArrayList<SnapVertex> after = new ArrayList<>();
+
+            SnapVertex tmp;
+            for(Vertex v : elements)
+            {
+                tmp = new SnapVertex(v, elements.indexOf(v));
+                before.add(tmp);
+            }
             controller.applyAlgorithm(selectedAlgorithm);
+            elements=  getCurrentTab().getGraph().getVertexes();
+
+            for(Vertex v : elements)
+            {
+                tmp = new SnapVertex(v, elements.indexOf(v));
+                after.add(tmp);
+            }
+
+            this.getCurrentTab().getUndoRedo().registerAlgoEdit(before, after);
         }
     }
 }
