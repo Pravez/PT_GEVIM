@@ -3,6 +3,7 @@ package view.editor;
 import controller.Controller;
 import data.Graph;
 import undoRedo.UndoPanel;
+import view.UIElements.CustomUIManager;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -148,7 +149,7 @@ public class Tab extends JSplitPane {
      * @param graph Le {@link data.Graph} auquel relatent le {@link view.editor.PropertyPanel} et la {@link view.editor.MiniMap}
      */
     public void initBoardPanel(Graph graph){
-        properties = new PropertyPanel(this.sheet);
+        properties = (PropertyPanel) CustomUIManager.addTab(new PropertyPanel(this.sheet));
         properties.setFocusable(false);
 
         minimap = new MiniMap(scrollPane, sheet);

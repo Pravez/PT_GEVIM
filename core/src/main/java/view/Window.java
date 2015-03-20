@@ -60,8 +60,6 @@ public class Window extends JFrame {
         initToolMenuBar();
         initStartPanel();
 
-        tabs.setOpaque(true);
-        tabs.setBackground(new Color(93, 93, 93));
         tabs.setFocusable(false);
 
         this.setFocusable(true);
@@ -102,7 +100,6 @@ public class Window extends JFrame {
         this.startPanel.setBackground(null);
         Color logoColor  = new Color(95, 95, 95);
         Color buttonColor = new Color(205, 205, 205);
-        Color hoverColor  = new Color(134, 134, 134);
         JLabel background = new JLabel("");
         try {
             background.setIcon(new ImageIcon(CustomUIManager.getColoredImage(ImageIO.read(new File("core/assets/Gevim.png")), logoColor)));
@@ -148,7 +145,7 @@ public class Window extends JFrame {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        this.tabs = new JTabbedPane(SwingConstants.TOP);
+        this.tabs = CustomUIManager.addTab(new JTabbedPane(SwingConstants.TOP));
         this.tabs.setUI(new CustomTabbedPaneUI());
         this.tabs.addChangeListener(new ChangeListener() {
             @Override
@@ -188,19 +185,20 @@ public class Window extends JFrame {
      * Method to init the tool menu bar (undo, redo, copy, paste...)
      */
     private void initToolMenuBar() {
+        int buttonSize = 32;
         JToolBar toolBar  = ButtonFactory.createToolBar();
         toolBar.setFocusable(false);
         this.stateButtons = new ArrayList<>();
         toolBar.setFloatable(false);
 
-        toolBar.add(ButtonFactory.createImageButton("New", "New", "core/assets/new.png", "Nouveau graphe", 20, ""));
+        toolBar.add(ButtonFactory.createImageMenuItem("New", "New", "core/assets/new.png", "Nouveau graphe", buttonSize));
         addToolBarStateButton(toolBar, State.Mode.SELECTION.name(), "core/assets/cursor.png", "Mode édition");
         addToolBarStateButton(toolBar, State.Mode.CREATION.name(), "core/assets/edit.png", "Mode création");
         addToolBarStateButton(toolBar, State.Mode.ZOOM.name(), "core/assets/zoom.png",  "Mode Zoom");
-        toolBar.add(ButtonFactory.createImageButton("Copy", "Copy", "core/assets/copy.png", "Copier", 20, ""));
-        toolBar.add(ButtonFactory.createImageButton("Paste", "Paste", "core/assets/paste.png", "Coller", 20, ""));
-        this.undoButton = ButtonFactory.createImageButton("Undo", "Undo", "core/assets/undo.png", "Annuler", 20, "");
-        this.redoButton = ButtonFactory.createImageButton("Redo", "Redo", "core/assets/redo.png", "Rétablir", 20, "");
+        toolBar.add(ButtonFactory.createImageMenuItem("Copy", "Copy", "core/assets/copy.png", "Copier", buttonSize));
+        toolBar.add(ButtonFactory.createImageMenuItem("Paste", "Paste", "core/assets/paste.png", "Coller", buttonSize));
+        this.undoButton = ButtonFactory.createImageMenuItem("Undo", "Undo", "core/assets/undo.png", "Annuler", buttonSize);
+        this.redoButton = ButtonFactory.createImageMenuItem("Redo", "Redo", "core/assets/redo.png", "Rétablir", buttonSize);
 
         this.undoButton.setEnabled(false);
         this.redoButton.setEnabled(false);
@@ -221,7 +219,7 @@ public class Window extends JFrame {
      * @param helpMessage   le message d'aide du bouton
      */
     private void addToolBarStateButton(JToolBar toolBar, String actionCommand, String fileName, String helpMessage) {
-        StateButton button = ButtonFactory.createStateButton(actionCommand, actionCommand, fileName, helpMessage, 20);
+        StateButton button = ButtonFactory.createStateButton(actionCommand, actionCommand, fileName, helpMessage, 32);
         this.stateButtons.add(button);
         toolBar.add(button);
     }
@@ -232,14 +230,14 @@ public class Window extends JFrame {
     private void initMenu() {
         super.setJMenuBar(ButtonFactory.createJMenuBar());
 
-        JMenu file = this.addMenu("Fichier");
+        JMenu file    = this.addMenu("Fichier");
         JMenu edition = this.addMenu("Edition");
 
-        JMenu open = ButtonFactory.createJMenu("Ouvrir");
+        JMenu open    = ButtonFactory.createJMenu("Ouvrir");
         this.addJMenuItem(open, "depuis GraphML...", "from GraphML...");
         this.addJMenuItem(open, "depuis GraphViz...", "from GraphViz...");
 
-        JMenu saveas = ButtonFactory.createJMenu("Sauvegarder comme ...");
+        JMenu saveas  = ButtonFactory.createJMenu("Sauvegarder comme ...");
         this.addJMenuItem(saveas, "GraphML...", "GraphML...");
         this.addJMenuItem(saveas, "GraphViz...", "GraphViz...");
 
@@ -270,25 +268,13 @@ public class Window extends JFrame {
         }
 
         this.tabs.addTab(title, new Tab(graph, title, this.controller));
-        JPanel titlePanel = new JPanel(new GridBagLayout());
-        titlePanel.setOpaque(false);
-
+        JPanel titlePanel = CustomUIManager.addTabComponent("   " + title);
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.weightx = 1;
-
-        JLabel label = new JLabel("   " + title);
-        label.setForeground(new Color(237, 237, 237));
-        titlePanel.add(label, gbc);
-        titlePanel.add(Box.createHorizontalStrut(25));
-        gbc.gridx++;
+        gbc.gridx = 1;
         gbc.weightx = 0;
-
-        //Color crossColor      = new Color(136, 136, 136);
-        //Color hoverColor      = new Color(255, 255, 255);
+        titlePanel.add(Box.createHorizontalStrut(25));
         Color crossBackground = new Color(212, 0, 0);
-
         titlePanel.add(ButtonFactory.createBoxContainer(ButtonFactory.createBasicReverseImageButton("Close", "Close", "core/assets/cross.png", "Fermer le graphe", 12, title), crossBackground, 12), gbc);
 
         this.tabs.setTabComponentAt(this.tabs.indexOfTab(title), titlePanel);

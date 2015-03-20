@@ -151,7 +151,6 @@ public class Controller {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             //UIManager.put("PopupMenu.background", new Color(0));
-            UIManager.put("PopupMenu.border", BorderFactory.createEmptyBorder());
             CustomUIManager.setDarkTheme();
         } catch (Exception e) {
             e.printStackTrace();
