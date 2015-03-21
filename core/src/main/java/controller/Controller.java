@@ -489,7 +489,6 @@ public class Controller {
             }else{
                 file = this.chooseFile(extensions, descriptions);
             }
-
             if(file != null) {
                 if (file.getName().contains(".graphml")) {
                     this.window.getCurrentSheet().saveToGML(file);
