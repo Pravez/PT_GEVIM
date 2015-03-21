@@ -2,10 +2,13 @@ package controller;
 
 import data.GraphElement;
 import data.Vertex;
+import view.*;
+import view.Window;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 /**
@@ -17,6 +20,7 @@ public class GenerationThread extends JDialog implements Runnable
     private int value;
     private int numberOfElements;
     private ArrayList<GraphElement> elements;
+    private Dimension parentSize;
 
     public GenerationThread(Component parent, int generationNumber)
     {
@@ -31,7 +35,8 @@ public class GenerationThread extends JDialog implements Runnable
         this.getContentPane().add(this.progress);
         this.setLocationRelativeTo(parent);
         this.pack();
-
+        Window tmp = (Window) parent;
+        parentSize=tmp.getCurrentSheetViewPort().getViewSize();
         launchGeneration();
 
         this.setModal(true);
@@ -72,10 +77,11 @@ public class GenerationThread extends JDialog implements Runnable
      */
     public void generation(){
 
+        Rectangle viewRectangle = new Rectangle(new Point(0,0), parentSize);
+        Random r = new Random();
         for (int i = 0; i < numberOfElements; i++)
         {
-            elements.add(new Vertex("vertex", Color.BLACK, new Point(0,0), 15, Vertex.Shape.SQUARE));
-
+            elements.add(new Vertex("vertex", Color.BLACK, new Point(r.nextInt(viewRectangle.width)+viewRectangle.x, r.nextInt(viewRectangle.height)+viewRectangle.y), 15, Vertex.Shape.SQUARE));
             //Mise à jour de la barre de progression
             this.majProgress();
         }
