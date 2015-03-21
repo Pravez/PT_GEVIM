@@ -171,6 +171,16 @@ public class Sheet extends JComponent implements Observer {
         this.vertices = vertices;
     }
 
+
+    public int getVertexPositionFromID(int ID){
+        for(VertexView vv : vertices){
+            if(vv.getGraphElement().getID() == ID){
+                return vertices.indexOf(vv);
+            }
+        }
+
+        return -1;
+    }
     /**
      * Getter de la liste des EdgeView du Tab
      * @return la liste des EdgeView
@@ -185,6 +195,16 @@ public class Sheet extends JComponent implements Observer {
      */
     public void setEdges(ArrayList<EdgeView> edges) {
         this.edges = edges;
+    }
+
+    public int getEdgePositionFromID(int ID){
+        for(EdgeView ev : edges){
+            if(ev.getGraphElement().getID() == ID){
+                return edges.indexOf(ev);
+            }
+        }
+
+        return -1;
     }
 
     /**

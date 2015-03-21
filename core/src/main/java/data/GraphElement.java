@@ -1,6 +1,7 @@
 package data;
 
 import java.awt.*;
+import java.util.Objects;
 
 /**
  * @author Alexis Dufrenne
@@ -21,13 +22,12 @@ public abstract class GraphElement {
 	 */
 	public GraphElement(String label, Color color) {
 		this(CURRENT_ID);
-        if(label == "edge" || label == "node"){
+        if(Objects.equals(label, "edge") || Objects.equals(label, "node")){
             this.label = label+ CURRENT_ID;
         }else {
             this.label = label;
         }
 		this.color = color;
-        CURRENT_ID++;
 	}
 	
 	/**
@@ -37,12 +37,15 @@ public abstract class GraphElement {
 	public GraphElement(int id) {
 		this.id    = id;
         this.value = 1;
-	}
+        CURRENT_ID++;
+    }
 
 	public GraphElement(GraphElement graphElement) {
+        this(CURRENT_ID);
 		this.label = graphElement.label;
 		this.value = graphElement.value;
 		this.color = graphElement.color;
+        this.value = graphElement.value;
 	}
 
 	/**

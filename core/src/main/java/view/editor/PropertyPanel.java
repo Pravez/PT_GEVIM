@@ -45,6 +45,7 @@ public class PropertyPanel extends JTabbedPane implements Observer {
         columnVertexNames = new Vector<>();
         columnVertexNames.add("Nom");
         columnVertexNames.add("Taille");
+        columnVertexNames.add("Indice");
 
         columnEdgeNames = new Vector<>();
         columnEdgeNames.add("Nom");
@@ -121,7 +122,9 @@ public class PropertyPanel extends JTabbedPane implements Observer {
     private void addVerticesToSelectedElements(int[] selectedRows) {
         sheet.clearSelectedElements();
         for(int i : selectedRows){
-            sheet.selectElement(sheet.getVertices().get(i));
+            int vertexID = Integer.parseInt(vertexDatas.get(i).get(3));
+            System.out.println(vertexID);
+            sheet.selectElement(sheet.getVertices().get(sheet.getVertexPositionFromID(vertexID)));
         }
     }
 
@@ -132,7 +135,8 @@ public class PropertyPanel extends JTabbedPane implements Observer {
     private void addEdgesToSelectedElements(int[] selectedRows) {
         sheet.clearSelectedElements();
         for(int i : selectedRows){
-            sheet.selectElement(sheet.getEdges().get(i));
+            int edgeID = Integer.parseInt(edgeDatas.get(i).get(2));
+            sheet.selectElement(sheet.getEdges().get(sheet.getEdgePositionFromID(edgeID)));
         }
     }
 
@@ -147,13 +151,13 @@ public class PropertyPanel extends JTabbedPane implements Observer {
             int newThickness = Integer.parseInt((String) edgePropertyTable.getModel().getValueAt(i, 1));
             int id = Integer.parseInt(edgeDatas.get(i).get(2));
 
-            this.graph.getFromValue(id).setLabel(newLabel);
+            this.graph.getFromID(id).setLabel(newLabel);
 
             if(mustVerifyIntegerDatas(newThickness)){
-                int previousThickness = ((Edge)this.graph.getFromValue(id)).getThickness();
+                int previousThickness = ((Edge)this.graph.getFromID(id)).getThickness();
                 edgePropertyTable.getModel().setValueAt(String.valueOf(previousThickness), i, 1);
             }else {
-                ((Edge)this.graph.getFromValue(id)).setThickness(newThickness);
+                ((Edge)this.graph.getFromID(id)).setThickness(newThickness);
             }
         }
 
@@ -169,15 +173,23 @@ public class PropertyPanel extends JTabbedPane implements Observer {
         for(int i=firstRow;i<=lastRow;i++){
             String newLabel = (String) vertexPropertyTable.getModel().getValueAt(i,0);
             int newSize = Integer.parseInt((String) vertexPropertyTable.getModel().getValueAt(i, 1));
-            int id = Integer.parseInt(vertexDatas.get(i).get(2));
+            int newValue = Integer.parseInt((String)vertexPropertyTable.getModel().getValueAt(i, 2));
+            int id = Integer.parseInt(vertexDatas.get(i).get(3));
 
-            this.graph.getFromValue(id).setLabel(newLabel);
+            this.graph.getFromID(id).setLabel(newLabel);
 
             if(mustVerifyIntegerDatas(newSize)){
-                int previousSize = ((Vertex)this.graph.getFromValue(id)).getSize();
+                int previousSize = ((Vertex)this.graph.getFromID(id)).getSize();
                 vertexPropertyTable.getModel().setValueAt(String.valueOf(previousSize), i, 1);
             }else {
-                ((Vertex)this.graph.getFromValue(id)).setSize(newSize);
+                ((Vertex)this.graph.getFromID(id)).setSize(newSize);
+            }
+
+            if(mustVerifyIntegerDatas(newValue)){
+                int previousValue = (this.graph.getFromID(id)).getValue();
+                vertexPropertyTable.getModel().setValueAt(String.valueOf(previousValue), i, 2);
+            }else {
+                (this.graph.getFromID(id)).setValue(newValue);
             }
 
         }
@@ -201,6 +213,7 @@ public class PropertyPanel extends JTabbedPane implements Observer {
             if (element.isVertex()) {
                 newData.add(element.getLabel());
                 newData.add(String.valueOf(((Vertex) element).getSize()));
+                newData.add(String.valueOf(element.getValue()));
                 newData.add(String.valueOf(element.getID()));
                 vertexDatas.add(newData);
             } else {

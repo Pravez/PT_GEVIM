@@ -213,8 +213,8 @@ public class EdgeViewEditor extends JDialog {
             mustBeVerified = true;
         }else {
 
-            Vertex tempOrigin = (Vertex)this.graph.getFromValue(Integer.parseInt(originValue));
-            Vertex tempDestination = (Vertex)this.graph.getFromValue(Integer.parseInt(destinationValue));
+            Vertex tempOrigin = (Vertex)this.graph.getFromID(Integer.parseInt(originValue));
+            Vertex tempDestination = (Vertex)this.graph.getFromID(Integer.parseInt(destinationValue));
 
             if((tempOrigin != this.origin || tempDestination!=this.destination) && this.graph.existsBetweenVertices(tempOrigin, tempDestination)){
                 JOptionPane.showMessageDialog(null, "Il existe deja une arete entre ces deux sommets.", "Erreur", JOptionPane.ERROR_MESSAGE);

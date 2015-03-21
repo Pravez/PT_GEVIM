@@ -51,7 +51,7 @@ public class Graph extends Observable {
      * @return la liste des GraphElement copiés
      */
     public static ArrayList<GraphElement> copyGraphElements(ArrayList<GraphElement> elements) {
-    	ArrayList<GraphElement> new_elements = new ArrayList<GraphElement> (elements.size());
+    	ArrayList<GraphElement> new_elements = new ArrayList<> (elements.size());
     	for (int i = 0 ; i < elements.size() ; i++) {
     		new_elements.add(null);
     	}
@@ -288,12 +288,12 @@ public class Graph extends Observable {
 
     /**
      * Méthode permettant de récupérer un {@link data.GraphElement} en ne connaissant que son ID, dans un {@link data.Graph}.
-     * @param value L'ID (valeur) de l'élément à récupérer.
+     * @param id L'ID (valeur) de l'élément à récupérer.
      * @return Le {@link data.GraphElement} dont l'attribut Value est la value passée en paramètre
      */
-    public GraphElement getFromValue(int value){
+    public GraphElement getFromID(int id){
         for(GraphElement ge : this.elements){
-            if(ge.getID()==value){
+            if(ge.getID()==id){
                 return ge;
             }
         }
