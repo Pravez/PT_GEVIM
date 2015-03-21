@@ -49,7 +49,6 @@ public class Sheet extends JComponent implements Observer {
     private String                 file;
     private Color                  defaultVerticesColor;
     private Color                  defaultEdgesColor;
-    private Color                  defaultSelectedColor;
     private int                    defaultSelectedThickness;
     private int                    defaultEdgesThickness;
     private int                    defaultVerticesSize;
@@ -84,7 +83,6 @@ public class Sheet extends JComponent implements Observer {
         
         this.defaultVerticesColor     = Color.BLACK;
         this.defaultEdgesColor        = Color.BLACK;
-        this.defaultSelectedColor     = Color.BLUE;
         this.defaultEdgesThickness    = 1;
         this.defaultSelectedThickness = 2;
         this.defaultVerticesSize      = 15;
@@ -180,7 +178,6 @@ public class Sheet extends JComponent implements Observer {
                 return vertices.indexOf(vv);
             }
         }
-
         return -1;
     }
     /**
@@ -205,7 +202,6 @@ public class Sheet extends JComponent implements Observer {
                 return edges.indexOf(ev);
             }
         }
-
         return -1;
     }
 
@@ -238,7 +234,6 @@ public class Sheet extends JComponent implements Observer {
         for (ElementView e : this.vertices) {
             selectElement(e);
         }
-        this.repaint();
     }
 
     public Tab getTab() {
@@ -579,7 +574,7 @@ public class Sheet extends JComponent implements Observer {
      * @param vertex le modèle Vertex du VertexView
      */
     public void addVertex(Vertex vertex){
-    	final VertexView vertexView = new VertexView(vertex, this.defaultSelectedColor);
+    	final VertexView vertexView = new VertexView(vertex);
         vertexView.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) { controller.getState().click(vertexView, e); }
@@ -607,7 +602,7 @@ public class Sheet extends JComponent implements Observer {
      * @param destination le VertexView de destination de l'EdgeView
      */
     public void addEdge(Edge edge, VertexView origin, VertexView destination ){
-    	final EdgeView edgeView = new EdgeView(edge, this.defaultSelectedThickness, this.defaultSelectedColor, origin, destination);
+    	final EdgeView edgeView = new EdgeView(edge, this.defaultSelectedThickness, origin, destination);
     	edgeView.addMouseListener(new MouseAdapter() {
     		@Override
 			public void mouseClicked(MouseEvent e) {

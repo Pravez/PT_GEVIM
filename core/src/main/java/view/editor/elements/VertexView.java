@@ -5,6 +5,7 @@ import data.GraphElement;
 import data.Vertex;
 import undoRedo.snap.SnapProperties;
 import undoRedo.snap.SnapVertex;
+import view.UIElements.CustomUIManager;
 import view.frames.VertexViewEditor;
 
 import java.awt.*;
@@ -21,10 +22,9 @@ public class VertexView extends ElementView {
     /**
      * Constructeur de la classe VertexView
      * @param vertex le modèle Vertex à afficher
-     * @param hoverColor couleur du VertexView lorsqu'il est sélectionné
      */
-    public VertexView(Vertex vertex, Color hoverColor) {
-		super(vertex.getColor(), hoverColor);
+    public VertexView(Vertex vertex) {
+		super(vertex.getColor());
     	this.vertex = vertex;
     }
 
@@ -150,7 +150,8 @@ public class VertexView extends ElementView {
      */
     @Override
     public void updateHover(boolean isHover) {
-		this.color = (isHover) ? this.hoverColor : this.vertex.getColor();
+        this.color = (isHover) ? CustomUIManager.getHoverColor() : this.vertex.getColor();
+        this.repaint();
 	}
 
     /**

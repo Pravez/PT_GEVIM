@@ -30,7 +30,6 @@ public class UpdateThread extends JDialog implements Runnable
 
     public UpdateThread(JComponent sheet, ArrayList<GraphElement> newElements, Controller controller)
     {
-
         this.sheet = sheet;
         this.controller = controller;
 
@@ -114,7 +113,7 @@ public class UpdateThread extends JDialog implements Runnable
      * @return le vertex crée
      */
     private VertexView createVertexView(Vertex vertex){
-        final VertexView vertexView = new VertexView(vertex, Color.BLACK);
+        final VertexView vertexView = new VertexView(vertex);
         vertexView.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) { controller.getState().click(vertexView, e); }
@@ -144,7 +143,7 @@ public class UpdateThread extends JDialog implements Runnable
      * @return L'edgeView crée
      */
     private EdgeView createEdgeView(Edge edge, VertexView origin, VertexView destination){
-        final EdgeView edgeView = new EdgeView(edge, 1, Color.BLACK, origin, destination);
+        final EdgeView edgeView = new EdgeView(edge, 1, origin, destination);
         edgeView.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

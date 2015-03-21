@@ -15,17 +15,14 @@ public abstract class ElementView extends JComponent {
 
 	protected static final long serialVersionUID = 1L;
 	protected Color color;
-	protected Color hoverColor;
     protected Point2D.Double scale;
 
-	public ElementView(Color color, Color hoverColor) {
+	public ElementView(Color color) {
 		this.color      = color;
-		this.hoverColor = hoverColor;
         this.scale      = new Point2D.Double(1.0, 1.0);
 	}
 
 	public ElementView(ElementView element) {
-		this.hoverColor = element.hoverColor;
 		this.color      = element.color;
         this.scale      = element.scale;
 	}
@@ -48,22 +45,6 @@ public abstract class ElementView extends JComponent {
 	 */
 	public void setColor(Color color) {
 		this.color = color;
-	}
-
-	/**
-	 * Getter de la couleur de l'ElementView lorsqu'il est sélectionné
-	 * @return la couleur de l'ElementView lorsqu'il est sélectionné
-	 */
-	public Color getHoverColor() {
-		return this.hoverColor;
-	}
-
-	/**
-	 * Setter de la couleur de l'ElementView lorsqu'il est sélectionné
-	 * @param color nouvelle couleur de l'ElementView lorsqu'il est sélectionné
-	 */
-	public void setHoverColor(Color color) {
-		this.hoverColor = color;
 	}
 
 	public abstract boolean isVertexView();

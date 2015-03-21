@@ -26,6 +26,8 @@ public class CustomUIManager {
     private static ArrayList<JPanel>      panels              = new ArrayList<>();
     private static ArrayList<JLabel>      labels              = new ArrayList<>();
 
+    private static Color                 elementHoverColor;
+
     /* Couleur des Tab */
     private static Color                 tabsColor;
 
@@ -83,6 +85,22 @@ public class CustomUIManager {
      */
     public static Color getButtonHoverBackground() {
         return CustomUIManager.buttonHoverBackground;
+    }
+
+    /**
+     * Getter de la couleur des ElementView sélectionnés
+     * @return la couleur des ElementView sélectionnés
+     */
+    public static Color getHoverColor() {
+        return CustomUIManager.elementHoverColor;
+    }
+
+    /**
+     * Setter de la couleur des ElementView sélectionnés
+     * @param hoverColor la nouvelle couleur
+     */
+    public static void setHoverColor(Color hoverColor) {
+        CustomUIManager.elementHoverColor = hoverColor;
     }
 
     /**
@@ -215,6 +233,8 @@ public class CustomUIManager {
      * Méthode statique permettant de passer au thème Dark
      */
     public static void setDarkTheme() {
+        CustomUIManager.elementHoverColor        = new Color(166, 166, 166);
+
         CustomUIManager.panelColor               = new Color(64, 64, 64);
 
         CustomUIManager.tabsColor                = new Color(93, 93, 93);
@@ -260,6 +280,8 @@ public class CustomUIManager {
      * Méthode statique permettant de passer au thème Light
      */
     public static void setLightTheme() {
+        CustomUIManager.elementHoverColor        = new Color(101, 202, 255);
+
         CustomUIManager.panelColor               = new Color(230, 230, 230);
 
         CustomUIManager.tabsColor                = new Color(230, 230, 230);

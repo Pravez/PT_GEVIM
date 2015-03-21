@@ -119,7 +119,7 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
      * @param vertex le modèle Vertex du VertexView
      */
     public void addVertex(Vertex vertex){
-    	VertexView vertexView = new VertexView(vertex, Color.BLUE);
+    	VertexView vertexView = new VertexView(vertex);
         this.vertices.add(vertexView);
         super.add(vertexView);
     }
@@ -131,7 +131,7 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
      * @param destination le VertexView de destination de l'EdgeView
      */
     public void addEdge(Edge edge, VertexView origin, VertexView destination ){
-    	EdgeView edgeView = new EdgeView(edge, 2, Color.BLUE, origin, destination);
+    	EdgeView edgeView = new EdgeView(edge, 2, origin, destination);
         this.edges.add(edgeView);
         super.add(edgeView);
     }

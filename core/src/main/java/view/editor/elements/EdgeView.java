@@ -5,6 +5,7 @@ import data.Graph;
 import data.GraphElement;
 import undoRedo.snap.SnapEdge;
 import undoRedo.snap.SnapProperties;
+import view.UIElements.CustomUIManager;
 import view.frames.EdgeViewEditor;
 
 import java.awt.*;
@@ -25,7 +26,6 @@ public class EdgeView extends ElementView {
     private int        thickness;
     private int        hoverThickness;
     private Color      color;
-    private Color      hoverColor;
 
     //rajouter des statics pour les paramètres par défaut
 
@@ -33,17 +33,15 @@ public class EdgeView extends ElementView {
      * Constructeur de la classe EdgeView
      * @param edge le modèle Edge qui est affiché
      * @param hoverThickness l'épaisseur du trait lorsque l'EdgeView est sélectionné
-     * @param hoverColor la couleur de l'EdgeView lorsque l'EdgeView est sélectionné
      * @param origin le VertexView d'origine
      * @param destination le VertexView de destination
      */
-    public EdgeView(Edge edge, int hoverThickness, Color hoverColor, VertexView origin, VertexView destination) {
-        super(edge.getColor(), hoverColor);
+    public EdgeView(Edge edge, int hoverThickness, VertexView origin, VertexView destination) {
+        super(edge.getColor());
     	this.edge           = edge;
     	this.thickness      = edge.getThickness();
         this.hoverThickness = hoverThickness;
         this.color          = edge.getColor();
-        this.hoverColor     = hoverColor;
         this.origin         = origin;
         this.destination    = destination;
     }
@@ -192,7 +190,7 @@ public class EdgeView extends ElementView {
      */
     @Override
     public void updateHover(boolean isHover) {
-		this.color     = (isHover) ? this.hoverColor     : this.edge.getColor();
+		this.color     = (isHover) ? CustomUIManager.getHoverColor() : this.edge.getColor();
 		this.thickness = (isHover) ? this.hoverThickness : this.edge.getThickness();
 		this.repaint();
 	}
