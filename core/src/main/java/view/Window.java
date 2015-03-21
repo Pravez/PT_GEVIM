@@ -32,22 +32,22 @@ import java.util.ArrayList;
  */
 public class Window extends JFrame {
 
-    private static final long  serialVersionUID = 1L;
-    private static int         tabIndex = 1;
-    private Controller         controller;
-    private JPanel             back;
+    private static final long      serialVersionUID = 1L;
+    private static int             tabIndex = 1;
+    private Controller             controller;
+    private JPanel                 back;
 
     /* L'ensemble des onglets */
-    private JTabbedPane        tabs;
+    private JTabbedPane            tabs;
     /* La liste des Boutons permettant de changer d'état */
     private ArrayList<StateButton> stateButtons;
     /* Le bouton Undo */
-    private JButton            undoButton;
+    private JButton                undoButton;
     /* Le bouton Redo */
-    private JButton            redoButton;
+    private JButton                redoButton;
 
     /* Le Paneau initial à l'ouverture du programme */
-    private JPanel             startPanel;
+    private JPanel                 startPanel;
 
     /**
      * Constructeur de la classe Window
@@ -64,7 +64,6 @@ public class Window extends JFrame {
         initStartPanel();
 
         tabs.setFocusable(false);
-
         this.setFocusable(true);
         this.addKeyListener(new KeyActionListener());
 
@@ -110,7 +109,7 @@ public class Window extends JFrame {
         background.setBounds(0, 0, 915, 379);
         this.startPanel.add(background, BorderLayout.NORTH);
         JPanel buttonPanel = new JPanel();
-        buttonPanel.add(ButtonFactory.createBasicImageButton("New", "New", "core/assets/new-very-big.png", "Nouveau graphe", 128, ""));
+        buttonPanel.add(ButtonFactory.createImageButton("New", "New", "core/assets/new-very-big.png", "Nouveau graphe", 128, ""));
         JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
         separator.setBackground(buttonColor);
         separator.setPreferredSize(new Dimension(15, 128));
@@ -118,7 +117,7 @@ public class Window extends JFrame {
         buttonPanel.add(Box.createHorizontalStrut(5));
         buttonPanel.add(separator);
         buttonPanel.add(Box.createHorizontalStrut(5));
-        buttonPanel.add(ButtonFactory.createBasicImageButton("Open", "Open", "core/assets/open-very-big.png", "Ouvrir un graphe", 128, ""));
+        buttonPanel.add(ButtonFactory.createImageButton("Open", "Open", "core/assets/open-very-big.png", "Ouvrir un graphe", 128, ""));
         this.startPanel.add(buttonPanel, BorderLayout.CENTER);
         showStartPanel();
     }
@@ -204,8 +203,6 @@ public class Window extends JFrame {
 
         this.undoButton.setEnabled(false);
         this.redoButton.setEnabled(false);
-
-
         toolBar.add(this.undoButton);
         toolBar.add(this.redoButton);
 
@@ -277,8 +274,8 @@ public class Window extends JFrame {
         this.tabs.addTab(title, new Tab(graph, title, this.controller));
         JPanel titlePanel = CustomUIManager.addTabComponent("   " + title);
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridy = 0;
-        gbc.gridx = 1;
+        gbc.gridy   = 0;
+        gbc.gridx   = 1;
         gbc.weightx = 0;
         titlePanel.add(Box.createHorizontalStrut(25));
         Color crossBackground = new Color(212, 0, 0);
@@ -331,6 +328,11 @@ public class Window extends JFrame {
         return (Tab)this.tabs.getComponentAt((this.tabs.getSelectedIndex()));
     }
 
+    /**
+     * Méthode permettant de retourner la liste des {@link view.editor.Tab} ouverts
+     *
+     * @return une ArrayList des {@link view.editor.Tab} ouverts
+     */
     public ArrayList<Tab> getTabsArray(){
 
         ArrayList<Tab> currentTabs = new ArrayList<>();

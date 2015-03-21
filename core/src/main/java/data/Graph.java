@@ -293,7 +293,7 @@ public class Graph extends Observable {
      */
     public GraphElement getFromValue(int value){
         for(GraphElement ge : this.elements){
-            if(ge.getValue()==value){
+            if(ge.getID()==value){
                 return ge;
             }
         }

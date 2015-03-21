@@ -64,22 +64,6 @@ public class Sheet extends JComponent implements Observer {
     private double                 scale;
 
     /**
-     * Getter du Graph
-     * @return le Graph
-     */
-    public Graph getGraph() {
-        return this.graph;
-    }
-
-    /**
-     * Setter du Graph
-     * @param graph le nouveau Graph
-     */
-    public void setGraph(Graph graph) {
-        this.graph = graph;
-    }
-
-    /**
      * Constructeur du Tab, l'onglet. Un onglet est associé à un {@link data.Graph}
      * @param tab l'onglet Tab qui a créé la Feuille de dessin
      * @param graph le Graph observé
@@ -306,8 +290,6 @@ public class Sheet extends JComponent implements Observer {
                 tmpPosition=((Vertex) (((VertexView) element).getGraphElement())).getPosition();
                 snap = new SnapPosition(tmpPosition, tmpIndex);
                 after.add(snap);
-
-
             }
     	}
 
@@ -639,29 +621,56 @@ public class Sheet extends JComponent implements Observer {
 		super.removeAll();
 
         ArrayList<GraphElement> elements = (ArrayList<GraphElement>)object;
-		// pour chaque GraphElement du Graph
-		for (GraphElement element : elements) {
-            if (element.isVertex()) {
-                addVertex((Vertex) element);
+
+        if(elements.size()<1000) {
+            // pour chaque GraphElement du Graph
+            for (GraphElement element : elements) {
+                if (element.isVertex()) {
+                    addVertex((Vertex) element);
+                }
             }
+
+            for (GraphElement element : elements) {
+                if (!element.isVertex()) {
+                    VertexView src = null, dst = null;
+                    ListIterator<VertexView> search = vertices.listIterator();
+
+                    while (search.hasNext() && (src == null || dst == null)) {
+                        VertexView tmp = search.next();
+                        if (tmp.getVertex().getValue() == ((Edge) element).getOrigin().getValue()) src = tmp;
+                        else if (tmp.getVertex().getValue() == ((Edge) element).getDestination().getValue()) dst = tmp;
+                    }
+                    if (src != null && dst != null) addEdge((Edge) element, src, dst);
+                }
+            }
+        }else{
+            UpdateThread updateThread = new UpdateThread(this, elements, this.controller);
+            this.vertices.addAll(updateThread.getVertices());
+            this.edges.addAll(updateThread.getEdges());
         }
-
-        for(GraphElement element : elements){
-            if(!element.isVertex()) {
-				VertexView src= null, dst = null;
-	            ListIterator<VertexView> search = vertices.listIterator();
-
-	            while (search.hasNext() && (src == null || dst == null)){
-	                VertexView tmp = search.next();
-	                if (tmp.getVertex().getValue() == ((Edge) element).getOrigin().getValue()) src = tmp;
-	                else if (tmp.getVertex().getValue() == ((Edge) element).getDestination().getValue()) dst = tmp;
-	            }
-	            if ( src != null && dst != null) addEdge((Edge) element, src, dst);
-			}
-		}
 
         this.repaint();
 	}
+
+    /**
+     * Getter du Graph
+     * @return le Graph
+     */
+    public Graph getGraph() {
+        return this.graph;
+    }
+
+    /**
+     * Setter du Graph
+     * @param graph le nouveau Graph
+     */
+    public void setGraph(Graph graph) {
+        this.graph = graph;
+    }
+
+    public Controller getController(){
+        return this.controller;
+    }
 
     /**
      * Fonction servant à sauvegarder un graphe au format GraphML à l'aide de la classe {@link files.gml.GmlFileManager}

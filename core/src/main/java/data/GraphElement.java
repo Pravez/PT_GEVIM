@@ -8,11 +8,11 @@ import java.awt.*;
  */
 public abstract class GraphElement {
 
-    private static int CURRENT_VALUE = 0;
-
+    private static int CURRENT_ID = 0;
 
     private String label;
 	private int    value;
+    private int    id;
 	private Color  color;
 
 	/**
@@ -20,22 +20,23 @@ public abstract class GraphElement {
 	 * @param label l'étiquette de l'élément
 	 */
 	public GraphElement(String label, Color color) {
-		this(CURRENT_VALUE);
+		this(CURRENT_ID);
         if(label == "edge" || label == "node"){
-            this.label = label+CURRENT_VALUE;
+            this.label = label+ CURRENT_ID;
         }else {
             this.label = label;
         }
 		this.color = color;
-        CURRENT_VALUE++;
+        CURRENT_ID++;
 	}
 	
 	/**
 	 * Constructeur de la classe GraphElement
-	 * @param value la valeur de l'élément
+	 * @param id l'id de l'élément
 	 */
-	public GraphElement(int value) {
-		this.value    = value;
+	public GraphElement(int id) {
+		this.id    = id;
+        this.value = 1;
 	}
 
 	public GraphElement(GraphElement graphElement) {
@@ -61,20 +62,36 @@ public abstract class GraphElement {
 	}
 	
 	/**
-	 * Getter de la valeur de l'élément
-	 * @return la valeur
+	 * Getter de l'id de l'élément
+	 * @return l'id
 	 */
-	public int getValue() {
-		return this.value;
+	public int getID() {
+		return this.id;
 	}
 	
 	/**
-	 * Setter de la valeur de l'élément
-	 * @param value la nouvelle valeur
+	 * Setter de l'id de l'élément
+	 * @param id le nouvel id
 	 */
-	public void setValue(int value) {
-		this.value = value;
+	public void setID(int id) {
+		this.id = id;
 	}
+
+    /**
+     * Getter de la valeur de l'élément
+     * @return la valeur
+     */
+    public int getValue() {
+        return this.value;
+    }
+
+    /**
+     * Setter de la valeur de l'élément
+     * @param value la nouvelle valeur
+     */
+    public void setValue(int value) {
+        this.value = value;
+    }
 
 	/**
 	 * Méthode pour savoir si le GraphElement est un Vertex ou non

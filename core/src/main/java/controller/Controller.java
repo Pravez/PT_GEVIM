@@ -10,7 +10,6 @@ import data.Edge;
 import data.Graph;
 import data.GraphElement;
 import data.Vertex;
-import undoRedo.SnapVertex;
 import view.UIElements.CustomUIManager;
 import view.Window;
 import view.editor.Tab;
@@ -400,19 +399,22 @@ public class Controller {
 
     /**
      * Méthode permettant l'appel d'un {@link algorithm.IAlgorithm} à partir de son string le caractérisant
-     * @param algorithmProperties contenant le nom de l'algorithm et les options affectées
+     * @param type Le string caractérisant l'algorithme
      */
-    public void applyAlgorithm(Object[] algorithmProperties, Point initialPosition, Dimension application){
-        switch((String)algorithmProperties[0]) {
-            case "Positionnement Aléatoire":
+    public void applyAlgorithm(String type, Point initialPosition, Dimension application){
+        switch(type) {
+            case "Random Positioning":
                 new RandomPositioning(initialPosition, application).run(window.getCurrentTab().getGraph());
-                //remplacer window.getCurrentSheetViewPort().getExtentSize()) par window.getCurrentSheetViewPort().getViewSize() pour l'application de l'algoritme
+                //remplacer window.getCurrentSheetViewPort().getExtentSize()) par window.getCurrentSheetViewPort().getViewSize() pour l'application de l'algorithme
                 break;
-            case "Positionnement Circulaire":
+            case "Circular Positioning":
                 new CircularPositioning(initialPosition, application).run(window.getCurrentTab().getGraph());
                 break;
-            case "Coloration des Sommets":
-                new VertexColoring().run(window.getCurrentTab().getGraph(), (Property)algorithmProperties[3], (Color)algorithmProperties[1],(Color)algorithmProperties[2]);
+            case "color":
+                new VertexColoring().run(window.getCurrentTab().getGraph(), Property.SIZE);
+                break;
+            case "number":
+                new VertexColoring().run(window.getCurrentTab().getGraph(), Property.NBEDGES);
                 break;
         }
     }
@@ -487,7 +489,6 @@ public class Controller {
             }else{
                 file = this.chooseFile(extensions, descriptions);
             }
-
             if(file != null) {
                 if (file.getName().contains(".graphml")) {
                     this.window.getCurrentSheet().saveToGML(file);
@@ -533,46 +534,22 @@ public class Controller {
             JOptionPane.showMessageDialog(null, "Vous devez d'abord ouvrir un graphe.", "Erreur", JOptionPane.ERROR_MESSAGE);
 
         }else{
-            String result = (String) JOptionPane.showInputDialog(this.window, "Entrez combien de noeuds vous souhaitez générer : \n (les anciens éléments seront replacés)", "le titre", JOptionPane.QUESTION_MESSAGE, null, null, "50");
+            String result = (String) JOptionPane.showInputDialog(this.window, "Entrez le nombre de noeuds que vous souhaitez générer : ", "Génération d'éléments", JOptionPane.QUESTION_MESSAGE, null, null, "50");
 
             try {
                 if (result != null) {
                     int value = Integer.parseInt(result);
-                    ArrayList<GraphElement> generatedElements = new ArrayList<>();
 
-                    //Sauvegarde des propriétés de l'ensemble des graphElements
-                    ArrayList<Vertex> elements = this.window.getCurrentTab().getGraph().getVertexes();
-                    ArrayList<SnapVertex> before = new ArrayList<>();
-                    ArrayList<SnapVertex> after = new ArrayList<>();
 
-                    //S'il y a au moins un éléments avant de générer
-                    if (!elements.isEmpty()) {
+                    //On commence la génération
+                    GenerationThread generationThread = new GenerationThread(this.window, Integer.parseInt(result));
 
-                        //On ajoute les éléments qu'il y avait avant
-                        for (Vertex v : elements) {
-                            before.add(new SnapVertex(v, elements.indexOf(v)));
-                        }
-                    }
+                    this.getGraph(this.window.getCurrentTabIndex()).addGraphElements(generationThread.getElements());
+                    this.window.getCurrentTab().getUndoRedo().registerAddEdit(generationThread.getElements());
+                }
 
-                        GenerationThread generationThread = new GenerationThread(this.window, Integer.parseInt(result));
-
-                        this.getGraph(this.window.getCurrentTabIndex()).addGraphElements(generationThread.getElements());
-                        applyAlgorithm( new Object[]{"Positionnement Aléatoire"}, new Point(0, 0), window.getCurrentSheetViewPort().getViewSize());
-
-                        elements = this.window.getCurrentTab().getGraph().getVertexes();
-
-                        //On ajoute les éléments qui ont été générés
-                        for(Vertex v : elements){
-                            after.add(new SnapVertex(v, elements.indexOf(v)));
-                        }
-
-                        //On enregistre l'action
-                        this.window.getCurrentTab().getUndoRedo().registerAlgoEdit(before, after);
-
-                        //SEULS LES ELEMENTS QUI ETAIENT DEJA LA ONT ETE REPLACES, LES AUTRES (GENERES)
-                        //RESTENT PRESENTS SANS ETRE SUPPRIMES -> A corriger
-                    }
                 //Si l'utilisateur ne rentre pas un entier
+
             } catch (NumberFormatException nfe) {
                 JOptionPane.showMessageDialog(null, "Merci de rentrer une valeur entiere.", "Erreur", JOptionPane.ERROR_MESSAGE);
                 generateGraphElements();

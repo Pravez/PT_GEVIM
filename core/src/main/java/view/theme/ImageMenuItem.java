@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
- * Created by Admin on 20/03/2015.
+ * Created by aledufrenne on 20/03/2015.
  */
 public class ImageMenuItem extends ImageButton {
     public ImageMenuItem(BufferedImage image, int size) {

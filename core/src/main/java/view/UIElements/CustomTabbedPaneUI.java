@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.geom.Path2D;
 
 /**
- * Created by Admin on 17/03/2015.
+ * Created by aledufrenne on 17/03/2015.
  */
 public class CustomTabbedPaneUI extends BasicTabbedPaneUI {
 

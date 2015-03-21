@@ -201,12 +201,12 @@ public class PropertyPanel extends JTabbedPane implements Observer {
             if (element.isVertex()) {
                 newData.add(element.getLabel());
                 newData.add(String.valueOf(((Vertex) element).getSize()));
-                newData.add(String.valueOf(element.getValue()));
+                newData.add(String.valueOf(element.getID()));
                 vertexDatas.add(newData);
             } else {
                 newData.add(element.getLabel());
                 newData.add(String.valueOf(((Edge) element).getThickness()));
-                newData.add(String.valueOf(element.getValue()));
+                newData.add(String.valueOf(element.getID()));
                 edgeDatas.add(newData);
             }
         }

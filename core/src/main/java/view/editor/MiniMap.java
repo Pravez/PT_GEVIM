@@ -22,7 +22,7 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
 	private Sheet                  sheet;
 	
 	private ArrayList<EdgeView>    edges;
-    private ArrayList<VertexView>  vertexes;
+    private ArrayList<VertexView> vertices;
     
     /** Zone **/
     private Rectangle              selectionZone;
@@ -36,7 +36,7 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
         this.pane                 = pane;
         this.sheet                = sheet;
         this.edges                = new ArrayList<EdgeView>();
-        this.vertexes             = new ArrayList<VertexView>();
+        this.vertices = new ArrayList<VertexView>();
 
         updateSelectionZone();
         this.addMouseListener(new MouseAdapter() {
@@ -68,7 +68,7 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
         for(EdgeView e : this.edges){
             e.paintComponent(g, 1.0*this.getWidth()/this.sheet.getMaximumSize().width, 1.0*this.getHeight()/this.sheet.getMaximumSize().height);
         }
-        for (VertexView v : this.vertexes) {
+        for (VertexView v : this.vertices) {
             v.paintComponent(g, 1.0*this.getWidth()/this.sheet.getMaximumSize().width, 1.0*this.getHeight()/this.sheet.getMaximumSize().height);
         }
     }
@@ -76,25 +76,40 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void update(Observable observable, Object object) {
-		this.vertexes.clear();
+		this.vertices.clear();
         this.edges.clear();
 		super.removeAll();
 		// pour chaque GraphElement du Graph
-		for (GraphElement element : (ArrayList<GraphElement>)object) {
-			if (element.isVertex()) {
-				addVertex((Vertex)element);
-			} else {
-				VertexView src= null, dst = null;
-	            ListIterator<VertexView> search = vertexes.listIterator();
+        ArrayList<GraphElement> elements = (ArrayList<GraphElement>)object;
 
-	            while (search.hasNext() && (src == null || dst == null)){
-	                VertexView tmp = search.next();
-	                if (tmp.getVertex() == ((Edge) element).getOrigin()) src = tmp;
-	                else if (tmp.getVertex() == ((Edge) element).getDestination()) dst = tmp;
-	            }
-	            if ( src != null && dst != null) addEdge((Edge) element, src, dst);
-			}
-		}
+        if(elements.size()<1000) {
+            // pour chaque GraphElement du Graph
+            for (GraphElement element : elements) {
+                if (element.isVertex()) {
+                    addVertex((Vertex) element);
+                }
+            }
+
+            for (GraphElement element : elements) {
+                if (!element.isVertex()) {
+                    VertexView src = null, dst = null;
+                    ListIterator<VertexView> search = vertices.listIterator();
+
+                    while (search.hasNext() && (src == null || dst == null)) {
+                        VertexView tmp = search.next();
+                        if (tmp.getVertex().getValue() == ((Edge) element).getOrigin().getValue()) src = tmp;
+                        else if (tmp.getVertex().getValue() == ((Edge) element).getDestination().getValue()) dst = tmp;
+                    }
+                    if (src != null && dst != null) addEdge((Edge) element, src, dst);
+                }
+            }
+        }else{
+            UpdateThread updateThread = new UpdateThread(this, elements, this.sheet.getController());
+
+            this.vertices.addAll(updateThread.getVertices());
+            this.edges.addAll(updateThread.getEdges());
+        }
+
 		this.repaint();
 	}
 	
@@ -104,7 +119,7 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
      */
     public void addVertex(Vertex vertex){
     	VertexView vertexView = new VertexView(vertex, Color.BLUE);
-        this.vertexes.add(vertexView);
+        this.vertices.add(vertexView);
         super.add(vertexView);
     }
     
