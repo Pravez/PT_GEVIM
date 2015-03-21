@@ -1,9 +1,10 @@
-package view.editor;
+package view.editor.display;
 
 import data.Edge;
 import data.GraphElement;
 import data.Observable;
 import data.Vertex;
+import threading.UpdateThread;
 import view.UIElements.CustomUIManager;
 import view.editor.elements.EdgeView;
 import view.editor.elements.VertexView;
@@ -18,7 +19,7 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
 
 	private static final long serialVersionUID = 1L;
 	
-	private ScrollPane             pane;
+	private view.editor.ScrollPane pane;
 	private Sheet                  sheet;
 	
 	private ArrayList<EdgeView>    edges;
@@ -32,7 +33,7 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
 	 * @param pane le ScrollPane de la window
 	 * @param sheet la Sheet, feuillde de dessin du Tab actuel
 	 */
-    public MiniMap(ScrollPane pane, Sheet sheet) {
+    public MiniMap(view.editor.ScrollPane pane, Sheet sheet) {
         this.pane                 = pane;
         this.sheet                = sheet;
         this.edges                = new ArrayList<EdgeView>();

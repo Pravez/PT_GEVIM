@@ -51,6 +51,7 @@ public class Graph extends Observable {
      * @return la liste des GraphElement copiés
      */
     public static ArrayList<GraphElement> copyGraphElements(ArrayList<GraphElement> elements) {
+
     	ArrayList<GraphElement> new_elements = new ArrayList<> (elements.size());
     	for (int i = 0 ; i < elements.size() ; i++) {
     		new_elements.add(null);
@@ -70,6 +71,26 @@ public class Graph extends Observable {
     		}
     	}
     	return new_elements;
+    }
+
+    public static Point findBestCopyPoint(ArrayList<GraphElement> elements){
+
+        Point bestPoint = new Point(2000,2000);
+
+        for(GraphElement ge : elements){
+            if(ge.isVertex()){
+                Point currentPosition = ((Vertex)ge).getPosition();
+                if(currentPosition.x < bestPoint.x){
+                    bestPoint.x = currentPosition.x;
+                }
+                if(currentPosition.y < bestPoint.y){
+                    bestPoint.y = currentPosition.y;
+                }
+            }
+        }
+
+        return bestPoint;
+
     }
     
     /**
@@ -300,6 +321,12 @@ public class Graph extends Observable {
         return null;
     }
 
+    /**
+     * Méthode renvoyant un booléen pour tester la présence d'une {@link data.Edge} entre deux {@link data.Vertex}.
+     * @param one Le premier vertex
+     * @param two Le deuxième vertex
+     * @return La présence de l'Edge
+     */
     public boolean existsBetweenVertices(Vertex one, Vertex two){
         for(Edge Oe : one.getEdges()){
             for(Edge Te : two.getEdges()){

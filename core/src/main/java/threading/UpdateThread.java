@@ -1,4 +1,4 @@
-package view.editor;
+package threading;
 
 import controller.Controller;
 import data.Edge;
@@ -109,7 +109,7 @@ public class UpdateThread extends JDialog implements Runnable
     }
 
     /**
-     * Méthode relative à la méthode de {@link view.editor.Sheet}, le but est le même mais transposée.
+     * Méthode relative à la méthode de {@link view.editor.display.Sheet}, le but est le même mais transposée.
      * @param vertex Le vertex depuis lequel créer le nouveau vertexView
      * @return le vertex crée
      */
@@ -137,7 +137,7 @@ public class UpdateThread extends JDialog implements Runnable
     }
 
     /**
-     * Méthode de création des EdgeView récupérée de {@link view.editor.Sheet}. Utilisée ici pour soulager le thread principal
+     * Méthode de création des EdgeView récupérée de {@link view.editor.display.Sheet}. Utilisée ici pour soulager le thread principal
      * @param edge L'edge à utiliser pour créer l'EdgeView
      * @param origin l'origine de l'edge
      * @param destination la destination de l'edge

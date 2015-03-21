@@ -11,10 +11,10 @@ import files.gml.GmlFileManager;
 import undoRedo.SnapVertex;
 import view.UIElements.CustomTabbedPaneUI;
 import view.UIElements.CustomUIManager;
-import view.editor.Sheet;
+import view.editor.display.Sheet;
 import view.editor.Tab;
 import view.frames.ButtonFactory;
-import view.theme.StateButton;
+import view.UIElements.items.StateButton;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -343,9 +343,9 @@ public class Window extends JFrame {
     }
 
     /**
-     * Renvoi de la {@link view.editor.Sheet} du {@link view.editor.Tab} couramment sélectionné
+     * Renvoi de la {@link view.editor.display.Sheet} du {@link view.editor.Tab} couramment sélectionné
      *
-     * @return la {@link view.editor.Sheet} du {@link view.editor.Tab} couramment sélectionné
+     * @return la {@link view.editor.display.Sheet} du {@link view.editor.Tab} couramment sélectionné
      */
     public Sheet getCurrentSheet() {
         return getCurrentTab().getSheet();

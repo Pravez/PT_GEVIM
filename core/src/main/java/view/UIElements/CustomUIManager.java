@@ -1,8 +1,7 @@
 package view.UIElements;
 
-import view.editor.*;
 import view.editor.ScrollPane;
-import view.theme.ImageButton;
+import view.UIElements.items.ImageButton;
 
 
 import javax.swing.*;

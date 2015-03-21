@@ -1,4 +1,4 @@
-package controller;
+package threading;
 
 import data.GraphElement;
 import data.Vertex;
@@ -81,7 +81,7 @@ public class GenerationThread extends JDialog implements Runnable
         Random r = new Random();
         for (int i = 0; i < numberOfElements; i++)
         {
-            elements.add(new Vertex("vertex", Color.BLACK, new Point(r.nextInt(viewRectangle.width)+viewRectangle.x, r.nextInt(viewRectangle.height)+viewRectangle.y), 15, Vertex.Shape.SQUARE));
+            elements.add(new Vertex("vertex", Color.BLACK, new Point(r.nextInt(viewRectangle.width) + viewRectangle.x, r.nextInt(viewRectangle.height) + viewRectangle.y), 15, Vertex.Shape.SQUARE));
             //Mise à jour de la barre de progression
             this.majProgress();
         }

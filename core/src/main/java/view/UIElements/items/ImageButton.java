@@ -1,4 +1,4 @@
-package view.theme;
+package view.UIElements.items;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;

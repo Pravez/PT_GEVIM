@@ -2,7 +2,7 @@ package data;
 
 import java.util.ArrayList;
 
-import view.editor.Observer;
+import view.editor.display.Observer;
 
 /**
  * @author Alexis Dufrenne

@@ -18,12 +18,15 @@ public class VerticesEditor extends JDialog {
     private JCheckBox sizeModified;
     private JCheckBox shapeModified;
     private JPanel verticesColor;
+    private JTextField verticesIndex;
+    private JCheckBox indexModified;
     private boolean alreadyValidated;
 
     private String newLabel;
     private int newSize;
     private Color newColor;
     private Vertex.Shape newShape;
+    private int newIndex;
 
     private boolean notModified;
 
@@ -72,6 +75,7 @@ public class VerticesEditor extends JDialog {
         labelModified.setSelected(true);
         shapeModified.setSelected(true);
         sizeModified.setSelected(true);
+        indexModified.setSelected(true);
 
         notModified = false;
 
@@ -80,11 +84,13 @@ public class VerticesEditor extends JDialog {
         newColor = Color.BLACK;
         newShape = Vertex.Shape.SQUARE;
         newSize = 15;
+        newIndex = 1;
 
         verticesLabel.setText(newLabel);
         verticesSize.setText(String.valueOf(newSize));
         verticesShape.setSelectedIndex(0);
         verticesColor.setBackground(newColor);
+        verticesIndex.setText(String.valueOf(newIndex));
 
         alreadyValidated = false;
 
@@ -104,15 +110,12 @@ public class VerticesEditor extends JDialog {
 
         if(!verifyModifications()) {
             if (!alreadyValidated && Integer.parseInt(this.verticesSize.getText()) < 5) {
-                JOptionPane.showMessageDialog(this, "Attention vous editez des noeuds, il se pourrait qu'ils soient trop petits.", "Information", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Attention, votre noeud peut s'avérer être trop petit.", "Information", JOptionPane.INFORMATION_MESSAGE);
                 alreadyValidated = true;
             } else {
-                if(!hasBeenModified()){
-                    onCancel();
-                }else {
-                    dispose();
-                }
+                dispose();
             }
+
         }
     }
 
@@ -136,15 +139,29 @@ public class VerticesEditor extends JDialog {
             newColor = this.verticesColor.getBackground();
         }
 
-        if(sizeModified.isSelected() && Integer.parseInt(this.verticesSize.getText())<=0){
-            JOptionPane.showMessageDialog(this, "La taille doit être supérieure à 0.", "Erreur", JOptionPane.ERROR_MESSAGE);
-            this.verticesSize.setText("15");
+        try{
+            if(sizeModified.isSelected() && Integer.parseInt(this.verticesSize.getText())<=0){
+                JOptionPane.showMessageDialog(this, "La taille doit être supérieure à 0.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                this.verticesSize.setText("15");
+                mustBeVerified = true;
+            }
+
+            if(!mustBeVerified && sizeModified.isSelected()){
+                newSize = Integer.parseInt(this.verticesSize.getText());
+            }
+
+            if(indexModified.isSelected()){
+                newIndex = Integer.parseInt(this.verticesIndex.getText());
+            }
+
+        } catch (NumberFormatException nfe) {
+            JOptionPane.showMessageDialog(null, "Merci de rentrer une valeur entiere.", "Erreur", JOptionPane.ERROR_MESSAGE);
             mustBeVerified = true;
         }
 
-        if(!mustBeVerified && sizeModified.isSelected()){
-            newSize = Integer.parseInt(this.verticesSize.getText());
-        }
+
+
+
 
         if(shapeModified.isSelected()){
             switch((String)this.verticesShape.getSelectedItem()){
@@ -168,26 +185,6 @@ public class VerticesEditor extends JDialog {
         return mustBeVerified;
     }
 
-    public boolean hasBeenModified(){
-
-        boolean modified = false;
-
-        if(!newLabel.equals("vertex")){
-            modified = true;
-        }
-        if(newSize != 15){
-            modified = true;
-        }
-        if(newShape != Vertex.Shape.SQUARE){
-            modified = true;
-        }
-        if(newColor != Color.BLACK){
-            modified = true;
-        }
-
-        return modified;
-    }
-
     public String getNewLabel() {
         return newLabel;
     }
@@ -202,6 +199,10 @@ public class VerticesEditor extends JDialog {
 
     public Vertex.Shape getNewShape() {
         return newShape;
+    }
+
+    public int getNewIndex() {
+        return newIndex;
     }
 
     public boolean isColorModified(){
@@ -220,7 +221,13 @@ public class VerticesEditor extends JDialog {
         return shapeModified.isSelected();
     }
 
+    public boolean isIndexModified() {
+        return indexModified.isSelected();
+    }
+
     public boolean isNotModified() {
         return notModified;
     }
+
+
 }
