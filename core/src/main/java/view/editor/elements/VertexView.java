@@ -179,6 +179,8 @@ public class VertexView extends ElementView {
                 snap.setShape(edit.getNewShape());
             if (edit.isColorModified())
                 snap.setColor(edit.getNewColor());
+			if(edit.isIndexModified())
+				snap.setValue(edit.getNewIndex());
         }
 
 

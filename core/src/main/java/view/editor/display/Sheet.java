@@ -780,6 +780,10 @@ public class Sheet extends JComponent implements Observer {
                     if (sizeModified) {
                         verticesAfter.setSize(modifiedSize);
                     }
+                    if(indexModified)
+                    {
+                        verticesAfter.setValue(modifiedIndex);
+                    }
 
                     tab.getUndoRedo().registerSingleTypeEdit(verticesBefore, verticesAfter);
 
@@ -852,56 +856,6 @@ public class Sheet extends JComponent implements Observer {
             }
 
         }
-
-        /*
-
-        ArrayList<SnapProperties> propertiesBefore = new ArrayList<>();
-
-
-
-
-        for(int i=0;i<modifiedElements.size();i++){
-
-
-            SnapProperties tmpSnap = new SnapProperties();
-
-            tmpSnap.setIndex(this.graph.getGraphElements().indexOf(this.selectedElements.get(i).getGraphElement()));
-            if( this.selectedElements.get(i).getGraphElement().isVertex())
-            {
-                tmpSnap.setSize(((Vertex)  this.selectedElements.get(i).getGraphElement()).getSize());
-            }
-            else
-            {
-                tmpSnap.setSize(((Edge)  this.selectedElements.get(i).getGraphElement()).getThickness());
-            }
-
-            tmpSnap.setLabel(this.selectedElements.get(i).getGraphElement().getNewLabel());
-            tmpSnap.setColor(this.selectedElements.get(i).getGraphElement().getNewColor());
-
-            propertiesBefore.add(tmpSnap);
-
-
-
-            this.selectedElements.get(i).getGraphElement().setColor(modifiedElements.get(i).getGraphElement().getNewColor());
-            this.selectedElements.get(i).getGraphElement().setLabel(modifiedElements.get(i).getGraphElement().getNewLabel());
-
-            modifiedGraphElement.add(this.selectedElements.get(i).getGraphElement());
-
-            if(this.selectedElements.get(i).getGraphElement().isVertex()){
-                ((Vertex)this.selectedElements.get(i).getGraphElement()).setSize(((Vertex)modifiedElements.get(i).getGraphElement()).getSize());
-            }else{
-                ((Edge)this.selectedElements.get(i).getGraphElement()).setThickness(((Edge)modifiedElements.get(i).getGraphElement()).getThickness());
-            }
-        }
-        SnapProperties snap = new SnapProperties();
-        if(elementsViewEditor.isColorModified())
-            snap.setColor(elementsViewEditor.getNewColor());
-        if (elementsViewEditor.getNameswWereModified())
-            snap.setLabel(elementsViewEditor.getNewName());
-        if(elementsViewEditor.isSizeModified())
-            snap.setSize(elementsViewEditor.getNewSize());
-
-        tab.getUndoRedo().registerPropertiesEdit(propertiesBefore, snap);*/
 
     }
 
