@@ -15,7 +15,7 @@ import view.editor.elements.EdgeView;
 import view.editor.elements.ElementView;
 import view.editor.elements.VertexView;
 import view.frames.ElementsEditor;
-import view.frames.SheetPropertiesViewEditor;
+import view.frames.SheetPropertiesEditor;
 import view.frames.VerticesEditor;
 
 import javax.swing.*;
@@ -270,13 +270,16 @@ public class Sheet extends JComponent implements Observer {
      * Méthode pour modifier tous les éléments existants
      */
     public void modifyProperties() {
-        SheetPropertiesViewEditor tpve = new SheetPropertiesViewEditor(this);
-        this.setDefaultVerticesSize(tpve.getTab().getDefaultVerticesSize());
-        this.setDefaultVerticesColor(tpve.getTab().getDefaultVerticesColor());
-        this.setDefaultEdgesThickness(tpve.getTab().getDefaultEdgesThickness());
-        this.setDefaultEdgesColor(tpve.getTab().getDefaultEdgesColor());
-        this.setDefaultVerticesShape(tpve.getTab().getDefaultVerticesShape());
-        //this.tab.*******************defaultBackgroundColor ++A faire éventuellement (changer le background complet du tab)
+
+        SheetPropertiesEditor tpve = new SheetPropertiesEditor(this);
+
+        if(!tpve.isCancelled()) {
+            this.setDefaultVerticesSize(tpve.getVertexSize());
+            this.setDefaultVerticesColor(tpve.getVertexColor());
+            this.setDefaultEdgesThickness(tpve.getEdgeThickness());
+            this.setDefaultEdgesColor(tpve.getEdgeColor());
+            this.setDefaultVerticesShape(tpve.getVertexShape());
+        }
     }
 
     /**

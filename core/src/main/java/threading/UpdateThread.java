@@ -41,8 +41,9 @@ public class UpdateThread extends JDialog implements Runnable
         progress.setIndeterminate(true);
 
         this.setTitle("Actualisation ...");
+        this.setPreferredSize(new Dimension(300, 60));
         this.getContentPane().add(progress);
-        this.setLocationRelativeTo(this.controller.getWindow());
+        this.setLocationRelativeTo(this.controller.getWindow().getTabs());
         this.pack();
 
         launchUpdate();

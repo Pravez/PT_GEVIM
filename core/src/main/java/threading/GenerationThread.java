@@ -2,7 +2,6 @@ package threading;
 
 import data.GraphElement;
 import data.Vertex;
-import view.*;
 import view.Window;
 
 import javax.swing.*;
@@ -32,6 +31,7 @@ public class GenerationThread extends JDialog implements Runnable
         this.progress.setStringPainted (true);
 
         this.setTitle("Generation en cours ...");
+        this.setPreferredSize(new Dimension(300, 60));
         this.getContentPane().add(this.progress);
         this.setLocationRelativeTo(parent);
         this.pack();
