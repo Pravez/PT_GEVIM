@@ -399,24 +399,21 @@ public class Controller {
 
     /**
      * Méthode permettant l'appel d'un {@link algorithm.IAlgorithm} à partir de son string le caractérisant
-     * @param type Le string caractérisant l'algorithme
+     * @param algorithmProperties Object[] contenant le nom de l'algorithme a appliquer, les couleurs min et max, la propriété sur laquelle l'appliquer.
      */
-    public void applyAlgorithm(String type, Point initialPosition, Dimension application){
-        switch(type) {
-            case "Random Positioning":
+    public void applyAlgorithm(Object[] algorithmProperties, Point initialPosition, Dimension application){
+        switch((String) algorithmProperties[0]) {
+            case "Positionnement Aléatoire":
                 new RandomPositioning(initialPosition, application).run(window.getCurrentTab().getGraph());
                 //remplacer window.getCurrentSheetViewPort().getExtentSize()) par window.getCurrentSheetViewPort().getViewSize() pour l'application de l'algorithme
                 break;
-            case "Circular Positioning":
+            case "Positionnement Circulaire":
                 new CircularPositioning(initialPosition, application).run(window.getCurrentTab().getGraph());
                 break;
-            case "color":
-                new VertexColoring().run(window.getCurrentTab().getGraph(), Property.SIZE);
+            case "Coloration des Sommets":
+                new VertexColoring().run(window.getCurrentTab().getGraph(), (Property)algorithmProperties[3], (Color)algorithmProperties[1], (Color)algorithmProperties[2]);
                 break;
-            case "number":
-                new VertexColoring().run(window.getCurrentTab().getGraph(), Property.NBEDGES);
-                break;
-        }
+         }
     }
 
     /**
