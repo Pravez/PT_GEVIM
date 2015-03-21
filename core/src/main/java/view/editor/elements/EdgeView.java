@@ -14,7 +14,6 @@ import java.awt.geom.Point2D;
 import static java.lang.Math.sqrt;
 
 /**
- * Created by cordavidenko on 26/01/15.
  * Classe EdgeView, Edge affiché dans le Tab
  */
 public class EdgeView extends ElementView {

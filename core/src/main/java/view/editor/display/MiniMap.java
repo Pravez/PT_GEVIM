@@ -111,6 +111,7 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
             this.edges.addAll(updateThread.getEdges());
         }
 
+        updateSelectionZone();
 		this.repaint();
 	}
 	

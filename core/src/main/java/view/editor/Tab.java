@@ -110,6 +110,7 @@ public class Tab extends JSplitPane {
         sheet.add(new JLabel(title));
         sheet.setPreferredSize(new Dimension(2000, 2000));
         sheet.setMaximumSize(new Dimension(2000, 2000));
+        sheet.setMinimumSize(java.awt.Toolkit.getDefaultToolkit().getScreenSize());
 
         scrollPane = CustomUIManager.addScrollPane(new ScrollPane(this, sheet));
         scrollPane.setMinimumSize(new Dimension(500,500));

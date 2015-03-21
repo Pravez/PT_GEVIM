@@ -25,7 +25,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
@@ -285,7 +284,11 @@ public class Sheet extends JComponent implements Observer {
             this.setDefaultEdgesThickness(tpve.getEdgeThickness());
             this.setDefaultEdgesColor(tpve.getEdgeColor());
             this.setDefaultVerticesShape(tpve.getVertexShape());
+            this.setPreferredSize(tpve.getNewSize());
+            this.setMaximumSize(tpve.getNewSize());
             CustomUIManager.setHoverColor(tpve.getHoverColor());
+
+            this.graph.setChanged();
         }
     }
 

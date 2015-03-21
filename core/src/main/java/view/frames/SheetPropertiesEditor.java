@@ -19,6 +19,7 @@ public class SheetPropertiesEditor extends JDialog {
     private JPanel       verticesDefaultColor;
     private JPanel       edgesDefaultColor;
     private JPanel       elementDefaultHoverColor;
+    private JSlider      sheetSize;
 
     private int          edgeThickness;
     private int          vertexSize;
@@ -26,6 +27,7 @@ public class SheetPropertiesEditor extends JDialog {
     private Color        vertexColor;
     private Color        elementHoverColor;
     private Vertex.Shape vertexShape;
+    private Dimension newSize;
 
     private boolean      cancelled;
 
@@ -37,7 +39,7 @@ public class SheetPropertiesEditor extends JDialog {
 
         initComponents();
 
-        this.setTitle("Proprietes par defaut");
+        this.setTitle("Proprietes de la feuille de dessin");
         setContentPane(contentPane);
         setModal(true);
         setLocationRelativeTo(sheet.getParent());
@@ -83,10 +85,18 @@ public class SheetPropertiesEditor extends JDialog {
         this.edgeColor         = this.sheet.getDefaultEdgesColor();
         this.edgeThickness     = this.sheet.getDefaultEdgesThickness();
         this.elementHoverColor = CustomUIManager.getHoverColor();
+        this.newSize           = this.sheet.getPreferredSize();
 
         this.verticesDefaultColor.setBackground(this.vertexColor);
         this.edgesDefaultColor.setBackground(this.edgeColor);
         this.elementDefaultHoverColor.setBackground(this.elementHoverColor);
+        this.sheetSize.setMinimum(this.sheet.getMinimumSize().width);
+        this.sheetSize.setPaintTicks(true);
+        this.sheetSize.setPaintLabels(true);
+        this.sheetSize.setMajorTickSpacing(500);
+        this.sheetSize.setMinorTickSpacing(100);
+        this.sheetSize.setSnapToTicks(true);
+        this.sheetSize.setMaximum(5000);
 
         this.verticesDefaultSize.setText(String.valueOf(this.vertexSize));
         this.edgesDefaultThickness.setText(String.valueOf(this.edgeThickness));
@@ -129,6 +139,9 @@ public class SheetPropertiesEditor extends JDialog {
                 onColor(elementDefaultHoverColor);
             }
         });
+
+        this.sheetSize.setValue(newSize.width);
+
     }
 
     private void onOK() {
@@ -157,6 +170,7 @@ public class SheetPropertiesEditor extends JDialog {
         this.edgeColor         = edgesDefaultColor.getBackground();
         this.vertexColor       = verticesDefaultColor.getBackground();
         this.elementHoverColor = elementDefaultHoverColor.getBackground();
+        this.newSize           = new Dimension(this.sheetSize.getValue(), this.sheetSize.getValue());
 
         switch((String)this.verticesDefaultShape.getSelectedItem()){
             case "Carré":
@@ -220,6 +234,10 @@ public class SheetPropertiesEditor extends JDialog {
 
     public Vertex.Shape getVertexShape() {
         return vertexShape;
+    }
+
+    public Dimension getNewSize() {
+        return newSize;
     }
 
     public boolean isCancelled() {

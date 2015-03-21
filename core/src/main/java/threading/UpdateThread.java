@@ -18,7 +18,7 @@ import java.util.ListIterator;
 
 
 /**
- * Classe faisant l'update à la place du Thread principak, pour le libérer d'une quantité importante de calculs.
+ * Classe faisant l'update à la place du Thread principal, pour le libérer d'une quantité importante de calculs.
  */
 public class UpdateThread extends JDialog implements Runnable
 {
