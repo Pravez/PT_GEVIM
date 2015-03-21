@@ -125,15 +125,15 @@ public class EdgeViewEditor extends JDialog {
 
         for(Vertex v : this.graph.getVertexes()){
 
-            currentDestination = v.getLabel() + "  | "+v.getValue();
-            currentOrigin = v.getLabel() + "  | "+v.getValue();
+            currentDestination = v.getLabel() + "  | "+v.getID();
+            currentOrigin = v.getLabel() + "  | "+v.getID();
 
             this.originVertex.addItem(currentOrigin);
             this.destinationVertex.addItem(currentDestination);
 
-            if (this.origin.getValue() == v.getValue()) {
+            if (this.origin.getID() == v.getID()) {
                 this.originVertex.setSelectedItem(currentOrigin);
-            } else if (this.destination.getValue() == v.getValue()) {
+            } else if (this.destination.getID() == v.getID()) {
                 this.destinationVertex.setSelectedItem(currentDestination);
             }
         }
@@ -246,11 +246,11 @@ public class EdgeViewEditor extends JDialog {
             colorModified = true;
             modified = true;
         }
-        if (origin.getValue() != initialEdge.getOrigin().getValue()) {
+        if (origin.getID() != initialEdge.getOrigin().getID()) {
             originModified = true;
             modified = true;
         }
-        if (destination.getValue() != initialEdge.getDestination().getValue()) {
+        if (destination.getID() != initialEdge.getDestination().getID()) {
             destinationModified = true;
             modified = true;
         }

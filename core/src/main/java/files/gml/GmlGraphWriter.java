@@ -96,7 +96,7 @@ public class GmlGraphWriter {
             data.Vertex origin = e.getOrigin();
 
             if(e.getLabel()==null){
-                e.setLabel("edge"+e.getValue());
+                e.setLabel("edge"+e.getID());
             }
 
             Edge GMLEdge = gmlGraph.addEdge(null, vertexMapping.get(origin), vertexMapping.get(destination), e.getLabel());
