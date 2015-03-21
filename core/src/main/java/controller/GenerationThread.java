@@ -12,7 +12,7 @@ import java.util.Random;
 
 
 /**
- * Created by paubreton on 21/03/15.
+ * Classe de génération d'éléments. Elle les génère en sous-traitant dans un thread.
  */
 public class GenerationThread extends JDialog implements Runnable
 {

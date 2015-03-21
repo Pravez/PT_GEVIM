@@ -10,7 +10,6 @@ import data.Edge;
 import data.Graph;
 import data.GraphElement;
 import data.Vertex;
-import undoRedo.SnapVertex;
 import view.UIElements.CustomUIManager;
 import view.Window;
 import view.editor.Tab;
@@ -543,13 +542,13 @@ public class Controller {
                     int value = Integer.parseInt(result);
 
 
-                        GenerationThread generationThread = new GenerationThread(this.window, Integer.parseInt(result));
+                    //On commence la génération
+                    GenerationThread generationThread = new GenerationThread(this.window, Integer.parseInt(result));
 
-                        this.getGraph(this.window.getCurrentTabIndex()).addGraphElements(generationThread.getElements());
-                        this.window.getCurrentTab().getUndoRedo().registerAddEdit(generationThread.getElements());
+                    this.getGraph(this.window.getCurrentTabIndex()).addGraphElements(generationThread.getElements());
+                    this.window.getCurrentTab().getUndoRedo().registerAddEdit(generationThread.getElements());
+                }
 
-
-                    }
                 //Si l'utilisateur ne rentre pas un entier
             } catch (NumberFormatException nfe) {
                 JOptionPane.showMessageDialog(null, "Merci de rentrer une valeur entiere.", "Erreur", JOptionPane.ERROR_MESSAGE);
