@@ -264,6 +264,7 @@ public class Window extends JFrame {
 
         /* Contenu du Menu preferences */
         this.addJMenuItem(preferences, "Changer de style", "changeStyle");
+        this.addJMenuItem(preferences, "A propos", "about");
     }
 
     /**

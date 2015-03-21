@@ -2,6 +2,7 @@ package controller;
 
 import data.Graph;
 import view.UIElements.items.StateButton;
+import view.frames.AboutFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -115,6 +116,10 @@ public class ActionController {
 
             case "generate":
                 ActionController.generateGraphElements();
+                break;
+
+            case "about":
+                ActionController.about();
                 break;
 
             default:
@@ -304,5 +309,9 @@ public class ActionController {
     public static void refreshUndoRedo(boolean undoEnable, boolean redoEnable) {
         ActionController.controller.getWindow().setUndoEnable(undoEnable);
         ActionController.controller.getWindow().setRedoEnable(redoEnable);
+    }
+
+    public static void about() {
+        new AboutFrame();
     }
 }
