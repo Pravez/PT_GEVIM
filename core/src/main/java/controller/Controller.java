@@ -20,6 +20,7 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.File;
+import java.rmi.AlreadyBoundException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -430,7 +431,7 @@ public class Controller {
 
                 for (Tab t : this.window.getTabsArray()) {
                     if(Objects.equals((t.getSheet().getFile()), file.getAbsolutePath())){
-                        throw new IllegalArgumentException();
+                        throw new AlreadyBoundException();
                     }
                 }
 
@@ -442,8 +443,9 @@ public class Controller {
                 this.window.getCurrentSheet().setFile(file.getAbsolutePath());
             }
         } catch(IllegalArgumentException iae){
-            JOptionPane.showMessageDialog(this.window, "Le graphe est deja ouvert !", "Erreur", JOptionPane.INFORMATION_MESSAGE);
-
+            JOptionPane.showMessageDialog(this.window, "Un problème est survenu lors de la lecture :\n" + iae.getLocalizedMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+        } catch(AlreadyBoundException abe){
+            JOptionPane.showMessageDialog(this.window, "Le graphe est déjà ouvert !", "Erreur", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this.window, "Une erreur inattendue s'est produite : " + e.getLocalizedMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
@@ -538,7 +540,7 @@ public class Controller {
                     int value = Integer.parseInt(result);
 
                     //On commence la génération
-                    GenerationThread generationThread = new GenerationThread(this.window, Integer.parseInt(result));
+                    GenerationThread generationThread = new GenerationThread(this, Integer.parseInt(result));
 
                     this.getGraph(this.window.getCurrentTabIndex()).addGraphElements(generationThread.getElements());
                     this.window.getCurrentTab().getUndoRedo().registerAddEdit(generationThread.getElements());

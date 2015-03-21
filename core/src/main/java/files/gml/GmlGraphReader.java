@@ -57,39 +57,42 @@ public class GmlGraphReader {
         ArrayList<GraphElement> graphElements = new ArrayList<>();
         HashMap<Vertex, data.Vertex> vertices = new HashMap<>();
 
-        Color color;
-        String name;
-        Point point;
-        int size;
+        Color color = Color.BLACK;
+        String name = "element";
+        data.Vertex.Shape shape = data.Vertex.Shape.SQUARE;
+        Point point = new Point(50,50);
+        int size = 15;
+        int value = 1;
 
         for (Vertex v : this.gmlGraph.getVertices()) {
             if (!vertices.containsKey(v)) {
 
                 if(v.getProperty("r")!=null) {
                     color = new Color((int) v.getProperty("r"), (int) v.getProperty("g"), (int) v.getProperty("b"));
-                }else{
-                    color = Color.BLACK;
                 }
 
                 if(v.getProperty("name")!=null){
                     name = v.getProperty("name");
-                }else{
-                    name = "element";
                 }
 
                 if(v.getProperty("x")!=null && v.getProperty("y")!=null){
                     point = new Point((int) v.getProperty("x"), (int) v.getProperty("y"));
-                }else{
-                    point = new Point(50, 50);
                 }
 
                 if(v.getProperty("size")!=null){
                     size = v.getProperty("size");
-                }else{
-                    size = 15;
                 }
 
-                data.Vertex sourceVertex = new data.Vertex(name, color, point, size, data.Vertex.Shape.SQUARE);
+                if(v.getProperty("value")!=null){
+                    value = v.getProperty("value");
+                }
+
+                if(v.getProperty("g:shape")!=null){
+                    shape = data.Vertex.Shape.decode((String)v.getProperty("g:shape"));
+                }
+
+                data.Vertex sourceVertex = new data.Vertex(name, color, point, size, shape);
+                sourceVertex.setValue(value);
                 vertices.put(v, sourceVertex);
                 graphElements.add(sourceVertex);
             }

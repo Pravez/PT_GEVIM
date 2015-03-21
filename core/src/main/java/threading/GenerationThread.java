@@ -1,5 +1,6 @@
 package threading;
 
+import controller.Controller;
 import data.GraphElement;
 import data.Vertex;
 import view.Window;
@@ -20,10 +21,12 @@ public class GenerationThread extends JDialog implements Runnable
     private int numberOfElements;
     private ArrayList<GraphElement> elements;
     private Dimension parentSize;
+    private Controller controller;
 
-    public GenerationThread(Component parent, int generationNumber)
+    public GenerationThread(Controller controller, int generationNumber)
     {
         elements = new ArrayList<>();
+        this.controller = controller;
 
         numberOfElements = generationNumber;
         this.value = 0;
@@ -33,9 +36,10 @@ public class GenerationThread extends JDialog implements Runnable
         this.setTitle("Generation en cours ...");
         this.setPreferredSize(new Dimension(300, 60));
         this.getContentPane().add(this.progress);
-        this.setLocationRelativeTo(parent);
+        this.setLocationRelativeTo(this.controller.getWindow());
         this.pack();
-        Window tmp = (Window) parent;
+
+        Window tmp = this.controller.getWindow();
         parentSize=tmp.getCurrentSheetViewPort().getViewSize();
         launchGeneration();
 
@@ -79,9 +83,14 @@ public class GenerationThread extends JDialog implements Runnable
 
         Rectangle viewRectangle = new Rectangle(new Point(0,0), parentSize);
         Random r = new Random();
+
+        Color color = this.controller.getWindow().getCurrentSheet().getDefaultVerticesColor();
+        int size = this.controller.getWindow().getCurrentSheet().getDefaultVerticesSize();
+        Vertex.Shape shape = this.controller.getWindow().getCurrentSheet().getDefaultVerticesShape();
+
         for (int i = 0; i < numberOfElements; i++)
         {
-            elements.add(new Vertex("vertex", Color.BLACK, new Point(r.nextInt(viewRectangle.width) + viewRectangle.x, r.nextInt(viewRectangle.height) + viewRectangle.y), 15, Vertex.Shape.SQUARE));
+            elements.add(new Vertex("vertex", color, new Point(r.nextInt(viewRectangle.width) + viewRectangle.x, r.nextInt(viewRectangle.height) + viewRectangle.y), size, shape));
             //Mise à jour de la barre de progression
             this.majProgress();
         }
