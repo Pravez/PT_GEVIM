@@ -30,14 +30,18 @@ public class CreationState extends State {
 	
 	@Override
 	public void click(Tab tab, Graph graph, MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
+        if (e.getButton() == MouseEvent.BUTTON1) { // Clic gauche
+            Point position = new Point((int)(1.0*e.getX()/this.controller.getCurrentTabScale()), (int)(1.0*e.getY()/this.controller.getCurrentTabScale()));
+            this.controller.addVertex(graph, tab.getSheet().getDefaultVerticesColor(), position, tab.getSheet().getDefaultVerticesSize(), tab.getSheet().getDefaultVerticesShape());
+            tab.repaint();
+        } else if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
 			openTabPopUpMenu(tab, e.getPoint());
 		}
 	}
 
 	@Override
 	public void click(ElementView element, MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON3) {
+		if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit sur un ElementView
 			this.controller.notifyHandleElement(element);
             HashMap<String, String> menus = new HashMap<String, String>(){{put("Edit", "Editer");}{put("Delete", "Supprimer");}{put("Copy", "Copier");}{put("Paste", "Coller");}};
 			initNewPopupMenu(menus, e.getPoint()).show(element, e.getX(), e.getY());
@@ -51,13 +55,7 @@ public class CreationState extends State {
 	}
 	
 	@Override
-	public void pressed(Tab tab, Graph graph, MouseEvent e) {
-        if (e.getButton() == MouseEvent.BUTTON1) { // Clic gauche
-            Point position = new Point((int)(1.0*e.getX()/this.controller.getCurrentTabScale()), (int)(1.0*e.getY()/this.controller.getCurrentTabScale()));
-            this.controller.addVertex(graph, tab.getSheet().getDefaultVerticesColor(), position, tab.getSheet().getDefaultVerticesSize(), tab.getSheet().getDefaultVerticesShape());
-            tab.repaint();
-        }
-	}
+	public void pressed(Tab tab, Graph graph, MouseEvent e) { }
 	
 	@Override
 	public void pressed(ElementView element, MouseEvent e) { }

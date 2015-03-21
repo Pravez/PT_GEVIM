@@ -1,5 +1,7 @@
 package view.UIElements;
 
+import view.editor.*;
+import view.editor.ScrollPane;
 import view.theme.ImageButton;
 
 
@@ -14,7 +16,6 @@ import java.util.ArrayList;
  */
 public class CustomUIManager {
 
-    private static ArrayList<JLabel>      labels    = new ArrayList<>();
     private static ArrayList<JButton>     buttons    = new ArrayList<>();
     private static ArrayList<JMenuItem>   menuItems  = new ArrayList<>();
     private static ArrayList<JSeparator>  separators = new ArrayList<>();
@@ -23,6 +24,7 @@ public class CustomUIManager {
     private static ArrayList<ImageButton> imageButtons = new ArrayList<>();
     private static ArrayList<ImageButton> reverseImageButtons = new ArrayList<>();
     private static ArrayList<JTabbedPane> tabs = new ArrayList<>();
+    private static ArrayList<ScrollPane>  scrollPanes = new ArrayList<>();
     private static ArrayList<JPanel>      panels = new ArrayList<>();
 
     /* Couleur des Tab */
@@ -83,6 +85,14 @@ public class CustomUIManager {
         CustomUIManager.buttons.add(button);
         colorButton(button);
         return button;
+    }
+
+    public static ScrollPane addScrollPane(ScrollPane scrollPane) {
+        CustomUIManager.scrollPanes.add(scrollPane);
+        colorScrollPane(scrollPane);
+        scrollPane.setOpaque(true);
+        scrollPane.setBorder(null);
+        return scrollPane;
     }
 
     public static JPanel addPanel(JPanel panel) {
@@ -190,7 +200,7 @@ public class CustomUIManager {
         CustomUIManager.selectionColor           = new Color(226, 226, 226);
         CustomUIManager.selectionBorderColor     = new Color(155, 155, 155);
 
-        UIManager.put("PopupMenu.border", BorderFactory.createLineBorder(CustomUIManager.separatorForeground, 1));
+        setCommonProperties();
     }
 
     public static void setLightTheme() {
@@ -231,11 +241,50 @@ public class CustomUIManager {
         CustomUIManager.selectionColor           = new Color(172, 211, 244);
         CustomUIManager.selectionBorderColor     = new Color(107, 153, 189);
 
+        setCommonProperties();
+    }
+
+    private static void setCommonProperties() {
         UIManager.put("PopupMenu.border", BorderFactory.createLineBorder(CustomUIManager.separatorForeground, 1));
         UIManager.put("TabbedPane.shadow", CustomUIManager.deselectedTabColor);
         UIManager.put("TabbedPane.darkShadow", CustomUIManager.deselectedTabColor);
         UIManager.put("TabbedPane.highlight", CustomUIManager.selectedTabBorderColor);
         UIManager.put("TabbedPane.light", CustomUIManager.deselectedTabColor);
+
+        for (JButton button : CustomUIManager.buttons) {
+            colorButton(button);
+        }
+        for (JMenuItem menuItem : CustomUIManager.menuItems) {
+            colorMenuItem(menuItem);
+        }
+        for (JSeparator separator : CustomUIManager.separators) {
+            colorSeparator(separator);
+        }
+        for (JMenuBar menuBar : CustomUIManager.menuBars) {
+            colorMenuBar(menuBar);
+        }
+        for (JToolBar toolBar : CustomUIManager.toolBars) {
+            colorToolBar(toolBar);
+        }
+        for (ImageButton image : CustomUIManager.imageButtons) {
+            colorImageButton(image);
+        }
+        for (ImageButton image : CustomUIManager.reverseImageButtons) {
+            colorReverseImageButton(image);
+        }
+        for (JTabbedPane tabbedPane : CustomUIManager.tabs) {
+            colorTabs(tabbedPane);
+        }
+        for (JPanel panel : CustomUIManager.panels) {
+            colorPanel(panel);
+        }
+        for (ScrollPane scrollPane : CustomUIManager.scrollPanes) {
+            colorScrollPane(scrollPane);
+        }
+    }
+
+    private static void colorScrollPane(ScrollPane scrollPane) {
+        scrollPane.setBackground(CustomUIManager.scrollPaneColor);
     }
 
     private static void colorPanel(JPanel panel) {

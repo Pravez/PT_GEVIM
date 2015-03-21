@@ -156,6 +156,7 @@ public class Controller {
         } else {
             this.window.getCurrentSheet().selectElement(selectedElement);
         }
+        this.window.getCurrentSheet().repaint();
     }
 
     /**

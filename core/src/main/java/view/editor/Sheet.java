@@ -217,7 +217,7 @@ public class Sheet extends JComponent implements Observer {
      * @param element le ElementView à ajouter à la liste
      */
     public void selectElement(ElementView element){
-    	element.updateHover(true);
+        element.updateHover(true);
         this.selectedElements.add(element);
     }
 

@@ -64,9 +64,6 @@ public class Tab extends JSplitPane {
     }
 
     public void setColors() {
-        this.scrollPane.setOpaque(true);
-        this.scrollPane.setBackground(CustomUIManager.scrollPaneColor);
-        this.scrollPane.setBorder(null);
         this.setUI(new BasicSplitPaneUI() {
             public BasicSplitPaneDivider createDefaultDivider() {
                 BasicSplitPaneDivider divider = new BasicSplitPaneDivider(this) {
@@ -111,7 +108,7 @@ public class Tab extends JSplitPane {
         sheet.setPreferredSize(new Dimension(2000, 2000));
         sheet.setMaximumSize(new Dimension(2000, 2000));
 
-        scrollPane = new ScrollPane(this, sheet);
+        scrollPane = CustomUIManager.addScrollPane(new ScrollPane(this, sheet));
         scrollPane.setMinimumSize(new Dimension(500,500));
 
         sheet.addMouseListener(new MouseAdapter() {

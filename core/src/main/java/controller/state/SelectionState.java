@@ -93,7 +93,6 @@ public class SelectionState extends State {
 			this.controller.notifyEndDragging();
 		}
 		this.dragging = false;
-		//if(((Tab)tabs.getSelectedComponent()).onVertex(mouseEvent) != null){ }
 	}
 
 	@Override
