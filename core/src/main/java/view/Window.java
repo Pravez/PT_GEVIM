@@ -403,6 +403,11 @@ public class Window extends JFrame {
         return this.tabs;
     }
 
+    /**
+     * Méthode d'ouverture d'un fichier .graphml appellée par le controller
+     * @param file Le fichier contenant le graphe
+     * @throws Exception Exception si il survient une erreur lors de la lecture du fichier ou de son ouverture
+     */
     public void openGML(File file) throws Exception{
         if (file != null) {
 
@@ -415,6 +420,11 @@ public class Window extends JFrame {
         }
     }
 
+    /**
+     * Méthode pour ouvrir un fichier DOT appellée par le Controller
+     * @param file Le fichier à ouvrir
+     * @throws Exception Exception lors de la lecture du fichier ou de son ouverture
+     */
     public void openDOT(File file) throws Exception{
         if(file != null){
             DotFileManager dotFileManager = new DotFileManager(null, file);
