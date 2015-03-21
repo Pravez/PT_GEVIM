@@ -23,16 +23,35 @@ public class VertexEdit extends AbstractUndoableEdit {
         vertexAfter=after;
     }
 
+    public VertexEdit(Graph model, SnapVertex before,SnapVertex after) {
+        graph=model;
+        verticesBefore= new ArrayList<>();
+        verticesBefore.add(before);
+        vertexAfter=after;
+    }
+
     public void undo() throws CannotUndoException {
 
         for(SnapVertex s : verticesBefore) {
-            graph.getVertexes().get(s.getIndex()).setColor(s.getColor());
-            graph.getVertexes().get(s.getIndex()).setLabel(s.getLabel());
-            graph.getVertexes().get(s.getIndex()).setSize(s.getSize());
-            graph.getVertexes().get(s.getIndex()).setShape(s.getShape());
-            graph.getVertexes().get(s.getIndex()).setPosition(s.getPosition());
-            graph.setChanged();
+            if (vertexAfter.getColor() != null)
+                graph.getVertexes().get(s.getIndex()).setColor(s.getColor());
+
+            if (vertexAfter.getLabel() != null)
+                graph.getVertexes().get(s.getIndex()).setLabel(s.getLabel());
+
+            if (vertexAfter.getSize() != -1)
+                graph.getVertexes().get(s.getIndex()).setSize(s.getSize());
+
+            if (vertexAfter.getShape() != null)
+                graph.getVertexes().get(s.getIndex()).setShape(s.getShape());
+
+            if (vertexAfter.getPosition() != null)
+                graph.getVertexes().get(s.getIndex()).setPosition(s.getPosition());
+
+            if(vertexAfter.getValue()!=-1)
+                graph.getVertexes().get(s.getIndex()).setValue(s.getValue());
         }
+        graph.setChanged();
 
     }
 
@@ -55,10 +74,12 @@ public class VertexEdit extends AbstractUndoableEdit {
 
             if (vertexAfter.getPosition() != null)
                 graph.getVertexes().get(s.getIndex()).setPosition(vertexAfter.getPosition());
-
-            graph.setChanged();
+            if(vertexAfter.getValue()!=-1)
+                graph.getVertexes().get(s.getIndex()).setValue(vertexAfter.getValue());
 
         }
+        graph.setChanged();
+
     }
 
     public boolean canUndo() { return true; }

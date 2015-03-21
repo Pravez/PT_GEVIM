@@ -28,6 +28,7 @@ public class SnapVertex extends SnapProperties {
         setColor(v.getColor());
         setPosition(v.getPosition());
         setLabel(v.getLabel());
+        setValue(v.getValue());
     }
 
     public Vertex.Shape getShape() {

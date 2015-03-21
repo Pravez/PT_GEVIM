@@ -239,6 +239,10 @@ public class Sheet extends JComponent implements Observer {
         this.repaint();
     }
 
+    public Tab getTab() {
+        return tab;
+    }
+
     /**
      * Méthode pour modifier le premier élément sélectionné
      */
@@ -247,18 +251,15 @@ public class Sheet extends JComponent implements Observer {
 
             SnapProperties snapBefore;
             if(selectedElements.get(0).isVertexView()) {
-                snapBefore = new SnapVertex((Vertex) selectedElements.get(0).getGraphElement(), graph.getVertexes().indexOf(selectedElements.get(0)));
-                snapBefore.setIndex(graph.getVertexes().indexOf( selectedElements.get(0).getGraphElement()));
+                snapBefore = new SnapVertex((Vertex) selectedElements.get(0).getGraphElement(), graph.getVertexes().indexOf(selectedElements.get(0).getGraphElement()));
             }
             else {
-                snapBefore = new SnapEdge((Edge) selectedElements.get(0).getGraphElement(), graph.getEdges().indexOf(selectedElements.get(0)));
-                snapBefore.setIndex(graph.getEdges().indexOf( selectedElements.get(0).getGraphElement()));
+                snapBefore = new SnapEdge((Edge) selectedElements.get(0).getGraphElement(), graph.getEdges().indexOf(selectedElements.get(0).getGraphElement()));
 
             }
             SnapProperties snapAfter= selectedElements.get(0).modify(this.graph);
-            ArrayList<SnapProperties> snapToArray = new ArrayList();
-            snapToArray.add(snapBefore);
-            tab.getUndoRedo().registerSingleTypeEdit(snapToArray, snapAfter);
+
+            tab.getUndoRedo().registerSingleTypeEdit(snapBefore, snapAfter);
 
         }else if(selectedElements.size()>=2){
             modifyElements();

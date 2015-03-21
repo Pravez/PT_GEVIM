@@ -12,9 +12,28 @@ public class SnapProperties {
     Color color;
     int size;
     String label;
+    int value;
+
+    public SnapProperties()
+    {
+        index=-1;
+        color=null;
+        size=-1;
+        label=null;
+        value=-1;
+
+    }
 
     public int getIndex() {
         return index;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 
     public void setIndex(int index) {
@@ -45,15 +64,7 @@ public class SnapProperties {
         this.label = label;
     }
 
-    public SnapProperties()
-    {
-        index=-1;
-        color=null;
-        size=-1;
-        label=null;
 
-
-    }
 
     public boolean isSnapVertex(){ return false; }
 
