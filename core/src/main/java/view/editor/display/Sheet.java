@@ -25,6 +25,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
@@ -41,8 +42,12 @@ public class Sheet extends JComponent implements Observer {
     
     private ArrayList<EdgeView>    edges;
     private ArrayList<VertexView>  vertices;
-    
+
+    /* La liste des ElementView sélectionnés dans la zone précédente (avant le Ctrl enfoncé) */
+    private ArrayList<ElementView> previousSelectedElements;
+    /* La liste des ElementView sélectionnés */
     private ArrayList<ElementView> selectedElements;
+    /* La liste des ElementView qui sont actuellement dans la zone de sélection */
     private ArrayList<ElementView> currentSelectedElements;
     
     private String                 name;
@@ -80,6 +85,7 @@ public class Sheet extends JComponent implements Observer {
         this.vertices                 = new ArrayList<>();
         this.selectedElements         = new ArrayList<>();
         this.currentSelectedElements  = new ArrayList<>();
+        this.previousSelectedElements = new ArrayList<>();
         
         this.defaultVerticesColor     = Color.BLACK;
         this.defaultEdgesColor        = Color.BLACK;
@@ -284,6 +290,26 @@ public class Sheet extends JComponent implements Observer {
     }
 
     /**
+     * Méthode appellée pour dessiner une Edge temporaire qui n'a pas de substance, pour donner un aperçu à l'utilisateur.
+     * @param origin Point depuis lequel part cet Edge temporaire
+     * @param position Point jusqu'où elle va
+     */
+    public void launchTemporarilyEdge(Point origin, Point position) {
+        this.originEdge      = origin;
+        this.destinationEdge = position;
+        this.repaint();
+    }
+
+    /**
+     * Méthode signifiant la fin de l'Edge temporaire et la détruisant
+     */
+    public void endTemporarilyEdge() {
+        this.originEdge = null;
+        this.destinationEdge = null;
+        this.repaint();
+    }
+
+    /**
      * Modifier pour récupérer la liste des ElementView sélectionnés
      * @return la liste des ElementView sélectionnés
      */
@@ -296,7 +322,6 @@ public class Sheet extends JComponent implements Observer {
      * @param vector le décalage à effectuer pour chaque élément par rapport à leur position
      */
     public void moveSelectedElements(Point vector) {
-
         ArrayList<SnapPosition> before = new ArrayList<>();
         ArrayList<SnapPosition> after = new ArrayList<>();
         Point tmpPosition;
@@ -316,7 +341,6 @@ public class Sheet extends JComponent implements Observer {
     	}
 
         tab.getUndoRedo().registerMoveEdit(before, after);
-
     }
     
     /**
@@ -368,7 +392,7 @@ public class Sheet extends JComponent implements Observer {
     public void launchSelectionZone(Point origin, Point position) {
 		setSelectionZone(origin, position);
         clearSelectedElements();
-		selectElementsInZone();
+        selectElementsInZone();
 		this.repaint();
 	}
     
@@ -381,68 +405,62 @@ public class Sheet extends JComponent implements Observer {
      */
     public void addToSelectionZone(Point origin, Point position) {
 		setSelectionZone(origin, position);
-        clearSelectedElements();
-        for (ElementView e : this.currentSelectedElements) {
-            selectElement(e);
+        clearCurrentSelectedElements();
+        manageElementsInZone();
+        ArrayList<ElementView> elementsToRemove = new ArrayList<>(this.selectedElements);
+        elementsToRemove.removeAll(this.currentSelectedElements); // on récupère les ElementView qui ne sont plus sélectionnés
+        for (ElementView e : elementsToRemove) {
+            if (!this.previousSelectedElements.contains(e))
+            unselectElement(e);
         }
-        selectElementsInZone();
 		this.repaint();
 	}
 
     /**
-     * Méthode appellée pour dessiner une Edge temporaire qui n'a pas de substance, pour donner un aperçu à l'utilisateur.
-     * @param origin Point depuis lequel part cet Edge temporaire
-     * @param position Point jusqu'où elle va
+     * Méthode pour gérer la sélection des ElementView présents dans la zone de sélection en fonction des ElementView sélectionnés précédemment
      */
-    public void launchTemporarilyEdge(Point origin, Point position) {
-        this.originEdge      = origin;
-        this.destinationEdge = position;
-        this.repaint();
+    public void manageElementsInZone() {
+        for (VertexView v : this.vertices) {
+            if (this.selectionZone.contains(new Point((int)(v.getPosition().x * this.scale), (int)(v.getPosition().y * this.scale)))) {
+                handleSelectElement(v);
+            }
+        }
+        for (EdgeView e : this.edges) {
+            if (edgeIsInSelectionZone(e)) {
+                handleSelectElement(e);
+            }
+        }
     }
 
-    /**
-     * Méthode signifiant la fin de l'Edge temporaire et la détruisant
-     */
-    public void endTemporarilyEdge() {
-        this.originEdge = null;
-        this.destinationEdge = null;
-        this.repaint();
-    }
-	
     /**
      * Méthode pour sélectionner les ElementView présents dans la zone de sélection
      */
 	public void selectElementsInZone() {
 		for (VertexView v : this.vertices) {
-            Point position = new Point((int)(v.getPosition().x * this.scale), (int)(v.getPosition().y * this.scale));
-			if (this.selectionZone.contains(position)) {
+			if (this.selectionZone.contains(new Point((int)(v.getPosition().x * this.scale), (int)(v.getPosition().y * this.scale)))) {
 				selectElement(v);
-				this.currentSelectedElements.add(v);
 			}
 		}
 		for (EdgeView e : this.edges) {
-            Point positionO = new Point((int)(e.getOrigin().getPosition().x * this.scale), (int)(e.getOrigin().getPosition().y * this.scale));
-            Point positionD = new Point((int)(e.getDestination().getPosition().x * this.scale), (int)(e.getDestination().getPosition().y * this.scale));
-			if (this.selectionZone.contains(positionO) && this.selectionZone.contains(positionD)) {
+            if (edgeIsInSelectionZone(e)) {
 				selectElement(e);
-				this.currentSelectedElements.add(e);
 			}
 		}
 	}
 	
 	/**
 	 * Méthode permettant de gérer la sélection d'un ElementView : 
-	 *  - si l'élément est déjà sélectionné, le désélectionne
-	 *  - sinon, le sélectionne
+	 *  - si l'élément était déjà sélectionné avant le drag, le désélectionne
+	 *  - sinon s'il n'était pas déjà sélectionné, le sélectionne
 	 * @param e l'ElementView à sélectionner ou déselectionner 
 	 */
 	public void handleSelectElement(ElementView e) {
-		if (this.selectedElements.contains(e) && this.currentSelectedElements.contains(e)) {
-			unselectElement(e);
-		} else if (!this.currentSelectedElements.contains(e)){
-			selectElement(e);
-			this.currentSelectedElements.add(e);
-		}
+        if (this.previousSelectedElements.contains(e)) { // s'ils étaient sélectionnés à la base, ils sont déselectionnés
+            unselectElement(e);
+        } else if (!this.selectedElements.contains(e)) { // s'ils n'étaient pas sélectionnés, ils sont sélectionnés
+            selectElement(e);
+        }
+        this.currentSelectedElements.add(e);
 	}
 	
 	/**
@@ -460,19 +478,14 @@ public class Sheet extends JComponent implements Observer {
 		return this.selectionZone.intersects(new Rectangle(x, y, width, height));
 	}
 
-	/**
-	 * Méthode pour clore la sélection d'ElementView :
-	 * - sélectionne les ElementView dans la zone de sélection
-	 * - détruit la zone de sélection
-	 * - redessine la feuille de dessin
-	 */
-	public void handleSelectionZone() {
-		selectElementsInZone();
-		this.selectionZone = null;
-		this.repaint();
-	}
-	
+    /**
+     * Méthode pour clore la sélection d'ElementView :
+     * - détruit la zone de sélection
+     * - redessine la feuille de dessin
+     */
 	public void handleEndSelectionZone() {
+        this.previousSelectedElements.clear();
+        this.previousSelectedElements.addAll(this.selectedElements);
 		this.selectionZone = null;
 		this.repaint();
 	}
@@ -665,7 +678,7 @@ public class Sheet extends JComponent implements Observer {
                     if (src != null && dst != null) addEdge((Edge) element, src, dst);
                 }
             }
-        }else{
+        } else {
             UpdateThread updateThread = new UpdateThread(this, elements, this.controller);
             this.vertices.addAll(updateThread.getVertices());
             this.edges.addAll(updateThread.getEdges());
@@ -690,6 +703,10 @@ public class Sheet extends JComponent implements Observer {
         this.graph = graph;
     }
 
+    /**
+     * Getter du Controller
+     * @return le Controller
+     */
     public Controller getController(){
         return this.controller;
     }
