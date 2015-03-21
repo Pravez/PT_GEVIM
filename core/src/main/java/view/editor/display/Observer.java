@@ -1,4 +1,4 @@
-package view.editor;
+package view.editor.display;
 
 import data.Observable;
 

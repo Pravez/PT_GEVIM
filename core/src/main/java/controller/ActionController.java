@@ -1,7 +1,7 @@
 package controller;
 
 import data.Graph;
-import view.theme.StateButton;
+import view.UIElements.items.StateButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -196,7 +196,7 @@ public class ActionController {
     }
 
     /**
-     * Edition des propriétés de la {@link view.editor.Sheet}
+     * Edition des propriétés de la {@link view.editor.display.Sheet}
      */
     private static void properties() {
         ActionController.controller.getWindow().getCurrentSheet().modifyProperties();

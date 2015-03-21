@@ -1,14 +1,16 @@
-package view.editor;
+package view.editor.display;
 
 import controller.Controller;
 import data.*;
 import files.dot.DotFileManager;
 import files.gml.GmlFileManager;
+import threading.UpdateThread;
 import undoRedo.SnapEdge;
 import undoRedo.SnapPosition;
 import undoRedo.SnapProperties;
 import undoRedo.SnapVertex;
 import view.UIElements.CustomUIManager;
+import view.editor.Tab;
 import view.editor.elements.EdgeView;
 import view.editor.elements.ElementView;
 import view.editor.elements.VertexView;
@@ -33,7 +35,7 @@ import java.util.ListIterator;
 public class Sheet extends JComponent implements Observer {
 
 	private static final long      serialVersionUID = 1L;
-    private Tab                    tab;
+    private Tab tab;
     private Graph                  graph;
     private Controller             controller;
     

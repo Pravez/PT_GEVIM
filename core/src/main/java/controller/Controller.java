@@ -10,6 +10,7 @@ import data.Edge;
 import data.Graph;
 import data.GraphElement;
 import data.Vertex;
+import threading.GenerationThread;
 import view.UIElements.CustomUIManager;
 import view.Window;
 import view.editor.Tab;
@@ -240,7 +241,7 @@ public class Controller {
 
                 this.graphs.get(this.window.getCurrentTabIndex()).addGraphElements(newElements);
             } else {
-                newElements = Graph.copyGraphElements(this.copiedElements);
+                newElements = Graph.copyGraphElements(this.copiedElements, Graph.findBestCopyPoint(this.copiedElements));
 
                 this.graphs.get(this.window.getCurrentTabIndex()).addGraphElements(newElements);
             }
@@ -575,7 +576,7 @@ public class Controller {
 
         Controller controller = new Controller();
         ActionController.setController(controller);
-        Window window = new Window((int)dimension.getWidth()-100, (int)dimension.getHeight()-150, controller);
+        Window window = new Window((int)dimension.getWidth()-100, (int)dimension.getHeight()-100, controller);
         controller.setWindow(window);
 
     }

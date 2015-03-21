@@ -1,9 +1,9 @@
 package view.frames;
 
 import controller.listeners.ButtonActionListener;
-import view.theme.ImageButton;
-import view.theme.ImageMenuItem;
-import view.theme.StateButton;
+import view.UIElements.items.ImageButton;
+import view.UIElements.items.ImageMenuItem;
+import view.UIElements.items.StateButton;
 import view.UIElements.CustomUIManager;
 
 import javax.imageio.ImageIO;

@@ -4,6 +4,9 @@ import controller.Controller;
 import data.Graph;
 import undoRedo.UndoPanel;
 import view.UIElements.CustomUIManager;
+import view.editor.display.MiniMap;
+import view.editor.display.PropertyPanel;
+import view.editor.display.Sheet;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -14,7 +17,7 @@ import java.awt.event.*;
 
 /**
  * Created by paubreton on 03/03/15.
- * Classe contenant la feuille de dessin et tout ce qui lui est associé, un {@link view.editor.PropertyPanel} et un {@link Sheet}
+ * Classe contenant la feuille de dessin et tout ce qui lui est associé, un {@link view.editor.display.PropertyPanel} et un {@link view.editor.display.Sheet}
  */
 public class Tab extends JSplitPane {
 
@@ -22,13 +25,13 @@ public class Tab extends JSplitPane {
     /* Panel de droite */
     private JPanel        boardPanel;
     /* MiniMap dans la boardPanel */
-    private MiniMap       minimap;
+    private MiniMap minimap;
     /* Panel de Propriétés */
     private PropertyPanel properties;
     /* ScrollPane */
     private ScrollPane    scrollPane;
     /* Sheet, feuille de dessin */
-    private Sheet         sheet;
+    private Sheet sheet;
     /* UndoPanel (non affiché) */
     private UndoPanel     undoredo;
 
@@ -143,8 +146,8 @@ public class Tab extends JSplitPane {
     }
 
     /**
-     * Initialisation du BoardPanel, la {@link javax.swing.JPanel} qui contiendra la {@link view.editor.MiniMap}, le {@link undoRedo.UndoPanel} et le {@link view.editor.PropertyPanel}
-     * @param graph Le {@link data.Graph} auquel relatent le {@link view.editor.PropertyPanel} et la {@link view.editor.MiniMap}
+     * Initialisation du BoardPanel, la {@link javax.swing.JPanel} qui contiendra la {@link view.editor.display.MiniMap}, le {@link undoRedo.UndoPanel} et le {@link view.editor.display.PropertyPanel}
+     * @param graph Le {@link data.Graph} auquel relatent le {@link view.editor.display.PropertyPanel} et la {@link view.editor.display.MiniMap}
      */
     public void initBoardPanel(Graph graph){
         properties = (PropertyPanel) CustomUIManager.addTab(new PropertyPanel(this.sheet));
@@ -186,7 +189,7 @@ public class Tab extends JSplitPane {
 
     /**
      * Getter de la MiniMap
-     * @return La {@link view.editor.MiniMap}
+     * @return La {@link view.editor.display.MiniMap}
      */
     public MiniMap getMiniMap(){
         return this.minimap;
@@ -194,7 +197,7 @@ public class Tab extends JSplitPane {
 
     /**
      * Getter de la Sheet
-     * @return La {@link view.editor.Sheet}
+     * @return La {@link view.editor.display.Sheet}
      */
     public Sheet getSheet(){
         return this.sheet;
