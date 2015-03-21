@@ -28,6 +28,7 @@ public class SelectionState extends State {
 		} else {
 			this.controller.notifyHandleElement(element);
 		}
+        this.controller.notifyRepaintTab();
 	}
 
 	@Override

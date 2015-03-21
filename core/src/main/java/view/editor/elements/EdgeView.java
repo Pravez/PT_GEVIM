@@ -192,7 +192,6 @@ public class EdgeView extends ElementView {
     public void updateHover(boolean isHover) {
 		this.color     = (isHover) ? CustomUIManager.getHoverColor() : this.edge.getColor();
 		this.thickness = (isHover) ? this.hoverThickness : this.edge.getThickness();
-		this.repaint();
 	}
 
     /**

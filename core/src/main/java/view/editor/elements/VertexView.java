@@ -151,7 +151,6 @@ public class VertexView extends ElementView {
     @Override
     public void updateHover(boolean isHover) {
         this.color = (isHover) ? CustomUIManager.getHoverColor() : this.vertex.getColor();
-        this.repaint();
 	}
 
     /**
