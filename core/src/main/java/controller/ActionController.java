@@ -111,9 +111,11 @@ public class ActionController {
 
             case "changeStyle":
                 ActionController.changeStyle();
+                break;
 
             case "generate":
                 ActionController.generateGraphElements();
+                break;
 
             default:
                 break;

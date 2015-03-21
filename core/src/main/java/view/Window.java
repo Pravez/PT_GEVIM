@@ -457,7 +457,7 @@ public class Window extends JFrame {
                 before.add(tmp);
             }
             controller.applyAlgorithm(selectedAlgorithm, getCurrentSheetViewPort().getViewPosition(), getCurrentSheetViewPort().getExtentSize());
-            elements=  getCurrentTab().getGraph().getVertexes();
+            elements =  getCurrentTab().getGraph().getVertexes();
 
             for(Vertex v : elements)
             {
