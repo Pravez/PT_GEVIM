@@ -24,14 +24,17 @@ public class VertexViewEditor extends JDialog {
     private JTextField              vertexX;
     private JTextField              vertexY;
     private JTextField              vertexWidth;
+    private JTextField              vertexIndice;
 
     private JComboBox<Vertex.Shape> vertexShape;
+
 
     private Color newColor;
     private String newLabel;
     private Point newPosition;
     private int newWidth;
     private Vertex.Shape newShape;
+    private int newIndex;
 
     private Vertex initialVertex;
 
@@ -40,6 +43,7 @@ public class VertexViewEditor extends JDialog {
     private boolean positionModified;
     private boolean widthModified;
     private boolean shapeModified;
+    private boolean indexModified;
 
     private boolean    alreadyValidated;
     private boolean    cannotQuit;
@@ -100,6 +104,7 @@ public class VertexViewEditor extends JDialog {
         this.colorModified = false;
         this.shapeModified = false;
         this.positionModified = false;
+        this.indexModified = false;
 
         this.initialVertex = v;
         this.newLabel = v.getLabel();
@@ -107,10 +112,12 @@ public class VertexViewEditor extends JDialog {
         this.newWidth = v.getSize();
         this.newShape = v.getShape();
         this.newPosition = v.getPosition();
+        this.newIndex = v.getValue();
 
         this.vertexWidth.setText(String.valueOf(this.newWidth));
         this.vertexX.setText(String.valueOf(this.newPosition.x));
         this.vertexY.setText(String.valueOf(this.newPosition.y));
+        this.vertexIndice.setText(String.valueOf(this.newIndex));
 
         if(this.newLabel !=null) this.vertexName.setText(String.valueOf(this.newLabel));
         else this.vertexName.setText("");
@@ -157,14 +164,14 @@ public class VertexViewEditor extends JDialog {
 
         cannotQuit = verifyModifications();
 
-        if(!alreadyValidated && Integer.parseInt(this.vertexWidth.getText())<5){
-            JOptionPane.showMessageDialog(this, "Attention, votre noeud peut s'avérer être trop petit.", "Information", JOptionPane.INFORMATION_MESSAGE);
-            alreadyValidated = true;
-        }else {
-            if(!cannotQuit) {
-                if(!hasBeenModified()){
-                    onCancel();
-                }else {
+        if(!cannotQuit) {
+            if(!hasBeenModified()){
+                onCancel();
+            }else{
+                if (!alreadyValidated && Integer.parseInt(this.vertexWidth.getText()) < 5) {
+                    JOptionPane.showMessageDialog(this, "Attention, votre noeud peut s'avérer être trop petit.", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    alreadyValidated = true;
+                } else {
                     dispose();
                 }
             }
@@ -215,26 +222,35 @@ public class VertexViewEditor extends JDialog {
                 break;
         }
 
-        //Verifie la taille
-        if(Integer.parseInt(this.vertexWidth.getText()) <= 0){
-            JOptionPane.showMessageDialog(this, "La taille ne peut être inférieure ou égale à 0.", "Attention", JOptionPane.ERROR_MESSAGE);
-            this.vertexWidth.setText(String.valueOf(this.newWidth));
-            mustBeVerified = true;
-        }else{
-            this.newWidth = (Integer.parseInt(this.vertexWidth.getText()));
-        }
+        try {
 
-        //Vérifie la newPosition
-        if(Integer.parseInt(this.vertexX.getText())<=0){
-            JOptionPane.showMessageDialog(this, "La newPosition x ne peut être inférieure ou égale à 0.", "Attention", JOptionPane.ERROR_MESSAGE);
-            this.vertexX.setText(String.valueOf(this.newPosition.x));
+            //Verifie la taille
+            if (Integer.parseInt(this.vertexWidth.getText()) <= 0) {
+                JOptionPane.showMessageDialog(this, "La taille ne peut être inférieure ou égale à 0.", "Attention", JOptionPane.ERROR_MESSAGE);
+                this.vertexWidth.setText(String.valueOf(this.newWidth));
+                mustBeVerified = true;
+            } else {
+                this.newWidth = (Integer.parseInt(this.vertexWidth.getText()));
+            }
+            //Vérifie l'index
+            this.newIndex = (Integer.parseInt(this.vertexIndice.getText()));
+
+            //Vérifie la position
+            if (Integer.parseInt(this.vertexX.getText()) <= 0) {
+                JOptionPane.showMessageDialog(this, "La newPosition x ne peut être inférieure ou égale à 0.", "Attention", JOptionPane.ERROR_MESSAGE);
+                this.vertexX.setText(String.valueOf(this.newPosition.x));
+                mustBeVerified = true;
+            } else if (Integer.parseInt(this.vertexY.getText()) <= 0) {
+                JOptionPane.showMessageDialog(this, "La newPosition y ne peut être inférieure ou égale à 0.", "Attention", JOptionPane.ERROR_MESSAGE);
+                this.vertexY.setText(String.valueOf(this.newPosition.y));
+                mustBeVerified = true;
+            } else {
+                this.newPosition = (new Point(Integer.parseInt(this.vertexX.getText()), Integer.parseInt(this.vertexY.getText())));
+            }
+
+        } catch (NumberFormatException nfe) {
+            JOptionPane.showMessageDialog(null, "Merci de rentrer des valeurs entieres.", "Erreur", JOptionPane.ERROR_MESSAGE);
             mustBeVerified = true;
-        }else if(Integer.parseInt(this.vertexY.getText()) <= 0){
-            JOptionPane.showMessageDialog(this, "La newPosition y ne peut être inférieure ou égale à 0.", "Attention", JOptionPane.ERROR_MESSAGE);
-            this.vertexY.setText(String.valueOf(this.newPosition.y));
-            mustBeVerified = true;
-        }else {
-            this.newPosition = (new Point(Integer.parseInt(this.vertexX.getText()), Integer.parseInt(this.vertexY.getText())));
         }
 
         return mustBeVerified;
@@ -265,6 +281,11 @@ public class VertexViewEditor extends JDialog {
             modified = true;
         }
 
+        if(newIndex != initialVertex.getValue()){
+            indexModified = true;
+            modified = true;
+        }
+
         return modified;
     }
 
@@ -289,6 +310,10 @@ public class VertexViewEditor extends JDialog {
         return newShape;
     }
 
+    public int getNewIndex() {
+        return newIndex;
+    }
+
     public boolean isColorModified() {
         return colorModified;
     }
@@ -311,5 +336,9 @@ public class VertexViewEditor extends JDialog {
 
     public boolean isNotModified() {
         return notModified;
+    }
+
+    public boolean isIndexModified() {
+        return indexModified;
     }
 }

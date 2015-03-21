@@ -288,11 +288,8 @@ public class SheetPropertiesViewEditor extends JDialog {
                 this.tab.setDefaultVerticesShape(Vertex.Shape.TRIANGLE);
                 break;
             default:
-                System.out.println("DEFAULT");
                 break;
         }
-        System.out.println("propColor V: "+this.defaultVerticesColor.getBackground());
-        System.out.println("propColor E: "+this.defaultEdgesColor.getBackground());
 
         dispose();
     }

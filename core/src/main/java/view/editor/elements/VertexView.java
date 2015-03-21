@@ -168,6 +168,7 @@ public class VertexView extends ElementView {
             this.vertex.setLabel(edit.getNewLabel());
             this.vertex.setShape(edit.getNewShape());
             this.vertex.setColor(edit.getNewColor());
+            this.vertex.setValue(edit.getNewIndex());
             if (edit.isWidthModified())
                 snap.setSize(edit.getNewWidth());
             if (edit.isPositionModified())

@@ -537,7 +537,6 @@ public class Controller {
                 if (result != null) {
                     int value = Integer.parseInt(result);
 
-
                     //On commence la génération
                     GenerationThread generationThread = new GenerationThread(this.window, Integer.parseInt(result));
 
