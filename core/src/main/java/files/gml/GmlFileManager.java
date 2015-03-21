@@ -37,7 +37,7 @@ public class GmlFileManager{
         gmlGraphReader.createGraph();
 
         this.graph = gmlGraphReader.getCreatedGraph();
-        this.graph.setName(this.fileAssociated.getName().substring(0, this.fileAssociated.getName().length()-4));
+        this.graph.setName(this.fileAssociated.getName().substring(0, this.fileAssociated.getName().indexOf(".graphml")));
 
     }
 

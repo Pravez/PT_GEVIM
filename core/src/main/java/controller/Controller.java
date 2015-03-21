@@ -12,6 +12,7 @@ import data.GraphElement;
 import data.Vertex;
 import view.UIElements.CustomUIManager;
 import view.Window;
+import view.editor.Tab;
 import view.editor.elements.ElementView;
 
 import javax.swing.*;
@@ -19,6 +20,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Created by quelemonnier on 26/01/15.
@@ -70,7 +72,7 @@ public class Controller {
      */
     public void addVertex(Graph g, Color color, Point position, int size, Vertex.Shape shape) {
         if (this.window.getCurrentSheet().canAddVertex(position)) {
-            ArrayList<GraphElement> tmp=  new ArrayList<>();
+            ArrayList<GraphElement> tmp =  new ArrayList<>();
             tmp.add(g.createVertex(color, position, size, shape));
             window.getCurrentTab().getUndoRedo().registerAddEdit(tmp);
         }
@@ -139,32 +141,6 @@ public class Controller {
      */
     public double getCurrentTabScale() {
         return this.window.getCurrentSheet().getScale();
-    }
-
-    /**
-     * Main du logiciel de visualisation de graphes
-     *
-     * @param args arguments du main
-     */
-    public static void main(String[] args) {
-
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            UIManager.getDefaults().put("TabbedPane.contentBorderInsets", new Insets(5, 0, 0, 0));
-            UIManager.getDefaults().put("TabbedPane.tabAreaInsets", new Insets(0, 0, 0, 0));
-            UIManager.getDefaults().put("TabbedPane.tabsOverlapBorder", true);
-            CustomUIManager.setLightTheme();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-
-        Controller controller = new Controller();
-        ActionController.setController(controller);
-        Window window = new Window((int)dimension.getWidth()-100, (int)dimension.getHeight()-150, controller);
-        controller.setWindow(window);
-
     }
 
     /**
@@ -424,14 +400,14 @@ public class Controller {
      * Méthode permettant l'appel d'un {@link algorithm.IAlgorithm} à partir de son string le caractérisant
      * @param type Le string caractérisant l'algorithme
      */
-    public void applyAlgorithm(String type){
+    public void applyAlgorithm(String type, Point initialPosition, Dimension application){
         switch(type) {
             case "Random Positioning":
-                new RandomPositioning(window.getCurrentSheetViewPort().getViewPosition(), window.getCurrentSheetViewPort().getExtentSize()).run(window.getCurrentTab().getGraph());
+                new RandomPositioning(initialPosition, application).run(window.getCurrentTab().getGraph());
                 //remplacer window.getCurrentSheetViewPort().getExtentSize()) par window.getCurrentSheetViewPort().getViewSize() pour l'application de l'algoritme
                 break;
             case "Circular Positioning":
-                new CircularPositioning(window.getCurrentSheetViewPort().getViewPosition(), window.getCurrentSheetViewPort().getExtentSize()).run(window.getCurrentTab().getGraph());
+                new CircularPositioning(initialPosition, application).run(window.getCurrentTab().getGraph());
                 break;
             case "color":
                 new VertexColoring().run(window.getCurrentTab().getGraph(), Property.SIZE);
@@ -452,7 +428,14 @@ public class Controller {
         try {
             File file = this.chooseFile(extensions, descriptions);
 
-            if(file != null) {
+            if (file != null) {
+
+                for (Tab t : this.window.getTabsArray()) {
+                    if(Objects.equals((t.getSheet().getFile()), file.getAbsolutePath())){
+                        throw new IllegalArgumentException();
+                    }
+                }
+
                 if (file.getName().contains(".graphml")) {
                     this.window.openGML(file);
                 } else if (file.getName().contains(".dot")) {
@@ -460,6 +443,9 @@ public class Controller {
                 }
                 this.window.getCurrentSheet().setFile(file.getAbsolutePath());
             }
+        } catch(IllegalArgumentException iae){
+            JOptionPane.showMessageDialog(this.window, "Le graphe est deja ouvert !", "Erreur", JOptionPane.INFORMATION_MESSAGE);
+
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this.window, "Une erreur inattendue s'est produite : " + e.getLocalizedMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
@@ -509,6 +495,87 @@ public class Controller {
         }catch(ArrayIndexOutOfBoundsException aioobe){
             JOptionPane.showMessageDialog(null, "Rien à sauvegarder...", "Erreur", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    /**
+     * Méthode permettant de charger un {@link javax.swing.JOptionPane} pour demander à l'utilisateur le thème
+     * qu'il souhaite avoir sur sa fenêtre
+     */
+    public void changeLook() {
+        String styles[] = {"Darcula", "Lightula"};
+        String s = (String)JOptionPane.showInputDialog(this.window, "Choisir le theme", "Choisissez le theme principal :", JOptionPane.QUESTION_MESSAGE,null, styles, styles[0]);
+
+        try {
+            if (s != null) {
+                if (s.equals("Darcula")) {
+                    CustomUIManager.setDarkTheme();
+                } else {
+                    CustomUIManager.setLightTheme();
+                }
+
+                this.window.repaint();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Méthode de génération d'éléments dans un graphe. On prend le graphe courant et on lui génère X vertices.
+     */
+    public void generateGraphElements() {
+
+        if(this.window.getTabCount() < 1 ) {
+            JOptionPane.showMessageDialog(null, "Vous devez d'abord ouvrir un graphe.", "Erreur", JOptionPane.ERROR_MESSAGE);
+
+        }else{
+            String result = (String) JOptionPane.showInputDialog(this.window, "Entrez combien de noeuds vous souhaitez générer : \n (les anciens éléments seront replacés)", "le titre", JOptionPane.QUESTION_MESSAGE, null, null, "50");
+
+            try {
+                if (result != null) {
+                    int value = Integer.parseInt(result);
+                    ArrayList<GraphElement> elements = new ArrayList<>();
+
+                    for (int i = 0; i < value; i++) {
+                        elements.add(new Vertex("element" + i, Color.BLACK, new Point(10, 10), 15, Vertex.Shape.SQUARE));
+                    }
+
+                    this.getGraph(this.window.getCurrentTabIndex()).addGraphElements(elements);
+                    applyAlgorithm("Random Positioning", new Point(0,0), window.getCurrentSheetViewPort().getViewSize());
+                }
+                //Si l'utilisateur ne rentre pas un entier
+            } catch (NumberFormatException nfe) {
+                JOptionPane.showMessageDialog(null, "Merci de rentrer une valeur entiere.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                generateGraphElements();
+            }
+        }
+
+    }
+
+    /**
+     * Main du logiciel de visualisation de graphes
+     *
+     * @param args arguments du main
+     */
+    public static void main(String[] args) {
+
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            UIManager.getDefaults().put("TabbedPane.contentBorderInsets", new Insets(5, 0, 0, 0));
+            UIManager.getDefaults().put("TabbedPane.tabAreaInsets", new Insets(0, 0, 0, 0));
+            UIManager.getDefaults().put("TabbedPane.tabsOverlapBorder", true);
+            CustomUIManager.setLightTheme();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+
+        Controller controller = new Controller();
+        ActionController.setController(controller);
+        Window window = new Window((int)dimension.getWidth()-100, (int)dimension.getHeight()-150, controller);
+        controller.setWindow(window);
+
     }
 }
 

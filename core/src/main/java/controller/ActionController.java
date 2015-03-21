@@ -104,10 +104,25 @@ public class ActionController {
                 break;*/
             case "Algorithms":
                 ActionController.callAlgorithmsToolBox();
+                break;
+
+            case "changeStyle":
+                ActionController.changeStyle();
+
+            case "generate":
+                ActionController.generateGraphElements();
 
             default:
                 break;
         }
+    }
+
+    private static void generateGraphElements() {
+        ActionController.controller.generateGraphElements();
+    }
+
+    private static void changeStyle() {
+        ActionController.controller.changeLook();
     }
 
     private static void callAlgorithmsToolBox() {
@@ -207,7 +222,7 @@ public class ActionController {
     }
 
     public static void applyAlgorithm(String name) {
-        ActionController.controller.applyAlgorithm(name);
+        ActionController.controller.applyAlgorithm(name, new Point(0,0), ActionController.controller.getWindow().getCurrentSheetViewPort().getExtentSize());
     }
 
     public static void refreshUndoRedo(boolean undoEnable, boolean redoEnable) {

@@ -5,7 +5,6 @@ import controller.listeners.ButtonActionListener;
 import controller.listeners.KeyActionListener;
 import controller.state.State;
 import data.Graph;
-import data.GraphElement;
 import data.Vertex;
 import files.dot.DotFileManager;
 import files.gml.GmlFileManager;
@@ -252,6 +251,9 @@ public class Window extends JFrame {
         file.add(saveas);
 
         file.add(ButtonFactory.createSeparator());
+        this.addJMenuItem(file, "Changer de style", "changeStyle");
+
+        file.add(ButtonFactory.createSeparator());
         this.addJMenuItem(file, "Fermer", "Close");
 
         this.addJMenuItem(edition, "Annuler", "Undo");
@@ -259,6 +261,8 @@ public class Window extends JFrame {
         this.addJMenuItem(edition, "Copier", "Copy");
         this.addJMenuItem(edition, "Coller", "Paste");
 
+        edition.add(ButtonFactory.createSeparator());
+        this.addJMenuItem(edition, "Generer des elements", "generate");
         this.addJMenuItem(edition, "Algorithmes", "Algorithms");
     }
 
@@ -325,6 +329,15 @@ public class Window extends JFrame {
      */
     public Tab getCurrentTab() {
         return (Tab)this.tabs.getComponentAt((this.tabs.getSelectedIndex()));
+    }
+
+    public ArrayList<Tab> getTabsArray(){
+
+        ArrayList<Tab> currentTabs = new ArrayList<>();
+        for(int i=0;i<getTabCount();i++)
+            currentTabs.add((Tab)this.tabs.getComponentAt(i));
+
+        return currentTabs;
     }
 
     /**
@@ -433,7 +446,7 @@ public class Window extends JFrame {
                 tmp = new SnapVertex(v, elements.indexOf(v));
                 before.add(tmp);
             }
-            controller.applyAlgorithm(selectedAlgorithm);
+            controller.applyAlgorithm(selectedAlgorithm, getCurrentSheetViewPort().getViewPosition(), getCurrentSheetViewPort().getExtentSize());
             elements=  getCurrentTab().getGraph().getVertexes();
 
             for(Vertex v : elements)
