@@ -117,7 +117,7 @@ public class ButtonFactory {
             button = new ImageButton(ImageIO.read(new File(fileName)), size);
             button.setPreferredSize(new Dimension(size, size));
             setCommonProperties(button, buttonName, actionName, helpMessage, size, tabTitle);
-        } catch (IOException e) { }
+        } catch (IOException ignored) { }
         return button;
     }
 
@@ -127,7 +127,7 @@ public class ButtonFactory {
             button = new ImageButton(ImageIO.read(new File(fileName)), size);
             button.setPreferredSize(new Dimension(size, size));
             setCommonProperties(button, buttonName, actionName, helpMessage, size, tabTitle);
-        } catch (IOException e) { }
+        } catch (IOException ignored) { }
         return button;
     }
 
@@ -137,9 +137,11 @@ public class ButtonFactory {
             button = new StateButton(ImageIO.read(new File(fileName)), size);
             button.setPreferredSize(new Dimension(size, size));
             setCommonProperties(button, buttonName, actionName, helpMessage, size, "");
-        } catch (IOException e) { }
+        } catch (IOException ignored) { }
         CustomUIManager.addImageButton(button);
-        button.setContentAreaFilled(false);
+        if (button != null) {
+            button.setContentAreaFilled(false);
+        }
         return button;
     }
 
@@ -159,9 +161,11 @@ public class ButtonFactory {
             item = new ImageMenuItem(ImageIO.read(new File(fileName)), size);
             item.setPreferredSize(new Dimension(size, size));
             setCommonProperties(item, buttonName, actionName, helpMessage, size, "");
-        } catch (IOException e) { }
+        } catch (IOException ignored) { }
         CustomUIManager.addImageButton(item);
-        item.setContentAreaFilled(false);
+        if (item != null) {
+            item.setContentAreaFilled(false);
+        }
         return item;
     }
 

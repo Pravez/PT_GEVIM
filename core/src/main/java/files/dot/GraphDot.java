@@ -74,13 +74,38 @@ public class GraphDot {
         HashMap<VertexDot, Vertex> verticesMap = new HashMap<>();
 
         for(VertexDot vd : vertices){
-            String position = (String) vd.getAttributes().get("pos");
-            position = position.replace("(","");
-            position = position.replace(")", "");
-            int x = Integer.parseInt(position.split("%")[0]);
-            int y = Integer.parseInt(position.split("%")[1]);
-            Color color = Color.decode((String)vd.getAttributes().get("color"));
-            Vertex v = new Vertex((String)vd.getAttributes().get("label"), color, new Point(x,y),Integer.parseInt((String)vd.getAttributes().get("size")), Vertex.Shape.decode((String)vd.getAttributes().get("shape")));
+            HashMap<String, Object> properties = vd.getAttributes();
+
+            Point position = new Point(10,10);
+            Color color = Color.BLACK;
+            String label = "vertex";
+            int size = 15;
+            Vertex.Shape shape = Vertex.Shape.SQUARE;
+
+            if(properties.get("pos") != null) {
+                String pos = (String) vd.getAttributes().get("pos");
+                pos = pos.replace("(","");
+                pos = pos.replace(")", "");
+                position.setLocation(Integer.parseInt(pos.split("%")[0]),Integer.parseInt(pos.split("%")[1]));
+            }
+
+            if(properties.get("color") != null) {
+                color = Color.decode((String) properties.get("color"));
+            }
+
+            if(properties.get("label") != null){
+                label = (String)properties.get("label");
+            }
+
+            if(properties.get("size") != null){
+                size = Integer.parseInt((String)properties.get("size"));
+            }
+
+            if(properties.get("shape") != null){
+                shape = Vertex.Shape.decode((String) properties.get("shape"));
+            }
+
+            Vertex v = new Vertex(label, color, position,size, shape);
             elements.add(v);
             verticesMap.put(vd, v);
         }
@@ -89,10 +114,25 @@ public class GraphDot {
 
             VertexDot origin = ed.getOrigin();
             VertexDot destination = ed.getDestination();
-            Color color = Color.decode((String)ed.getAttributes().get("color"));
 
+            HashMap<String, Object> properties = ed.getAttributes();
+            Color color = Color.BLACK;
+            String label = "edge";
+            int size = 1;
 
-            Edge e = new Edge((String)ed.getAttributes().get("label"), color, verticesMap.get(origin), verticesMap.get(destination), Integer.parseInt((String) ed.getAttributes().get("size")));
+            if(properties.get("label")!=null){
+                label = (String)properties.get("label");
+            }
+
+            if(properties.get("color")!=null){
+                color = Color.decode((String)ed.getAttributes().get("color"));
+            }
+
+            if(properties.get("size")!=null){
+                size = Integer.parseInt((String)properties.get("size"));
+            }
+
+            Edge e = new Edge(label, color, verticesMap.get(origin), verticesMap.get(destination), size);
             elements.add(e);
         }
 
