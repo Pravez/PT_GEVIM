@@ -43,6 +43,7 @@ public class CustomTabbedPaneUI extends BasicTabbedPaneUI {
     @Override
     protected void paintTabBorder(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected) {
         Graphics2D g2D = (Graphics2D) g;
+        g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2D.setColor(isSelected ? CustomUIManager.selectedTabBorderColor : CustomUIManager.deselectedTabBorderColor);
         Path2D p = new Path2D.Double();
         p.moveTo(x, y + h - 1);

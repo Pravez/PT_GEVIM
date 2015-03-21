@@ -18,6 +18,7 @@ public class ImageMenuItem extends ImageButton {
     protected void paintComponent(Graphics g) {
         ButtonModel m = getModel();
         if (m.isPressed() || m.isRollover() || m.isSelected()) {
+            ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g.setColor(CustomUIManager.getButtonHoverBackground());
             g.fillRoundRect(0, 0, getWidth(), getHeight(), 5, 5);
         }

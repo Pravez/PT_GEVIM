@@ -36,6 +36,7 @@ public class CustomUIManager {
     /* Couleur des Images */
     private static Color                 imageColor;
     private static Color                 imageHoverColor;
+    private static Color                 reverseImageColor;
 
     /* Couleur des JButton */
     private static Color                 buttonBackground;
@@ -169,6 +170,7 @@ public class CustomUIManager {
 
         CustomUIManager.imageColor               = new Color(230, 230, 230);
         CustomUIManager.imageHoverColor          = new Color(124, 124, 124);
+        CustomUIManager.reverseImageColor        = new Color(230, 230, 230);
 
         CustomUIManager.buttonBackground         = new Color(93, 93, 93);
         CustomUIManager.buttonHoverBackground    = new Color(72, 72, 72);
@@ -210,6 +212,7 @@ public class CustomUIManager {
 
         CustomUIManager.imageColor               = new Color(0, 0, 0);
         CustomUIManager.imageHoverColor          = new Color(82, 82, 82);
+        CustomUIManager.reverseImageColor        = new Color(230, 230, 230);
 
         CustomUIManager.buttonBackground         = new Color(230, 230, 230);
         CustomUIManager.buttonHoverBackground    = new Color(170, 170, 170);
@@ -312,8 +315,8 @@ public class CustomUIManager {
         colorButton(imageButton);
         BufferedImage image = imageButton.getImage();
         imageButton.setIcon(getColoredIcon(image, CustomUIManager.imageHoverColor, imageButton.getImageSize()));
-        imageButton.setRolloverIcon(getColoredIcon(image, CustomUIManager.imageColor, imageButton.getImageSize()));
-        imageButton.setPressedIcon(getColoredIcon(image, CustomUIManager.imageColor, imageButton.getImageSize()));
+        imageButton.setRolloverIcon(getColoredIcon(image, CustomUIManager.reverseImageColor, imageButton.getImageSize()));
+        imageButton.setPressedIcon(getColoredIcon(image, CustomUIManager.reverseImageColor, imageButton.getImageSize()));
         return imageButton;
     }
 

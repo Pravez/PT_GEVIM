@@ -35,6 +35,7 @@ public class CustomScrollBarUI extends BasicScrollBarUI {
         int y = thumbBounds.y;
         int w = thumbBounds.width;
         int h = thumbBounds.height;
+        ((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setColor(CustomUIManager.scrollThumbColor);
         if (w > h) { // barre horizontale
             h -= 4;
