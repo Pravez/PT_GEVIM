@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by aledufrenne on 08/03/2015.
+ * {@link java.awt.event.ActionListener} des actions d'un bouton, surchargé
  */
 public class ButtonActionListener implements ActionListener {
 

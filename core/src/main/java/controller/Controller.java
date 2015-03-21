@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 /**
- * Created by quelemonnier on 26/01/15.
+ *
  * Classe Controller, contrôleur principal de l'application
  */
 public class Controller {
@@ -475,6 +475,11 @@ public class Controller {
         }
     }
 
+    /**
+     * Méthode permettant de gérer la sauvegarde d'un graphe en cours. On lui envoie des extensions à filtrer
+     * @param extensions Liste des extensions disponibles à la sauvegarde
+     * @param descriptions Descriptions associées aux extensions
+     */
     public void save(String[] extensions, String[] descriptions) {
         try{
             File file;

@@ -4,9 +4,10 @@ import controller.ActionController;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Objects;
 
 /**
- * Created by Admin on 08/03/2015.
+ * {@link controller.listeners.KeyActionListener} des entrées au clavier. Fait pour gérer les raccourcis clavier
  */
 public class KeyActionListener extends KeyAdapter {
 
@@ -50,7 +51,7 @@ public class KeyActionListener extends KeyAdapter {
                 default:
                     break;
             }
-        } else if (KeyEvent.getKeyText(e.getKeyCode()) == "Retour arrière" || KeyEvent.getKeyText(e.getKeyCode()) == "Supprimer") {
+        } else if (Objects.equals(KeyEvent.getKeyText(e.getKeyCode()), "Retour arrière") || Objects.equals(KeyEvent.getKeyText(e.getKeyCode()), "Supprimer")) {
             ActionController.delete();
         }
     }
