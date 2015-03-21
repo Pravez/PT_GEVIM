@@ -3,8 +3,8 @@ package view.editor.elements;
 import data.Graph;
 import data.GraphElement;
 import data.Vertex;
-import undoRedo.SnapProperties;
-import undoRedo.SnapVertex;
+import undoRedo.snap.SnapProperties;
+import undoRedo.snap.SnapVertex;
 import view.frames.VertexViewEditor;
 
 import java.awt.*;

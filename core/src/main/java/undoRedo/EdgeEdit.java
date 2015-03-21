@@ -1,6 +1,7 @@
 package undoRedo;
 
 import data.Graph;
+import undoRedo.snap.SnapEdge;
 
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotUndoException;
@@ -26,23 +27,24 @@ public class EdgeEdit extends AbstractUndoableEdit {
     public void undo() throws CannotUndoException {
 
 
+        if (edgeAfter.getColor() != null)
+            graph.getEdges().get(edgeBefore.getIndex()).setColor(edgeBefore.getColor());
 
-        graph.getEdges().get(edgeBefore.getIndex()).setColor(edgeBefore.getColor());
-        graph.getEdges().get(edgeBefore.getIndex()).setLabel(edgeBefore.getLabel());
-        graph.getEdges().get(edgeBefore.getIndex()).setThickness(edgeBefore.getSize());
-        graph.getEdges().get(edgeBefore.getIndex()).setDestination(edgeBefore.getDestination());
-        graph.getEdges().get(edgeBefore.getIndex()).setOrigin(edgeBefore.getSource());
+        if (edgeAfter.getLabel() != null)
+            graph.getEdges().get(edgeBefore.getIndex()).setLabel(edgeBefore.getLabel());
+
+        if (edgeAfter.getSize() != -1)
+            graph.getEdges().get(edgeBefore.getIndex()).setThickness(edgeBefore.getSize());
+
+        if (edgeAfter.getDestination() != null)
+            graph.getEdges().get(edgeBefore.getIndex()).setDestination(edgeBefore.getDestination());
+
+        if (edgeAfter.getSource() != null)
+            graph.getEdges().get(edgeBefore.getIndex()).setOrigin(edgeBefore.getSource());
+
         graph.setChanged();
 
-        /*
-        for(SnapEdge s : edgesBefore) {
-            graph.getEdges().get(s.getIndex()).setColor(s.getColor());
-            graph.getEdges().get(s.getIndex()).setLabel(s.getLabel());
-            graph.getEdges().get(s.getIndex()).setThickness(s.getSize());
-            graph.getEdges().get(s.getIndex()).setDestination(graph.getVertexes().get(s.getDestination()));
-            graph.getEdges().get(s.getIndex()).setOrigin(graph.getVertexes().get(s.getSource()));
 
-        }*/
 
     }
 
@@ -67,23 +69,6 @@ public class EdgeEdit extends AbstractUndoableEdit {
         graph.setChanged();
 
 
-/*
-        for(SnapEdge s : edgesBefore) {
-            if (edgeAfter.getColor() != null)
-                graph.getVertexes().get(edgeBefore.getIndex()).setColor(edgeAfter.getColor());
-
-            if (edgeAfter.getLabel() != null)
-                graph.getVertexes().get(edgeBefore.getIndex()).setLabel(edgeAfter.getLabel());
-
-            if (edgeAfter.getSize() != -1)
-                graph.getVertexes().get(edgeBefore.getIndex()).setSize(edgeAfter.getSize());
-
-            if (edgeAfter.getDestination() != -1)
-                graph.getEdges().get(edgeBefore.getIndex()).setDestination(graph.getVertexes().get(edgeAfter.getDestination()));
-
-            if (edgeAfter.getSource() != -1)
-                graph.getEdges().get(edgeBefore.getIndex()).setOrigin(graph.getVertexes().get(edgeAfter.getSource()));
-        }*/
     }
 
     public boolean canUndo() { return true; }

@@ -2,7 +2,7 @@ package view.editor.elements;
 
 import data.Graph;
 import data.GraphElement;
-import undoRedo.SnapProperties;
+import undoRedo.snap.SnapProperties;
 
 import javax.swing.*;
 import java.awt.*;

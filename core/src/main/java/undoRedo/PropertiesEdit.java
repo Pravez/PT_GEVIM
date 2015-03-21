@@ -4,11 +4,11 @@ import data.Edge;
 import data.Graph;
 import data.GraphElement;
 import data.Vertex;
+import undoRedo.snap.SnapProperties;
 
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
-import java.awt.*;
 import java.util.ArrayList;
 
 /**

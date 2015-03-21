@@ -5,6 +5,10 @@ import data.Edge;
 import data.Graph;
 import data.GraphElement;
 import data.Vertex;
+import undoRedo.snap.SnapEdge;
+import undoRedo.snap.SnapPosition;
+import undoRedo.snap.SnapProperties;
+import undoRedo.snap.SnapVertex;
 
 import java.util.ArrayList;
 import javax.swing.*;

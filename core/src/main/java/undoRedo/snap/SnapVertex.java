@@ -1,7 +1,6 @@
-package undoRedo;
+package undoRedo.snap;
 
 import data.Vertex;
-import view.editor.elements.ElementView;
 
 import java.awt.*;
 

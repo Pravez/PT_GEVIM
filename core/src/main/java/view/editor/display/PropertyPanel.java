@@ -1,8 +1,8 @@
 package view.editor.display;
 
 import data.*;
-import undoRedo.SnapProperties;
-import undoRedo.SnapVertex;
+import undoRedo.snap.SnapEdge;
+import undoRedo.snap.SnapVertex;
 import view.UIElements.CustomTabbedPaneUI;
 import view.UIElements.CustomUIManager;
 
@@ -147,18 +147,43 @@ public class PropertyPanel extends JTabbedPane implements Observer {
      * @param lastRow La dernière ligne du {@link javax.swing.JTable} concernée
      */
     private void modifyGraphEdges(int firstRow, int lastRow) {
+        boolean changed=false;
+
         for(int i=firstRow;i<=lastRow;i++){
+
+
             String newLabel = (String) edgePropertyTable.getModel().getValueAt(i,0);
             int newThickness = Integer.parseInt((String) edgePropertyTable.getModel().getValueAt(i, 1));
             int id = Integer.parseInt(edgeDatas.get(i).get(2));
+            int indexEdge= this.graph.getEdges().indexOf(this.graph.getFromID(id));
 
-            this.graph.getFromID(id).setLabel(newLabel);
+            String previousLabel=this.graph.getFromID(id).getLabel();
+            int previousThickness = ((Edge)this.graph.getFromID(id)).getThickness();
+
+            SnapEdge tmpBefore = new SnapEdge();
+            tmpBefore.setIndex(indexEdge);
+            SnapEdge tmpAfter = new SnapEdge();
+
+            if(!newLabel.equals(previousLabel)) {
+                tmpBefore.setLabel(previousLabel);
+                tmpAfter.setLabel(newLabel);
+                this.graph.getFromID(id).setLabel(newLabel);
+                changed=true;
+            }
 
             if(mustVerifyIntegerDatas(newThickness)){
-                int previousThickness = ((Edge)this.graph.getFromID(id)).getThickness();
                 edgePropertyTable.getModel().setValueAt(String.valueOf(previousThickness), i, 1);
-            }else {
+            }else if(newThickness!=previousThickness){
+                tmpBefore.setSize(previousThickness);
+                tmpAfter.setSize(newThickness);
                 ((Edge)this.graph.getFromID(id)).setThickness(newThickness);
+                changed=true;
+            }
+
+            if(changed)
+            {
+                sheet.getTab().getUndoRedo().registerSingleTypeEdit(tmpBefore, tmpAfter);
+                changed=false;
             }
         }
 
@@ -216,7 +241,6 @@ public class PropertyPanel extends JTabbedPane implements Observer {
 
             if(changed)
             {
-
                 sheet.getTab().getUndoRedo().registerSingleTypeEdit(tmpBefore, tmpAfter);
                 changed=false;
             }

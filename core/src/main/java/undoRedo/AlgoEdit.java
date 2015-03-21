@@ -1,7 +1,7 @@
 package undoRedo;
 
-import data.Edge;
 import data.Graph;
+import undoRedo.snap.SnapVertex;
 
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotUndoException;

@@ -1,4 +1,4 @@
-package undoRedo;
+package undoRedo.snap;
 
 import java.awt.*;
 

@@ -3,8 +3,8 @@ package view.editor.elements;
 import data.Edge;
 import data.Graph;
 import data.GraphElement;
-import undoRedo.SnapEdge;
-import undoRedo.SnapProperties;
+import undoRedo.snap.SnapEdge;
+import undoRedo.snap.SnapProperties;
 import view.frames.EdgeViewEditor;
 
 import java.awt.*;

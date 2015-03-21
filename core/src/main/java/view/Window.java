@@ -8,7 +8,7 @@ import data.Graph;
 import data.Vertex;
 import files.dot.DotFileManager;
 import files.gml.GmlFileManager;
-import undoRedo.SnapVertex;
+import undoRedo.snap.SnapVertex;
 import view.UIElements.CustomTabbedPaneUI;
 import view.UIElements.CustomUIManager;
 import view.editor.display.Sheet;
