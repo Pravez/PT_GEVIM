@@ -550,6 +550,7 @@ public class Controller {
                 }
 
                 //Si l'utilisateur ne rentre pas un entier
+
             } catch (NumberFormatException nfe) {
                 JOptionPane.showMessageDialog(null, "Merci de rentrer une valeur entiere.", "Erreur", JOptionPane.ERROR_MESSAGE);
                 generateGraphElements();
