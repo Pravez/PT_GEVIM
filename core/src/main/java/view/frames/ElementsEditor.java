@@ -99,11 +99,7 @@ public class ElementsEditor extends JDialog {
                 JOptionPane.showMessageDialog(this, "Attention vous editez des noeuds, il se pourrait qu'ils soient trop petits.", "Information", JOptionPane.INFORMATION_MESSAGE);
                 alreadyValidated = true;
             } else {
-                if(!hasBeenModified()){
-                    onCancel();
-                }else{
-                    dispose();
-                }
+                dispose();
             }
         }
     }
@@ -139,22 +135,6 @@ public class ElementsEditor extends JDialog {
         }
 
         return mustBeVerified;
-    }
-
-    public boolean hasBeenModified(){
-        boolean modified = false;
-
-        if(selectedSize != 15){
-            modified = true;
-        }
-        if(selectedColor != Color.BLACK){
-            modified = true;
-        }
-        if(selectedName != "element"){
-            modified = true;
-        }
-
-        return modified;
     }
 
 

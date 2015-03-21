@@ -730,13 +730,15 @@ public class Sheet extends JComponent implements Observer {
                 boolean labelModified = verticesEditor.isLabelModified();
                 boolean sizeModified = verticesEditor.isSizeModified();
                 boolean shapeModified = verticesEditor.isShapeModified();
+                boolean indexModified = verticesEditor.isIndexModified();
 
                 Color modifiedColor = colorModified ? verticesEditor.getNewColor() : null;
                 String modifiedLabel = labelModified ? verticesEditor.getNewLabel() : "none";
                 int modifiedSize = sizeModified ? verticesEditor.getNewSize() : 0;
                 Vertex.Shape modifiedShape = shapeModified ? verticesEditor.getNewShape() : null;
+                int modifiedIndex = indexModified ? verticesEditor.getNewIndex() : 0;
 
-                if (colorModified || labelModified || shapeModified || sizeModified) {
+                if (colorModified || labelModified || shapeModified || sizeModified || indexModified) {
 
                     for (ElementView ev : this.selectedElements) {
                         Vertex v = (Vertex) ev.getGraphElement();
@@ -756,6 +758,9 @@ public class Sheet extends JComponent implements Observer {
                         }
                         if (sizeModified) {
                             v.setSize(modifiedSize);
+                        }
+                        if(indexModified){
+                            v.setValue(modifiedIndex);
                         }
                     }
 

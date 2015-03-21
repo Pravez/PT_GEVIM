@@ -162,9 +162,7 @@ public class VertexViewEditor extends JDialog {
      */
     private void onOK() {
 
-        cannotQuit = verifyModifications();
-
-        if(!cannotQuit) {
+        if(!verifyModifications()) {
             if(!hasBeenModified()){
                 onCancel();
             }else{

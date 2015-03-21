@@ -123,7 +123,6 @@ public class PropertyPanel extends JTabbedPane implements Observer {
         sheet.clearSelectedElements();
         for(int i : selectedRows){
             int vertexID = Integer.parseInt(vertexDatas.get(i).get(3));
-            System.out.println(vertexID);
             sheet.selectElement(sheet.getVertices().get(sheet.getVertexPositionFromID(vertexID)));
         }
     }
