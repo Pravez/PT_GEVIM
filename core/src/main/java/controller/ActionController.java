@@ -290,10 +290,10 @@ public class ActionController {
 
     /**
      * Application d'un algorithme
-     * @param name Nom de l'algorithme à appliquer
+     * @param algorithmProperties Object[]
      */
-    public static void applyAlgorithm(String name) {
-        ActionController.controller.applyAlgorithm(name, new Point(0,0), ActionController.controller.getWindow().getCurrentSheetViewPort().getExtentSize());
+    public static void applyAlgorithm(Object[] algorithmProperties) {
+        ActionController.controller.applyAlgorithm(algorithmProperties, new Point(0,0), ActionController.controller.getWindow().getCurrentSheetViewPort().getExtentSize());
     }
 
     /**
