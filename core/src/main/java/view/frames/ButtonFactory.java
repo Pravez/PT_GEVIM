@@ -34,7 +34,7 @@ public class ButtonFactory {
         button.addActionListener(new ButtonActionListener(button, null, ""));
         button.setFocusable(false);
         return button;
-    }
+    } /**** A virer ??? *****/
 
     /**
      * Méthode statique pour créer une JToolBar
@@ -111,6 +111,17 @@ public class ButtonFactory {
         });
     }
 
+    /**
+     * Méthode statique privée permettant de créer une ImageButton avec les paramètres prédéfinis
+     *
+     * @param buttonName le nom du bouton
+     * @param actionName l'action associé au buton
+     * @param fileName    le nom du fichier de l'image
+     * @param helpMessage le message d'aide du bouton
+     * @param size la taille de l'image
+     * @param tabTitle le titre de l'onglet où l'action du bouton va être lancée
+     * @return l'ImageButton créée
+     */
     private static ImageButton createSimpleImageButton(String buttonName, String actionName, String fileName, String helpMessage, int size, String tabTitle) {
         ImageButton button = null;
         try {
@@ -121,16 +132,16 @@ public class ButtonFactory {
         return button;
     }
 
-    private static ImageButton createSpecialImageButton(String buttonName, String actionName, String fileName, String helpMessage, int size, String tabTitle) {
-        ImageButton button = null;
-        try {
-            button = new ImageButton(ImageIO.read(new File(fileName)), size);
-            button.setPreferredSize(new Dimension(size, size));
-            setCommonProperties(button, buttonName, actionName, helpMessage, size, tabTitle);
-        } catch (IOException ignored) { }
-        return button;
-    }
-
+    /**
+     * Méthode statique permettant de créer un StateButton avec des paramètres prédéfinis
+     *
+     * @param buttonName le nom du bouton
+     * @param actionName l'action associé au buton
+     * @param fileName    le nom du fichier de l'image
+     * @param helpMessage le message d'aide du bouton
+     * @param size la taille de l'image
+     * @return le StateButton créé
+     */
     public static StateButton createStateButton(String buttonName, String actionName, String fileName, String helpMessage, int size) {
         StateButton button = null;
         try {
@@ -170,24 +181,6 @@ public class ButtonFactory {
     }
 
     /**
-     * Méthode statique pour créer un bouton avec une image
-     *
-     * @param buttonName  le nom du bouton
-     * @param actionName l'action associé au buton
-     * @param fileName    le nom du fichier de l'image
-     * @param helpMessage le message d'aide du bouton
-     * @param size la taille de l'image
-     * @param tabTitle le titre de l'onglet où l'action du bouton va être lancée
-     * @return l'ImageButton créée
-     */
-    public static ImageButton createImageButton(String buttonName, String actionName, String fileName, String helpMessage, int size, String tabTitle) {
-        ImageButton button = createSpecialImageButton(buttonName, actionName, fileName, helpMessage, size, tabTitle);
-        CustomUIManager.addImageButton(button);
-        button.setContentAreaFilled(false);
-        return button;
-    }
-
-    /**
      * Méthode statique pour créer un bouton avec une image sans peindre la zone du bouton
      *
      * @param buttonName  le nom du bouton
@@ -198,7 +191,7 @@ public class ButtonFactory {
      * @param tabTitle le titre de l'onglet où l'action du bouton va être lancée
      * @return l'ImageButton créée
      */
-    public static ImageButton createBasicImageButton(String buttonName, String actionName, String fileName, String helpMessage, int size, String tabTitle) {
+    public static ImageButton createImageButton(String buttonName, String actionName, String fileName, String helpMessage, int size, String tabTitle) {
         ImageButton button = createSimpleImageButton(buttonName, actionName, fileName, helpMessage, size, tabTitle);
         CustomUIManager.addImageButton(button);
         button.setContentAreaFilled(false);
@@ -246,6 +239,15 @@ public class ButtonFactory {
         return box;
     }
 
+    /**
+     * Méthode statique privée permettant d'affecter à l'AbstractButton les propriétés par défaut de l'application
+     * @param button l'AbstractButton à modifier
+     * @param buttonName  le nom du bouton
+     * @param actionName l'action associé au buton
+     * @param helpMessage le message d'aide du bouton
+     * @param size la taille de l'image
+     * @param tabTitle le titre de l'onglet où l'action du bouton va être lancée
+     */
     private static void setCommonProperties(AbstractButton button, String buttonName, String actionName, String helpMessage, int size, String tabTitle) {
         button.setBounds(0, 0, size, size);
         button.setMargin(new Insets(0, 0, 0, 0));

@@ -16,16 +16,16 @@ import java.util.ArrayList;
  */
 public class CustomUIManager {
 
-    private static ArrayList<JButton>     buttons    = new ArrayList<>();
-    private static ArrayList<JMenuItem>   menuItems  = new ArrayList<>();
-    private static ArrayList<JSeparator>  separators = new ArrayList<>();
-    private static ArrayList<JMenuBar>    menuBars   = new ArrayList<>();
-    private static ArrayList<JToolBar>    toolBars   = new ArrayList<>();
-    private static ArrayList<ImageButton> imageButtons = new ArrayList<>();
+    private static ArrayList<JMenuItem>   menuItems           = new ArrayList<>();
+    private static ArrayList<JSeparator>  separators          = new ArrayList<>();
+    private static ArrayList<JMenuBar>    menuBars            = new ArrayList<>();
+    private static ArrayList<JToolBar>    toolBars            = new ArrayList<>();
+    private static ArrayList<ImageButton> imageButtons        = new ArrayList<>();
     private static ArrayList<ImageButton> reverseImageButtons = new ArrayList<>();
-    private static ArrayList<JTabbedPane> tabs = new ArrayList<>();
-    private static ArrayList<ScrollPane>  scrollPanes = new ArrayList<>();
-    private static ArrayList<JPanel>      panels = new ArrayList<>();
+    private static ArrayList<JTabbedPane> tabbedPanes         = new ArrayList<>();
+    private static ArrayList<ScrollPane>  scrollPanes         = new ArrayList<>();
+    private static ArrayList<JPanel>      panels              = new ArrayList<>();
+    private static ArrayList<JLabel>      labels              = new ArrayList<>();
 
     /* Couleur des Tab */
     private static Color                 tabsColor;
@@ -45,7 +45,7 @@ public class CustomUIManager {
     /* Couleur des JMenuBar */
     private static Color                 menuBarBackground;
 
-    /* Couleur des Bordures des JMenuBar & JToolBar */
+    /* Couleur des Bordures des JToolBar */
     private static Color                 topBorderColor;
     private static Color                 bottomBorderColor;
 
@@ -78,14 +78,12 @@ public class CustomUIManager {
     public static Color                  selectionColor;
     public static Color                  selectionBorderColor;
 
+    /**
+     * Getter de la couleur au survol des Boutons
+     * @return la couleur associée
+     */
     public static Color getButtonHoverBackground() {
         return CustomUIManager.buttonHoverBackground;
-    }
-
-    public static JButton addButton(JButton button) {
-        CustomUIManager.buttons.add(button);
-        colorButton(button);
-        return button;
     }
 
     public static ScrollPane addScrollPane(ScrollPane scrollPane) {
@@ -102,11 +100,11 @@ public class CustomUIManager {
         return panel;
     }
 
-    public static JTabbedPane addTab(JTabbedPane tabs) {
-        CustomUIManager.tabs.add(tabs);
-        tabs.setOpaque(true);
-        colorTabs(tabs);
-        return tabs;
+    public static JTabbedPane addTab(JTabbedPane tabbedPane) {
+        CustomUIManager.tabbedPanes.add(tabbedPane);
+        tabbedPane.setOpaque(true);
+        colorTabbedPane(tabbedPane);
+        return tabbedPane;
     }
 
     public static JPanel addTabComponent(String title) {
@@ -119,6 +117,7 @@ public class CustomUIManager {
         gbc.weightx = 1;
 
         JLabel label = new JLabel(title);
+        CustomUIManager.labels.add(label);
         colorLabel(label);
         panel.add(label, gbc);
         return panel;
@@ -163,6 +162,9 @@ public class CustomUIManager {
         return separator;
     }
 
+    /**
+     * Méthode statique permettant de passer au thème Dark
+     */
     public static void setDarkTheme() {
         CustomUIManager.panelColor               = new Color(64, 64, 64);
 
@@ -205,6 +207,9 @@ public class CustomUIManager {
         setCommonProperties();
     }
 
+    /**
+     * Méthode statique permettant de passer au thème Light
+     */
     public static void setLightTheme() {
         CustomUIManager.panelColor               = new Color(230, 230, 230);
 
@@ -247,6 +252,10 @@ public class CustomUIManager {
         setCommonProperties();
     }
 
+    /**
+     * Méthode statique privée permettant de mettre à jour les propriétés communes entre les différents thèmes et de changer les couleurs
+     * des éléments en fonction des couleurs prédéfinies dans le thème
+     */
     private static void setCommonProperties() {
         UIManager.put("PopupMenu.border", BorderFactory.createLineBorder(CustomUIManager.separatorForeground, 1));
         UIManager.put("TabbedPane.shadow", CustomUIManager.deselectedTabColor);
@@ -254,9 +263,6 @@ public class CustomUIManager {
         UIManager.put("TabbedPane.highlight", CustomUIManager.selectedTabBorderColor);
         UIManager.put("TabbedPane.light", CustomUIManager.deselectedTabColor);
 
-        for (JButton button : CustomUIManager.buttons) {
-            colorButton(button);
-        }
         for (JMenuItem menuItem : CustomUIManager.menuItems) {
             colorMenuItem(menuItem);
         }
@@ -275,8 +281,8 @@ public class CustomUIManager {
         for (ImageButton image : CustomUIManager.reverseImageButtons) {
             colorReverseImageButton(image);
         }
-        for (JTabbedPane tabbedPane : CustomUIManager.tabs) {
-            colorTabs(tabbedPane);
+        for (JTabbedPane tabbedPane : CustomUIManager.tabbedPanes) {
+            colorTabbedPane(tabbedPane);
         }
         for (JPanel panel : CustomUIManager.panels) {
             colorPanel(panel);
@@ -284,61 +290,106 @@ public class CustomUIManager {
         for (ScrollPane scrollPane : CustomUIManager.scrollPanes) {
             colorScrollPane(scrollPane);
         }
+        for (JLabel label : CustomUIManager.labels) {
+            colorLabel(label);
+        }
     }
 
+    /**
+     * Méthode statique permettant d'affecter au ScrollPane les couleurs de l'application
+     * @param scrollPane le ScrollPane
+     */
     private static void colorScrollPane(ScrollPane scrollPane) {
         scrollPane.setBackground(CustomUIManager.scrollPaneColor);
     }
 
+    /**
+     * Méthode statique permettant d'affecter au JPanel les couleurs de l'application
+     * @param panel le JPanel
+     */
     private static void colorPanel(JPanel panel) {
         panel.setBackground(CustomUIManager.panelColor);
     }
 
+    /**
+     * Méthode statique permettant d'affecter au JLabel les couleurs de l'application
+     * @param label le JLabel
+     */
     private static void colorLabel(JLabel label) {
         label.setForeground(CustomUIManager.menuForeground);
     }
 
-    private static void colorTabs(JTabbedPane tabs) {
-        tabs.setBackground(CustomUIManager.tabsColor);
+    /**
+     * Méthode statique permettant d'affecter au JTabbedPane les couleurs de l'application
+     * @param tabbedPane le JTabbedPane
+     */
+    private static void colorTabbedPane(JTabbedPane tabbedPane) {
+        tabbedPane.setBackground(CustomUIManager.tabsColor);
     }
 
-    private static ImageButton colorImageButton(ImageButton imageButton) {
+    /**
+     * Méthode statique permettant d'affecter à l'ImageButton les couleurs de l'application
+     * @param imageButton l'ImageButton
+     */
+    private static void colorImageButton(ImageButton imageButton) {
         colorButton(imageButton);
         BufferedImage image = imageButton.getImage();
         imageButton.setIcon(getColoredIcon(image, CustomUIManager.imageColor, imageButton.getImageSize()));
         imageButton.setRolloverIcon(getColoredIcon(image, CustomUIManager.imageHoverColor, imageButton.getImageSize()));
         imageButton.setPressedIcon(getColoredIcon(image, CustomUIManager.imageHoverColor, imageButton.getImageSize()));
-        return imageButton;
     }
 
-    private static ImageButton colorReverseImageButton(ImageButton imageButton) {
+    /**
+     * Méthode statique permettant d'affecter à l'ImageButton les couleurs de l'application en mode Reverse
+     * @param imageButton l'ImageButton
+     */
+    private static void colorReverseImageButton(ImageButton imageButton) {
         colorButton(imageButton);
         BufferedImage image = imageButton.getImage();
         imageButton.setIcon(getColoredIcon(image, CustomUIManager.imageHoverColor, imageButton.getImageSize()));
         imageButton.setRolloverIcon(getColoredIcon(image, CustomUIManager.reverseImageColor, imageButton.getImageSize()));
         imageButton.setPressedIcon(getColoredIcon(image, CustomUIManager.reverseImageColor, imageButton.getImageSize()));
-        return imageButton;
     }
 
+    /**
+     * Méthode statique permettant d'affecter au JButton les couleurs de l'application
+     * @param button le JButton
+     */
     private static void colorButton(JButton button) {
         button.setBackground(CustomUIManager.buttonBackground);
     }
 
+    /**
+     * Méthode statique permettant d'affecter au JMenuBar les couleurs de l'application
+     * @param menuBar le JMenuBar
+     */
     private static void colorMenuBar(JMenuBar menuBar) {
         menuBar.setBackground(CustomUIManager.menuBarBackground);
     }
 
+    /**
+     * Méthode statique permettant d'affecter au JToolBar les couleurs de l'application
+     * @param toolBar le JToolBar
+     */
     private static void colorToolBar(JToolBar toolBar) {
         toolBar.setBackground(CustomUIManager.toolBarBackground);
         toolBar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, CustomUIManager.topBorderColor),
                 BorderFactory.createMatteBorder(1, 0, 1, 0, CustomUIManager.bottomBorderColor)));
     }
 
+    /**
+     * Méthode statique permettant d'affecter au JMenuItem les couleurs de l'application
+     * @param menuItem le JMenuItem
+     */
     private static void colorMenuItem(JMenuItem menuItem) {
         menuItem.setBackground(CustomUIManager.menuBackground);
         menuItem.setForeground(CustomUIManager.menuForeground);
     }
 
+    /**
+     * Méthode statique permettant d'affecter au JSeparator les couleurs de l'application
+     * @param separator le JSeparator
+     */
     private static void colorSeparator(JSeparator separator) {
         separator.setForeground(CustomUIManager.separatorForeground);
     }
