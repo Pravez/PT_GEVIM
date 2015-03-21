@@ -85,8 +85,6 @@ public class UpdateThread extends JDialog implements Runnable
      * Methode executee par le nouveau thread, elle récupère les données et les traite.
      */
     public void updateView(){
-
-
         for (GraphElement element : elements) {
             if (element.isVertex()) {
                 vertices.add(createVertexView((Vertex) element));
@@ -100,8 +98,8 @@ public class UpdateThread extends JDialog implements Runnable
 
                 while (search.hasNext() && (src == null || dst == null)) {
                     VertexView tmp = search.next();
-                    if (tmp.getVertex().getValue() == ((Edge) element).getOrigin().getValue()) src = tmp;
-                    else if (tmp.getVertex().getValue() == ((Edge) element).getDestination().getValue()) dst = tmp;
+                    if (tmp.getVertex().getID() == ((Edge) element).getOrigin().getID()) src = tmp;
+                    else if (tmp.getVertex().getID() == ((Edge) element).getDestination().getID()) dst = tmp;
                 }
                if (src != null && dst != null){
                    edges.add(createEdgeView((Edge) element, src, dst));

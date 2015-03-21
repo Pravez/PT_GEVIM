@@ -27,7 +27,6 @@ public class Edge extends GraphElement {
         this.thickness   = thickness;
         origin.addEdge(this);
         destination.addEdge(this);
-
     }
 
     /**

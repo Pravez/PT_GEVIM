@@ -97,8 +97,8 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
 
                     while (search.hasNext() && (src == null || dst == null)) {
                         VertexView tmp = search.next();
-                        if (tmp.getVertex().getValue() == ((Edge) element).getOrigin().getValue()) src = tmp;
-                        else if (tmp.getVertex().getValue() == ((Edge) element).getDestination().getValue()) dst = tmp;
+                        if (tmp.getVertex().getID() == ((Edge) element).getOrigin().getID()) src = tmp;
+                        else if (tmp.getVertex().getID() == ((Edge) element).getDestination().getID()) dst = tmp;
                     }
                     if (src != null && dst != null) addEdge((Edge) element, src, dst);
                 }
@@ -162,15 +162,4 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
 		this.pane.getHorizontalScrollBar().setValue((int) (1.0*origin.x*this.sheet.getSize().width/this.getPreferredSize().width));
 		this.pane.getVerticalScrollBar().setValue((int) (1.0*origin.y*this.sheet.getSize().height/this.getPreferredSize().height));
 	}
-
-    /**
-     * Méthode permettant de modifier la position des scrollers du ScrollPane
-     * @param position la nouvelle position du point d'origine du viewport
-     * @param width l'ancienne largeur du viewPort
-     * @param height l'ancienne hauteur du viewPort
-     */
-    public void setPosition(Point position, int width, int height) {
-        this.pane.getHorizontalScrollBar().setValue((int) (1.0*position.x*this.sheet.getPreferredSize().width/width));
-        this.pane.getVerticalScrollBar().setValue((int) (1.0*position.y*this.sheet.getPreferredSize().height/height));
-    }
 }

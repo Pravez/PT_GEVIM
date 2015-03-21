@@ -637,8 +637,8 @@ public class Sheet extends JComponent implements Observer {
 
                     while (search.hasNext() && (src == null || dst == null)) {
                         VertexView tmp = search.next();
-                        if (tmp.getVertex().getValue() == ((Edge) element).getOrigin().getValue()) src = tmp;
-                        else if (tmp.getVertex().getValue() == ((Edge) element).getDestination().getValue()) dst = tmp;
+                        if (tmp.getVertex().getID() == ((Edge) element).getOrigin().getID()) src = tmp;
+                        else if (tmp.getVertex().getID() == ((Edge) element).getDestination().getID()) dst = tmp;
                     }
                     if (src != null && dst != null) addEdge((Edge) element, src, dst);
                 }
