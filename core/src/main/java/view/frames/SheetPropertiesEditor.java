@@ -1,6 +1,7 @@
 package view.frames;
 
 import data.Vertex;
+import view.UIElements.CustomUIManager;
 import view.editor.display.Sheet;
 
 import javax.swing.*;
@@ -8,25 +9,27 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class SheetPropertiesEditor extends JDialog {
-    private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
+    private JPanel       contentPane;
+    private JButton      buttonOK;
+    private JButton      buttonCancel;
 
-    private JTextField verticesDefaultSize;
-    private JTextField edgesDefaultThickness;
-    private JComboBox verticesDefaultShape;
-    private JPanel verticesDefaultColor;
-    private JPanel edgesDefaultColor;
+    private JTextField   verticesDefaultSize;
+    private JTextField   edgesDefaultThickness;
+    private JComboBox    verticesDefaultShape;
+    private JPanel       verticesDefaultColor;
+    private JPanel       edgesDefaultColor;
+    private JPanel       elementDefaultHoverColor;
 
-    private int edgeThickness;
-    private int vertexSize;
-    private Color edgeColor;
-    private Color vertexColor;
+    private int          edgeThickness;
+    private int          vertexSize;
+    private Color        edgeColor;
+    private Color        vertexColor;
+    private Color        elementHoverColor;
     private Vertex.Shape vertexShape;
 
-    private boolean cancelled;
+    private boolean      cancelled;
 
-    private Sheet sheet;
+    private Sheet        sheet;
 
     public SheetPropertiesEditor(Sheet sheet) {
 
@@ -52,7 +55,7 @@ public class SheetPropertiesEditor extends JDialog {
             }
         });
 
-// call onCancel() when cross is clicked
+        // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -60,7 +63,7 @@ public class SheetPropertiesEditor extends JDialog {
             }
         });
 
-// call onCancel() on ESCAPE
+        // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
@@ -73,17 +76,18 @@ public class SheetPropertiesEditor extends JDialog {
     }
 
     private void initComponents() {
-
         cancelled = false;
 
-        this.vertexColor = this.sheet.getDefaultVerticesColor();
-        this.vertexShape = this.sheet.getDefaultVerticesShape();
-        this.vertexSize = this.sheet.getDefaultVerticesSize();
-        this.edgeColor = this.sheet.getDefaultEdgesColor();
-        this.edgeThickness = this.sheet.getDefaultEdgesThickness();
+        this.vertexColor       = this.sheet.getDefaultVerticesColor();
+        this.vertexShape       = this.sheet.getDefaultVerticesShape();
+        this.vertexSize        = this.sheet.getDefaultVerticesSize();
+        this.edgeColor         = this.sheet.getDefaultEdgesColor();
+        this.edgeThickness     = this.sheet.getDefaultEdgesThickness();
+        this.elementHoverColor = CustomUIManager.getHoverColor();
 
         this.verticesDefaultColor.setBackground(this.vertexColor);
         this.edgesDefaultColor.setBackground(this.edgeColor);
+        this.elementDefaultHoverColor.setBackground(this.elementHoverColor);
 
         this.verticesDefaultSize.setText(String.valueOf(this.vertexSize));
         this.edgesDefaultThickness.setText(String.valueOf(this.edgeThickness));
@@ -118,6 +122,14 @@ public class SheetPropertiesEditor extends JDialog {
                 onColor(verticesDefaultColor);
             }
         });
+
+        this.elementDefaultHoverColor.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                onColor(elementDefaultHoverColor);
+            }
+        });
     }
 
     private void onOK() {
@@ -143,8 +155,9 @@ public class SheetPropertiesEditor extends JDialog {
 
         boolean mustBeVerified = false;
 
-        this.edgeColor = edgesDefaultColor.getBackground();
-        this.vertexColor = verticesDefaultColor.getBackground();
+        this.edgeColor         = edgesDefaultColor.getBackground();
+        this.vertexColor       = verticesDefaultColor.getBackground();
+        this.elementHoverColor = elementDefaultHoverColor.getBackground();
 
         switch((String)this.verticesDefaultShape.getSelectedItem()){
             case "Carré":
@@ -160,7 +173,6 @@ public class SheetPropertiesEditor extends JDialog {
                 this.vertexShape = Vertex.Shape.TRIANGLE;
                 break;
         }
-
 
         try {
             if (Integer.parseInt(this.verticesDefaultSize.getText()) <= 0) {
@@ -201,6 +213,10 @@ public class SheetPropertiesEditor extends JDialog {
 
     public Color getVertexColor() {
         return vertexColor;
+    }
+
+    public Color getHoverColor() {
+        return elementHoverColor;
     }
 
     public Vertex.Shape getVertexShape() {

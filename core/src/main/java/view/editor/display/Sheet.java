@@ -279,6 +279,7 @@ public class Sheet extends JComponent implements Observer {
             this.setDefaultEdgesThickness(tpve.getEdgeThickness());
             this.setDefaultEdgesColor(tpve.getEdgeColor());
             this.setDefaultVerticesShape(tpve.getVertexShape());
+            CustomUIManager.setHoverColor(tpve.getHoverColor());
         }
     }
 

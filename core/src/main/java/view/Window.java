@@ -229,14 +229,16 @@ public class Window extends JFrame {
     private void initMenu() {
         super.setJMenuBar(ButtonFactory.createJMenuBar());
 
-        JMenu file    = this.addMenu("Fichier");
-        JMenu edition = this.addMenu("Edition");
+        JMenu file        = this.addMenu("Fichier");
+        JMenu edition     = this.addMenu("Edition");
+        JMenu preferences = this.addMenu("Préférences");
 
-        JMenu open    = ButtonFactory.createJMenu("Ouvrir");
+        /* Contenu du Menu file */
+        JMenu open        = ButtonFactory.createJMenu("Ouvrir");
         this.addJMenuItem(open, "depuis GraphML...", "from GraphML...");
         this.addJMenuItem(open, "depuis GraphViz...", "from GraphViz...");
 
-        JMenu saveas  = ButtonFactory.createJMenu("Sauvegarder comme ...");
+        JMenu saveas      = ButtonFactory.createJMenu("Sauvegarder comme ...");
         this.addJMenuItem(saveas, "GraphML...", "GraphML...");
         this.addJMenuItem(saveas, "GraphViz...", "GraphViz...");
 
@@ -248,11 +250,9 @@ public class Window extends JFrame {
         file.add(saveas);
 
         file.add(ButtonFactory.createSeparator());
-        this.addJMenuItem(file, "Changer de style", "changeStyle");
-
-        file.add(ButtonFactory.createSeparator());
         this.addJMenuItem(file, "Fermer", "Close");
 
+        /* Contenu du Menu edition */
         this.addJMenuItem(edition, "Annuler", "Undo");
         this.addJMenuItem(edition, "Refaire", "Redo");
         this.addJMenuItem(edition, "Copier", "Copy");
@@ -261,6 +261,9 @@ public class Window extends JFrame {
         edition.add(ButtonFactory.createSeparator());
         this.addJMenuItem(edition, "Generer des elements", "generate");
         this.addJMenuItem(edition, "Algorithmes", "Algorithms");
+
+        /* Contenu du Menu preferences */
+        this.addJMenuItem(preferences, "Changer de style", "changeStyle");
     }
 
     /**
