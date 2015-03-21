@@ -45,6 +45,7 @@ public class GraphDot {
             vd.addAttribute("size", v.getSize());
             vd.addAttribute("shape", v.getShape().toString());
             vd.addAttribute("color", "#"+Integer.toHexString(v.getColor().getRGB()).substring(2));
+            vd.addAttribute("value", v.getValue());
 
             vertices.add(vd);
             vertexMapping.put(v, vd);
@@ -81,6 +82,7 @@ public class GraphDot {
             String label = "vertex";
             int size = 15;
             Vertex.Shape shape = Vertex.Shape.SQUARE;
+            int value = 1;
 
             if(properties.get("pos") != null) {
                 String pos = (String) vd.getAttributes().get("pos");
@@ -105,7 +107,13 @@ public class GraphDot {
                 shape = Vertex.Shape.decode((String) properties.get("shape"));
             }
 
+            if(properties.get("value") != null){
+                value = Integer.parseInt((String)properties.get("value"));
+            }
+
             Vertex v = new Vertex(label, color, position,size, shape);
+            v.setValue(value);
+
             elements.add(v);
             verticesMap.put(vd, v);
         }

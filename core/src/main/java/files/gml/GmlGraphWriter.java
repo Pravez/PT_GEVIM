@@ -49,6 +49,8 @@ public class GmlGraphWriter {
         Map<String, String> vertexKeyTypes = new HashMap<String, String>();
         vertexKeyTypes.put("name", GraphMLTokens.STRING);
         vertexKeyTypes.put("size", GraphMLTokens.INT);
+        vertexKeyTypes.put("value", GraphMLTokens.INT);
+        vertexKeyTypes.put("g:shape", GraphMLTokens.STRING);
         vertexKeyTypes.put("r", GraphMLTokens.INT);
         vertexKeyTypes.put("g", GraphMLTokens.INT);
         vertexKeyTypes.put("b", GraphMLTokens.INT);
@@ -81,6 +83,8 @@ public class GmlGraphWriter {
                 Vertex GMLvertex = gmlGraph.addVertex(null);
                 GMLvertex.setProperty("name", v.getLabel());
                 GMLvertex.setProperty("size", v.getSize());
+                GMLvertex.setProperty("value", v.getValue());
+                GMLvertex.setProperty("g:shape", v.getShape());
                 GMLvertex.setProperty("r", v.getColor().getRed());
                 GMLvertex.setProperty("g", v.getColor().getGreen());
                 GMLvertex.setProperty("b", v.getColor().getBlue());

@@ -1,8 +1,6 @@
 package view.editor.display;
 
 import data.*;
-import undoRedo.snap.SnapEdge;
-import undoRedo.snap.SnapVertex;
 import view.UIElements.CustomTabbedPaneUI;
 import view.UIElements.CustomUIManager;
 
@@ -147,43 +145,18 @@ public class PropertyPanel extends JTabbedPane implements Observer {
      * @param lastRow La dernière ligne du {@link javax.swing.JTable} concernée
      */
     private void modifyGraphEdges(int firstRow, int lastRow) {
-        boolean changed=false;
-
         for(int i=firstRow;i<=lastRow;i++){
-
-
             String newLabel = (String) edgePropertyTable.getModel().getValueAt(i,0);
             int newThickness = Integer.parseInt((String) edgePropertyTable.getModel().getValueAt(i, 1));
             int id = Integer.parseInt(edgeDatas.get(i).get(2));
-            int indexEdge= this.graph.getEdges().indexOf(this.graph.getFromID(id));
 
-            String previousLabel=this.graph.getFromID(id).getLabel();
-            int previousThickness = ((Edge)this.graph.getFromID(id)).getThickness();
-
-            SnapEdge tmpBefore = new SnapEdge();
-            tmpBefore.setIndex(indexEdge);
-            SnapEdge tmpAfter = new SnapEdge();
-
-            if(!newLabel.equals(previousLabel)) {
-                tmpBefore.setLabel(previousLabel);
-                tmpAfter.setLabel(newLabel);
-                this.graph.getFromID(id).setLabel(newLabel);
-                changed=true;
-            }
+            this.graph.getFromID(id).setLabel(newLabel);
 
             if(mustVerifyIntegerDatas(newThickness)){
+                int previousThickness = ((Edge)this.graph.getFromID(id)).getThickness();
                 edgePropertyTable.getModel().setValueAt(String.valueOf(previousThickness), i, 1);
-            }else if(newThickness!=previousThickness){
-                tmpBefore.setSize(previousThickness);
-                tmpAfter.setSize(newThickness);
+            }else {
                 ((Edge)this.graph.getFromID(id)).setThickness(newThickness);
-                changed=true;
-            }
-
-            if(changed)
-            {
-                sheet.getTab().getUndoRedo().registerSingleTypeEdit(tmpBefore, tmpAfter);
-                changed=false;
             }
         }
 
@@ -196,55 +169,27 @@ public class PropertyPanel extends JTabbedPane implements Observer {
      * @param lastRow La dernière ligne du {@link javax.swing.JTable} concernée
      */
     private void modifyGraphVertices(int firstRow, int lastRow) {
-        boolean changed=false;
-
         for(int i=firstRow;i<=lastRow;i++){
             String newLabel = (String) vertexPropertyTable.getModel().getValueAt(i,0);
             int newSize = Integer.parseInt((String) vertexPropertyTable.getModel().getValueAt(i, 1));
             int newValue = Integer.parseInt((String)vertexPropertyTable.getModel().getValueAt(i, 2));
             int id = Integer.parseInt(vertexDatas.get(i).get(3));
-            String previousLabel=this.graph.getFromID(id).getLabel();
-            int previousSize = ((Vertex)this.graph.getFromID(id)).getSize();
-            int previousValue = (this.graph.getFromID(id)).getValue();
-            int indexVertex= this.graph.getVertexes().indexOf(this.graph.getFromID(id));
 
-            SnapVertex tmpBefore = new SnapVertex();
-            tmpBefore.setIndex(indexVertex);
-            SnapVertex tmpAfter = new SnapVertex();
-            if(!newLabel.equals(previousLabel)) {
-                tmpBefore.setLabel(previousLabel);
-                tmpAfter.setLabel(newLabel);
-                this.graph.getFromID(id).setLabel(newLabel);
-                changed=true;
-            }
-
+            this.graph.getFromID(id).setLabel(newLabel);
 
             if(mustVerifyIntegerDatas(newSize)){
+                int previousSize = ((Vertex)this.graph.getFromID(id)).getSize();
                 vertexPropertyTable.getModel().setValueAt(String.valueOf(previousSize), i, 1);
-            }else if(newSize!=previousSize) {
-                tmpBefore.setSize(previousSize);
-                tmpAfter.setSize(newSize);
+            }else {
                 ((Vertex)this.graph.getFromID(id)).setSize(newSize);
-                changed=true;
-
             }
 
             if(mustVerifyIntegerDatas(newValue)){
+                int previousValue = (this.graph.getFromID(id)).getValue();
                 vertexPropertyTable.getModel().setValueAt(String.valueOf(previousValue), i, 2);
-            }else if(newValue!=previousValue) {
-                tmpBefore.setValue(previousValue);
-                tmpAfter.setValue(newValue);
+            }else {
                 (this.graph.getFromID(id)).setValue(newValue);
-                changed=true;
-
             }
-
-            if(changed)
-            {
-                sheet.getTab().getUndoRedo().registerSingleTypeEdit(tmpBefore, tmpAfter);
-                changed=false;
-            }
-
 
         }
 
