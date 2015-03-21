@@ -50,7 +50,7 @@ public class SelectionState extends State {
 
 	@Override
 	public void drag(Tab tab, Graph graph, MouseEvent e) {
-		this.dragging = true;
+        this.dragging = true;
 		if (e.isControlDown()) {
 			this.controller.notifyAddToDragging(this.sourceDrag, e.getPoint());
 		} else {
@@ -65,14 +65,14 @@ public class SelectionState extends State {
 	 */
 	@Override
 	public void drag(VertexView vertex, MouseEvent e) {
-		this.dragging = true;
+        this.dragging = true;
         this.controller.notifyMoveSelectedElements(new Point(e.getX() - this.sourceDrag.x, e.getY() - this.sourceDrag.y));
 		this.controller.notifyRepaintTab();
         this.sourceDrag = e.getPoint();
 	}
 	
 	@Override
-	public void pressed(Tab tab, Graph grap, MouseEvent e) {
+	public void pressed(Tab tab, Graph graph, MouseEvent e) {
 		this.sourceDrag = new Point(e.getX(), e.getY()); // à mettre plus tard dans la méthode pressed de la classe mère ?
 		if (!e.isControlDown()) {
 			this.controller.notifyMousePressedWithoutControlDown();

@@ -39,7 +39,7 @@ public class GraphDot {
         for(Vertex v : graph.getVertexes()){
 
             VertexDot vd = new VertexDot();
-            vd.setId(v.getValue());
+            vd.setId(v.getID());
             vd.addAttribute("label", v.getLabel());
             vd.addAttribute("pos", "(" + v.getPosition().x + "%" + v.getPosition().y + ")");
             vd.addAttribute("size", v.getSize());
@@ -53,7 +53,7 @@ public class GraphDot {
         for(Edge e : graph.getEdges()){
 
             EdgeDot ed = new EdgeDot();
-            ed.setId(e.getValue());
+            ed.setId(e.getID());
             ed.addAttribute("label", e.getLabel());
             ed.addAttribute("size", e.getThickness());
             ed.addAttribute("color", "#" + Integer.toHexString(e.getColor().getRGB()).substring(2));
