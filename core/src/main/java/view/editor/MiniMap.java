@@ -4,6 +4,7 @@ import data.Edge;
 import data.GraphElement;
 import data.Observable;
 import data.Vertex;
+import view.UIElements.CustomUIManager;
 import view.editor.elements.EdgeView;
 import view.editor.elements.VertexView;
 
@@ -19,16 +20,12 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
 	
 	private ScrollPane             pane;
 	private Sheet                  sheet;
-
-    private Color                  backColor;
 	
 	private ArrayList<EdgeView>    edges;
     private ArrayList<VertexView>  vertexes;
     
     /** Zone **/
     private Rectangle              selectionZone;
-    private Color                  selectionColor;
-    private Color                  selectionBorderColor;
 
 	/**
 	 * Conbstructeur de la classe MiniMap
@@ -41,7 +38,6 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
         this.edges                = new ArrayList<EdgeView>();
         this.vertexes             = new ArrayList<VertexView>();
 
-        setDarkTheme();
         updateSelectionZone();
         this.addMouseListener(new MouseAdapter() {
             @Override
@@ -58,28 +54,16 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
         this.setVisible(true);
     }
 
-    public void setDarkTheme() {
-        this.backColor            = new Color(59, 59, 59);
-        this.selectionColor       = new Color(226, 226, 226);
-        this.selectionBorderColor = new Color(155, 155, 155);
-    }
-
-    public void setLightTheme() {
-        this.backColor            = Color.LIGHT_GRAY;
-        this.selectionColor       = new Color(172, 211, 244);
-        this.selectionBorderColor = new Color(107, 153, 189);
-    }
-
 	/**
 	 * Override de la méthode paintComponent pour dessiner le graph
 	 * @param g les Graphics
 	 */
 	public void paintComponent(Graphics g) {
-        g.setColor(this.backColor);
+        g.setColor(CustomUIManager.minimapColor);
         g.fillRect(0, 0, super.getWidth(), super.getHeight());
-		g.setColor(this.selectionColor);
+		g.setColor(CustomUIManager.selectionColor);
 		g.fillRect(this.selectionZone.x, this.selectionZone.y, this.selectionZone.width, this.selectionZone.height);
-		g.setColor(this.selectionBorderColor);
+		g.setColor(CustomUIManager.selectionBorderColor);
 		g.drawRect(this.selectionZone.x, this.selectionZone.y, this.selectionZone.width, this.selectionZone.height);
         for(EdgeView e : this.edges){
             e.paintComponent(g, 1.0*this.getWidth()/this.sheet.getMaximumSize().width, 1.0*this.getHeight()/this.sheet.getMaximumSize().height);

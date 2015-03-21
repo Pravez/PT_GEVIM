@@ -8,6 +8,7 @@ import undoRedo.SnapEdge;
 import undoRedo.SnapPosition;
 import undoRedo.SnapProperties;
 import undoRedo.SnapVertex;
+import view.UIElements.CustomUIManager;
 import view.editor.elements.EdgeView;
 import view.editor.elements.ElementView;
 import view.editor.elements.VertexView;
@@ -54,8 +55,6 @@ public class Sheet extends JComponent implements Observer {
     
     /** Sélection par zone **/
     private Rectangle              selectionZone;
-    private Color                  selectionColor;
-    private Color                  selectionBorderColor;
 
     /** Edge temporaire **/
     private Point                  originEdge;
@@ -104,9 +103,7 @@ public class Sheet extends JComponent implements Observer {
         this.defaultSelectedThickness = 2;
         this.defaultVerticesSize      = 15;
         this.defaultVerticesShape     = Vertex.Shape.SQUARE;
-        
-        this.selectionColor           = new Color(172, 211, 244);
-        this.selectionBorderColor     = new Color(107, 153, 189);
+
         this.selectionZone            = null;
 
         this.originEdge               = null;
@@ -138,9 +135,9 @@ public class Sheet extends JComponent implements Observer {
     public void paintComponent(Graphics g){
         // dessiner ou non la zone de sélection
     	if (this.selectionZone != null) {
-    		g.setColor(this.selectionColor);
+    		g.setColor(CustomUIManager.selectionColor);
     		g.fillRect(this.selectionZone.x, this.selectionZone.y, this.selectionZone.width, this.selectionZone.height);
-    		g.setColor(this.selectionBorderColor);
+    		g.setColor(CustomUIManager.selectionBorderColor);
     		g.drawRect(this.selectionZone.x, this.selectionZone.y, this.selectionZone.width, this.selectionZone.height);
     	}
         // dessiner ou non l'edge temporaire

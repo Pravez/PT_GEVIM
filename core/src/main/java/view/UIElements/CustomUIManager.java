@@ -62,6 +62,19 @@ public class CustomUIManager {
     public static Color                  deselectedTabColor;
     public static Color                  deselectedTabBorderColor;
 
+    /* Couleurs pour les ScrollBars */
+    public static Color                  scrollTrackColor;
+    public static Color                  scrollThumbColor;
+
+    /* Couleurs pour le JScrollPane */
+    public static Color                  scrollPaneColor;
+    public static Color                  scrollPaneBorderColor;
+
+    /* Couleurs pour la MiniMap */
+    public static Color                  minimapColor;
+    public static Color                  selectionColor;
+    public static Color                  selectionBorderColor;
+
     public static Color getButtonHoverBackground() {
         return CustomUIManager.buttonHoverBackground;
     }
@@ -167,6 +180,16 @@ public class CustomUIManager {
         CustomUIManager.deselectedTabColor       = new Color(65, 65, 65);
         CustomUIManager.deselectedTabBorderColor = new Color(28, 28, 28);
 
+        CustomUIManager.scrollTrackColor         = new Color(47, 47, 47);
+        CustomUIManager.scrollThumbColor         = new Color(111, 111, 111);
+
+        CustomUIManager.scrollPaneColor          = new Color(47, 47, 47);
+        CustomUIManager.scrollPaneBorderColor    = new Color(93, 93, 93);
+
+        CustomUIManager.minimapColor             = new Color(59, 59, 59);
+        CustomUIManager.selectionColor           = new Color(226, 226, 226);
+        CustomUIManager.selectionBorderColor     = new Color(155, 155, 155);
+
         UIManager.put("PopupMenu.border", BorderFactory.createLineBorder(CustomUIManager.separatorForeground, 1));
     }
 
@@ -197,6 +220,16 @@ public class CustomUIManager {
         CustomUIManager.selectedTabBorderColor   = new Color(137, 137, 137);
         CustomUIManager.deselectedTabColor       = new Color(230, 230, 230);
         CustomUIManager.deselectedTabBorderColor = new Color(137, 137, 137);
+
+        CustomUIManager.scrollTrackColor         = new Color(230, 230, 230);
+        CustomUIManager.scrollThumbColor         = new Color(111, 111, 111);
+
+        CustomUIManager.scrollPaneColor          = new Color(230, 230, 230);
+        CustomUIManager.scrollPaneBorderColor    = new Color(230, 230, 230);
+
+        CustomUIManager.minimapColor             = new Color(230, 230, 230);
+        CustomUIManager.selectionColor           = new Color(172, 211, 244);
+        CustomUIManager.selectionBorderColor     = new Color(107, 153, 189);
 
         UIManager.put("PopupMenu.border", BorderFactory.createLineBorder(CustomUIManager.separatorForeground, 1));
         UIManager.put("TabbedPane.shadow", CustomUIManager.deselectedTabColor);

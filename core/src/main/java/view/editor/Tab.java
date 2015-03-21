@@ -65,7 +65,7 @@ public class Tab extends JSplitPane {
 
     public void setColors() {
         this.scrollPane.setOpaque(true);
-        this.scrollPane.setBackground(new Color(47, 47, 47));
+        this.scrollPane.setBackground(CustomUIManager.scrollPaneColor);
         this.scrollPane.setBorder(null);
         this.setUI(new BasicSplitPaneUI() {
             public BasicSplitPaneDivider createDefaultDivider() {
@@ -74,7 +74,7 @@ public class Tab extends JSplitPane {
 
                     @Override
                     public void paint(Graphics g) {
-                        g.setColor(new Color(93, 93, 93)); // couleur du diviseur du JSplitPane
+                        g.setColor(CustomUIManager.scrollPaneBorderColor); // couleur du diviseur du JSplitPane
                         g.fillRect(0, 0, getSize().width, getSize().height);
                         super.paint(g);
                     }

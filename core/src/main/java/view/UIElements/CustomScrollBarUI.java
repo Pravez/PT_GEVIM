@@ -17,7 +17,7 @@ public class CustomScrollBarUI extends BasicScrollBarUI {
      */
     @Override
     protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
-        g.setColor(new Color(47, 47, 47));
+        g.setColor(CustomUIManager.scrollTrackColor);
         g.fillRect(trackBounds.x, trackBounds.y, trackBounds.width, trackBounds.height);
     }
 
@@ -35,7 +35,7 @@ public class CustomScrollBarUI extends BasicScrollBarUI {
         int y = thumbBounds.y;
         int w = thumbBounds.width;
         int h = thumbBounds.height;
-        g.setColor(new Color(111, 111, 111));
+        g.setColor(CustomUIManager.scrollThumbColor);
         if (w > h) { // barre horizontale
             h -= 4;
             int[] xpoints = new int[] {x, x + border, x + border, x + w - border, x + w - border, x + w, x + w, x };
