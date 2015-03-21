@@ -441,7 +441,7 @@ public class Window extends JFrame {
      */
     public void callAlgoToolBox(){
         AlgorithmSelector al = new AlgorithmSelector();
-        String selectedAlgorithm = (String)al.getSelectedAlgorithm();
+        Object[] selectedAlgorithm = al.getSelectedAlgorithmProperties();
         if(selectedAlgorithm != null) {
 
             //Sauvegarde des propriétés de l'ensemble des graphElements

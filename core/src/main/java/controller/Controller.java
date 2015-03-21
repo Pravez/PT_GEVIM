@@ -400,22 +400,19 @@ public class Controller {
 
     /**
      * Méthode permettant l'appel d'un {@link algorithm.IAlgorithm} à partir de son string le caractérisant
-     * @param type Le string caractérisant l'algorithme
+     * @param algorithmProperties contenant le nom de l'algorithm et les options affectées
      */
-    public void applyAlgorithm(String type, Point initialPosition, Dimension application){
-        switch(type) {
-            case "Random Positioning":
+    public void applyAlgorithm(Object[] algorithmProperties, Point initialPosition, Dimension application){
+        switch((String)algorithmProperties[0]) {
+            case "Positionnement Aléatoire":
                 new RandomPositioning(initialPosition, application).run(window.getCurrentTab().getGraph());
                 //remplacer window.getCurrentSheetViewPort().getExtentSize()) par window.getCurrentSheetViewPort().getViewSize() pour l'application de l'algoritme
                 break;
-            case "Circular Positioning":
+            case "Positionnement Circulaire":
                 new CircularPositioning(initialPosition, application).run(window.getCurrentTab().getGraph());
                 break;
-            case "color":
-                new VertexColoring().run(window.getCurrentTab().getGraph(), Property.SIZE);
-                break;
-            case "number":
-                new VertexColoring().run(window.getCurrentTab().getGraph(), Property.NBEDGES);
+            case "Coloration des Sommets":
+                new VertexColoring().run(window.getCurrentTab().getGraph(), (Property)algorithmProperties[3], (Color)algorithmProperties[1],(Color)algorithmProperties[2]);
                 break;
         }
     }
@@ -560,7 +557,7 @@ public class Controller {
                         GenerationThread generationThread = new GenerationThread(this.window, Integer.parseInt(result));
 
                         this.getGraph(this.window.getCurrentTabIndex()).addGraphElements(generationThread.getElements());
-                        applyAlgorithm("Random Positioning", new Point(0, 0), window.getCurrentSheetViewPort().getViewSize());
+                        applyAlgorithm( new Object[]{"Positionnement Aléatoire"}, new Point(0, 0), window.getCurrentSheetViewPort().getViewSize());
 
                         elements = this.window.getCurrentTab().getGraph().getVertexes();
 
