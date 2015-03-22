@@ -14,6 +14,23 @@ import java.awt.*;
 public class ActionController {
 
     private static Controller controller;
+    private static Point      mousePosition;
+
+    /**
+     * Setter statique de la position de la souris
+     * @param mousePosition la nouvelle position de la souris
+     */
+    public static void setMousePosition(Point mousePosition) {
+        ActionController.mousePosition = mousePosition;
+    }
+
+    /**
+     * Getter statique de la position de la souris
+     * @return la position de la souris
+     */
+    public static Point getMousePosition() {
+        return ActionController.mousePosition;
+    }
 
     /**
      * Setter du controller

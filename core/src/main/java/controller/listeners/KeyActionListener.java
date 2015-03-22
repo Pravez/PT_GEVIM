@@ -2,6 +2,7 @@ package controller.listeners;
 
 import controller.ActionController;
 
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Objects;
@@ -22,7 +23,7 @@ public class KeyActionListener extends KeyAdapter {
                     ActionController.copy();
                     break;
                 case "V" :
-                    ActionController.paste(null);
+                    ActionController.paste(ActionController.getMousePosition());
                     break;
                 case "X" :
                     ActionController.cut();

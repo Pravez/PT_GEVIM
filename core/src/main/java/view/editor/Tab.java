@@ -1,5 +1,6 @@
 package view.editor;
 
+import controller.ActionController;
 import controller.Controller;
 import data.Graph;
 import undoRedo.UndoPanel;
@@ -131,9 +132,14 @@ public class Tab extends JSplitPane {
 
         });
 
-        sheet.addMouseMotionListener(new MouseAdapter() {
+        sheet.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) { controller.getState().drag(Tab.this, graph, e); }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                ActionController.setMousePosition(e.getPoint());
+            }
         });
 
         scrollPane.addMouseWheelListener(new MouseWheelListener() {
