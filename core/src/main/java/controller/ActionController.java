@@ -302,14 +302,6 @@ public class ActionController {
     }
 
     /**
-     * Application d'un algorithme
-     * @param algorithmProperties Object[]
-     */
-    public static void applyAlgorithm(Object[] algorithmProperties) {
-        ActionController.controller.applyAlgorithm(algorithmProperties, new Point(0, 0), ActionController.controller.getWindow().getCurrentSheetViewPort().getExtentSize());
-    }
-
-    /**
      * Rafraichissement de la gestion de l'undo/redo
      * @param undoEnable L'état de l'undo
      * @param redoEnable L'état du redo

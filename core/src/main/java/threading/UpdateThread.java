@@ -20,22 +20,20 @@ import java.util.ListIterator;
 /**
  * Classe faisant l'update à la place du Thread principal, pour le libérer d'une quantité importante de calculs.
  */
-public class UpdateThread extends JDialog implements Runnable
-{
+public class UpdateThread extends JDialog implements Runnable {
     private ArrayList<GraphElement> elements;
-    private ArrayList<VertexView> vertices;
-    private ArrayList<EdgeView> edges;
-    private Controller controller;
-    private JComponent sheet;
+    private ArrayList<VertexView>   vertices;
+    private ArrayList<EdgeView>     edges;
+    private Controller              controller;
+    private JComponent              sheet;
 
-    public UpdateThread(JComponent sheet, ArrayList<GraphElement> newElements, Controller controller)
-    {
-        this.sheet = sheet;
+    public UpdateThread(JComponent sheet, ArrayList<GraphElement> newElements, Controller controller) {
+        this.sheet      = sheet;
         this.controller = controller;
 
-        vertices = new ArrayList<>();
-        edges = new ArrayList<>();
-        elements = newElements;
+        this.vertices   = new ArrayList<>();
+        this.edges      = new ArrayList<>();
+        this.elements   = newElements;
 
         JProgressBar progress = new JProgressBar(0, 100);
         progress.setIndeterminate(true);
@@ -56,11 +54,9 @@ public class UpdateThread extends JDialog implements Runnable
      * Méthode lançant le refresh des éléments. Elle appelle la méthode start qui va lancer un nouveau thread à
      * partir de cette classe.
      */
-    public void launchUpdate()
-    {
-        Thread t = new Thread (this);
+    public void launchUpdate() {
+        Thread t = new Thread(this);
         t.start ();
-
         //On a crée un nouveau thread, maintenant on récupère le principal...
     }
 
@@ -68,8 +64,7 @@ public class UpdateThread extends JDialog implements Runnable
      * Méthode de l'interface {@link Runnable}, méthode d'execution du thread crée, c'est elle
      * qui lance à proprement parler le refresh.
      */
-    public void run (){
-
+    public void run () {
         this.updateView();
         onEnd();
     }
@@ -84,7 +79,7 @@ public class UpdateThread extends JDialog implements Runnable
     /**
      * Methode executee par le nouveau thread, elle récupère les données et les traite.
      */
-    public void updateView(){
+    public void updateView() {
         for (GraphElement element : elements) {
             if (element.isVertex()) {
                 vertices.add(createVertexView((Vertex) element));
@@ -113,7 +108,7 @@ public class UpdateThread extends JDialog implements Runnable
      * @param vertex Le vertex depuis lequel créer le nouveau vertexView
      * @return le vertex crée
      */
-    private VertexView createVertexView(Vertex vertex){
+    private VertexView createVertexView(Vertex vertex) {
         final VertexView vertexView = new VertexView(vertex);
         vertexView.addMouseListener(new MouseListener() {
             @Override

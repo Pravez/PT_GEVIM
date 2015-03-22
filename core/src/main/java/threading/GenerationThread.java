@@ -27,7 +27,7 @@ public class GenerationThread extends JDialog implements Runnable {
         this.controller       = controller;
         this.numberOfElements = generationNumber;
         this.value            = 0;
-        this.parentSize       = this.controller.getWindow().getCurrentSheetViewPort().getViewSize();
+        this.parentSize       = this.controller.getWindow().getCurrentSheet().getMaximumSize();
         this.progress         = new JProgressBar (0, 100);
         this.progress.setStringPainted (true);
 

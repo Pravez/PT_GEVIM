@@ -60,7 +60,9 @@ public class ScrollPane extends JScrollPane {
      */
     public void zoomOut(int positionX, int positionY) {
         if (this.getViewport().getWidth() < this.sheet.getPreferredSize().width) {
-            zoom(positionX, positionY, this.sheet.getScale() - 0.1);
+            if (this.getViewport().getWidth() < this.sheet.getMaximumSize().width * (this.sheet.getScale() - 0.1)) {
+                zoom(positionX, positionY, this.sheet.getScale() - 0.1);
+            }
         }
     }
 
@@ -73,8 +75,6 @@ public class ScrollPane extends JScrollPane {
     private void zoom(int positionX, int positionY, double scale) {
         int posX = (int) (this.getViewport().getViewPosition().getX() - this.sheet.getScale()*this.getViewport().getWidth()/2 + scale*this.getViewport().getWidth()/2);
         int posY = (int) (this.getViewport().getViewPosition().getY() - this.sheet.getScale()*this.getViewport().getHeight()/2 + scale*this.getViewport().getHeight()/2);
-        //int gapX = (int) (positionX*(this.sheet.getScale() - scale));
-        //int gapY = (int) (positionY*(this.sheet.getScale() - scale));
 
         this.sheet.setScale(scale);
         this.sheet.setPreferredSize(new Dimension((int)(this.sheet.getScale()*this.sheet.getMaximumSize().width), (int) (this.sheet.getScale() * this.sheet.getMaximumSize().height)));

@@ -205,7 +205,6 @@ public class Controller {
     public void deleteElements() {
         ArrayList<GraphElement> suppSelectedElements = new ArrayList<>();
         for (ElementView e : this.window.getCurrentSheet().getSelectedElements()) {
-
             this.getGraph(this.window.getCurrentTabIndex()).removeGraphElement(e.getGraphElement());
             suppSelectedElements.add(e.getGraphElement());
         }

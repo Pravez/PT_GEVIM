@@ -25,13 +25,13 @@ public class Tab extends JSplitPane {
     /* Panel de droite */
     private JPanel        boardPanel;
     /* MiniMap dans la boardPanel */
-    private MiniMap minimap;
+    private MiniMap       minimap;
     /* Panel de Propriétés */
     private PropertyPanel properties;
     /* ScrollPane */
     private ScrollPane    scrollPane;
     /* Sheet, feuille de dessin */
-    private Sheet sheet;
+    private Sheet         sheet;
     /* UndoPanel (non affiché) */
     private UndoPanel     undoredo;
 

@@ -461,36 +461,29 @@ public class Window extends JFrame {
      *
      */
     public void callAlgoToolBox(){
-        if(this.tabs.getSelectedIndex() !=-1) {
-            AlgorithmSelector al = new AlgorithmSelector();
+        if (this.tabs.getSelectedIndex() != -1) {
+            AlgorithmSelector al       = new AlgorithmSelector();
             Object[] selectedAlgorithm = al.getSelectedAlgorithmProperties();
             if (selectedAlgorithm != null) {
-
                 //Sauvegarde des propriétés de l'ensemble des graphElements
-
                 if (this.tabs.getSelectedIndex() != -1) {
-
-                    ArrayList<Vertex> elements = getCurrentTab().getGraph().getVertexes();
+                    ArrayList<Vertex> elements   = getCurrentTab().getGraph().getVertexes();
                     ArrayList<SnapVertex> before = new ArrayList<>();
-                    ArrayList<SnapVertex> after = new ArrayList<>();
+                    ArrayList<SnapVertex> after  = new ArrayList<>();
 
-                    SnapVertex tmp;
                     for (Vertex v : elements) {
-                        tmp = new SnapVertex(v, elements.indexOf(v));
-                        before.add(tmp);
+                        before.add(new SnapVertex(v, elements.indexOf(v)));
                     }
-                    controller.applyAlgorithm(selectedAlgorithm, getCurrentSheetViewPort().getViewPosition(), getCurrentSheetViewPort().getExtentSize());
+                    controller.applyAlgorithm(selectedAlgorithm, getCurrentSheetViewPort().getViewPosition(), getCurrentSheet().getMaximumSize());
                     elements = getCurrentTab().getGraph().getVertexes();
 
                     for (Vertex v : elements) {
-                        tmp = new SnapVertex(v, elements.indexOf(v));
-                        after.add(tmp);
+                        after.add(new SnapVertex(v, elements.indexOf(v)));
                     }
-
                     this.getCurrentTab().getUndoRedo().registerAlgoEdit(before, after);
                 }
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Vous devez d'abord ouvrir un graphe.", "Erreur", JOptionPane.INFORMATION_MESSAGE);
         }
     }

@@ -173,14 +173,10 @@ public class Sheet extends JComponent implements Observer {
     }
 
     /**
-     * Setter de la liste des VertexView du Tab
-     * @param vertices la nouvelle liste des VertexView
+     * Méthode permettant de récupérer la position du VertexView dans sa liste en fonction de l'ID
+     * @param ID l'ID du VertexView à trouver
+     * @return la position du VertexView dans la liste des VertexView
      */
-    public void setVertices(ArrayList<VertexView> vertices) {
-        this.vertices = vertices;
-    }
-
-
     public int getVertexPositionFromID(int ID){
         for(VertexView vv : vertices){
             if(vv.getGraphElement().getID() == ID){
@@ -198,17 +194,14 @@ public class Sheet extends JComponent implements Observer {
     }
 
     /**
-     * Setter de la liste des EdgeView du Tab
-     * @param edges la nouvelle liste des EdgeView
+     * Méthode permettant de récupérer la position de l'EdgeView dans sa liste en fonction de l'ID
+     * @param ID l'ID de l'EdgeView à trouver
+     * @return la position de l'EdgeView dans la liste des EdgeView
      */
-    public void setEdges(ArrayList<EdgeView> edges) {
-        this.edges = edges;
-    }
-
     public int getEdgePositionFromID(int ID){
-        for(EdgeView ev : edges){
+        for(EdgeView ev : this.edges){
             if(ev.getGraphElement().getID() == ID){
-                return edges.indexOf(ev);
+                return this.edges.indexOf(ev);
             }
         }
         return -1;
@@ -245,6 +238,10 @@ public class Sheet extends JComponent implements Observer {
         }
     }
 
+    /**
+     * Getter du Tab
+     * @return le Tab
+     */
     public Tab getTab() {
         return tab;
     }
@@ -371,14 +368,6 @@ public class Sheet extends JComponent implements Observer {
                 ((VertexView) element).move(new Point((int) (vector.x / this.scale), (int) (vector.y / this.scale)));
             }
         }
-    }
-    
-    /**
-     * Méthode pour savoir si la liste des ElementView sélectionnés est vide ou non
-     * @return le résultat sous la forme d'un booléen
-     */
-    public boolean selectedElementsIsEmpty() {
-    	return this.selectedElements.isEmpty();
     }
 
     /**
@@ -665,15 +654,6 @@ public class Sheet extends JComponent implements Observer {
     }
 
     /**
-     * Méthode pour changer la position d'un VertexView du Tab
-     * @param vertex le VertexView à déplacer
-     * @param position les coordonnées de destination
-     */
-    public void moveVertex(VertexView vertex, Point position){
-        vertex.setPosition(position);
-    }
-
-    /**
      * Méthode pour supprimer la liste des VertexView et en recréer à partir des données du Graph observé
      * (non-Javadoc)
      * @see Observer#update(data.Observable, java.lang.Object)
@@ -767,34 +747,30 @@ public class Sheet extends JComponent implements Observer {
 
     public void modifyElements(){
 
-        if(selectionComposedByVerticesOnly()){
-
+        if (selectionComposedByVerticesOnly()) {
             ArrayList<SnapProperties> verticesBefore = new ArrayList<>();
-
             VerticesEditor verticesEditor = new VerticesEditor(this.selectedElements.get(0));
 
-            if(!verticesEditor.isNotModified()) {
+            if (!verticesEditor.isNotModified()) {
 
                 boolean colorModified = verticesEditor.isColorModified();
                 boolean labelModified = verticesEditor.isLabelModified();
-                boolean sizeModified = verticesEditor.isSizeModified();
+                boolean sizeModified  = verticesEditor.isSizeModified();
                 boolean shapeModified = verticesEditor.isShapeModified();
                 boolean indexModified = verticesEditor.isIndexModified();
 
-                Color modifiedColor = colorModified ? verticesEditor.getNewColor() : null;
-                String modifiedLabel = labelModified ? verticesEditor.getNewLabel() : "none";
-                int modifiedSize = sizeModified ? verticesEditor.getNewSize() : 0;
+                Color modifiedColor        = colorModified ? verticesEditor.getNewColor() : null;
+                String modifiedLabel       = labelModified ? verticesEditor.getNewLabel() : "none";
+                int modifiedSize           = sizeModified ? verticesEditor.getNewSize() : 0;
                 Vertex.Shape modifiedShape = shapeModified ? verticesEditor.getNewShape() : null;
-                int modifiedIndex = indexModified ? verticesEditor.getNewIndex() : 0;
+                int modifiedIndex          = indexModified ? verticesEditor.getNewIndex() : 0;
 
                 if (colorModified || labelModified || shapeModified || sizeModified || indexModified) {
-
                     for (ElementView ev : this.selectedElements) {
                         Vertex v = (Vertex) ev.getGraphElement();
 
                         SnapVertex tmpSnap = new SnapVertex(v, graph.getVertexes().indexOf(v));
                         verticesBefore.add(tmpSnap);
-
 
                         if (colorModified) {
                             v.setColor(modifiedColor);
@@ -808,7 +784,7 @@ public class Sheet extends JComponent implements Observer {
                         if (sizeModified) {
                             v.setSize(modifiedSize);
                         }
-                        if(indexModified){
+                        if(indexModified) {
                             v.setValue(modifiedIndex);
                         }
                     }
@@ -826,8 +802,7 @@ public class Sheet extends JComponent implements Observer {
                     if (sizeModified) {
                         verticesAfter.setSize(modifiedSize);
                     }
-                    if(indexModified)
-                    {
+                    if(indexModified) {
                         verticesAfter.setValue(modifiedIndex);
                     }
 
@@ -843,20 +818,19 @@ public class Sheet extends JComponent implements Observer {
             if(!elementsViewEditor.isNotModified()) {
 
                 boolean colorModified = elementsViewEditor.isColorModified();
-                boolean sizeModified = elementsViewEditor.isSizeModified();
+                boolean sizeModified  = elementsViewEditor.isSizeModified();
                 boolean labelModified = elementsViewEditor.isLabelModified();
 
-                Color modifiedColor = colorModified ? elementsViewEditor.getNewColor() : null;
-                int modifiedSize = sizeModified ? elementsViewEditor.getNewSize() : 0;
-                String modifiedLabel = labelModified ? elementsViewEditor.getNewName() : "none";
+                Color modifiedColor   = colorModified ? elementsViewEditor.getNewColor() : null;
+                int modifiedSize      = sizeModified ? elementsViewEditor.getNewSize() : 0;
+                String modifiedLabel  = labelModified ? elementsViewEditor.getNewName() : "none";
 
                 ArrayList<SnapProperties> propertiesBefore = new ArrayList<>();
-
 
                 if (colorModified || sizeModified || labelModified) {
                     for (ElementView ev : this.selectedElements) {
                         SnapProperties tmpSnap = new SnapProperties();
-                        GraphElement temp = ev.getGraphElement();
+                        GraphElement temp      = ev.getGraphElement();
 
                         //On récupère les propriétés avant les modifications
                         tmpSnap.setIndex(this.graph.getGraphElements().indexOf(temp));
@@ -891,7 +865,6 @@ public class Sheet extends JComponent implements Observer {
                     }
                     if (sizeModified) {
                         propertiesAfter.setSize(modifiedSize);
-
                     }
                     if (labelModified) {
                         propertiesAfter.setLabel(modifiedLabel);
@@ -906,13 +879,11 @@ public class Sheet extends JComponent implements Observer {
     }
 
     public boolean selectionComposedByVerticesOnly(){
-
         for(ElementView ev : this.selectedElements){
             if(!ev.getGraphElement().isVertex()){
                 return false;
             }
         }
-
         return true;
     }
 }
