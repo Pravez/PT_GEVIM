@@ -4,9 +4,8 @@ import algorithm.Property;
 import view.frames.ColorChooser;
 
 import javax.swing.*;
-import javax.swing.event.ListDataListener;
+import java.awt.*;
 import java.awt.event.*;
-import java.util.Vector;
 
 public class AlgorithmSelector extends JDialog {
     private JPanel contentPane;
@@ -16,18 +15,19 @@ public class AlgorithmSelector extends JDialog {
     private JPanel colorMin;
     private JPanel colorMax;
     private JComboBox propertyChooser;
+    private JLabel minColorLabel;
+    private JLabel maxColorLabel;
+
+    private Dimension baseDimension;
+    private boolean cancelled;
 
     public AlgorithmSelector() {
+
+        this.setTitle("Selectionner un Algorithme à appliquer");
+        initComponents();
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-
-        Vector<String>algoNames = new Vector<>();
-        algoNames.add("Positionnement Aléatoire");
-        algoNames.add("Positionnement Circulaire");
-        algoNames.add("Coloration des Sommets");
-        ComboBoxModel<String> algoModel = new DefaultComboBoxModel<>(algoNames);
-        algorithms.setModel(algoModel);
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -41,7 +41,6 @@ public class AlgorithmSelector extends JDialog {
             }
         });
 
-// call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -49,38 +48,86 @@ public class AlgorithmSelector extends JDialog {
             }
         });
 
-// call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+
         this.pack();
         this.setVisible(true);
-        algorithms.addComponentListener(new ComponentAdapter() {
-        });
-        algorithms.addFocusListener(new FocusAdapter() {
-        });
-        algorithms.addMouseListener(new MouseAdapter() {
-        });
+    }
 
-        colorMax.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent mouseEvent) {
-                onColor(colorMax);
-            }
-        });
-        colorMin.addMouseListener(new MouseAdapter() {
+    private void initComponents(){
+
+        colorMax.setBackground(Color.red);
+        colorMin.setBackground(Color.green);
+
+        colorMax.setVisible(false);
+        colorMin.setVisible(false);
+        minColorLabel.setVisible(false);
+        maxColorLabel.setVisible(false);
+
+        this.colorMin.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 onColor(colorMin);
             }
         });
+
+        this.colorMax.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                onColor(colorMax);
+            }
+        });
+
+        this.algorithms.addItemListener(new ItemListener() {
+
+            @Override
+            public void itemStateChanged(ItemEvent itemEvent) {
+                if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
+                    switch ((String)itemEvent.getItem()) {
+                        case "Positionnement Aléatoire":
+                            colorMax.setVisible(false);
+                            colorMin.setVisible(false);
+                            minColorLabel.setVisible(false);
+                            maxColorLabel.setVisible(false);
+                            changeSize("Random");
+                            break;
+                        case "Positionnement Circulaire":
+                            colorMax.setVisible(false);
+                            colorMin.setVisible(false);
+                            minColorLabel.setVisible(false);
+                            maxColorLabel.setVisible(false);
+                            changeSize("Circle");
+                            break;
+                        case "Coloration des Sommets":
+                            colorMax.setVisible(true);
+                            colorMin.setVisible(true);
+                            minColorLabel.setVisible(true);
+                            maxColorLabel.setVisible(true);
+                            changeSize("Color");
+                            break;
+                    }
+                }
+            }
+        });
+
+        this.baseDimension = new Dimension(150,200);
+
     }
 
     private void onOK() {
+        cancelled = false;
+        dispose();
+    }
 
+    private void onCancel() {
+        cancelled = true;
         dispose();
     }
 
@@ -121,8 +168,22 @@ public class AlgorithmSelector extends JDialog {
         color.setBackground(cc.getColor());
     }
 
-    private void onCancel() {
-// add your code here if necessary
-        dispose();
+    private void changeSize(String type){
+        switch(type){
+            case "Random":
+                this.setSize(baseDimension);
+                break;
+            case "Circle":
+                this.setSize(baseDimension);
+                break;
+            case "Color":
+                this.setSize(baseDimension);
+                this.setSize(this.getSize().width+200, this.getSize().height);
+                break;
+        }
+    }
+
+    public boolean isCancelled() {
+        return cancelled;
     }
 }

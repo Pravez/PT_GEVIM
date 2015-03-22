@@ -461,29 +461,35 @@ public class Window extends JFrame {
      *
      */
     public void callAlgoToolBox(){
-        if (this.tabs.getSelectedIndex() != -1) {
-            AlgorithmSelector al       = new AlgorithmSelector();
-            Object[] selectedAlgorithm = al.getSelectedAlgorithmProperties();
-            if (selectedAlgorithm != null) {
-                //Sauvegarde des propriétés de l'ensemble des graphElements
-                if (this.tabs.getSelectedIndex() != -1) {
-                    ArrayList<Vertex> elements   = getCurrentTab().getGraph().getVertexes();
-                    ArrayList<SnapVertex> before = new ArrayList<>();
-                    ArrayList<SnapVertex> after  = new ArrayList<>();
+        if(this.tabs.getSelectedIndex() !=-1) {
+            AlgorithmSelector al = new AlgorithmSelector();
+            if (!al.isCancelled()) {
+                Object[] selectedAlgorithm = al.getSelectedAlgorithmProperties();
+                if (selectedAlgorithm != null) {
 
-                    for (Vertex v : elements) {
-                        before.add(new SnapVertex(v, elements.indexOf(v)));
-                    }
-                    int vertexWidth = getCurrentSheet().getDefaultVerticesSize();
-                    Point     applyPosition = new Point(getCurrentSheetViewPort().getViewPosition().x + vertexWidth/2, getCurrentSheetViewPort().getViewPosition().y + vertexWidth/2);
-                    Dimension applyDimension = new Dimension(getCurrentSheet().getMaximumSize().width - vertexWidth, getCurrentSheet().getMaximumSize().height - vertexWidth);
-                    this.controller.applyAlgorithm(selectedAlgorithm, applyPosition, applyDimension);
-                    elements = getCurrentTab().getGraph().getVertexes();
+                    //Sauvegarde des propriétés de l'ensemble des graphElements
 
-                    for (Vertex v : elements) {
-                        after.add(new SnapVertex(v, elements.indexOf(v)));
+                    if (this.tabs.getSelectedIndex() != -1) {
+
+                        ArrayList<Vertex> elements = getCurrentTab().getGraph().getVertexes();
+                        ArrayList<SnapVertex> before = new ArrayList<>();
+                        ArrayList<SnapVertex> after = new ArrayList<>();
+
+                        SnapVertex tmp;
+                        for (Vertex v : elements) {
+                            tmp = new SnapVertex(v, elements.indexOf(v));
+                            before.add(tmp);
+                        }
+                        controller.applyAlgorithm(selectedAlgorithm, getCurrentSheetViewPort().getViewPosition(), getCurrentSheetViewPort().getExtentSize());
+                        elements = getCurrentTab().getGraph().getVertexes();
+
+                        for (Vertex v : elements) {
+                            tmp = new SnapVertex(v, elements.indexOf(v));
+                            after.add(tmp);
+                        }
+
+                        this.getCurrentTab().getUndoRedo().registerAlgoEdit(before, after);
                     }
-                    this.getCurrentTab().getUndoRedo().registerAlgoEdit(before, after);
                 }
             }
         } else {
