@@ -204,7 +204,11 @@ public class ActionController {
      * Edition des propriétés de la {@link view.editor.display.Sheet}
      */
     private static void properties() {
-        ActionController.controller.getWindow().getCurrentSheet().modifyProperties();
+        if (ActionController.controller.getWindow().getTabCount() < 1) {
+            JOptionPane.showMessageDialog(ActionController.controller.getWindow(), "Aucune feuille de dessin n'est ouverte");
+        } else {
+            ActionController.controller.getWindow().getCurrentSheet().modifyProperties();
+        }
     }
 
     /**
