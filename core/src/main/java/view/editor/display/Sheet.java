@@ -839,7 +839,7 @@ public class Sheet extends JComponent implements Observer {
                         tmpSnap.setLabel(temp.getLabel());
 
                         if (temp.isVertex()) {
-                            tmpSnap.setSize(((Vertex) temp).getSize());
+                            tmpSnap.setSize(((Vertex) temp).getValue());
                         } else
                             tmpSnap.setSize(((Edge) temp).getThickness());
                         if (colorModified) {

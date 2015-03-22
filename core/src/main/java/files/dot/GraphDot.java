@@ -42,7 +42,7 @@ public class GraphDot {
             vd.setId(v.getID());
             vd.addAttribute("label", v.getLabel());
             vd.addAttribute("pos", "(" + v.getPosition().x + "%" + v.getPosition().y + ")");
-            vd.addAttribute("size", v.getSize());
+            vd.addAttribute("size", v.getValue());
             vd.addAttribute("shape", v.getShape().toString());
             vd.addAttribute("color", "#"+Integer.toHexString(v.getColor().getRGB()).substring(2));
             vd.addAttribute("value", v.getValue());

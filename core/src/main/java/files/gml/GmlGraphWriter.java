@@ -82,7 +82,7 @@ public class GmlGraphWriter {
             if(!vertexMapping.containsKey(v)){
                 Vertex GMLvertex = gmlGraph.addVertex(null);
                 GMLvertex.setProperty("name", v.getLabel());
-                GMLvertex.setProperty("size", v.getSize());
+                GMLvertex.setProperty("size", v.getValue());
                 GMLvertex.setProperty("value", v.getValue());
                 GMLvertex.setProperty("g:shape", v.getShape());
                 GMLvertex.setProperty("r", v.getColor().getRed());

@@ -109,7 +109,7 @@ public class VertexViewEditor extends JDialog {
         this.initialVertex = v;
         this.newLabel = v.getLabel();
         this.newColor = v.getColor();
-        this.newWidth = v.getSize();
+        this.newWidth = v.getValue();
         this.newShape = v.getShape();
         this.newPosition = v.getPosition();
         this.newIndex = v.getValue();
@@ -270,7 +270,7 @@ public class VertexViewEditor extends JDialog {
             colorModified = true;
             modified = true;
         }
-        if (newWidth != initialVertex.getSize()) {
+        if (newWidth != initialVertex.getValue()) {
             widthModified = true;
             modified = true;
         }

@@ -18,7 +18,7 @@ public class VertexTest extends TestCase {
         this.vertex = new Vertex(Color.BLUE, null, 0, Vertex.Shape.CIRCLE);
         assertEquals(this.vertex.getColor(), Color.BLUE);
         assertEquals(this.vertex.getPosition(), null);
-        assertEquals(this.vertex.getSize(), 0);
+        assertEquals(this.vertex.getValue(), 0);
         assertEquals(this.vertex.getShape(), Vertex.Shape.CIRCLE);
     }
 
@@ -30,7 +30,7 @@ public class VertexTest extends TestCase {
         assertEquals(this.vertex.getLabel(), "label");
         assertEquals(this.vertex.getColor(), Color.BLUE);
         assertEquals(this.vertex.getPosition(), null);
-        assertEquals(this.vertex.getSize(), 0);
+        assertEquals(this.vertex.getValue(), 0);
         assertEquals(this.vertex.getShape(), Vertex.Shape.CIRCLE);
     }
 
@@ -43,7 +43,7 @@ public class VertexTest extends TestCase {
         assertEquals(this.vertex.getLabel(), v.getLabel());
         assertEquals(this.vertex.getColor(), v.getColor());
         assertEquals(this.vertex.getPosition(), v.getPosition());
-        assertEquals(this.vertex.getSize(), v.getSize());
+        assertEquals(this.vertex.getValue(), v.getValue());
         assertEquals(this.vertex.getShape(), v.getShape());
     }
 
@@ -87,9 +87,9 @@ public class VertexTest extends TestCase {
     public void testSize() {
         this.vertex = new Vertex(Color.BLUE, null, 12, Vertex.Shape.CIRCLE);
 
-        assertEquals(this.vertex.getSize(), 12);
+        assertEquals(this.vertex.getValue(), 12);
         this.vertex.setSize(-4);
-        assertEquals(this.vertex.getSize(), -4);
+        assertEquals(this.vertex.getValue(), -4);
     }
 
     /**

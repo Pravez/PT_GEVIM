@@ -31,7 +31,7 @@ public class ValueAlgorithm  implements IAlgorithm {
 
     private void sizeValue(Graph graph) {
         for (Vertex v : graph.getVertexes()) {
-            v.setValue(v.getSize());
+            v.setValue(v.getValue());
         }
     }
 

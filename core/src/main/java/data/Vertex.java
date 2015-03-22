@@ -143,7 +143,7 @@ public class Vertex extends GraphElement {
      * Getter de la position du Vertex
      * @return la position du Vertex
      */
-    public int getSize() {
+    public int getValue() {
         return this.size;
     }
     

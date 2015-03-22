@@ -1,6 +1,7 @@
 package algorithm;
 
 import data.Graph;
+import data.Vertex;
 
 import java.awt.*;
 
@@ -24,9 +25,48 @@ public class VertexColoring implements IAlgorithm {
             case NBEDGES:
                 nbEdgesColor(graph);
                 break;
+            case VALUE:
+                valueColor(graph);
+                break;
             default:
                 break;
         }
+    }
+
+    private void valueColor(Graph graph) {
+        int minValue = 0;
+        int maxValue = Integer.MAX_VALUE;
+        for( Vertex v : graph.getVertexes()){
+            if (v.getValue() > maxValue)
+                maxValue = v.getValue();
+            else if (v.getValue() < minValue)
+                minValue = v.getValue();
+        }
+        int coef = 1;
+        if (maxValue > minValue)
+            coef = maxValue-minValue;
+        for( Vertex v : graph.getVertexes()) {
+            if ( v.getEdges().size() == maxValue)
+                v.setColor(max);
+            else if (v.getEdges().size() == minValue)
+                v.setColor(min);
+            else{
+                //new Color(v.getEdges().size()*255/maxEdges, 255-v.getEdges().size()*255/maxEdges ,0)
+                int r = max.getRed() - ((max.getRed() - min.getRed()) * v.getValue() )/coef;
+                r = (r > 255)?  255 :  ( (r < 0 ) ? 0 : r );
+                int g = max.getGreen() - ((max.getGreen() - min.getGreen()) * v.getValue() )/coef;
+                g = (g > 255)?  255 :  ( (g < 0 ) ? 0 : g );
+                int b = max.getBlue() - ((max.getBlue() - min.getBlue()) * v.getValue() )/coef;
+                b = (b > 255)?  255 :  ( (b < 0 ) ? 0 : b );
+
+                Color color = new Color( r ,
+                        g,
+                        b);
+                v.setColor(color);
+
+            }
+        }
+        graph.setChanged();
     }
 
     private void nbEdgesColor(Graph graph) {
@@ -48,11 +88,11 @@ public class VertexColoring implements IAlgorithm {
                 v.setColor(min);
             else{
                 //new Color(v.getEdges().size()*255/maxEdges, 255-v.getEdges().size()*255/maxEdges ,0)
-                int r = ((max.getRed() - (min.getRed() * v.getEdges().size()*coef ))/maxEdges);
+                int r = max.getRed() - ((max.getRed() - min.getRed()) * v.getEdges().size() )/coef;
                 r = (r > 255)?  255 :  ( (r < 0 ) ? 0 : r );
-                int g = (max.getGreen() - (min.getGreen() * v.getEdges().size()*coef ))/ maxEdges;
+                int g = max.getGreen() - ((max.getGreen() - min.getGreen()) * v.getEdges().size() )/coef;
                 g = (g > 255)?  255 :  ( (g < 0 ) ? 0 : g );
-                int b = ((max.getBlue() - (min.getBlue() * v.getEdges().size()*coef ))/maxEdges);
+                int b = max.getBlue() - ((max.getBlue() - min.getBlue()) * v.getEdges().size() )/coef;
                 b = (b > 255)?  255 :  ( (b < 0 ) ? 0 : b );
 
                 Color color = new Color( r ,
@@ -66,15 +106,37 @@ public class VertexColoring implements IAlgorithm {
     }
 
     private void sizeColor(Graph graph) {
-        int sizeMax = 0;
-        for( data.Vertex v : graph.getVertexes()){
-            if (v.getSize() > sizeMax)
-                sizeMax = v.getSize();
+        int minSize = 0;
+        int maxSize = Integer.MAX_VALUE;
+        for( Vertex v : graph.getVertexes()){
+            if (v.getValue() > maxSize)
+                maxSize = v.getValue();
+            else if (v.getValue() < minSize)
+                minSize = v.getValue();
         }
-        for( data.Vertex v : graph.getVertexes()) {
-            if ( v.getSize() == sizeMax)
-                v.setColor(Color.red);
-            else v.setColor(new Color(v.getSize()*255/sizeMax, 0,0));
+        int coef = 1;
+        if (maxSize > minSize)
+            coef = maxSize-minSize;
+        for( Vertex v : graph.getVertexes()) {
+            if ( v.getEdges().size() == maxSize)
+                v.setColor(max);
+            else if (v.getEdges().size() == minSize)
+                v.setColor(min);
+            else{
+                //new Color(v.getEdges().size()*255/maxEdges, 255-v.getEdges().size()*255/maxEdges ,0)
+                int r = max.getRed() - ((max.getRed() - min.getRed()) * v.getValue() )/coef;
+                r = (r > 255)?  255 :  ( (r < 0 ) ? 0 : r );
+                int g = max.getGreen() - ((max.getGreen() - min.getGreen()) * v.getValue() )/coef;
+                g = (g > 255)?  255 :  ( (g < 0 ) ? 0 : g );
+                int b = max.getBlue() - ((max.getBlue() - min.getBlue()) * v.getValue() )/coef;
+                b = (b > 255)?  255 :  ( (b < 0 ) ? 0 : b );
+
+                Color color = new Color( r ,
+                        g,
+                        b);
+                v.setColor(color);
+
+            }
         }
         graph.setChanged();
     }

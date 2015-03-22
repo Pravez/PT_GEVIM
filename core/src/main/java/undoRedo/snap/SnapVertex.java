@@ -23,7 +23,7 @@ public class SnapVertex extends SnapProperties {
     public SnapVertex(Vertex v, int index) {
         setIndex(index);
         setShape(v.getShape());
-        setSize(v.getSize());
+        setSize(v.getValue());
         setColor(v.getColor());
         setPosition(v.getPosition());
         setLabel(v.getLabel());

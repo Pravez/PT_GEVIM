@@ -178,7 +178,7 @@ public class PropertyPanel extends JTabbedPane implements Observer {
             this.graph.getFromID(id).setLabel(newLabel);
 
             if(mustVerifyIntegerDatas(newSize)){
-                int previousSize = ((Vertex)this.graph.getFromID(id)).getSize();
+                int previousSize = ((Vertex)this.graph.getFromID(id)).getValue();
                 vertexPropertyTable.getModel().setValueAt(String.valueOf(previousSize), i, 1);
             }else {
                 ((Vertex)this.graph.getFromID(id)).setSize(newSize);
@@ -211,7 +211,7 @@ public class PropertyPanel extends JTabbedPane implements Observer {
             Vector<String> newData = new Vector<>();
             if (element.isVertex()) {
                 newData.add(element.getLabel());
-                newData.add(String.valueOf(((Vertex) element).getSize()));
+                newData.add(String.valueOf(((Vertex) element).getValue()));
                 newData.add(String.valueOf(element.getValue()));
                 newData.add(String.valueOf(element.getID()));
                 vertexDatas.add(newData);
