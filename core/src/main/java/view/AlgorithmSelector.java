@@ -23,11 +23,15 @@ public class AlgorithmSelector extends JDialog {
 
     public AlgorithmSelector() {
 
+        this.baseDimension = new Dimension(250,175);
+        this.setSize(baseDimension);
         this.setTitle("Selectionner un Algorithme à appliquer");
         initComponents();
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+
+
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -55,8 +59,11 @@ public class AlgorithmSelector extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
 
-        this.pack();
         this.setVisible(true);
+        this.pack();
+
+
+
     }
 
     private void initComponents(){
@@ -116,9 +123,6 @@ public class AlgorithmSelector extends JDialog {
                 }
             }
         });
-
-        this.baseDimension = new Dimension(150,200);
-
     }
 
     private void onOK() {
