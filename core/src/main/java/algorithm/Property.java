@@ -7,5 +7,5 @@ public enum Property {
     NBEDGES,
     SIZE,
     VALUE,
-    POSITION
+    RANDOM, POSITION
 }
