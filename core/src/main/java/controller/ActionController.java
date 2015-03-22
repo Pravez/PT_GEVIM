@@ -67,11 +67,11 @@ public class ActionController {
                 break;
 
             case "Open":
-                openGraph();
+                ActionController.openGraph();
                 break;
 
             case "Save":
-                saveGraph();
+                ActionController.saveGraph();
                 break;
 
             case "Copy":

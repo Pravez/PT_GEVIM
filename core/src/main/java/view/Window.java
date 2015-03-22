@@ -255,11 +255,12 @@ public class Window extends JFrame {
         /* Contenu du Menu edition */
         this.addJMenuItem(edition, "Annuler", "Undo");
         this.addJMenuItem(edition, "Refaire", "Redo");
+        edition.add(ButtonFactory.createSeparator());
         this.addJMenuItem(edition, "Copier", "Copy");
         this.addJMenuItem(edition, "Coller", "Paste");
-
         edition.add(ButtonFactory.createSeparator());
         this.addJMenuItem(edition, "Generer des elements", "generate");
+        edition.add(ButtonFactory.createSeparator());
         this.addJMenuItem(edition, "Algorithmes", "Algorithms");
 
         /* Contenu du Menu preferences */
@@ -275,6 +276,18 @@ public class Window extends JFrame {
     public void addNewTab(final Graph graph, String title) {
         if (this.tabs.getTabCount() == 0) {
             hideStartPanel();
+        }
+
+        //Pour eviter d'avoir plusieurs fois le même nom de Tab
+        int i=1;
+        for(Tab t : this.getTabsArray()){
+            if(t.getSheet().getName().equals(title)){
+                i+=1;
+            }
+        }
+        //On rajoute au titre la valeur de i ...
+        if(i>1){
+            title += " ("+i+")";
         }
 
         this.tabs.addTab(title, new Tab(graph, title, this.controller));
