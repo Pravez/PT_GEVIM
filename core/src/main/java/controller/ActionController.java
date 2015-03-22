@@ -222,7 +222,9 @@ public class ActionController {
      * Copie d'éléments
      */
     public static void copy() {
-        ActionController.controller.copyElements();
+        if (ActionController.controller.getWindow().getTabCount() != 0) {
+            ActionController.controller.copyElements();
+        }
     }
 
     public static void cut() {
@@ -234,7 +236,9 @@ public class ActionController {
      * @param position Position où les recopier
      */
     public static void paste(Point position) {
-        ActionController.controller.pasteElements(position);
+        if (ActionController.controller.getWindow().getTabCount() != 0) {
+            ActionController.controller.pasteElements(position);
+        }
     }
 
     /**

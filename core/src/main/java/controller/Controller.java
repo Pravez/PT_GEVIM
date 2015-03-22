@@ -459,18 +459,22 @@ public class Controller {
      * @param descriptions La liste des descriptions associées aux extensions
      */
     public void saveFile(String[] extensions, String[] descriptions){
-        try {
-            File file = this.chooseFile(extensions, descriptions);
+        if(this.window.getTabs().getSelectedIndex() != -1) {
+            try {
+                File file = this.chooseFile(extensions, descriptions);
 
-            if(file != null) {
-                if (file.getName().contains(".graphml")) {
-                    this.window.getCurrentSheet().saveToGML(file);
-                } else if (file.getName().contains(".dot")) {
-                    this.window.getCurrentSheet().saveToVIZ(file);
+                if (file != null) {
+                    if (file.getName().contains(".graphml")) {
+                        this.window.getCurrentSheet().saveToGML(file);
+                    } else if (file.getName().contains(".dot")) {
+                        this.window.getCurrentSheet().saveToVIZ(file);
+                    }
+                    this.window.getCurrentSheet().setFile(file.getAbsolutePath());
                 }
-                this.window.getCurrentSheet().setFile(file.getAbsolutePath());
+            } catch (ArrayIndexOutOfBoundsException aioobe) {
+                JOptionPane.showMessageDialog(null, "Rien à sauvegarder...", "Erreur", JOptionPane.ERROR_MESSAGE);
             }
-        }catch(ArrayIndexOutOfBoundsException aioobe){
+        }else{
             JOptionPane.showMessageDialog(null, "Rien à sauvegarder...", "Erreur", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -481,22 +485,26 @@ public class Controller {
      * @param descriptions Descriptions associées aux extensions
      */
     public void save(String[] extensions, String[] descriptions) {
-        try{
-            File file;
-            if(this.window.getTabCount() > 0 && this.window.getCurrentSheet().getFile() != null ){
-                file = new File(this.window.getCurrentSheet().getFile());
-            }else{
-                file = this.chooseFile(extensions, descriptions);
-            }
-            if(file != null) {
-                if (file.getName().contains(".graphml")) {
-                    this.window.getCurrentSheet().saveToGML(file);
-                } else if (file.getName().contains(".dot")) {
-                    this.window.getCurrentSheet().saveToVIZ(file);
+        if(this.window.getTabs().getSelectedIndex() != -1) {
+            try {
+                File file;
+                if (this.window.getTabCount() > 0 && this.window.getCurrentSheet().getFile() != null) {
+                    file = new File(this.window.getCurrentSheet().getFile());
+                } else {
+                    file = this.chooseFile(extensions, descriptions);
                 }
-                this.window.getCurrentSheet().setFile(file.getAbsolutePath());
+                if (file != null) {
+                    if (file.getName().contains(".graphml")) {
+                        this.window.getCurrentSheet().saveToGML(file);
+                    } else if (file.getName().contains(".dot")) {
+                        this.window.getCurrentSheet().saveToVIZ(file);
+                    }
+                    this.window.getCurrentSheet().setFile(file.getAbsolutePath());
+                }
+            } catch (ArrayIndexOutOfBoundsException aioobe) {
+                JOptionPane.showMessageDialog(null, "Rien à sauvegarder...", "Erreur", JOptionPane.ERROR_MESSAGE);
             }
-        }catch(ArrayIndexOutOfBoundsException aioobe){
+        }else{
             JOptionPane.showMessageDialog(null, "Rien à sauvegarder...", "Erreur", JOptionPane.ERROR_MESSAGE);
         }
     }
