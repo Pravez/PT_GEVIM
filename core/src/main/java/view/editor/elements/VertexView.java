@@ -159,10 +159,11 @@ public class VertexView extends ElementView {
     @Override
     public SnapProperties modify(Graph graph){
 
-		SnapVertex snap = new SnapVertex();
+		SnapVertex snap =null;
         VertexViewEditor edit = new VertexViewEditor(this.vertex, this);
 
         if(!edit.isNotModified()) {
+			snap=new SnapVertex();
             this.vertex.setSize(edit.getNewWidth());
             this.vertex.setPosition(edit.getNewPosition());
             this.vertex.setLabel(edit.getNewLabel());
