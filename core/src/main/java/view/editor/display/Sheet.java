@@ -252,7 +252,7 @@ public class Sheet extends JComponent implements Observer {
     public void modifySelectedElements() {
         if(selectedElements.size()==1){
 
-            SnapProperties snapBefore;
+            SnapProperties snapBefore=null;
             if(selectedElements.get(0).isVertexView()) {
                 snapBefore = new SnapVertex((Vertex) selectedElements.get(0).getGraphElement(), graph.getVertexes().indexOf(selectedElements.get(0).getGraphElement()));
             }
@@ -262,7 +262,8 @@ public class Sheet extends JComponent implements Observer {
             }
             SnapProperties snapAfter= selectedElements.get(0).modify(this.graph);
 
-            tab.getUndoRedo().registerSingleTypeEdit(snapBefore, snapAfter);
+            if(snapAfter!=null)
+              tab.getUndoRedo().registerSingleTypeEdit(snapBefore, snapAfter);
 
         }else if(selectedElements.size()>=2){
             modifyElements();
