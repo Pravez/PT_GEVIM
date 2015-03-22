@@ -236,12 +236,14 @@ public class Controller {
     public void pasteElements(Point position) {
         if (!this.copiedElements.isEmpty()) {
             ArrayList<GraphElement> newElements;
+            Dimension               sheetDimension = getWindow().getCurrentSheet().getMaximumSize();
+            int                     vertexSize    = getWindow().getCurrentSheet().getDefaultVerticesSize();
             if (position != null) {
-                newElements = Graph.copyGraphElements(this.copiedElements, position);
+                newElements = Graph.copyGraphElements(this.copiedElements, position, sheetDimension, vertexSize);
 
                 this.graphs.get(this.window.getCurrentTabIndex()).addGraphElements(newElements);
             } else {
-                newElements = Graph.copyGraphElements(this.copiedElements, Graph.findBestCopyPoint(this.copiedElements));
+                newElements = Graph.copyGraphElements(this.copiedElements, Graph.findBestCopyPoint(this.copiedElements), sheetDimension, vertexSize);
 
                 this.graphs.get(this.window.getCurrentTabIndex()).addGraphElements(newElements);
             }

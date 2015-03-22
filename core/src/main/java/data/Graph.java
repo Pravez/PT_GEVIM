@@ -97,9 +97,11 @@ public class Graph extends Observable {
      * Méthode statique pour copier des GraphElement dans une nouvelle ArrayList en créant de nouveaux Vertex et de nouveaux Edge à une position donnée
      * @param elements la liste des GraphElement à copier
      * @param position la position du centre de la zone contenant les GraphElement
+     * @param sheetDimension la dimension de la Feuille de dessin
+     * @param vertexSize la taille des Vertex
      * @return la liste des GraphElement copiés
      */
-    public static ArrayList<GraphElement> copyGraphElements(ArrayList<GraphElement> elements, Point position) {
+    public static ArrayList<GraphElement> copyGraphElements(ArrayList<GraphElement> elements, Point position, Dimension sheetDimension, int vertexSize) {
     	ArrayList<GraphElement> new_elements = new ArrayList<GraphElement> (elements.size());
     	Point min = new Point(0, 0);
     	Point max = new Point(0, 0);
@@ -119,12 +121,27 @@ public class Graph extends Observable {
                 max.y = ((Vertex) element).getPosition().y > max.y ? ((Vertex) element).getPosition().y : max.y;
             }
         }
+
+        // Pour que les GraphElement ne soient pas copiés en dehors de la Sheet
+        int width  = max.x - min.x;
+        int height = max.y - min.y;
+        if (position.x - width/2 < vertexSize/2) {
+            position.x = vertexSize/2 + width/2;
+        } else if (position.x + width/2 > sheetDimension.getWidth() - vertexSize/2) {
+            position.x = (int) (sheetDimension.getWidth() - vertexSize/2 - width/2);
+        }
+        if (position.y - height/2 < vertexSize/2) {
+            position.y = vertexSize/2 + height/2;
+        } else if (position.y + height/2 > sheetDimension.getHeight() - vertexSize/2) {
+            position.y = (int) (sheetDimension.getHeight() - vertexSize/2 - height/2);
+        }
+
     	// on ajoute tous les sommets dans la liste des nouveaux GraphElement
     	for (int i = 0 ; i < elements.size() ; i++) {
     		if (elements.get(i).isVertex()) {
     			new_elements.set(i, new Vertex((Vertex) elements.get(i)));
-    			int new_min_x = position.x - (max.x - min.x)/2;
-    			int new_min_y = position.y - (max.y - min.y)/2;
+    			int new_min_x = position.x - width/2;
+    			int new_min_y = position.y - height/2;
     			((Vertex)new_elements.get(i)).move(new_min_x - min.x, new_min_y - min.y);
     		}
     	}
