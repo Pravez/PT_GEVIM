@@ -461,32 +461,37 @@ public class Window extends JFrame {
      *
      */
     public void callAlgoToolBox(){
-        AlgorithmSelector al = new AlgorithmSelector();
-        Object[] selectedAlgorithm = al.getSelectedAlgorithmProperties();
-        if(selectedAlgorithm != null) {
+        if(this.tabs.getSelectedIndex() !=-1) {
+            AlgorithmSelector al = new AlgorithmSelector();
+            Object[] selectedAlgorithm = al.getSelectedAlgorithmProperties();
+            if (selectedAlgorithm != null) {
 
-            //Sauvegarde des propriétés de l'ensemble des graphElements
+                //Sauvegarde des propriétés de l'ensemble des graphElements
 
-        ArrayList<Vertex> elements=  getCurrentTab().getGraph().getVertexes();
-        ArrayList<SnapVertex> before = new ArrayList<>();
-        ArrayList<SnapVertex> after = new ArrayList<>();
+                if (this.tabs.getSelectedIndex() != -1) {
 
-            SnapVertex tmp;
-            for(Vertex v : elements)
-            {
-                tmp = new SnapVertex(v, elements.indexOf(v));
-                before.add(tmp);
+                    ArrayList<Vertex> elements = getCurrentTab().getGraph().getVertexes();
+                    ArrayList<SnapVertex> before = new ArrayList<>();
+                    ArrayList<SnapVertex> after = new ArrayList<>();
+
+                    SnapVertex tmp;
+                    for (Vertex v : elements) {
+                        tmp = new SnapVertex(v, elements.indexOf(v));
+                        before.add(tmp);
+                    }
+                    controller.applyAlgorithm(selectedAlgorithm, getCurrentSheetViewPort().getViewPosition(), getCurrentSheetViewPort().getExtentSize());
+                    elements = getCurrentTab().getGraph().getVertexes();
+
+                    for (Vertex v : elements) {
+                        tmp = new SnapVertex(v, elements.indexOf(v));
+                        after.add(tmp);
+                    }
+
+                    this.getCurrentTab().getUndoRedo().registerAlgoEdit(before, after);
+                }
             }
-            controller.applyAlgorithm(selectedAlgorithm, getCurrentSheetViewPort().getViewPosition(), getCurrentSheetViewPort().getExtentSize());
-            elements =  getCurrentTab().getGraph().getVertexes();
-
-            for(Vertex v : elements)
-            {
-                tmp = new SnapVertex(v, elements.indexOf(v));
-                after.add(tmp);
-            }
-
-            this.getCurrentTab().getUndoRedo().registerAlgoEdit(before, after);
+        }else{
+            JOptionPane.showMessageDialog(null, "Vous devez d'abord ouvrir un graphe.", "Erreur", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }
