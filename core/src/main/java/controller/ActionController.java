@@ -298,7 +298,7 @@ public class ActionController {
      * @param algorithmProperties Object[]
      */
     public static void applyAlgorithm(Object[] algorithmProperties) {
-        ActionController.controller.applyAlgorithm(algorithmProperties, new Point(0,0), ActionController.controller.getWindow().getCurrentSheetViewPort().getExtentSize());
+        ActionController.controller.applyAlgorithm(algorithmProperties, new Point(0, 0), ActionController.controller.getWindow().getCurrentSheetViewPort().getExtentSize());
     }
 
     /**
