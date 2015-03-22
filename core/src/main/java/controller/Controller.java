@@ -312,12 +312,28 @@ public class Controller {
     }
 
     /**
-     * Méthode faisant appel à déplacer des éléments sur un Onglet, suivant un certain point.
+     * Méthode permettant d'initialiser le déplacement des ElementView de la Sheet, suivant un certain vecteur de déplacement
      *
-     * @param vector Le point vers lequel doivent se déplacer les éléments
+     * @param vector le vecteur selon lequel les ElementView doivent être déplacés
+     */
+    public void notifyInitMoveSelectedElements(Point vector) {
+        this.window.getCurrentSheet().initMovingSelectedElements(vector);
+    }
+
+    /**
+     * Méthode faisant appel au déplacement des ElementView de la Sheet, suivant un certain vecteur de déplacement
+     *
+     * @param vector le vecteur selon lequel les ElementView doivent être déplacés
      */
     public void notifyMoveSelectedElements(Point vector) {
         this.window.getCurrentSheet().moveSelectedElements(vector);
+    }
+
+    /**
+     * Méthode faisant appel à la fin de déplacement des ElementView de la Sheet
+     */
+    public void notifyEndMoveSelectedElements() {
+        this.window.getCurrentSheet().endMovingSelectedElements();
     }
 
     /**

@@ -49,6 +49,12 @@ public class SelectionState extends State {
 		}
 	}
 
+    /**
+     * Méthode pour créer une zone de sélection
+     * @param tab le Tab qui a reçu l'événement souris drag
+     * @param graph le Graph correspondant au Tab
+     * @param e l'événement souris
+     */
 	@Override
 	public void drag(Tab tab, Graph graph, MouseEvent e) {
         this.dragging = true;
@@ -66,12 +72,22 @@ public class SelectionState extends State {
 	 */
 	@Override
 	public void drag(VertexView vertex, MouseEvent e) {
-        this.dragging = true;
-        this.controller.notifyMoveSelectedElements(new Point(e.getX() - this.sourceDrag.x, e.getY() - this.sourceDrag.y));
+        if (!this.dragging) {
+            this.dragging = true;
+            this.controller.notifyInitMoveSelectedElements(new Point(e.getX() - this.sourceDrag.x, e.getY() - this.sourceDrag.y));
+        } else {
+            this.controller.notifyMoveSelectedElements(new Point(e.getX() - this.sourceDrag.x, e.getY() - this.sourceDrag.y));
+        }
 		this.controller.notifyRepaintTab();
         this.sourceDrag = e.getPoint();
 	}
-	
+
+    /**
+     * Méthode appelée lorsque l'on presse la souris sur la feuille de dessin
+     * @param tab le Tab qui a reçu l'événement souris drag
+     * @param graph le Graph correspondant au Tab
+     * @param e l'événement souris
+     */
 	@Override
 	public void pressed(Tab tab, Graph graph, MouseEvent e) {
 		this.sourceDrag = new Point(e.getX(), e.getY()); // à mettre plus tard dans la méthode pressed de la classe mère ?
@@ -79,7 +95,12 @@ public class SelectionState extends State {
 			this.controller.notifyMousePressedWithoutControlDown();
 		}
 	}
-	
+
+    /**
+     * Méthode appelée lorsque l'on presse la souris sur un ElementView
+     * @param element l'ElementView reçevant l'événement souris pressed
+     * @param e l'événement souris
+     */
 	@Override
 	public void pressed(ElementView element, MouseEvent e) {
 		this.sourceDrag = new Point(e.getX(), e.getY());
@@ -102,6 +123,9 @@ public class SelectionState extends State {
 		if (!e.isControlDown()) {
 			this.controller.notifyHandleElement(element);
 		}
+        if (this.dragging) {
+            this.controller.notifyEndMoveSelectedElements();
+        }
 		this.dragging = false;
 	}
 	

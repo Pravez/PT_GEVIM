@@ -34,39 +34,41 @@ import java.util.ListIterator;
  */
 public class Sheet extends JComponent implements Observer {
 
-	private static final long      serialVersionUID = 1L;
+	private static final long       serialVersionUID = 1L;
     private Tab tab;
-    private Graph                  graph;
-    private Controller             controller;
+    private Graph                   graph;
+    private Controller              controller;
     
-    private ArrayList<EdgeView>    edges;
-    private ArrayList<VertexView>  vertices;
+    private ArrayList<EdgeView>     edges;
+    private ArrayList<VertexView>   vertices;
 
     /* La liste des ElementView sélectionnés dans la zone précédente (avant le Ctrl enfoncé) */
-    private ArrayList<ElementView> previousSelectedElements;
+    private ArrayList<ElementView>  previousSelectedElements;
     /* La liste des ElementView sélectionnés */
-    private ArrayList<ElementView> selectedElements;
+    private ArrayList<ElementView>  selectedElements;
     /* La liste des ElementView qui sont actuellement dans la zone de sélection */
-    private ArrayList<ElementView> currentSelectedElements;
+    private ArrayList<ElementView>  currentSelectedElements;
+
+    private ArrayList<SnapPosition> previousPositions;
     
-    private String                 name;
-    private String                 file;
-    private Color                  defaultVerticesColor;
-    private Color                  defaultEdgesColor;
-    private int                    defaultSelectedThickness;
-    private int                    defaultEdgesThickness;
-    private int                    defaultVerticesSize;
-    private Vertex.Shape           defaultVerticesShape;
+    private String                  name;
+    private String                  file;
+    private Color                   defaultVerticesColor;
+    private Color                   defaultEdgesColor;
+    private int                     defaultSelectedThickness;
+    private int                     defaultEdgesThickness;
+    private int                     defaultVerticesSize;
+    private Vertex.Shape            defaultVerticesShape;
     
     /** Sélection par zone **/
-    private Rectangle              selectionZone;
+    private Rectangle               selectionZone;
 
     /** Edge temporaire **/
-    private Point                  originEdge;
-    private Point                  destinationEdge;
-    private Color                  edgeColor;
+    private Point                   originEdge;
+    private Point                   destinationEdge;
+    private Color                   edgeColor;
 
-    private double                 scale;
+    private double                  scale;
 
     /**
      * Constructeur du Tab, l'onglet. Un onglet est associé à un {@link data.Graph}
@@ -85,6 +87,8 @@ public class Sheet extends JComponent implements Observer {
         this.selectedElements         = new ArrayList<>();
         this.currentSelectedElements  = new ArrayList<>();
         this.previousSelectedElements = new ArrayList<>();
+
+        this.previousPositions        = new ArrayList<>();
         
         this.defaultVerticesColor     = Color.BLACK;
         this.defaultEdgesColor        = Color.BLACK;
@@ -319,31 +323,54 @@ public class Sheet extends JComponent implements Observer {
     public ArrayList<ElementView> getSelectedElements(){
         return this.selectedElements;
     }
-    
+
+    /**
+     * Méthode pour initialiser le déplacement des ElementView sélectionnés
+     *  - sauvegarde les positions initiales en vue de l'undo & redo
+     * @param vector le décalage à effectuer pour chaque élément par rapport à leur position
+     */
+    public void initMovingSelectedElements(Point vector) {
+        this.previousPositions.clear();
+        Point tmpPosition;
+        int   tmpIndex;
+        for (ElementView element : this.selectedElements) {
+            if (element.getGraphElement().isVertex()) {
+                tmpPosition = ((Vertex)element.getGraphElement()).getPosition();
+                tmpIndex    = graph.getVertexes().indexOf(element.getGraphElement());
+                this.previousPositions.add(new SnapPosition(tmpPosition,tmpIndex));
+                ((VertexView) element).move(new Point((int) (vector.x / this.scale), (int) (vector.y / this.scale)));
+            }
+        }
+    }
+
+    /**
+     * Méthode pour clore le déplacement des ElementView sélectionnés
+     *  - récupère la position finale des VertexView pour enregistrer le déplacement dans l'undo & redo
+     */
+    public void endMovingSelectedElements() {
+        ArrayList<SnapPosition> after = new ArrayList<>();
+        Point tmpPosition;
+        int   tmpIndex;
+        for (ElementView element : this.selectedElements) {
+            if (element.getGraphElement().isVertex()) {
+                tmpPosition = ((Vertex)element.getGraphElement()).getPosition();
+                tmpIndex    = graph.getVertexes().indexOf(element.getGraphElement());
+                after.add(new SnapPosition(tmpPosition, tmpIndex));
+            }
+        }
+        tab.getUndoRedo().registerMoveEdit(this.previousPositions, after);
+    }
+
     /**
      * Méthode pour déplacer les ElementView sélectionnés
      * @param vector le décalage à effectuer pour chaque élément par rapport à leur position
      */
     public void moveSelectedElements(Point vector) {
-        ArrayList<SnapPosition> before = new ArrayList<>();
-        ArrayList<SnapPosition> after = new ArrayList<>();
-        Point tmpPosition;
-        SnapPosition snap;
-        int tmpIndex;
-    	for (ElementView element : this.selectedElements) {
-    		if (element.getGraphElement().isVertex()) {
-                tmpPosition=((Vertex) (((VertexView) element).getGraphElement())).getPosition();
-                tmpIndex=graph.getVertexes().indexOf((Vertex) (((VertexView) element).getGraphElement()));
-                snap = new SnapPosition(tmpPosition,tmpIndex );
-                before.add(snap);
-                        ((VertexView) element).move(new Point((int) (vector.x / this.scale), (int) (vector.y / this.scale)));
-                tmpPosition=((Vertex) (((VertexView) element).getGraphElement())).getPosition();
-                snap = new SnapPosition(tmpPosition, tmpIndex);
-                after.add(snap);
+        for (ElementView element : this.selectedElements) {
+            if (element.getGraphElement().isVertex()) {
+                ((VertexView) element).move(new Point((int) (vector.x / this.scale), (int) (vector.y / this.scale)));
             }
-    	}
-
-        tab.getUndoRedo().registerMoveEdit(before, after);
+        }
     }
     
     /**
