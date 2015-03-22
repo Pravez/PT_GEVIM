@@ -552,28 +552,25 @@ public class Controller {
      * Méthode de génération d'éléments dans un graphe. On prend le graphe courant et on lui génère X vertices.
      */
     public void generateGraphElements() {
-
-        if(this.window.getTabCount() < 1 ) {
+        if(this.window.getTabCount() < 1 ) { // Si aucune Feuille de dessin n'est ouverte
             JOptionPane.showMessageDialog(null, "Vous devez d'abord ouvrir un graphe.", "Erreur", JOptionPane.ERROR_MESSAGE);
-
-        }else{
+        } else {
             String result = (String) JOptionPane.showInputDialog(this.window, "Entrez le nombre de noeuds que vous souhaitez générer : ", "Génération d'éléments", JOptionPane.QUESTION_MESSAGE, null, null, "50");
-
             try {
-                if (result != null) {
-                    int value = Integer.parseInt(result);
-
+                if (Integer.parseInt(result) < 0) {
+                    throw new Exception();
+                } else {
                     //On commence la génération
                     GenerationThread generationThread = new GenerationThread(this, Integer.parseInt(result));
 
                     this.getGraph(this.window.getCurrentTabIndex()).addGraphElements(generationThread.getElements());
                     this.window.getCurrentTab().getUndoRedo().registerAddEdit(generationThread.getElements());
                 }
-
-                //Si l'utilisateur ne rentre pas un entier
-
-            } catch (NumberFormatException nfe) {
+            } catch (NumberFormatException nfe) { //Si l'utilisateur ne rentre pas un entier
                 JOptionPane.showMessageDialog(null, "Merci de rentrer une valeur entiere.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                generateGraphElements();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Merci de rentrer une valeur positive.", "Erreur", JOptionPane.ERROR_MESSAGE);
                 generateGraphElements();
             }
         }
