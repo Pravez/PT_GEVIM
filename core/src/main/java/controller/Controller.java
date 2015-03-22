@@ -205,6 +205,7 @@ public class Controller {
     public void deleteElements() {
         ArrayList<GraphElement> suppSelectedElements = new ArrayList<>();
         for (ElementView e : this.window.getCurrentSheet().getSelectedElements()) {
+
             this.getGraph(this.window.getCurrentTabIndex()).removeGraphElement(e.getGraphElement());
             suppSelectedElements.add(e.getGraphElement());
         }
@@ -555,6 +556,7 @@ public class Controller {
             JOptionPane.showMessageDialog(null, "Vous devez d'abord ouvrir un graphe.", "Erreur", JOptionPane.ERROR_MESSAGE);
         } else {
             String result = (String) JOptionPane.showInputDialog(this.window, "Entrez le nombre de noeuds que vous souhaitez générer : ", "Génération d'éléments", JOptionPane.QUESTION_MESSAGE, null, null, "50");
+
             try {
                 if (Integer.parseInt(result) < 0) {
                     throw new Exception();
@@ -599,7 +601,6 @@ public class Controller {
         ActionController.setController(controller);
         Window window = new Window((int)dimension.getWidth()-100, (int)dimension.getHeight()-100, controller);
         controller.setWindow(window);
-
     }
 }
 
