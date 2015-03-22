@@ -474,7 +474,10 @@ public class Window extends JFrame {
                     for (Vertex v : elements) {
                         before.add(new SnapVertex(v, elements.indexOf(v)));
                     }
-                    controller.applyAlgorithm(selectedAlgorithm, getCurrentSheetViewPort().getViewPosition(), getCurrentSheet().getMaximumSize());
+                    int vertexWidth = getCurrentSheet().getDefaultVerticesSize();
+                    Point     applyPosition = new Point(getCurrentSheetViewPort().getViewPosition().x + vertexWidth/2, getCurrentSheetViewPort().getViewPosition().y + vertexWidth/2);
+                    Dimension applyDimension = new Dimension(getCurrentSheet().getMaximumSize().width - vertexWidth, getCurrentSheet().getMaximumSize().height - vertexWidth);
+                    this.controller.applyAlgorithm(selectedAlgorithm, applyPosition, applyDimension);
                     elements = getCurrentTab().getGraph().getVertexes();
 
                     for (Vertex v : elements) {

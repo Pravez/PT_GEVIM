@@ -21,7 +21,7 @@ public class RandomPositioning implements IAlgorithm {
     public void run(Graph graph) {
         Random r = new Random();
         for(Vertex v : graph.getVertexes()){
-            v.setPosition(new Point(r.nextInt(this.viewRectangle.width)+this.viewRectangle.x, r.nextInt(this.viewRectangle.height)+this.viewRectangle.y));
+            v.setPosition(new Point(r.nextInt(this.viewRectangle.width) + this.viewRectangle.x, r.nextInt(this.viewRectangle.height) + this.viewRectangle.y));
         }
         graph.setChanged();
     }
