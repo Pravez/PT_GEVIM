@@ -3,10 +3,12 @@ package view.frames;
 import data.Vertex;
 import view.UIElements.CustomUIManager;
 import view.editor.display.Sheet;
+import view.editor.elements.ElementView;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class SheetPropertiesEditor extends JDialog {
     private JPanel       contentPane;
@@ -29,13 +31,13 @@ public class SheetPropertiesEditor extends JDialog {
     private Color        elementHoverColor;
     private Vertex.Shape vertexShape;
     private Dimension    newSize;
+    private Dimension    minSize;
 
     private boolean      cancelled;
 
     private Sheet        sheet;
 
     public SheetPropertiesEditor(Sheet sheet) {
-
         this.sheet = sheet;
 
         initComponents();
@@ -81,13 +83,16 @@ public class SheetPropertiesEditor extends JDialog {
     private void initComponents() {
         cancelled = false;
 
-        this.vertexColor       = this.sheet.getDefaultVerticesColor();
-        this.vertexShape       = this.sheet.getDefaultVerticesShape();
-        this.vertexSize        = this.sheet.getDefaultVerticesSize();
-        this.edgeColor         = this.sheet.getDefaultEdgesColor();
-        this.edgeThickness     = this.sheet.getDefaultEdgesThickness();
-        this.elementHoverColor = CustomUIManager.getHoverColor();
-        this.newSize           = this.sheet.getPreferredSize();
+        this.vertexColor         = this.sheet.getDefaultVerticesColor();
+        this.vertexShape         = this.sheet.getDefaultVerticesShape();
+        this.vertexSize          = this.sheet.getDefaultVerticesSize();
+        this.edgeColor           = this.sheet.getDefaultEdgesColor();
+        this.edgeThickness       = this.sheet.getDefaultEdgesThickness();
+        this.elementHoverColor   = CustomUIManager.getHoverColor();
+        this.newSize             = this.sheet.getPreferredSize();
+
+        Rectangle verticesBounds = this.sheet.getVerticesBounds(this.sheet.getVertices());
+        this.minSize             = new Dimension(verticesBounds.x + verticesBounds.width, verticesBounds.y + verticesBounds.height);
 
         this.showLabels.setSelected(this.sheet.isPaintingLabels());
 
@@ -168,7 +173,6 @@ public class SheetPropertiesEditor extends JDialog {
     }
 
     public boolean validateChanges(){
-
         boolean mustBeVerified = false;
 
         this.edgeColor         = edgesDefaultColor.getBackground();
@@ -209,6 +213,11 @@ public class SheetPropertiesEditor extends JDialog {
             }
         } catch(NumberFormatException nfe) {
             JOptionPane.showMessageDialog(this, "Merci de rentrer des valeurs entieres.", "Attention", JOptionPane.ERROR_MESSAGE);
+            mustBeVerified = true;
+        }
+
+        if (this.newSize.width < this.minSize.width || this.newSize.height < this.minSize.height) {
+            JOptionPane.showMessageDialog(this, "La taille de la feuille de dessin ne peut pas être inférieure à : " + this.minSize.width, "Attention", JOptionPane.ERROR_MESSAGE);
             mustBeVerified = true;
         }
 

@@ -253,7 +253,6 @@ public class Sheet extends JComponent implements Observer {
      */
     public void modifySelectedElements() {
         if(selectedElements.size()==1){
-
             SnapProperties snapBefore=null;
             if(selectedElements.get(0).isVertexView()) {
                 snapBefore = new SnapVertex((Vertex) selectedElements.get(0).getGraphElement(), graph.getVertexes().indexOf(selectedElements.get(0).getGraphElement()));
@@ -279,7 +278,6 @@ public class Sheet extends JComponent implements Observer {
      * Méthode pour modifier tous les éléments existants
      */
     public void modifyProperties() {
-
         SheetPropertiesEditor tpve = new SheetPropertiesEditor(this);
 
         if(!tpve.isCancelled()) {
@@ -326,6 +324,28 @@ public class Sheet extends JComponent implements Observer {
     }
 
     /**
+     * Méthode permettant de récupérer le rectangle englobant les VertexView passés en paramètres afin de connaitre le rectangle qui les contient
+     * @param vertices les VertexVeiew dont on veut connaitre le rectangle englobeur
+     * @return le rectangle englobant les VertexView
+     */
+    public Rectangle getVerticesBounds(ArrayList<VertexView> vertices) {
+        Rectangle verticesBounds;
+        if (vertices.isEmpty()) {
+            return new Rectangle();
+        } else {
+            verticesBounds = vertices.get(0).getVertexBounds();
+            for (VertexView vertex : vertices) {
+                Rectangle bounds      = vertex.getVertexBounds();
+                verticesBounds.x      = bounds.x < verticesBounds.x ? bounds.x : verticesBounds.x;
+                verticesBounds.y      = bounds.y < verticesBounds.y ? bounds.y : verticesBounds.y;
+                verticesBounds.width  = bounds.x + bounds.width - verticesBounds.x > verticesBounds.width ? bounds.x + bounds.width - verticesBounds.x : verticesBounds.width;
+                verticesBounds.height = bounds.y + bounds.height - verticesBounds.y> verticesBounds.height ? bounds.y + bounds.height - verticesBounds.y : verticesBounds.height;
+            }
+            return verticesBounds;
+        }
+    }
+
+    /**
      * Méthode pour initialiser le déplacement des ElementView sélectionnés
      *  - sauvegarde les positions initiales en vue de l'undo & redo
      * @param vector le décalage à effectuer pour chaque élément par rapport à leur position
@@ -368,40 +388,26 @@ public class Sheet extends JComponent implements Observer {
      * @param sheetDimension la dimension de la fenêtre
      */
     public void moveSelectedElements(Point vector, Dimension sheetDimension) {
-        Point min = new Point(0, 0);
-        Point max = new Point(0, 0);
+        ArrayList<VertexView> vertices = new ArrayList<>();
+        for (ElementView element : this.selectedElements) {
+            if (element.isVertexView()) {
+                vertices.add((VertexView) element);
+            }
+        }
         // Récupérer le rectangle englobant les ElementView sélectionnés
-        for(ElementView element : this.selectedElements) {
-            if (element.getGraphElement().isVertex()) { // on initialise les points min & max en fonction du premier Vertex
-                Rectangle bounds = ((VertexView) element).getVertexBounds();
-                min = new Point(bounds.x, bounds.y);
-                max = new Point(bounds.x + bounds.width, bounds.y + bounds.height);
-                break;
-            }
+        Rectangle verticesBounds = getVerticesBounds(vertices);
+        if (verticesBounds.x + vector.x < 0) {
+            vector.x = 0 - verticesBounds.x;
+        } else if (verticesBounds.x + verticesBounds.width + vector.x > sheetDimension.width) {
+            vector.x = sheetDimension.width - verticesBounds.x - verticesBounds.width;
         }
-        for (ElementView element : this.selectedElements) {
-            if (element.getGraphElement().isVertex()) {
-                Rectangle bounds = ((VertexView) element).getVertexBounds();
-                min.x = bounds.x < min.x ? bounds.x : min.x;
-                min.y = bounds.y < min.y ? bounds.y : min.y;
-                max.x = bounds.x + bounds.width > max.x ? bounds.x + bounds.width : max.x;
-                max.y = bounds.y + bounds.height > max.y ? bounds.y+ bounds.height : max.y;
-            }
+        if (verticesBounds.y + vector.y < 0) {
+            vector.y = 0 - verticesBounds.y;
+        } else if (verticesBounds.y + verticesBounds.height + vector.y > sheetDimension.height) {
+            vector.y = sheetDimension.height - verticesBounds.y - verticesBounds.height;
         }
-        if (min.x + vector.x < 0) {
-            vector.x = 0 - min.x;
-        } else if (max.x + vector.x > sheetDimension.width ) {
-            vector.x = sheetDimension.width - max.x;
-        }
-        if (min.y + vector.y < 0) {
-            vector.y = 0 - min.y;
-        } else if (max.y + vector.y > sheetDimension.height ) {
-            vector.y = sheetDimension.height - max.y;
-        }
-        for (ElementView element : this.selectedElements) {
-            if (element.getGraphElement().isVertex()) {
-                ((VertexView) element).move(new Point((int) (vector.x / this.scale), (int) (vector.y / this.scale)));
-            }
+        for (VertexView vertex : vertices) {
+            vertex.move(new Point((int) (vector.x / this.scale), (int) (vector.y / this.scale)));
         }
     }
 
