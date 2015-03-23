@@ -110,7 +110,7 @@ public class SnapProperties {
 
     /**
      * Méthode permettant de distinguer les {@link undoRedo.snap.SnapEdge} des {@link undoRedo.snap.SnapVertex}
-     * @return
+     * @return false
      */
     public boolean isSnapVertex(){ return false; }
 
