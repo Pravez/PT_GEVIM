@@ -37,9 +37,9 @@ public class ScrollPane extends JScrollPane {
     public void setScrollPosition(Point originalPosition, Point actualPosition) {
         int x = actualPosition.x - originalPosition.x;
         int y = actualPosition.y - originalPosition.y;
+
         this.horizontalScrollBar.setValue(this.horizontalScrollBar.getValue() - x);
         this.verticalScrollBar.setValue(this.verticalScrollBar.getValue() - y);
-        this.sheet.revalidate();
     }
 
     /**

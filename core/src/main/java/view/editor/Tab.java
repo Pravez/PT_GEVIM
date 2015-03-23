@@ -107,7 +107,6 @@ public class Tab extends JSplitPane {
         graph.addObserver(sheet);
 
         sheet.setName(title);
-        sheet.setBackground(Color.GRAY);
         sheet.setLayout(null);
         sheet.add(new JLabel(title));
         sheet.setPreferredSize(new Dimension(2000, 2000));

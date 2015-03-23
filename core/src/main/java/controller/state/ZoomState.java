@@ -17,10 +17,14 @@ public class ZoomState extends State {
 
 	@Override
 	public void drag(Tab tab, Graph graph, MouseEvent e) {
-        tab.setCursor(new Cursor(Cursor.MOVE_CURSOR));
-        tab.getScrollPane().setScrollPosition(this.sourceDrag, e.getPoint());
+        if (System.getProperty("os.name").startsWith("Mac OS X")) {
+            tab.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        } else {
+            tab.setCursor(new Cursor(Cursor.MOVE_CURSOR));
+        }
+        tab.getScrollPane().setScrollPosition(this.sourceDrag, e.getLocationOnScreen());
 		this.dragging = true;
-        this.sourceDrag = e.getPoint();
+        this.sourceDrag = e.getLocationOnScreen();
 	}
 
     @Override
@@ -34,7 +38,7 @@ public class ZoomState extends State {
 
 	@Override
 	public void pressed(Tab tab, Graph grap, MouseEvent e) {
-        this.sourceDrag = e.getPoint(); // on récupère la position à laquelle on presse la souris
+        this.sourceDrag = e.getLocationOnScreen(); // on récupère la position à laquelle on presse la souris
 	}
 
 	@Override

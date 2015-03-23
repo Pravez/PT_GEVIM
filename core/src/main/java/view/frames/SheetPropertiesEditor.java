@@ -23,9 +23,11 @@ public class SheetPropertiesEditor extends JDialog {
     private JPanel       elementDefaultHoverColor;
     private JSlider      sheetSize;
     private JCheckBox    showLabels;
+    private JPanel       sheetDefaultColor;
 
     private int          edgeThickness;
     private int          vertexSize;
+    private Color        sheetColor;
     private Color        edgeColor;
     private Color        vertexColor;
     private Color        elementHoverColor;
@@ -80,9 +82,13 @@ public class SheetPropertiesEditor extends JDialog {
         this.setVisible(true);
     }
 
+    /**
+     * Méthode permettant d'initialiser les différents éléments de la fenêtre de propriétés de la feuille de dessin en fonction de la feuille
+     */
     private void initComponents() {
         cancelled = false;
 
+        this.sheetColor          = this.sheet.getDefaultSheetColor();
         this.vertexColor         = this.sheet.getDefaultVerticesColor();
         this.vertexShape         = this.sheet.getDefaultVerticesShape();
         this.vertexSize          = this.sheet.getDefaultVerticesSize();
@@ -96,6 +102,7 @@ public class SheetPropertiesEditor extends JDialog {
 
         this.showLabels.setSelected(this.sheet.isPaintingLabels());
 
+        this.sheetDefaultColor.setBackground(this.sheetColor);
         this.verticesDefaultColor.setBackground(this.vertexColor);
         this.edgesDefaultColor.setBackground(this.edgeColor);
         this.elementDefaultHoverColor.setBackground(this.elementHoverColor);
@@ -125,40 +132,41 @@ public class SheetPropertiesEditor extends JDialog {
                 break;
         }
 
-        this.edgesDefaultColor.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                onColor(edgesDefaultColor);
-            }
-        });
-
-        this.verticesDefaultColor.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                onColor(verticesDefaultColor);
-            }
-        });
-
-        this.elementDefaultHoverColor.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                onColor(elementDefaultHoverColor);
-            }
-        });
+        addColorChangingListener(this.sheetDefaultColor);
+        addColorChangingListener(this.edgesDefaultColor);
+        addColorChangingListener(this.verticesDefaultColor);
+        addColorChangingListener(this.elementDefaultHoverColor);
 
         this.sheetSize.setValue(newSize.width);
-
     }
 
+    /**
+     * Méthode permettant d'ajouter au JPanel permettant de changer de couleur un Listener qui appelle la méthode onColor lorsque l'on clique
+     * sur le JPanel
+     * @param colorPanel le JPanel dont on doit rajouter le Listener des événements souris
+     */
+    private void addColorChangingListener(final JPanel colorPanel) {
+        colorPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                onColor(colorPanel);
+            }
+        });
+    }
+
+    /**
+     * Méthode appelée lorsque l'on clique sur le Bouton OK, avant de valider, vérifie si les valeurs entrées par l'utilisateur sont valables
+     */
     private void onOK() {
         if(!validateChanges()) {
             dispose();
         }
     }
 
+    /**
+     * Méthode appelée lorsque l'on clique sur le Bouton Annuler
+     */
     private void onCancel() {
         cancelled = true;
         dispose();
@@ -167,17 +175,18 @@ public class SheetPropertiesEditor extends JDialog {
     /**
      * Permet d'ouvrir une nouvelle fenêtre d'édition de couleurs.
      */
-    private void onColor(JPanel j){
-        ColorChooser cc = new ColorChooser(j.getBackground());
-        j.setBackground(cc.getColor());
+    private void onColor(JPanel colorPanel){
+        //ColorChooser colorChooser = new ColorChooser(colorPanel.getBackground());
+        colorPanel.setBackground(new ColorChooser(colorPanel.getBackground()).getColor());
     }
 
     public boolean validateChanges(){
         boolean mustBeVerified = false;
 
-        this.edgeColor         = edgesDefaultColor.getBackground();
-        this.vertexColor       = verticesDefaultColor.getBackground();
-        this.elementHoverColor = elementDefaultHoverColor.getBackground();
+        this.sheetColor        = this.sheetDefaultColor.getBackground();
+        this.edgeColor         = this.edgesDefaultColor.getBackground();
+        this.vertexColor       = this.verticesDefaultColor.getBackground();
+        this.elementHoverColor = this.elementDefaultHoverColor.getBackground();
         this.newSize           = new Dimension(this.sheetSize.getValue(), this.sheetSize.getValue());
 
         switch((String)this.verticesDefaultShape.getSelectedItem()){
@@ -232,6 +241,8 @@ public class SheetPropertiesEditor extends JDialog {
     public int getVertexSize() {
         return vertexSize;
     }
+
+    public Color getSheetColor() { return sheetColor; }
 
     public Color getEdgeColor() {
         return edgeColor;

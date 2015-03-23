@@ -53,6 +53,7 @@ public class Sheet extends JComponent implements Observer {
     
     private String                  name;
     private String                  file;
+    private Color                   defaultSheetColor;
     private Color                   defaultVerticesColor;
     private Color                   defaultEdgesColor;
     private int                     defaultSelectedThickness;
@@ -90,9 +91,10 @@ public class Sheet extends JComponent implements Observer {
         this.previousSelectedElements = new ArrayList<>();
 
         this.previousPositions        = new ArrayList<>();
-        
-        this.defaultVerticesColor     = Color.BLACK;
-        this.defaultEdgesColor        = Color.BLACK;
+
+        this.defaultSheetColor        = new Color(248, 248, 248);
+        this.defaultVerticesColor     = new Color(39, 39, 39);
+        this.defaultEdgesColor        = new Color(39, 39, 39);
         this.defaultEdgesThickness    = 1;
         this.defaultSelectedThickness = 2;
         this.defaultVerticesSize      = 15;
@@ -128,6 +130,8 @@ public class Sheet extends JComponent implements Observer {
      * @param g {@link java.awt.Graphics} à partir de quoi dessiner
      */
     public void paintComponent(Graphics g){
+        g.setColor(this.defaultSheetColor);
+        g.fillRect(0, 0, getWidth(), getHeight());
         // dessiner ou non la zone de sélection
     	if (this.selectionZone != null) {
     		g.setColor(CustomUIManager.selectionColor);
@@ -281,6 +285,7 @@ public class Sheet extends JComponent implements Observer {
         SheetPropertiesEditor tpve = new SheetPropertiesEditor(this);
 
         if(!tpve.isCancelled()) {
+            this.setDefaultSheetColor(tpve.getSheetColor());
             this.setDefaultVerticesSize(tpve.getVertexSize());
             this.setDefaultVerticesColor(tpve.getVertexColor());
             this.setDefaultEdgesThickness(tpve.getEdgeThickness());
@@ -580,6 +585,22 @@ public class Sheet extends JComponent implements Observer {
      */
     public void setFile(String file) {
         this.file = file;
+    }
+
+    /**
+     * Getter de la couleur de fond par défaut de la Sheet
+     * @return la couleur par défaut
+     */
+    public Color getDefaultSheetColor() {
+        return this.defaultSheetColor;
+    }
+
+    /**
+     * Setter de la couleur de fond par défaut de la Sheet
+     * @param defaultSheetColor la nouvelle couleur par défaut
+     */
+    public void setDefaultSheetColor(Color defaultSheetColor) {
+        this.defaultSheetColor = defaultSheetColor;
     }
 
     /**
