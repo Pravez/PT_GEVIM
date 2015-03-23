@@ -372,18 +372,20 @@ public class Sheet extends JComponent implements Observer {
         Point max = new Point(0, 0);
         // Récupérer le rectangle englobant les ElementView sélectionnés
         for(ElementView element : this.selectedElements) {
-            if (element.getGraphElement().isVertex()) {
-                min = new Point(((Vertex)element.getGraphElement()).getPosition());
-                max = new Point(min);
+            if (element.getGraphElement().isVertex()) { // on initialise les points min & max en fonction du premier Vertex
+                Rectangle bounds = ((VertexView) element).getVertexBounds();
+                min = new Point(bounds.x, bounds.y);
+                max = new Point(bounds.x + bounds.width, bounds.y + bounds.height);
                 break;
             }
         }
         for (ElementView element : this.selectedElements) {
             if (element.getGraphElement().isVertex()) {
-                min.x = ((Vertex) element.getGraphElement()).getPosition().x < min.x ? ((Vertex) element.getGraphElement()).getPosition().x : min.x;
-                min.y = ((Vertex) element.getGraphElement()).getPosition().y < min.y ? ((Vertex) element.getGraphElement()).getPosition().y : min.y;
-                max.x = ((Vertex) element.getGraphElement()).getPosition().x > max.x ? ((Vertex) element.getGraphElement()).getPosition().x : max.x;
-                max.y = ((Vertex) element.getGraphElement()).getPosition().y > max.y ? ((Vertex) element.getGraphElement()).getPosition().y : max.y;
+                Rectangle bounds = ((VertexView) element).getVertexBounds();
+                min.x = bounds.x < min.x ? bounds.x : min.x;
+                min.y = bounds.y < min.y ? bounds.y : min.y;
+                max.x = bounds.x + bounds.width > max.x ? bounds.x + bounds.width : max.x;
+                max.y = bounds.y + bounds.height > max.y ? bounds.y+ bounds.height : max.y;
             }
         }
         if (min.x + vector.x < 0) {

@@ -133,15 +133,17 @@ public class VertexView extends ElementView {
     }
 
 	/**
-	 * Méthode pour récupérer la Dimension du Vertex avec le label
-	 * @return la dimension du Vertex avec le label
+	 * Méthode pour récupérer le rectangle de la zone du Vertex avec le label
+	 * @return le rectangle de la zone du Vertex avec le label
 	 */
-	public Dimension getVertexDimension() {
+	public Rectangle getVertexBounds() {
 		FontMetrics fontMetrics = this.g2d.getFontMetrics();
 		int size   = (int)(this.vertex.getSize() * this.scale.x);
+        int x      = (int) (this.vertex.getPosition().x * this.scale.x - size/2);
+        int y      = (int) (this.vertex.getPosition().y * this.scale.y);
 		int width  = fontMetrics.stringWidth(this.vertex.getLabel());
 		int height = fontMetrics.getHeight();
-		return new Dimension(width, height + this.labelGap + size);
+		return new Rectangle(x - width/2, y - this.labelGap - height, width, height + this.labelGap + size);
 	}
     
     /**
