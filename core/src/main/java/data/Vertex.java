@@ -4,9 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * Created by vain on 26/01/15.
- * Modified by cordavidenko on 26/01/15
- * Classe Vertex, sommet du Graph
+ * Classe Vertex, ils peuvent être reliés par des {@link data.Edge}, partie du modèle de l'application
  */
 public class Vertex extends GraphElement {
 
@@ -15,12 +13,19 @@ public class Vertex extends GraphElement {
     private Shape           shape;
     private ArrayList<Edge> edges;
 
+    /**
+     * les différentes formes disponibles
+     */
     public static enum Shape {
         SQUARE,
         CIRCLE,
         TRIANGLE,
         CROSS;
 
+        /**
+         * Permet de récupérer les noms des formes sous forme de String
+         * @return le nom de la forme
+         */
         @Override
         public String toString(){
             switch(this){
@@ -32,6 +37,11 @@ public class Vertex extends GraphElement {
             }
         }
 
+        /**
+         * Définit la forme associée au String passé en paramètre
+         * @param shape nom de la forme
+         * @return énum correspondant au nom passé en paramètre
+         */
         public static Shape decode(String shape){
             switch(shape){
                 case "Square": return SQUARE;
@@ -51,7 +61,6 @@ public class Vertex extends GraphElement {
      * @param size la taille du Vertex
      * @param shape la forme du Vertex
      */
-    //CONSTRUCTEUR JAMAIS UTILISE, A SUPPRIMER
     public Vertex(String label, Color color, Point position, int size, Shape shape) {
     	super(label, color);
         this.position = position;
@@ -60,6 +69,10 @@ public class Vertex extends GraphElement {
         this.edges    = new ArrayList<Edge>();
     }
 
+    /**
+     * Constructeur de la classe Vertex
+     * @param element Vertex dont on copie les propriétés
+     */
     public Vertex(Vertex element) {
         super(element);
         this.position = new Point(element.position);
@@ -173,6 +186,10 @@ public class Vertex extends GraphElement {
         this.position.y += vectorY;
     }
 
+    /**
+     *Permet de se distinguer des {@link data.Edge}
+     * @return
+     */
 	@Override
 	public boolean isVertex() {
 		return true;
