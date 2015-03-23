@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Created by paubreton on 08/03/15.
  * Classe principale gérant le fait d'écrire ou de lire un fichier .dot
  */
 public class DotFileManager {

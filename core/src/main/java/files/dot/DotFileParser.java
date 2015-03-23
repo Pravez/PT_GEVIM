@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 /**
- * Created by paubreton on 08/03/15.
  * Classe permettant de parser un fichier .dot
  */
 public class DotFileParser extends FileWriter {

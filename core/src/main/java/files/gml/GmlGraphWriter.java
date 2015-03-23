@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by paubreton on 02/03/15.
  * Classe principale utilisant les {@link com.tinkerpop.blueprints.Graph} pour écrire des {@link data.Graph} dans des
  * fichiers.
  */
