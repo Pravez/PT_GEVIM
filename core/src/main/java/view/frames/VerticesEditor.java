@@ -6,6 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * Classe visuelle d'édition de plusieurs {@link data.Vertex}
+ */
 public class VerticesEditor extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
@@ -30,6 +33,10 @@ public class VerticesEditor extends JDialog {
 
     private boolean notModified;
 
+    /**
+     * Constructeur de base
+     * @param parent Le {@link java.awt.Component} appellant la fenêtre
+     */
     public VerticesEditor(Component parent) {
 
         this.setTitle("Editeur de plusieurs noeuds");
@@ -69,6 +76,9 @@ public class VerticesEditor extends JDialog {
         this.setVisible(true);
     }
 
+    /**
+     * Méthode d'initialisation des principaux composants de la fenêtre
+     */
     private void initComponents(){
 
         colorModified.setSelected(true);
@@ -106,6 +116,10 @@ public class VerticesEditor extends JDialog {
 
     }
 
+    /**
+     * Méthode appellée à l'appui du bouton OK. Elle appelle une méthode de vérification des données, et si
+     * tout est bon, elle valide
+     */
     private void onOK() {
 
         if(!verifyModifications()) {
@@ -119,16 +133,28 @@ public class VerticesEditor extends JDialog {
         }
     }
 
+    /**
+     * Méthode appellée à l'appui du bouton Annuler. Elle ne "sauvegarde" aucune modification
+     */
     private void onCancel() {
         notModified = true;
         dispose();
     }
 
+    /**
+     * Méthode appelant un sélecteur de couleurs
+     * @param j Le {@link javax.swing.JPanel} dont la couleur doit être modifiée
+     */
     private void onColor(JPanel j){
         ColorChooser cc = new ColorChooser(j.getBackground());
         j.setBackground(cc.getColor());
     }
 
+    /**
+     * Méthode de vérification des modifications. Si les modifications sont correctes, par exemple éviter de
+     * rentrer des caractères à la place de nombre ...
+     * @return True si tout est bon, false sinon
+     */
     private boolean verifyModifications(){
         boolean mustBeVerified = false;
 
@@ -158,10 +184,6 @@ public class VerticesEditor extends JDialog {
             JOptionPane.showMessageDialog(null, "Merci de rentrer une valeur entiere.", "Erreur", JOptionPane.ERROR_MESSAGE);
             mustBeVerified = true;
         }
-
-
-
-
 
         if(shapeModified.isSelected()){
             switch((String)this.verticesShape.getSelectedItem()){

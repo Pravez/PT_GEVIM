@@ -124,30 +124,36 @@ public class AlgorithmSelector extends JDialog {
                             propertyChooser.setVisible(true);
                             changeSize("Color");
                             break;
-                        case "Calcul des indices" :
+                        case "Calcul des indices":
                             colorMax.setVisible(false);
                             colorMin.setVisible(false);
                             minColorLabel.setVisible(false);
                             maxColorLabel.setVisible(false);
                             changeSize("Random");
                             break;
-                        case "Changement de la taille" :
+                        case "Changement de la taille":
                             colorMax.setVisible(false);
                             colorMin.setVisible(false);
                             minColorLabel.setVisible(false);
                             maxColorLabel.setVisible(false);
                             changeSize("Random");
                             break;
-                }
+                    }
             }
         });
     }
 
+    /**
+     * Méthode appellée à l'appui du bouton OK, valide les données
+     */
     private void onOK() {
         cancelled = false;
         dispose();
     }
 
+    /**
+     * Méthode d'annulation des données à l'appui du bouton Annuler
+     */
     private void onCancel() {
         cancelled = true;
         dispose();
@@ -181,12 +187,20 @@ public class AlgorithmSelector extends JDialog {
         }
     }
 
+    /**
+     * Méthode appelant un sélecteur de couleurs
+     * @param j Le {@link javax.swing.JPanel} dont la couleur doit être modifiée
+     */
     private void onColor(JPanel color){
 
         ColorChooser cc = new ColorChooser(color.getBackground());
         color.setBackground(cc.getColor());
     }
 
+    /**
+     * Méthode réadaptant la taille de la fenêtre suivant le menu choisi
+     * @param type
+     */
     private void changeSize(String type){
         switch(type){
             case "Random":
@@ -206,6 +220,10 @@ public class AlgorithmSelector extends JDialog {
         return cancelled;
     }
 
+    /**
+     * Méthode montrant ou cachant les parties de choix des couleurs sur la fenêtre
+     * @param showed True pour les montrer, false pour les cacher
+     */
     public void showColors(boolean showed){
         colorMax.setVisible(showed);
         colorMin.setVisible(showed);

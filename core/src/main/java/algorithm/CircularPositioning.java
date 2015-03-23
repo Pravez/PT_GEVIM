@@ -7,16 +7,25 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * Created by cordavidenko on 19/02/15.
+ * Classe CircularPositioning, implémente l'interface {@link algorithm.IAlgorithm}. Permet un positionnement circulaire de l'ensemble des {@link data.Vertex}
  */
 public class CircularPositioning implements IAlgorithm {
 
-    private Rectangle viewRectangle;
+    private Rectangle viewRectangle;//Rectangle délimitant la zone dans laquelle se tracera le cercle
 
+    /**
+     * Constructeur de la classe CircularPositioning
+     * @param position origine de viewRectangle
+     * @param size taille des côtés de viewRectangle
+     */
     public CircularPositioning(Point position, Dimension size) {
         this.viewRectangle = new Rectangle(position, size);
     }
 
+    /**
+     * Méthode qui positionnera l'ensemble des Vertices du Graph passé en paramètre de manière circulaire
+     * @param graph le Graph sur lequel faire tourner l'algorithme
+     */
     @Override
     public void run(Graph graph) {
         ArrayList<Vertex> vertexes = graph.getVertexes();

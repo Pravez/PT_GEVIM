@@ -1,7 +1,6 @@
 package files.dot.elements;
 
 /**
- * Created by paubreton on 08/03/15.
  * Classe plus spécialisée d'un {@link files.dot.elements.DotElement} contenant deux {@link files.dot.elements.VertexDot}
  */
 public class EdgeDot extends DotElement{

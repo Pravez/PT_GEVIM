@@ -9,6 +9,9 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Classe d'informations sur la réalisation du projet
+ */
 public class AboutFrame extends JDialog {
 
 

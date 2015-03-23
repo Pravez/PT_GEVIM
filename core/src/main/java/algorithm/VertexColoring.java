@@ -6,16 +6,18 @@ import data.Vertex;
 import java.awt.*;
 
 /**
- * Created by cordavidenko on 02/03/15.
+ * Classe VertexColoring, implémente l'interface {@link algorithm.IAlgorithm}. Rédifinit la couleur des {@link data.Vertex} en fonction d'une {@link algorithm.Property}
  */
-
-
 public class VertexColoring implements IAlgorithm {
 
-    private Property p;
-    private Color min;
-    private Color max;
+    private Property p;// propriété selon laquelle seront attribuées les couleurs aux Vertices
+    private Color min;//couleur associée aux Vertices les plus "faibles"
+    private Color max;//couleur associée aux Vertices les plus "forts"
 
+    /**
+     * Applique l'algorithme suivant la propriété choisie
+     * @param graph le Graph sur lequel faire tourner l'algorithme
+     */
     @Override
     public void run(Graph graph) {
         switch (p){
@@ -33,6 +35,10 @@ public class VertexColoring implements IAlgorithm {
         }
     }
 
+    /**
+     * Attribue à chaque {@link data.Vertex} des couleurs définies selon leurs valeurs
+     * @param graph Graph sur lequel est appliqué l'algorithme
+     */
     private void valueColor(Graph graph) {
         int maxValue = 0;
         int minValue = Integer.MAX_VALUE;
@@ -51,7 +57,6 @@ public class VertexColoring implements IAlgorithm {
             else if (v.getValue() == minValue)
                 v.setColor(min);
             else{
-                //new Color(v.getEdges().size()*255/maxEdges, 255-v.getEdges().size()*255/maxEdges ,0)
                 int r = max.getRed() - ((max.getRed() - min.getRed()) * v.getValue() )/coef;
                 r = (r > 255)?  255 :  ( (r < 0 ) ? 0 : r );
                 int g = max.getGreen() - ((max.getGreen() - min.getGreen()) * v.getValue() )/coef;
@@ -59,9 +64,7 @@ public class VertexColoring implements IAlgorithm {
                 int b = max.getBlue() - ((max.getBlue() - min.getBlue()) * v.getValue() )/coef;
                 b = (b > 255)?  255 :  ( (b < 0 ) ? 0 : b );
 
-                Color color = new Color( r ,
-                        g,
-                        b);
+                Color color = new Color(r,g,b);
                 v.setColor(color);
 
             }
@@ -69,6 +72,11 @@ public class VertexColoring implements IAlgorithm {
         graph.setChanged();
     }
 
+
+    /**
+     * Attribue à chaque {@link data.Vertex} des couleurs définies selon le nombre de {@link data.Edge} qu'ils possèdent
+     * @param graph Graph sur lequel est appliqué l'algorithme
+     */
     private void nbEdgesColor(Graph graph) {
         int maxEdges = 0;
         int minEdges = Integer.MAX_VALUE;
@@ -87,7 +95,6 @@ public class VertexColoring implements IAlgorithm {
             else if (v.getEdges().size() == minEdges)
                 v.setColor(min);
             else{
-                //new Color(v.getEdges().size()*255/maxEdges, 255-v.getEdges().size()*255/maxEdges ,0)
                 int r = max.getRed() - ((max.getRed() - min.getRed()) * v.getEdges().size() )/coef;
                 r = (r > 255)?  255 :  ( (r < 0 ) ? 0 : r );
                 int g = max.getGreen() - ((max.getGreen() - min.getGreen()) * v.getEdges().size() )/coef;
@@ -95,9 +102,7 @@ public class VertexColoring implements IAlgorithm {
                 int b = max.getBlue() - ((max.getBlue() - min.getBlue()) * v.getEdges().size() )/coef;
                 b = (b > 255)?  255 :  ( (b < 0 ) ? 0 : b );
 
-                Color color = new Color( r ,
-                        g,
-                        b);
+                Color color = new Color(r,g,b);
                 v.setColor(color);
 
             }
@@ -105,6 +110,10 @@ public class VertexColoring implements IAlgorithm {
         graph.setChanged();
     }
 
+    /**
+     * Attribue à chaque {@link data.Vertex} des couleurs définies selon leurs tailles
+     * @param graph Graph sur lequel est appliqué l'algorithme
+     */
     private void sizeColor(Graph graph) {
         int maxSize = 0;
         int minSize = Integer.MAX_VALUE;
@@ -123,7 +132,6 @@ public class VertexColoring implements IAlgorithm {
             else if (v.getSize() == minSize)
                 v.setColor(min);
             else{
-                //new Color(v.getEdges().size()*255/maxEdges, 255-v.getEdges().size()*255/maxEdges ,0)
                 int r = max.getRed() - ((max.getRed() - min.getRed()) * v.getSize() )/coef;
                 r = (r > 255)?  255 :  ( (r < 0 ) ? 0 : r );
                 int g = max.getGreen() - ((max.getGreen() - min.getGreen()) * v.getSize() )/coef;
@@ -131,9 +139,7 @@ public class VertexColoring implements IAlgorithm {
                 int b = max.getBlue() - ((max.getBlue() - min.getBlue()) * v.getSize() )/coef;
                 b = (b > 255)?  255 :  ( (b < 0 ) ? 0 : b );
 
-                Color color = new Color( r ,
-                        g,
-                        b);
+                Color color = new Color(r,g,b);
                 v.setColor(color);
 
             }
@@ -141,6 +147,10 @@ public class VertexColoring implements IAlgorithm {
         graph.setChanged();
     }
 
+    /**
+     * Applique l'algorithme suivant la propriété choisie
+     * @param graph le Graph sur lequel faire tourner l'algorithme
+     */
     public void run(Graph graph, Property p, Color min, Color max){
         this.p = p;
         this.min = min;

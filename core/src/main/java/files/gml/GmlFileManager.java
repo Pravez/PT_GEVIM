@@ -5,7 +5,6 @@ import data.Graph;
 import java.io.File;
 
 /**
- * Created by paubreton on 23/02/15.
  * Classe permettant de gérer la lecture et l'écriture de fichiers .gml, les fichiers GraphML. Elle utilise
  * la classe {@link GmlGraphReader} pour lire les fichiers et la classe {@link GmlGraphWriter} pour
  * en écrire. Elle possède un {@link data.Graph} qui sera lu ou écrit, et un {@link java.io.File}, fichier associé.

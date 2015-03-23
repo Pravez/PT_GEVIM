@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by paubreton on 02/03/15.
  * Classe de lecture de fichier .gml et d'interprétation des données du fichier. Elle utilise la classe {@link com.tinkerpop.blueprints.Graph},
  * associée à la bibliothèque tinkerpop.blueprints.
  */

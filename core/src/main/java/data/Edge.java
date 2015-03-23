@@ -3,14 +3,13 @@ package data;
 import java.awt.Color;
 
 /**
- * Created by cordavidenko on 26/01/15.
- * Classe Edge, arête entre deux Vertex, partie du modèle de l'application
+ * Classe Edge, arête entre deux {@link data.Vertex}, partie du modèle de l'application
  */
 public class Edge extends GraphElement {
 
-    private Vertex  origin;
-    private Vertex  destination;
-    private int     thickness;
+    private Vertex  origin;//Vertex de départ de l'Edge
+    private Vertex  destination;//Vertex d'arrivée de l'Edge
+    private int     thickness;//Epaisseur de l'Edge
     
     /**
      * Constructeur de la classe Edge
@@ -108,7 +107,10 @@ public class Edge extends GraphElement {
     	this.thickness = thickness;
     }
 
-
+    /**
+     * Permet de se distinguer des {@link data.Vertex}
+     * @return false
+     */
 	@Override
 	public boolean isVertex() {
 		return false;

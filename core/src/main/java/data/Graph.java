@@ -4,9 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * Class to manage the interactions between edges, vertexes and users. It possesses an UndoManager to
- * manage undo actions. It is associated to a file and has the different default settings for the vertexes
- * and the edges.
+ * Classe Graph. Gère les interactions entres les {@link data.Edge} et les {@link data.Vertex}
  */
 public class Graph extends Observable {
 

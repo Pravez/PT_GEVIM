@@ -4,8 +4,7 @@ import java.awt.*;
 import java.util.Objects;
 
 /**
- * @author Alexis Dufrenne
- * Classe GraphElement, les Vertex et les Edge héritent de cette classe qui regroupe les éléments communs
+ * Classe GraphElement, les {@link data.Vertex} et les {@link data.Edge} héritent de cette classe qui regroupe les éléments communs
  */
 public abstract class GraphElement {
 
@@ -40,6 +39,10 @@ public abstract class GraphElement {
         CURRENT_ID++;
     }
 
+	/**
+	 * Constructeur de la classe GraphElement
+	 * @param graphElement GraphElement dont on copie les propriétés
+	 */
 	public GraphElement(GraphElement graphElement) {
         this(CURRENT_ID);
 		this.label = graphElement.label;

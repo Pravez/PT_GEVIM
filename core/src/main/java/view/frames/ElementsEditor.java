@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * Classe d'édition de plusieurs éléments d'un graphe
+ */
 public class ElementsEditor extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
@@ -23,6 +26,10 @@ public class ElementsEditor extends JDialog {
     private boolean alreadyValidated;
     private boolean notModified;
 
+    /**
+     * Constructeur par défaut
+     * @param parent Le {@link java.awt.Component} l'ayant appelé
+     */
     public ElementsEditor(Component parent) {
 
         this.setTitle("Editeur d'elements");
@@ -67,6 +74,9 @@ public class ElementsEditor extends JDialog {
         this.setVisible(true);
     }
 
+    /**
+     * Méthode d'initialisation de la plupart des composants
+     */
     private void initComponents(){
         validNames.setSelected(true);
         validColor.setSelected(true);
@@ -92,6 +102,10 @@ public class ElementsEditor extends JDialog {
         });
     }
 
+    /**
+     * Méthode de validation appellée à l'appui du bouton OK. Elle appelle une méthode vérifiant l'ensemble de données,
+     * et valide si l'ensemble est bon.
+     */
     private void onOK() {
 
         if(!verifyModifications()) {
@@ -104,16 +118,27 @@ public class ElementsEditor extends JDialog {
         }
     }
 
+    /**
+     * Méthode appelée à l'appui du bouton Annuler. N'enregistre aucune modification
+     */
     private void onCancel() {
         notModified = true;
         dispose();
     }
 
+    /**
+     * Méthode appelant un sélecteur de couleurs
+     * @param j Le {@link javax.swing.JPanel} dont la couleur doit être modifiée
+     */
     private void onColor(JPanel j){
         ColorChooser cc = new ColorChooser(j.getBackground());
         j.setBackground(cc.getColor());
     }
 
+    /**
+     * Méthode de vérification de l'ensemble des modifications
+     * @return True si tout est bon, false sinon
+     */
     private boolean verifyModifications(){
         boolean mustBeVerified = false;
 

@@ -3,13 +3,14 @@ package view.frames;
 import data.Vertex;
 import view.UIElements.CustomUIManager;
 import view.editor.display.Sheet;
-import view.editor.elements.ElementView;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 
+/**
+ * Classe permettant l'édition des paramètres de base de la feuille de dessin
+ */
 public class SheetPropertiesEditor extends JDialog {
     private JPanel       contentPane;
     private JButton      buttonOK;
@@ -39,6 +40,10 @@ public class SheetPropertiesEditor extends JDialog {
 
     private Sheet        sheet;
 
+    /**
+     * Constructeur par défaut
+     * @param sheet La {@link view.editor.display.Sheet} qui devra être modifiée
+     */
     public SheetPropertiesEditor(Sheet sheet) {
         this.sheet = sheet;
 
@@ -180,6 +185,10 @@ public class SheetPropertiesEditor extends JDialog {
         colorPanel.setBackground(new ColorChooser(colorPanel.getBackground()).getColor());
     }
 
+    /**
+     * Méthode de validation de l'ensemble des données modifiées
+     * @return True si tout est bon, false sinon
+     */
     public boolean validateChanges(){
         boolean mustBeVerified = false;
 

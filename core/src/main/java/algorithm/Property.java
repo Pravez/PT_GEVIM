@@ -1,7 +1,7 @@
 package algorithm;
 
 /**
- * Created by cordavidenko on 02/03/15.
+ * Enumération Property, ensemble des propriétés pouvant paramétrer les {@link algorithm.IAlgorithm}
  */
 public enum Property {
     NBEDGES,

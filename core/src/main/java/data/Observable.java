@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import view.editor.display.Observer;
 
 /**
- * @author Alexis Dufrenne
- * Classe abstraite Observable, classe qui est observée par des Observer et les prévient quand elle est modifiée
+ * Classe abstraite Observable, classe qui est observée par des {@link view.editor.display.Observer} et les prévient quand elle est modifiée
  */
 public abstract class Observable {
 	private ArrayList<Observer> myObservers = new ArrayList<Observer>();
@@ -17,13 +16,6 @@ public abstract class Observable {
 	 */
 	public void addObserver(Observer observer) {
 		this.myObservers.add(observer);
-	}
-	
-	/**
-	 * Méthode pour vider la liste des Observer de la classe
-	 */
-	public void deleteObservers() {
-		this.myObservers.clear();
 	}
 	
 	/**

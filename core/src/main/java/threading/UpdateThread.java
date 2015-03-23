@@ -27,6 +27,12 @@ public class UpdateThread extends JDialog implements Runnable {
     private Controller              controller;
     private JComponent              sheet;
 
+    /**
+     * Constructeur de base du thread d'update.
+     * @param sheet La sheet qui appelle le thread
+     * @param newElements La liste des éléments actuels du graphe
+     * @param controller Le controller du programme.
+     */
     public UpdateThread(JComponent sheet, ArrayList<GraphElement> newElements, Controller controller) {
         this.sheet      = sheet;
         this.controller = controller;
@@ -155,10 +161,18 @@ public class UpdateThread extends JDialog implements Runnable {
         return edgeView;
     }
 
+    /**
+     * Getter des {@link data.Edge}
+     * @return {@link java.util.ArrayList} de {@link data.Edge}
+     */
     public ArrayList<EdgeView> getEdges() {
         return edges;
     }
 
+    /**
+     * Getter des {@link data.Vertex}
+     * @return {@link java.util.ArrayList} de {@link data.Vertex}
+     */
     public ArrayList<VertexView> getVertices() {
         return vertices;
     }
