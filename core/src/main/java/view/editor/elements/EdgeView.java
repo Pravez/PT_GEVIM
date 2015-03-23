@@ -37,12 +37,12 @@ public class EdgeView extends ElementView {
      */
     public EdgeView(Edge edge, int hoverThickness, VertexView origin, VertexView destination) {
         super(edge.getColor());
-    	this.edge           = edge;
-    	this.thickness      = edge.getThickness();
-        this.hoverThickness = hoverThickness;
-        this.color          = edge.getColor();
-        this.origin         = origin;
-        this.destination    = destination;
+    	this.edge             = edge;
+    	this.thickness        = edge.getThickness();
+        this.hoverThickness   = hoverThickness;
+        this.color            = edge.getColor();
+        this.origin           = origin;
+        this.destination      = destination;
     }
 
     /**
@@ -199,7 +199,7 @@ public class EdgeView extends ElementView {
     @Override
     public void updateHover(boolean isHover) {
 		this.color     = (isHover) ? CustomUIManager.getHoverColor() : this.edge.getColor();
-		this.thickness = (isHover) ? this.hoverThickness : this.edge.getThickness();
+		this.thickness = (isHover) ? this.thickness + this.hoverThickness : this.edge.getThickness();
 	}
 
     /**
