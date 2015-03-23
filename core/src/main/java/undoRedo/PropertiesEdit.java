@@ -30,7 +30,7 @@ public class PropertiesEdit extends AbstractUndoableEdit {
 
     /**
      * Action correspondante à l'annulation de ce PropertiesEdit
-     * @throws javax.swing.undo.CannotUndoException
+     * @throws javax.swing.undo.CannotUndoException renvoyée lorsque l'undo est impossible
      */
     public void undo() throws CannotUndoException {
 
@@ -56,7 +56,7 @@ public class PropertiesEdit extends AbstractUndoableEdit {
 
     /**
      * Action correspondante au rétablissement de ce PropertiesEdit précédemment annulé
-     * @throws javax.swing.undo.CannotRedoException
+     * @throws javax.swing.undo.CannotRedoException renvoyée lorsque le redo est impossible
      */
     public void redo() throws CannotRedoException {
 
@@ -93,8 +93,4 @@ public class PropertiesEdit extends AbstractUndoableEdit {
      */
     public boolean canRedo() { return true; }
 
-    //pas encore utilisée, permettrait de générer un historique
-    public String getPresentationName() { return "Properties edited"; }
-    
-    
 }

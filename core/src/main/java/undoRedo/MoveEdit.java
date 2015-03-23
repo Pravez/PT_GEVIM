@@ -23,7 +23,10 @@ public class MoveEdit extends AbstractUndoableEdit {
         positionsBefore=before;
     }
 
-
+    /**
+     * Action correspondante à l'annulation de ce MoveEdit. Retour à la position avant déplacement
+     * @throws CannotUndoException renvoyée lorsque l'undo est impossible
+     */
     public void undo() throws CannotUndoException {
 
         for(SnapPosition s : positionsBefore) {
@@ -35,7 +38,10 @@ public class MoveEdit extends AbstractUndoableEdit {
 
     }
 
-
+    /**
+     * Action correspondante au rétablissement de ce MoveEdit précédemment annulé. Retour à la position après déplacement
+     * @throws CannotUndoException renvoyée lorsque le redo est impossible
+     */
     public void redo() throws CannotUndoException {
 
         for(SnapPosition s : positionsAfter) {
@@ -45,11 +51,16 @@ public class MoveEdit extends AbstractUndoableEdit {
         graph.setChanged();
 
     }
-
+    /**
+     * Indique que le MoveEdit est annulable
+     * @return true
+     */
     public boolean canUndo() { return true; }
 
+    /**
+     * Indique que l'on peut rétablir ce MoveEdit
+     * @return true
+     */
     public boolean canRedo() { return true; }
-
-    public String getPresentationName() { return "Vertices moved"; }
 
     }

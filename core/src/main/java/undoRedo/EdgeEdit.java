@@ -23,7 +23,10 @@ public class EdgeEdit extends AbstractUndoableEdit {
         edgeBefore=before;
     }
 
-
+    /**
+     * Action correspondante à l'annulation de cet EdgeEdit. L'Edge récupère les propriétés qu'il possédait avant modification
+     * @throws CannotUndoException  renvoyée lorsque l'undo est impossible
+     */
     public void undo() throws CannotUndoException {
 
 
@@ -48,6 +51,10 @@ public class EdgeEdit extends AbstractUndoableEdit {
 
     }
 
+    /**
+     * Action correspondante au rétablissement de cet EdgeEdit précédemment annulé. L'Edge retrouve les propriétés qu'il possédait après la modification
+     * @throws CannotUndoException  renvoyée lorsque le redo est impossible
+     */
     public void redo() throws CannotUndoException {
 
 
@@ -70,11 +77,16 @@ public class EdgeEdit extends AbstractUndoableEdit {
 
 
     }
-
+    /**
+     * Indique que le EdgeEdit est annulable
+     * @return true
+     */
     public boolean canUndo() { return true; }
 
+    /**
+     * Indique que l'on peut rétablir cet EdgeEdit
+     * @return true
+     */
     public boolean canRedo() { return true; }
-
-    public String getPresentationName() { return "Vertex edited"; }
 
 }
