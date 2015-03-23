@@ -302,7 +302,10 @@ public class Controller {
     public void notifyEndDraggingEdge() {
         this.window.getCurrentSheet().endTemporarilyEdge();
     }
-    
+
+    /**
+     * Méthode notifiant la pression de la souris tout en ayant le bouton CTRL d'enfoncé
+     */
     public void notifyMousePressedWithoutControlDown() {
     	this.window.getCurrentSheet().clearCurrentSelectedElements();
     }

@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by paubreton on 08/03/15.
  * Classe permettant de créer un Graphe prêt à être exporté en fichier .dot.
  */
 public class GraphDot {

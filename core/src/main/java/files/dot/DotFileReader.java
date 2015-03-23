@@ -7,7 +7,6 @@ import files.dot.elements.VertexDot;
 import java.io.*;
 
 /**
- * Created by paubreton on 08/03/15.
  * Classe principale de mangement de la lecture dans un fichier .dot
  */
 public class DotFileReader {

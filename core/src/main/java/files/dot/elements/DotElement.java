@@ -3,7 +3,6 @@ package files.dot.elements;
 import java.util.HashMap;
 
 /**
- * Created by paubreton on 08/03/15.
  * Element composant un {@link files.dot.GraphDot} de la même manière que des éléments composent un graphe
  */
 public abstract class DotElement {

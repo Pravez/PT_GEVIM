@@ -11,6 +11,11 @@ import java.util.Objects;
  */
 public class KeyActionListener extends KeyAdapter {
 
+    /**
+     * Override de la méthode de récupération d'un évenement, traite ici tous les raccourcis clavier en appellant l'ActionController
+     * selon l'action associée.
+     * @param e
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.isControlDown()) {
