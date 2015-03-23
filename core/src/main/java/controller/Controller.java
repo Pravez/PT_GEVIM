@@ -1,9 +1,6 @@
 package controller;
 
-import algorithm.CircularPositioning;
-import algorithm.Property;
-import algorithm.RandomPositioning;
-import algorithm.VertexColoring;
+import algorithm.*;
 import controller.state.CreationState;
 import controller.state.State;
 import data.Edge;
@@ -431,6 +428,12 @@ public class Controller {
                 break;
             case "Coloration des Sommets":
                 new VertexColoring().run(window.getCurrentTab().getGraph(), (Property)algorithmProperties[3], (Color)algorithmProperties[1], (Color)algorithmProperties[2]);
+                break;
+            case "Changement de la taille":
+                new SizeAlgorithm().run(window.getCurrentTab().getGraph(), (Property)algorithmProperties[3]);
+                break;
+            case "Calcul des indices" :
+                new ValueAlgorithm().run(window.getCurrentTab().getGraph(), (Property)algorithmProperties[3]);
                 break;
          }
     }
