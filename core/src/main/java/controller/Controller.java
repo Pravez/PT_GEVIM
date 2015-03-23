@@ -74,6 +74,7 @@ public class Controller {
             ArrayList<GraphElement> tmp =  new ArrayList<>();
             tmp.add(g.createVertex(color, position, size, shape));
             window.getCurrentTab().getUndoRedo().registerAddEdit(tmp);
+            this.graphs.get(this.window.getCurrentTabIndex()).setChanged();
         }
     }
 
@@ -96,6 +97,7 @@ public class Controller {
             ArrayList<GraphElement> tmp = new ArrayList<>();
             tmp.add(this.window.getCurrentTab().getGraph().createEdge(this.window.getCurrentSheet().getDefaultEdgesColor(), src, dst, this.window.getCurrentSheet().getDefaultEdgesThickness()));
             window.getCurrentTab().getUndoRedo().registerAddEdit(tmp);
+            this.graphs.get(this.window.getCurrentTabIndex()).setChanged();
         }
     }
 
