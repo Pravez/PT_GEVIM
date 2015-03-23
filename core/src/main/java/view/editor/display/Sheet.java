@@ -35,7 +35,7 @@ import java.util.ListIterator;
 public class Sheet extends JComponent implements Observer {
 
 	private static final long       serialVersionUID = 1L;
-    private Tab tab;
+    private Tab                     tab;
     private Graph                   graph;
     private Controller              controller;
     

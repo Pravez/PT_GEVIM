@@ -2,6 +2,7 @@ package view.editor;
 
 import controller.ActionController;
 import controller.Controller;
+import controller.listeners.KeyActionListener;
 import data.Graph;
 import undoRedo.UndoPanel;
 import view.UIElements.CustomUIManager;
@@ -158,7 +159,7 @@ public class Tab extends JSplitPane {
      */
     public void initBoardPanel(Graph graph){
         properties = (PropertyPanel) CustomUIManager.addTab(new PropertyPanel(this.sheet));
-        properties.setFocusable(false);
+        properties.addKeyListener(new KeyActionListener());
 
         minimap = new MiniMap(scrollPane, sheet);
         minimap.setBorder(BorderFactory.createLineBorder(Color.BLACK));
