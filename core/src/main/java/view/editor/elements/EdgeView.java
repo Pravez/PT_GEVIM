@@ -53,7 +53,6 @@ public class EdgeView extends ElementView {
      */
     @Override
     public boolean contains(int x, int y) {
-
     	// La largeur de la zone autour de l'EdgeView
     	int radius = this.edge.getThickness() > 10 ? this.edge.getThickness() : 10;
     	// la distance entre le point d'origine et le point de destination de l'EdgeView
@@ -98,7 +97,7 @@ public class EdgeView extends ElementView {
 		((Graphics2D) g).setStroke(oldStroke);
     }
     
-    public void paintComponent(Graphics g, double scaleX, double scaleY) {
+    public void paintComponent(Graphics g, double scaleX, double scaleY, boolean paintLabel) {
         this.scale = new Point2D.Double(scaleX, scaleY);
     	g.setFont(super.getFont());
     	Stroke oldStroke = ((Graphics2D) g).getStroke();
@@ -113,6 +112,16 @@ public class EdgeView extends ElementView {
 		Point destination = new Point((int)((this.destination.getPosition().x)*scaleX), (int)((this.destination.getPosition().y)*scaleY));
 		g.drawLine(source.x, source.y, destination.x, destination.y);
 		((Graphics2D) g).setStroke(oldStroke);
+
+        Point min = new Point(source.x > destination.x ? destination.x : source.x, source.y > destination.y ? destination.y : source.y);
+        Point max = new Point(source.x < destination.x ? destination.x : source.x, source.y < destination.y ? destination.y : source.y);
+
+        if (paintLabel) { // Affichage du label du VertexView
+            FontMetrics fontMetrics = g2d.getFontMetrics();
+            int width  = fontMetrics.stringWidth(this.edge.getLabel());
+            g.setColor(Color.BLACK);
+            g.drawString(this.edge.getLabel(), min.x + (max.x - min.x)/2 - width/2, min.y + (max.y - min.y)/2 - 5);
+        }
     }
     
     /**
@@ -201,10 +210,11 @@ public class EdgeView extends ElementView {
     public SnapProperties modify(Graph graph) {
 
         EdgeViewEditor edit = new EdgeViewEditor(this.edge, graph, this);
-        SnapEdge snap = new SnapEdge();
+        SnapEdge snap = null; 
 
         if(!edit.isNotModified()) {
-
+                
+            snap = new SnapEdge();
             this.edge.setThickness(edit.getThickness());
             this.edge.setLabel(edit.getLabel());
             this.edge.setColor(edit.getColor());

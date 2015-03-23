@@ -14,7 +14,7 @@ import java.awt.geom.Point2D;
 public abstract class ElementView extends JComponent {
 
 	protected static final long serialVersionUID = 1L;
-	protected Color color;
+	protected Color          color;
     protected Point2D.Double scale;
 
 	public ElementView(Color color) {

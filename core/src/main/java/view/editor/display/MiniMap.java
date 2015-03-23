@@ -67,10 +67,10 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
 		g.setColor(CustomUIManager.selectionBorderColor);
 		g.drawRect(this.selectionZone.x, this.selectionZone.y, this.selectionZone.width, this.selectionZone.height);
         for(EdgeView e : this.edges){
-            e.paintComponent(g, 1.0*this.getWidth()/this.sheet.getMaximumSize().width, 1.0*this.getHeight()/this.sheet.getMaximumSize().height);
+            e.paintComponent(g, 1.0*this.getWidth()/this.sheet.getMaximumSize().width, 1.0*this.getHeight()/this.sheet.getMaximumSize().height, false);
         }
         for (VertexView v : this.vertices) {
-            v.paintComponent(g, 1.0*this.getWidth()/this.sheet.getMaximumSize().width, 1.0*this.getHeight()/this.sheet.getMaximumSize().height);
+            v.paintComponent(g, 1.0*this.getWidth()/this.sheet.getMaximumSize().width, 1.0*this.getHeight()/this.sheet.getMaximumSize().height, false);
         }
     }
 
