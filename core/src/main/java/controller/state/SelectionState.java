@@ -10,6 +10,9 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 
+/**
+ * Classe SelectionState gérant le mode de Sélection de l'application pour sélectionner unitairement les ElementView et avec la zone de sélection
+ */
 public class SelectionState extends State {
 
     /**

@@ -27,18 +27,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * @author Alexis Dufrenne
  * Classe Window gérant la fenêtre principale de l'application. C'est la Vue principale du pattern MVC,
  * elle interagit avec l'utilisateur.
  */
 public class Window extends JFrame {
 
     private static final long      serialVersionUID = 1L;
+    /* Le nombre d'onglets créés en commençant à 1 */
     private static int             tabIndex = 1;
+    /* Le Controller de l'application */
     private Controller             controller;
+    /* Le Paneau */
     private JPanel                 back;
 
-    /* L'ensemble des onglets */
+    /* Le Panel conteneur des onglets */
     private JTabbedPane            tabs;
     /* La liste des Boutons permettant de changer d'état */
     private ArrayList<StateButton> stateButtons;
@@ -172,10 +174,11 @@ public class Window extends JFrame {
     }
 
     /**
-     * Adds to a menu a JMenuItem with a listener
+     * Méthode permettant d'ajouter à un JMenu un JMenuItem selon le label et l'action prédéfinie pour le JMenuItem avec l'ActionListener
      *
-     * @param menu  menu to add the item
-     * @param label label of the item
+     * @param menu le JMenu qui possède le JMenuItem
+     * @param label le label du JMenuItem
+     * @param action le nom de l'action associée au JMenuItem
      */
     private void addJMenuItem(JMenu menu, String label, String action) {
         JMenuItem item = ButtonFactory.createJMenuItem(label, action);
@@ -184,7 +187,7 @@ public class Window extends JFrame {
     }
 
     /**
-     * Method to init the tool menu bar (undo, redo, copy, paste...)
+     * Méthode permettant d'initialiser la ToolBar de l'application avec les boutons ayant des Images : nouveau, copier, coller, undo, ...
      */
     private void initToolMenuBar() {
         int buttonSize = 32;
@@ -459,45 +462,39 @@ public class Window extends JFrame {
     }
 
     /**
-     *
+     * Méthode permettant d'appeller la Fenêtre de sélection d'un algorithme, de tester si on peut l'appliquer et on l'applique au Graph
      */
     public void callAlgoToolBox(){
-        if(this.tabs.getSelectedIndex() !=-1) {
-            if(!this.getCurrentSheet().getVertices().isEmpty()) {
+        if (this.tabs.getSelectedIndex() !=-1) {
+            if (!this.getCurrentSheet().getVertices().isEmpty()) {
                 AlgorithmSelector al = new AlgorithmSelector(this);
                 if (!al.isCancelled()) {
                     Object[] selectedAlgorithm = al.getSelectedAlgorithmProperties();
                     if (selectedAlgorithm != null) {
-
                         //Sauvegarde des propriétés de l'ensemble des graphElements
-
                         if (this.tabs.getSelectedIndex() != -1) {
-
                             ArrayList<Vertex> elements = getCurrentTab().getGraph().getVertexes();
                             ArrayList<SnapVertex> before = new ArrayList<>();
                             ArrayList<SnapVertex> after = new ArrayList<>();
 
-                            SnapVertex tmp;
                             for (Vertex v : elements) {
-                                tmp = new SnapVertex(v, elements.indexOf(v));
-                                before.add(tmp);
+                                before.add(new SnapVertex(v, elements.indexOf(v)));
                             }
-                            int vertexWidth = getCurrentSheet().getDefaultVerticesSize();
-                            Point applyPosition = new Point(getCurrentSheetViewPort().getViewPosition().x + vertexWidth / 2, getCurrentSheetViewPort().getViewPosition().y + vertexWidth / 2);
+                            int vertexWidth          = getCurrentSheet().getDefaultVerticesSize();
+                            Point applyPosition      = new Point(getCurrentSheetViewPort().getViewPosition().x + vertexWidth / 2, getCurrentSheetViewPort().getViewPosition().y + vertexWidth / 2);
                             Dimension applyDimension = new Dimension(getCurrentSheet().getMaximumSize().width - vertexWidth, getCurrentSheet().getMaximumSize().height - vertexWidth);
                             this.controller.applyAlgorithm(selectedAlgorithm, applyPosition, applyDimension);
                             elements = getCurrentTab().getGraph().getVertexes();
 
                             for (Vertex v : elements) {
-                                tmp = new SnapVertex(v, elements.indexOf(v));
-                                after.add(tmp);
+                                after.add(new SnapVertex(v, elements.indexOf(v)));
                             }
 
                             this.getCurrentTab().getUndoRedo().registerAlgoEdit(before, after);
                         }
                     }
                 }
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Pour appliquer un algorithme \n il faut d'abord avoir des elements !", "Erreur", JOptionPane.INFORMATION_MESSAGE);
             }
         } else {

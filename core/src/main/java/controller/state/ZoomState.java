@@ -9,6 +9,9 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
+/**
+ * Classe ZoomState gérant le mode Zoom de l'application, zoom & dézoom, et déplacement de la feuille de dessin
+ */
 public class ZoomState extends State {
 
     /**

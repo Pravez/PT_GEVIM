@@ -13,7 +13,9 @@ import java.awt.*;
  */
 public class ActionController {
 
+    /* Le Controller de l'application */
     private static Controller controller;
+    /* La position de la souris */
     private static Point      mousePosition;
 
     /**

@@ -13,6 +13,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.util.HashMap;
 
+/**
+ * Classe abstraite State recueillant les différents événements souris pour les utiliser dans les différents modes de l'application qui vont
+ * hériter de cette classe
+ */
 public abstract class State {
 
     /* Le Controller de l'application */

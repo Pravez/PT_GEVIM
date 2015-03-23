@@ -10,6 +10,9 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 
+/**
+ * Classe CreationState gérant le mode de Création de l'application pour créer de nouveaux VertexView, EdgeView
+ */
 public class CreationState extends State {
 
     /* Le VertexView au-dessus duquel on effectue un drag */
