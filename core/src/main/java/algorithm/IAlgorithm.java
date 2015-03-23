@@ -3,7 +3,6 @@ package algorithm;
 import data.Graph;
 
 /**
- * @author Alexis Dufrenne
  * Interface IAlgorithm, tous les algorithmes qui modifieront un Graph implémenterons cette interface
  */
 public interface IAlgorithm {
