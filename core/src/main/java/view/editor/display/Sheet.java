@@ -59,6 +59,7 @@ public class Sheet extends JComponent implements Observer {
     private int                     defaultEdgesThickness;
     private int                     defaultVerticesSize;
     private Vertex.Shape            defaultVerticesShape;
+    private boolean                 paintLabels;
     
     /** Sélection par zone **/
     private Rectangle               selectionZone;
@@ -96,6 +97,7 @@ public class Sheet extends JComponent implements Observer {
         this.defaultSelectedThickness = 2;
         this.defaultVerticesSize      = 15;
         this.defaultVerticesShape     = Vertex.Shape.SQUARE;
+        this.paintLabels              = true;
 
         this.selectionZone            = null;
 
@@ -140,11 +142,11 @@ public class Sheet extends JComponent implements Observer {
         }
         // dessiner tous les EdgeView
         for(EdgeView e : this.edges){
-            e.paintComponent(g, this.scale, this.scale);
+            e.paintComponent(g, this.scale, this.scale, this.paintLabels);
         }
         // dessiner tous les VertexView
         for (VertexView v : this.vertices) {
-            v.paintComponent(g, this.scale, this.scale);
+            v.paintComponent(g, this.scale, this.scale, this.paintLabels);
         }
     }
 
@@ -289,6 +291,7 @@ public class Sheet extends JComponent implements Observer {
             this.setPreferredSize(tpve.getNewSize());
             this.setMaximumSize(tpve.getNewSize());
             CustomUIManager.setHoverColor(tpve.getHoverColor());
+            this.paintLabels = tpve.isPaintingLabels();
 
             this.graph.setChanged();
         }
@@ -886,5 +889,13 @@ public class Sheet extends JComponent implements Observer {
             }
         }
         return true;
+    }
+
+    /**
+     * Getter de la propriété pour afficher ou non les labels
+     * @return si on affiche les labels ou non
+     */
+    public boolean isPaintingLabels() {
+        return this.paintLabels;
     }
 }

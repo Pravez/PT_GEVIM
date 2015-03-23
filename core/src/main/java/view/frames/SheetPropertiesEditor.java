@@ -20,6 +20,7 @@ public class SheetPropertiesEditor extends JDialog {
     private JPanel       edgesDefaultColor;
     private JPanel       elementDefaultHoverColor;
     private JSlider      sheetSize;
+    private JCheckBox    showLabels;
 
     private int          edgeThickness;
     private int          vertexSize;
@@ -87,6 +88,8 @@ public class SheetPropertiesEditor extends JDialog {
         this.edgeThickness     = this.sheet.getDefaultEdgesThickness();
         this.elementHoverColor = CustomUIManager.getHoverColor();
         this.newSize           = this.sheet.getPreferredSize();
+
+        this.showLabels.setSelected(this.sheet.isPaintingLabels());
 
         this.verticesDefaultColor.setBackground(this.vertexColor);
         this.edgesDefaultColor.setBackground(this.edgeColor);
@@ -204,7 +207,7 @@ public class SheetPropertiesEditor extends JDialog {
             } else {
                 this.edgeThickness = (Integer.parseInt(this.edgesDefaultThickness.getText()));
             }
-        }catch(NumberFormatException nfe){
+        } catch(NumberFormatException nfe) {
             JOptionPane.showMessageDialog(this, "Merci de rentrer des valeurs entieres.", "Attention", JOptionPane.ERROR_MESSAGE);
             mustBeVerified = true;
         }
@@ -240,6 +243,8 @@ public class SheetPropertiesEditor extends JDialog {
     public Dimension getNewSize() {
         return newSize;
     }
+
+    public boolean isPaintingLabels() { return showLabels.isSelected(); }
 
     public boolean isCancelled() {
         return cancelled;

@@ -83,7 +83,7 @@ public class VertexView extends ElementView {
 		}
     }
     
-    public void paintComponent(Graphics g, double scaleX, double scaleY) {
+    public void paintComponent(Graphics g, double scaleX, double scaleY, boolean paintLabel) {
         this.scale = new Point2D.Double(scaleX, scaleY);
     	g.setFont(super.getFont());
 		
@@ -117,6 +117,13 @@ public class VertexView extends ElementView {
 			break;
 		default:
 			break;
+		}
+
+		if (paintLabel) { /** Affichage du label du VertexView **/
+			FontMetrics fontMetrics = g2d.getFontMetrics();
+			int width = fontMetrics.stringWidth(this.vertex.getLabel());
+			g.setColor(Color.BLACK);
+			g.drawString(this.vertex.getLabel(), x + size/2 - width/2, y - 5);
 		}
     }
     
