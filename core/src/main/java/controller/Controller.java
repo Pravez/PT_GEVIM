@@ -558,23 +558,24 @@ public class Controller {
             JOptionPane.showMessageDialog(null, "Vous devez d'abord ouvrir un graphe.", "Erreur", JOptionPane.ERROR_MESSAGE);
         } else {
             String result = (String) JOptionPane.showInputDialog(this.window, "Entrez le nombre de noeuds que vous souhaitez générer : ", "Génération d'éléments", JOptionPane.QUESTION_MESSAGE, null, null, "50");
+            if (result != null) {
+                try {
+                    if (Integer.parseInt(result) < 0) {
+                        throw new Exception();
+                    } else {
+                        //On commence la génération
+                        GenerationThread generationThread = new GenerationThread(this, Integer.parseInt(result));
 
-            try {
-                if (Integer.parseInt(result) < 0) {
-                    throw new Exception();
-                } else {
-                    //On commence la génération
-                    GenerationThread generationThread = new GenerationThread(this, Integer.parseInt(result));
-
-                    this.getGraph(this.window.getCurrentTabIndex()).addGraphElements(generationThread.getElements());
-                    this.window.getCurrentTab().getUndoRedo().registerAddEdit(generationThread.getElements());
+                        this.getGraph(this.window.getCurrentTabIndex()).addGraphElements(generationThread.getElements());
+                        this.window.getCurrentTab().getUndoRedo().registerAddEdit(generationThread.getElements());
+                    }
+                } catch (NumberFormatException nfe) { //Si l'utilisateur ne rentre pas un entier
+                    JOptionPane.showMessageDialog(null, "Merci de rentrer une valeur entiere.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    generateGraphElements();
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Merci de rentrer une valeur positive.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    generateGraphElements();
                 }
-            } catch (NumberFormatException nfe) { //Si l'utilisateur ne rentre pas un entier
-                JOptionPane.showMessageDialog(null, "Merci de rentrer une valeur entiere.", "Erreur", JOptionPane.ERROR_MESSAGE);
-                generateGraphElements();
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Merci de rentrer une valeur positive.", "Erreur", JOptionPane.ERROR_MESSAGE);
-                generateGraphElements();
             }
         }
 

@@ -42,7 +42,8 @@ public class SheetPropertiesEditor extends JDialog {
         this.setTitle("Proprietes de la feuille de dessin");
         setContentPane(contentPane);
         setModal(true);
-        setLocationRelativeTo(sheet.getParent());
+        Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(screenSize.width / 2 - this.getPreferredSize().width / 2, screenSize.height / 2 - this.getPreferredSize().height / 2);
         getRootPane().setDefaultButton(buttonOK);
 
         buttonOK.addActionListener(new ActionListener() {

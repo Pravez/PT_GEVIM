@@ -1,7 +1,6 @@
-package view;
+package view.frames;
 
 import algorithm.Property;
-import view.frames.ColorChooser;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,12 +20,13 @@ public class AlgorithmSelector extends JDialog {
     private Dimension baseDimension;
     private boolean cancelled;
 
-    public AlgorithmSelector() {
+    public AlgorithmSelector(Component parent) {
 
         this.baseDimension = new Dimension(250,175);
         this.setSize(baseDimension);
         this.setTitle("Selectionner un Algorithme à appliquer");
         initComponents();
+        this.setLocationRelativeTo(parent);
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
