@@ -463,38 +463,42 @@ public class Window extends JFrame {
      */
     public void callAlgoToolBox(){
         if(this.tabs.getSelectedIndex() !=-1) {
-            AlgorithmSelector al = new AlgorithmSelector(this);
-            if (!al.isCancelled()) {
-                Object[] selectedAlgorithm = al.getSelectedAlgorithmProperties();
-                if (selectedAlgorithm != null) {
+            if(!this.getCurrentSheet().getVertices().isEmpty()) {
+                AlgorithmSelector al = new AlgorithmSelector(this);
+                if (!al.isCancelled()) {
+                    Object[] selectedAlgorithm = al.getSelectedAlgorithmProperties();
+                    if (selectedAlgorithm != null) {
 
-                    //Sauvegarde des propriétés de l'ensemble des graphElements
+                        //Sauvegarde des propriétés de l'ensemble des graphElements
 
-                    if (this.tabs.getSelectedIndex() != -1) {
+                        if (this.tabs.getSelectedIndex() != -1) {
 
-                        ArrayList<Vertex> elements = getCurrentTab().getGraph().getVertexes();
-                        ArrayList<SnapVertex> before = new ArrayList<>();
-                        ArrayList<SnapVertex> after = new ArrayList<>();
+                            ArrayList<Vertex> elements = getCurrentTab().getGraph().getVertexes();
+                            ArrayList<SnapVertex> before = new ArrayList<>();
+                            ArrayList<SnapVertex> after = new ArrayList<>();
 
-                        SnapVertex tmp;
-                        for (Vertex v : elements) {
-                            tmp = new SnapVertex(v, elements.indexOf(v));
-                            before.add(tmp);
+                            SnapVertex tmp;
+                            for (Vertex v : elements) {
+                                tmp = new SnapVertex(v, elements.indexOf(v));
+                                before.add(tmp);
+                            }
+                            int vertexWidth = getCurrentSheet().getDefaultVerticesSize();
+                            Point applyPosition = new Point(getCurrentSheetViewPort().getViewPosition().x + vertexWidth / 2, getCurrentSheetViewPort().getViewPosition().y + vertexWidth / 2);
+                            Dimension applyDimension = new Dimension(getCurrentSheet().getMaximumSize().width - vertexWidth, getCurrentSheet().getMaximumSize().height - vertexWidth);
+                            this.controller.applyAlgorithm(selectedAlgorithm, applyPosition, applyDimension);
+                            elements = getCurrentTab().getGraph().getVertexes();
+
+                            for (Vertex v : elements) {
+                                tmp = new SnapVertex(v, elements.indexOf(v));
+                                after.add(tmp);
+                            }
+
+                            this.getCurrentTab().getUndoRedo().registerAlgoEdit(before, after);
                         }
-                        int vertexWidth = getCurrentSheet().getDefaultVerticesSize();
-                        Point     applyPosition = new Point(getCurrentSheetViewPort().getViewPosition().x + vertexWidth/2, getCurrentSheetViewPort().getViewPosition().y + vertexWidth/2);
-                        Dimension applyDimension = new Dimension(getCurrentSheet().getMaximumSize().width - vertexWidth, getCurrentSheet().getMaximumSize().height - vertexWidth);
-                        this.controller.applyAlgorithm(selectedAlgorithm, applyPosition, applyDimension);
-                        elements = getCurrentTab().getGraph().getVertexes();
-
-                        for (Vertex v : elements) {
-                            tmp = new SnapVertex(v, elements.indexOf(v));
-                            after.add(tmp);
-                        }
-
-                        this.getCurrentTab().getUndoRedo().registerAlgoEdit(before, after);
                     }
                 }
+            }else{
+                JOptionPane.showMessageDialog(null, "Pour appliquer un algorithme \n il faut d'abord avoir des elements !", "Erreur", JOptionPane.INFORMATION_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Vous devez d'abord ouvrir un graphe.", "Erreur", JOptionPane.INFORMATION_MESSAGE);

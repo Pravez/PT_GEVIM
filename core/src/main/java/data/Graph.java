@@ -209,9 +209,7 @@ public class Graph extends Observable {
      */
 	public Vertex createVertex(Color color, Point position, int size, Vertex.Shape shape) {
 		Vertex vertex = new Vertex(color, position, size, shape);
-
 		this.elements.add(vertex);
-		this.setChanged();
 		return vertex;
 	}
     /**
@@ -225,7 +223,6 @@ public class Graph extends Observable {
     public Edge createEdge(Color color, Vertex origin, Vertex destination, int thickness) {
     	Edge edge = new Edge(color, origin, destination, thickness);
         this.elements.add(edge);
-        this.setChanged();
 		return edge;
     }
 

@@ -6,6 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * Classe visuelle permettant de sélectionner un algorithme à appliquer sur un graphe.
+ */
 public class AlgorithmSelector extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
@@ -20,11 +23,15 @@ public class AlgorithmSelector extends JDialog {
     private Dimension baseDimension;
     private boolean cancelled;
 
+    /**
+     * Constructeur par défaut de la classe
+     * @param parent Le parent qui appelle l'instance de la classe, sert à placer la fenêtre
+     */
     public AlgorithmSelector(Component parent) {
 
         this.baseDimension = new Dimension(250,175);
         this.setSize(baseDimension);
-        this.setTitle("Selectionner un Algorithme à appliquer");
+        this.setTitle("Selectionner un Algorithme");
         initComponents();
         this.setLocationRelativeTo(parent);
         setContentPane(contentPane);
@@ -66,6 +73,9 @@ public class AlgorithmSelector extends JDialog {
 
     }
 
+    /**
+     * Méthode privée d'initialisation des composants internes à la classe et à toutes ses données associées
+     */
     private void initComponents(){
 
         colorMax.setBackground(Color.red);
@@ -75,6 +85,7 @@ public class AlgorithmSelector extends JDialog {
         colorMin.setVisible(false);
         minColorLabel.setVisible(false);
         maxColorLabel.setVisible(false);
+        propertyChooser.setVisible(false);
 
         this.colorMin.addMouseListener(new MouseAdapter() {
             @Override
@@ -99,24 +110,18 @@ public class AlgorithmSelector extends JDialog {
                 if (itemEvent.getStateChange() == ItemEvent.SELECTED)
                     switch ((String) itemEvent.getItem()) {
                         case "Positionnement Aléatoire":
-                            colorMax.setVisible(false);
-                            colorMin.setVisible(false);
-                            minColorLabel.setVisible(false);
-                            maxColorLabel.setVisible(false);
+                            showColors(false);
+                            propertyChooser.setVisible(false);
                             changeSize("Random");
                             break;
                         case "Positionnement Circulaire":
-                            colorMax.setVisible(false);
-                            colorMin.setVisible(false);
-                            minColorLabel.setVisible(false);
-                            maxColorLabel.setVisible(false);
+                            showColors(false);
+                            propertyChooser.setVisible(false);
                             changeSize("Circle");
                             break;
                         case "Coloration des Sommets":
-                            colorMax.setVisible(true);
-                            colorMin.setVisible(true);
-                            minColorLabel.setVisible(true);
-                            maxColorLabel.setVisible(true);
+                            showColors(true);
+                            propertyChooser.setVisible(true);
                             changeSize("Color");
                             break;
                         case "Calcul des indices" :
@@ -146,10 +151,6 @@ public class AlgorithmSelector extends JDialog {
     private void onCancel() {
         cancelled = true;
         dispose();
-    }
-
-    public Object getSelectedAlgorithm(){
-        return algorithms.getSelectedItem();
     }
 
     /**
@@ -203,5 +204,12 @@ public class AlgorithmSelector extends JDialog {
 
     public boolean isCancelled() {
         return cancelled;
+    }
+
+    public void showColors(boolean showed){
+        colorMax.setVisible(showed);
+        colorMin.setVisible(showed);
+        minColorLabel.setVisible(showed);
+        maxColorLabel.setVisible(showed);
     }
 }
