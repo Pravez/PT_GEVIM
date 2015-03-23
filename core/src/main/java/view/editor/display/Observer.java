@@ -3,7 +3,6 @@ package view.editor.display;
 import data.Observable;
 
 /**
- * @author Alexis Dufrenne
  * Interface Observer, classe permettant d'observer une classe Observable et d'être prévenue de ses modifications
  */
 public interface Observer {

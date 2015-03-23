@@ -19,14 +19,16 @@ import static java.lang.Math.sqrt;
 public class EdgeView extends ElementView {
 
 	private static final long serialVersionUID = 1L;
+    /* L'Edge associé à l'EdgeView */
 	private Edge       edge;
+    /* Le VertexView d'origine de l'EdgeView */
     private VertexView origin;
+    /* Le VertexView de destination de l'EdgeView */
     private VertexView destination;
+    /* L'épaisseur de l'EdgeView */
     private int        thickness;
+    /* L'épaisseur en plus quand l'EdgeView est sélectionnée*/
     private int        hoverThickness;
-    private Color      color;
-
-    //rajouter des statics pour les paramètres par défaut
 
     /**
      * Constructeur de la classe EdgeView
@@ -37,12 +39,11 @@ public class EdgeView extends ElementView {
      */
     public EdgeView(Edge edge, int hoverThickness, VertexView origin, VertexView destination) {
         super(edge.getColor());
-    	this.edge             = edge;
-    	this.thickness        = edge.getThickness();
-        this.hoverThickness   = hoverThickness;
-        this.color            = edge.getColor();
-        this.origin           = origin;
-        this.destination      = destination;
+    	this.edge           = edge;
+    	this.thickness      = edge.getThickness();
+        this.hoverThickness = hoverThickness;
+        this.origin         = origin;
+        this.destination    = destination;
     }
 
     /**
@@ -76,27 +77,14 @@ public class EdgeView extends ElementView {
         Point p4 = new Point((int) ((this.origin.getPosition().x - vector_x)*this.scale.x), (int) ((this.origin.getPosition().y - vector_y)*this.scale.y));
         return new Polygon(new int[] { p1.x, p2.x, p3.x, p4.x }, new int[] { p1.y, p2.y, p3.y, p4.y }, 4).contains(x, y);
     }
-    
+
     /**
-     * Override de la méthode paintComponent pour dessiner l'EdgeView dans le Tab
-     * (non-Javadoc)
-     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+     *  Méthode paintComponent pour dessiner l'EdgeView dans le Tab selon un zoom
+     * @param g le Graphique
+     * @param scaleX l'échelle du zoom en X
+     * @param scaleY l'échelle du zoom en Y
+     * @param paintLabel si on doit afficher ou non le label
      */
-    @Override
-    public void paintComponent(Graphics g) {
-    	g.setFont(super.getFont());
-    	Stroke oldStroke = ((Graphics2D) g).getStroke();
-		
-		Graphics2D        g2d         = ((Graphics2D) g);
-		RenderingHints    renderHints = new RenderingHints (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		
-		g2d.setRenderingHints(renderHints);
-		g.setColor(this.color);
-		((Graphics2D) g).setStroke(new BasicStroke(this.thickness));
-		g.drawLine(this.origin.getPosition().x, this.origin.getPosition().y, this.destination.getPosition().x, this.destination.getPosition().y);
-		((Graphics2D) g).setStroke(oldStroke);
-    }
-    
     public void paintComponent(Graphics g, double scaleX, double scaleY, boolean paintLabel) {
         this.scale = new Point2D.Double(scaleX, scaleY);
     	g.setFont(super.getFont());
@@ -188,6 +176,10 @@ public class EdgeView extends ElementView {
         this.destination = destination;
     }
 
+    /**
+     * Getter de l'Edge associée à l'EdgeView
+     * @return l'Edge associée
+     */
     public Edge getEdge() {
         return edge;
     }
@@ -243,6 +235,11 @@ public class EdgeView extends ElementView {
 	public GraphElement getGraphElement() {
 		return this.edge;
 	}
+
+    /**
+     * Override de la méthode permettant de savoir si c'est un VertexView ou non
+     * @return faux on n'a pas affaire à un VertexView
+     */
     @Override
     public boolean isVertexView() {
         return false;

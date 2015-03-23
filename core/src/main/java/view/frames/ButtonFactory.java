@@ -15,7 +15,8 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Classe ButtonFactory permettant de créer les différents
+ * Classe ButtonFactory permettant de créer les différents Boutons de l'application avec des images, des toolBars, en se référant à chaque
+ * fois au CustomUIManager pour créer des éléments qui seront modifiés graphiquement au niveau du thème
  */
 public class ButtonFactory {
 
@@ -71,7 +72,7 @@ public class ButtonFactory {
      *
      * @param label le texte du bouton
      * @param actionCommand l'action associée au bouton
-     * @return
+     * @return le JMenuItem créé
      */
     public static JMenuItem createJMenuItem(String label, String actionCommand) {
         JMenuItem menuItem = CustomUIManager.addMenuItem(new JMenuItem(label));

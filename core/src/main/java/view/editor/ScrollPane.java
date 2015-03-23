@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by aledufrenne on 06/03/2015.
+ * Classe ScrollPane, panneau conteneur de la feuille de dessin au sein du Tab permettant de gérer des JScrollBar
  */
 public class ScrollPane extends JScrollPane {
 
@@ -30,7 +30,7 @@ public class ScrollPane extends JScrollPane {
     }
 
     /**
-     * Méthode pour
+     * Méthode pour affecter à la Sheet une position avec les ScrollBars
      * @param originalPosition la position initiale
      * @param actualPosition la nouvelle position
      */

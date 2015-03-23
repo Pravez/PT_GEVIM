@@ -5,7 +5,6 @@ import java.awt.*;
 import java.awt.event.*;
 
 /**
- * Created by paubreton on 15/02/15.
  * Classe d'édition de couleurs. Elle reçoit une couleur de base et à l'aide du {@link javax.swing.JColorChooser} aide l'utilisateur
  * à choisir une nouvelle couleur parmi un panel relativement étendu. Utilisée par les classes {@link VertexViewEditor} et {@link EdgeViewEditor}.
  */
@@ -17,10 +16,10 @@ public class ColorChooser extends JDialog {
 
     /**
      * Constructeur mettant en place l'état initial de la fenêtre
-     * @param bg La couleur première qu'aura le sélecteur de couleurs (id est : la couleur de l'élément que l'on veut modifier).
+     * @param background La couleur première qu'aura le sélecteur de couleurs (id est : la couleur de l'élément que l'on veut modifier).
      */
-    public ColorChooser(Color bg) {
-        initComponents(bg);
+    public ColorChooser(Color background) {
+        initComponents(background);
 
         this.setModal(true);
         this.pack();
@@ -29,9 +28,9 @@ public class ColorChooser extends JDialog {
 
     /**
      * Initialisation des différents composants de swing associés à la fenêtre.
-     * @param bg La couleur de base
+     * @param background La couleur de base
      */
-    public void initComponents(Color bg) {
+    public void initComponents(Color background) {
         this.setTitle("Sélection de couleurs");
 
         JPanel contentPane = new JPanel();
@@ -41,8 +40,8 @@ public class ColorChooser extends JDialog {
         this.setContentPane(contentPane);
 
 
-        this.colorChooser = new JColorChooser(bg);
-        this.currentColor = bg;
+        this.colorChooser = new JColorChooser(background);
+        this.currentColor = background;
 
 
         JButton buttonOK     = new JButton("Ok");

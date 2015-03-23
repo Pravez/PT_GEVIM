@@ -15,17 +15,24 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
+/**
+ * Classe MiniMap affichant une miniature de la feuille de dessin actuelle et permettant de s'y déplacer
+ */
 public class MiniMap extends JComponent implements Observer, AdjustmentListener {
 
 	private static final long serialVersionUID = 1L;
-	
+
+    /* Le scrollPane conteneur de la feuille de dessin */
 	private view.editor.ScrollPane pane;
+    /* La feuille de dessin */
 	private Sheet                  sheet;
-	
+
+    /* La liste des EdgeView affichées */
 	private ArrayList<EdgeView>    edges;
-    private ArrayList<VertexView> vertices;
+    /* La liste des VertexView affichés */
+    private ArrayList<VertexView>  vertices;
     
-    /** Zone **/
+    /* Le rectangle de la zone de sélection */
     private Rectangle              selectionZone;
 
 	/**
@@ -34,10 +41,10 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
 	 * @param sheet la Sheet, feuillde de dessin du Tab actuel
 	 */
     public MiniMap(view.editor.ScrollPane pane, Sheet sheet) {
-        this.pane                 = pane;
-        this.sheet                = sheet;
-        this.edges                = new ArrayList<EdgeView>();
-        this.vertices = new ArrayList<VertexView>();
+        this.pane     = pane;
+        this.sheet    = sheet;
+        this.edges    = new ArrayList<>();
+        this.vertices = new ArrayList<>();
 
         updateSelectionZone();
         this.addMouseListener(new MouseAdapter() {
@@ -74,6 +81,11 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
         }
     }
 
+    /**
+     * Override de la méthode update de la classe Observer permettant de mettre à jour l'affichage en fonction des données qui ont été modifiées
+     * @param observable la classe observée
+     * @param object l'objet de la classe observée ayant été modifié
+     */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void update(Observable observable, Object object) {
@@ -137,6 +149,10 @@ public class MiniMap extends JComponent implements Observer, AdjustmentListener 
         super.add(edgeView);
     }
 
+    /**
+     * Override de la méthode lorsque l'on déplace les ScrollBar des ScrollPane
+     * @param adjustmentEvent l'événement d'ajustement des ScrollBar
+     */
 	@Override
 	public void adjustmentValueChanged(AdjustmentEvent adjustmentEvent) {
         updateSelectionZone();

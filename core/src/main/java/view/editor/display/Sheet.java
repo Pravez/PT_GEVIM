@@ -29,17 +29,21 @@ import java.util.ArrayList;
 import java.util.ListIterator;
 
 /**
- * Created by Corentin Davidenko on 04/02/15
  * Classe Sheet, feuille de dessin affichant un {@link data.Graph} dans l'application, est un {@link Observer} de la classe Graph
  */
 public class Sheet extends JComponent implements Observer {
 
 	private static final long       serialVersionUID = 1L;
+    /* L'onglet conteneur de la feuille de dessin */
     private Tab                     tab;
+    /* Le Graph qui est dessiné */
     private Graph                   graph;
+    /* Le Controller de l'application */
     private Controller              controller;
-    
+
+    /* La liste des EdgeView affichées */
     private ArrayList<EdgeView>     edges;
+    /* La liste des VertexView affichés */
     private ArrayList<VertexView>   vertices;
 
     /* La liste des ElementView sélectionnés dans la zone précédente (avant le Ctrl enfoncé) */
@@ -49,17 +53,28 @@ public class Sheet extends JComponent implements Observer {
     /* La liste des ElementView qui sont actuellement dans la zone de sélection */
     private ArrayList<ElementView>  currentSelectedElements;
 
+    /* La liste des positions avant le déplacement des ElementView sélectionnés */
     private ArrayList<SnapPosition> previousPositions;
-    
+
+    /* Le nom de la feuille de dessin */
     private String                  name;
+    /* Le nom du fichier associé à la feuille de dessin */
     private String                  file;
+    /* La couleur par défaut de la feuille de dessin */
     private Color                   defaultSheetColor;
+    /* La couleur par défaut des VertexView */
     private Color                   defaultVerticesColor;
+    /* La couleur par défaut des EdgeView */
     private Color                   defaultEdgesColor;
+    /* L'épaisseur par défaut à rajouter aux EdgeView sélectionnées */
     private int                     defaultSelectedThickness;
+    /* L'épaisseur par défaut des EdgeView */
     private int                     defaultEdgesThickness;
+    /* La taille par défaut des VertexView */
     private int                     defaultVerticesSize;
+    /* La forme par défaut des VertexView */
     private Vertex.Shape            defaultVerticesShape;
+    /* Si on doit afficher les labels des ElementViews ou non */
     private boolean                 paintLabels;
     
     /** Sélection par zone **/
@@ -70,6 +85,7 @@ public class Sheet extends JComponent implements Observer {
     private Point                   destinationEdge;
     private Color                   edgeColor;
 
+    /* L'échelle du zoom */
     private double                  scale;
 
     /**
@@ -802,6 +818,10 @@ public class Sheet extends JComponent implements Observer {
         }
     }
 
+    /**
+     * Fonction servant à sauvegarder un graphe au format graphVIZ à l'aide de la classe {@link files.dot.DotFileManager}
+     * @param dot Le fichier où sera enregistré le graphe (au format .dot)
+     */
     public void saveToVIZ(File dot) {
         if(dot != null){
             DotFileManager dotFileManager = new DotFileManager(this.graph, dot);
@@ -809,20 +829,29 @@ public class Sheet extends JComponent implements Observer {
         }
     }
 
+    /**
+     * Getter de l'échelle du zoom de la feuille de dessin
+     * @return l'échelle du zoom
+     */
     public double getScale() {
         return scale;
     }
 
+    /**
+     * Setter de l'échelle du zoom de la feuille de dessin
+     * @param scale la nouvelle échelle du zoom
+     */
     public void setScale(double scale) { this.scale = scale; }
 
+    /**
+     * Méthoder permettant de modifier les ElementView sélectionnés avec la fenêtre de propriétés et de sauvegarder les propriétés modifiées
+     */
     public void modifyElements(){
-
         if (selectionComposedByVerticesOnly()) {
             ArrayList<SnapProperties> verticesBefore = new ArrayList<>();
             VerticesEditor verticesEditor = new VerticesEditor(this.selectedElements.get(0));
 
             if (!verticesEditor.isNotModified()) {
-
                 boolean colorModified = verticesEditor.isColorModified();
                 boolean labelModified = verticesEditor.isLabelModified();
                 boolean sizeModified  = verticesEditor.isSizeModified();
@@ -881,12 +910,10 @@ public class Sheet extends JComponent implements Observer {
                 }
             }
 
-        }else{
-
+        } else {
             ElementsEditor elementsViewEditor = new ElementsEditor(this.selectedElements.get(0));
 
             if(!elementsViewEditor.isNotModified()) {
-
                 boolean colorModified = elementsViewEditor.isColorModified();
                 boolean sizeModified  = elementsViewEditor.isSizeModified();
                 boolean labelModified = elementsViewEditor.isLabelModified();
@@ -900,7 +927,7 @@ public class Sheet extends JComponent implements Observer {
                 if (colorModified || sizeModified || labelModified) {
                     for (ElementView ev : this.selectedElements) {
                         SnapProperties tmpSnap = new SnapProperties();
-                        GraphElement temp      = ev.getGraphElement();
+                        GraphElement   temp    = ev.getGraphElement();
 
                         //On récupère les propriétés avant les modifications
                         tmpSnap.setIndex(this.graph.getGraphElements().indexOf(temp));
@@ -920,7 +947,6 @@ public class Sheet extends JComponent implements Observer {
                             } else {
                                 ((Edge) temp).setThickness(modifiedSize);
                             }
-
                         }
                         if (labelModified) {
                             temp.setLabel(modifiedLabel);
@@ -943,11 +969,13 @@ public class Sheet extends JComponent implements Observer {
                     tab.getUndoRedo().registerPropertiesEdit(propertiesBefore, propertiesAfter);
                 }
             }
-
         }
-
     }
 
+    /**
+     * Méthode permettant de savoir si la sélection est composée exclusivement de Vertex
+     * @return le résultat du test
+     */
     public boolean selectionComposedByVerticesOnly(){
         for(ElementView ev : this.selectedElements){
             if(!ev.getGraphElement().isVertex()){

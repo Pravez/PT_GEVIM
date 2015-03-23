@@ -14,16 +14,22 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 /**
- * Created by paubreton on 02/03/15.
- * Classe d'édition rapide et de vue d'ensemble textuelle du contenu d'un graphe, faite à aprtir d'un {@link javax.swing.JTabbedPane} possédant des {@link javax.swing.JTable}
+ * Classe d'édition rapide et de vue d'ensemble textuelle du contenu d'un graphe, faite à aprtir d'un {@link javax.swing.JTabbedPane}
+ * possédant des {@link javax.swing.JTable}
  */
 public class PropertyPanel extends JTabbedPane implements Observer {
 
+    /* Le Graph associé au PropertyPanel */
     private Graph                  graph;
+    /* La feuille de desisn */
     private Sheet                  sheet;
+    /* Le scrollPane des Vertex */
     private JScrollPane            vertexScrollPane;
+    /* Le scrollPane des Edge */
     private JScrollPane            edgeScrollPane;
+    /* Le JTable des propriétés des Vertex */
     private JTable                 vertexPropertyTable;
+    /* Le JTable des propriétés des Edge */
     private JTable                 edgePropertyTable;
 
     private Vector<Vector<String>> vertexDatas;
@@ -110,6 +116,11 @@ public class PropertyPanel extends JTabbedPane implements Observer {
         addColoredTab("Arêtes", edgeScrollPane);
     }
 
+    /**
+     * Méthode permettant d'ajouter un Tab selon le thème du CustomUIManager
+     * @param title le titre du Tab
+     * @param component le composant du Tab
+     */
     private void addColoredTab(String title, JComponent component) {
         super.addTab(title, component);
         super.setTabComponentAt(super.indexOfTab(title), CustomUIManager.addTabComponent(title));

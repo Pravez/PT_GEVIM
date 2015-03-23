@@ -12,13 +12,14 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 /**
- * @author Alexis Dufrenne
  * Classe étant la "représentation graphique" d'un {@link data.Vertex}. Elle récupère ses données et les rend visibles.
  */
 public class VertexView extends ElementView {
 
+    /* Le Vertex qui est affiché */
 	private Vertex         vertex;
 	private Graphics2D     g2d;
+    /* Le décalage entre le VertexView et son label */
 	private int            labelGap;
 
     /**
@@ -31,12 +32,22 @@ public class VertexView extends ElementView {
 		this.labelGap = 5;
     }
 
-	public VertexView(VertexView element) {
-		super(element);
-		this.vertex   = new Vertex(element.vertex);
+    /**
+     * Constructeur par copie de la classe VertexView
+     * @param vertexView le VertexView à copier
+     */
+	public VertexView(VertexView vertexView) {
+		super(vertexView);
+		this.vertex   = new Vertex(vertexView.vertex);
 		this.labelGap = 5;
 	}
 
+    /**
+     * Override de la méthode contains pour savoir si le point est dans le VertexView ou non
+     * @param x l'abscisse du point
+     * @param y l'absicce du point
+     * @return le résultat sous la forme d'un booléen
+     */
     @Override
     public boolean contains(int x, int y) {
         int size = (int) (this.vertex.getSize()*this.scale.x);
@@ -44,49 +55,14 @@ public class VertexView extends ElementView {
         int posy = (int) ((this.vertex.getPosition().y - this.vertex.getSize()/2)*this.scale.y);
         return new Rectangle(posx, posy, size, size).contains(x, y);
     }
-    
-    /**
-     * Override de la méthode paintComponent pour dessiner le VertexView dans le Tab
-     * (non-Javadoc)
-     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-     */
-    @Override
-    public void paintComponent(Graphics g) {
-    	g.setFont(super.getFont());
-		
-		Graphics2D     g2d         = ((Graphics2D) g);
-		RenderingHints renderHints = new RenderingHints (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-		g2d.setRenderingHints(renderHints);
-		g.setColor(this.color);
-		
-		int size = this.vertex.getValue();
-		int x    = this.vertex.getPosition().x - size/2;
-		int y    = this.vertex.getPosition().y - size/2;
-		
-		switch (this.vertex.getShape()) {
-		case SQUARE :
-			g.fillRect(x, y, size, size);
-			break;
-		case CIRCLE :
-			g.fillOval(x, y, size, size);
-			break;
-		case TRIANGLE :
-			g.fillPolygon(new Polygon(new int[] {x + size/2, x + size, x}, new int[] {y, y + size, y + size}, 3));
-			break;
-		case CROSS :
-			Stroke oldStroke = ((Graphics2D) g).getStroke();
-			int thickness = size/3;
-			((Graphics2D) g).setStroke(new BasicStroke(thickness));
-			g.drawLine(x, y, x + size, y + size);
-			g.drawLine(x, y + size, x + size, y);
-			((Graphics2D) g).setStroke(oldStroke);
-			break;
-		default:
-			break;
-		}
-    }
-    
+    /**
+     * Méthode paintComponent permettant de dessiner le VertexView dans le Tab selon un zoom
+     * @param g le Graphique
+     * @param scaleX l'échelle du zoom en X
+     * @param scaleY l'échelle du zoom en Y
+     * @param paintLabel si on doit afficher ou non le label
+     */
     public void paintComponent(Graphics g, double scaleX, double scaleY, boolean paintLabel) {
         this.scale = new Point2D.Double(scaleX, scaleY);
 		this.g2d   = (Graphics2D)g;
@@ -102,6 +78,7 @@ public class VertexView extends ElementView {
 		int x    = (int) (this.vertex.getPosition().x* scaleX - size/2);
 		int y    = (int) (this.vertex.getPosition().y* scaleY - size/2);
 
+        /** Dessin de la forme en fonction de la forme du Vertex **/
         switch (this.vertex.getShape()) {
 		case SQUARE :
 			g.fillRect(x, y, size, size);
@@ -184,7 +161,7 @@ public class VertexView extends ElementView {
      */
     @Override
     public SnapProperties modify(Graph graph){
-		SnapVertex snap =null;
+		SnapVertex       snap = null;
         VertexViewEditor edit = new VertexViewEditor(this.vertex, this);
 
         if(!edit.isNotModified()) {
@@ -208,7 +185,6 @@ public class VertexView extends ElementView {
 			if(edit.isIndexModified())
 				snap.setValue(edit.getNewIndex());
         }
-
 
         return snap;
     }
@@ -238,6 +214,10 @@ public class VertexView extends ElementView {
 		this.vertex.setPosition(new Point(this.vertex.getPosition().x + vector.x, this.vertex.getPosition().y + vector.y));		
 	}
 
+    /**
+     * Override de la méthode isVertexView permettant de savoir si l'ElementView est un VertexView ou non
+     * @return vrai, on a affaire à un VertexView
+     */
 	@Override
 	public boolean isVertexView() {
 		return true;

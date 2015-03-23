@@ -18,11 +18,12 @@ import java.awt.*;
 import java.awt.event.*;
 
 /**
- * Created by paubreton on 03/03/15.
- * Classe contenant la feuille de dessin et tout ce qui lui est associé, un {@link view.editor.display.PropertyPanel} et un {@link view.editor.display.Sheet}
+ * Classe contenant la feuille de dessin et tout ce qui lui est associé, un {@link view.editor.display.PropertyPanel} et
+ * un {@link view.editor.display.Sheet}
  */
 public class Tab extends JSplitPane {
 
+    /* Controller de l'application */
     private Controller    controller;
     /* Panel de droite */
     private JPanel        boardPanel;
@@ -68,6 +69,9 @@ public class Tab extends JSplitPane {
         setColors();
     }
 
+    /**
+     * Méthode permettant de changer l'UI du SplitPane pour mettre la couleur selon le CustomUIManager
+     */
     public void setColors() {
         this.setUI(new BasicSplitPaneUI() {
             public BasicSplitPaneDivider createDefaultDivider() {
