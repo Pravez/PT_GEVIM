@@ -26,7 +26,8 @@ public class SizeAlgorithm implements IAlgorithm {
 
     private void valueSize(Graph graph) {
         for (Vertex v : graph.getVertexes()){
-            v.setSize(v.getValue() + MINIMAL_SIZE);
+            int newSize = v.getValue() + MINIMAL_SIZE;
+            v.setSize(newSize);
         }
         graph.setChanged();
     }
@@ -40,5 +41,6 @@ public class SizeAlgorithm implements IAlgorithm {
 
     public void run(Graph graph, Property p){
         property = p;
+        run(graph);
     }
 }
