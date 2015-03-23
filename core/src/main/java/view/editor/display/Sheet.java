@@ -92,7 +92,7 @@ public class Sheet extends JComponent implements Observer {
 
         this.previousPositions        = new ArrayList<>();
 
-        this.defaultSheetColor        = new Color(230, 230, 230);
+        this.defaultSheetColor        = new Color(248, 248, 248);
         this.defaultVerticesColor     = new Color(39, 39, 39);
         this.defaultEdgesColor        = new Color(39, 39, 39);
         this.defaultEdgesThickness    = 1;
