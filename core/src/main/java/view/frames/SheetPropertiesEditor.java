@@ -27,7 +27,7 @@ public class SheetPropertiesEditor extends JDialog {
     private Color        vertexColor;
     private Color        elementHoverColor;
     private Vertex.Shape vertexShape;
-    private Dimension newSize;
+    private Dimension    newSize;
 
     private boolean      cancelled;
 

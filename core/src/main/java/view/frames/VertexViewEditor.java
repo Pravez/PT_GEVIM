@@ -107,12 +107,12 @@ public class VertexViewEditor extends JDialog {
         this.indexModified = false;
 
         this.initialVertex = v;
-        this.newLabel = v.getLabel();
-        this.newColor = v.getColor();
-        this.newWidth = v.getValue();
-        this.newShape = v.getShape();
-        this.newPosition = v.getPosition();
-        this.newIndex = v.getValue();
+        this.newLabel      = v.getLabel();
+        this.newColor      = v.getColor();
+        this.newWidth      = v.getSize();
+        this.newShape      = v.getShape();
+        this.newPosition   = v.getPosition();
+        this.newIndex      = v.getValue();
 
         this.vertexWidth.setText(String.valueOf(this.newWidth));
         this.vertexX.setText(String.valueOf(this.newPosition.x));
@@ -154,18 +154,16 @@ public class VertexViewEditor extends JDialog {
                 onColor();
             }
         });
-
     }
 
     /**
      * Méthode appellée à l'appui du bouton OK, qui enregistre toutes les données modifiées.
      */
     private void onOK() {
-
         if(!verifyModifications()) {
             if(!hasBeenModified()){
                 onCancel();
-            }else{
+            } else {
                 if (!alreadyValidated && Integer.parseInt(this.vertexWidth.getText()) < 5) {
                     JOptionPane.showMessageDialog(this, "Attention, votre noeud peut s'avérer être trop petit.", "Information", JOptionPane.INFORMATION_MESSAGE);
                     alreadyValidated = true;
@@ -270,7 +268,7 @@ public class VertexViewEditor extends JDialog {
             colorModified = true;
             modified = true;
         }
-        if (newWidth != initialVertex.getValue()) {
+        if (newWidth != initialVertex.getSize()) {
             widthModified = true;
             modified = true;
         }
@@ -278,7 +276,6 @@ public class VertexViewEditor extends JDialog {
             shapeModified = true;
             modified = true;
         }
-
         if(newIndex != initialVertex.getValue()){
             indexModified = true;
             modified = true;

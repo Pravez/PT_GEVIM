@@ -140,10 +140,10 @@ public class Vertex extends GraphElement {
     }
 
     /**
-     * Getter de la position du Vertex
-     * @return la position du Vertex
+     * Getter de la taille du Vertex
+     * @return la taille du Vertex
      */
-    public int getValue() {
+    public int getSize() {
         return this.size;
     }
     

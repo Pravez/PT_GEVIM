@@ -35,9 +35,9 @@ public class VertexView extends ElementView {
 
     @Override
     public boolean contains(int x, int y) {
-        int size = (int) (this.vertex.getValue()*this.scale.x);
-        int posx = (int) ((this.vertex.getPosition().x - this.vertex.getValue()/2)*this.scale.x);
-        int posy = (int) ((this.vertex.getPosition().y - this.vertex.getValue()/2)*this.scale.y);
+        int size = (int) (this.vertex.getSize()*this.scale.x);
+        int posx = (int) ((this.vertex.getPosition().x - this.vertex.getSize()/2)*this.scale.x);
+        int posy = (int) ((this.vertex.getPosition().y - this.vertex.getSize()/2)*this.scale.y);
         return new Rectangle(posx, posy, size, size).contains(x, y);
     }
     
@@ -93,7 +93,7 @@ public class VertexView extends ElementView {
 		g2d.setRenderingHints(renderHints);
 		g.setColor(this.color);
 		
-		int size = (int) (this.vertex.getValue() * scaleX);
+		int size = (int) (this.vertex.getSize() * scaleX);
 		int x    = (int) (this.vertex.getPosition().x* scaleX - size/2);
 		int y    = (int) (this.vertex.getPosition().y* scaleY - size/2);
 
