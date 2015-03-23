@@ -233,14 +233,14 @@ public class Controller {
     public void pasteElements(Point position) {
         if (!this.copiedElements.isEmpty()) {
             ArrayList<GraphElement> newElements;
-            Dimension               sheetDimension = getWindow().getCurrentSheet().getMaximumSize();
-            int                     vertexSize    = getWindow().getCurrentSheet().getDefaultVerticesSize();
+            Dimension               sheetDimension  = getWindow().getCurrentSheet().getMaximumSize();
+            Dimension               vertexDimension = getWindow().getCurrentSheet().getDefaultVerticesDimension();
             if (position != null) {
-                newElements = Graph.copyGraphElements(this.copiedElements, position, sheetDimension, vertexSize);
+                newElements = Graph.copyGraphElements(this.copiedElements, position, sheetDimension, vertexDimension);
 
                 this.graphs.get(this.window.getCurrentTabIndex()).addGraphElements(newElements);
             } else {
-                newElements = Graph.copyGraphElements(this.copiedElements, Graph.findBestCopyPoint(this.copiedElements), sheetDimension, vertexSize);
+                newElements = Graph.copyGraphElements(this.copiedElements, Graph.findBestCopyPoint(this.copiedElements), sheetDimension, vertexDimension);
 
                 this.graphs.get(this.window.getCurrentTabIndex()).addGraphElements(newElements);
             }
@@ -325,7 +325,8 @@ public class Controller {
      * @param vector le vecteur selon lequel les ElementView doivent être déplacés
      */
     public void notifyMoveSelectedElements(Point vector) {
-        this.window.getCurrentSheet().moveSelectedElements(vector);
+        Dimension sheetDimension  = getWindow().getCurrentSheet().getMaximumSize();
+        this.window.getCurrentSheet().moveSelectedElements(vector, sheetDimension);
     }
 
     /**

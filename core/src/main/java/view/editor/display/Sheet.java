@@ -365,8 +365,37 @@ public class Sheet extends JComponent implements Observer {
     /**
      * Méthode pour déplacer les ElementView sélectionnés
      * @param vector le décalage à effectuer pour chaque élément par rapport à leur position
+     * @param sheetDimension la dimension de la fenêtre
      */
-    public void moveSelectedElements(Point vector) {
+    public void moveSelectedElements(Point vector, Dimension sheetDimension) {
+        Point min = new Point(0, 0);
+        Point max = new Point(0, 0);
+        // Récupérer le rectangle englobant les ElementView sélectionnés
+        for(ElementView element : this.selectedElements) {
+            if (element.getGraphElement().isVertex()) {
+                min = new Point(((Vertex)element.getGraphElement()).getPosition());
+                max = new Point(min);
+                break;
+            }
+        }
+        for (ElementView element : this.selectedElements) {
+            if (element.getGraphElement().isVertex()) {
+                min.x = ((Vertex) element.getGraphElement()).getPosition().x < min.x ? ((Vertex) element.getGraphElement()).getPosition().x : min.x;
+                min.y = ((Vertex) element.getGraphElement()).getPosition().y < min.y ? ((Vertex) element.getGraphElement()).getPosition().y : min.y;
+                max.x = ((Vertex) element.getGraphElement()).getPosition().x > max.x ? ((Vertex) element.getGraphElement()).getPosition().x : max.x;
+                max.y = ((Vertex) element.getGraphElement()).getPosition().y > max.y ? ((Vertex) element.getGraphElement()).getPosition().y : max.y;
+            }
+        }
+        if (min.x + vector.x < 0) {
+            vector.x = 0 - min.x;
+        } else if (max.x + vector.x > sheetDimension.width ) {
+            vector.x = sheetDimension.width - max.x;
+        }
+        if (min.y + vector.y < 0) {
+            vector.y = 0 - min.y;
+        } else if (max.y + vector.y > sheetDimension.height ) {
+            vector.y = sheetDimension.height - max.y;
+        }
         for (ElementView element : this.selectedElements) {
             if (element.getGraphElement().isVertex()) {
                 ((VertexView) element).move(new Point((int) (vector.x / this.scale), (int) (vector.y / this.scale)));
@@ -575,6 +604,14 @@ public class Sheet extends JComponent implements Observer {
      */
     public void setDefaultEdgesColor(Color defaultEdgesColor) {
         this.defaultEdgesColor = defaultEdgesColor;
+    }
+
+    /**
+     * Méthode pour récupérer la dimension de base des Vertex
+     * @return la dimension
+     */
+    public Dimension getDefaultVerticesDimension() {
+        return new Dimension(this.defaultVerticesSize > 25 ? this.defaultVerticesSize : 25, this.getDefaultVerticesSize() + 20);
     }
     
     /**

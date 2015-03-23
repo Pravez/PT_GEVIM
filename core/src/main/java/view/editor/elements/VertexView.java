@@ -18,6 +18,8 @@ import java.awt.geom.Point2D;
 public class VertexView extends ElementView {
 
 	private Vertex         vertex;
+	private Graphics2D     g2d;
+	private int            labelGap;
 
     /**
      * Constructeur de la classe VertexView
@@ -25,12 +27,14 @@ public class VertexView extends ElementView {
      */
     public VertexView(Vertex vertex) {
 		super(vertex.getColor());
-    	this.vertex = vertex;
+    	this.vertex   = vertex;
+		this.labelGap = 5;
     }
 
 	public VertexView(VertexView element) {
 		super(element);
-		this.vertex = new Vertex(element.vertex);
+		this.vertex   = new Vertex(element.vertex);
+		this.labelGap = 5;
 	}
 
     @Override
@@ -85,6 +89,7 @@ public class VertexView extends ElementView {
     
     public void paintComponent(Graphics g, double scaleX, double scaleY, boolean paintLabel) {
         this.scale = new Point2D.Double(scaleX, scaleY);
+		this.g2d   = (Graphics2D)g;
     	g.setFont(super.getFont());
 		
 		Graphics2D     g2d         = ((Graphics2D) g);
@@ -123,9 +128,21 @@ public class VertexView extends ElementView {
 			FontMetrics fontMetrics = g2d.getFontMetrics();
 			int width = fontMetrics.stringWidth(this.vertex.getLabel());
 			g.setColor(Color.BLACK);
-			g.drawString(this.vertex.getLabel(), x + size/2 - width/2, y - 5);
+			g.drawString(this.vertex.getLabel(), x + size/2 - width/2, y - this.labelGap);
 		}
     }
+
+	/**
+	 * Méthode pour récupérer la Dimension du Vertex avec le label
+	 * @return la dimension du Vertex avec le label
+	 */
+	public Dimension getVertexDimension() {
+		FontMetrics fontMetrics = this.g2d.getFontMetrics();
+		int size   = (int)(this.vertex.getSize() * this.scale.x);
+		int width  = fontMetrics.stringWidth(this.vertex.getLabel());
+		int height = fontMetrics.getHeight();
+		return new Dimension(width, height + this.labelGap + size);
+	}
     
     /**
      * Setter de la position du VertexView
@@ -165,7 +182,6 @@ public class VertexView extends ElementView {
      */
     @Override
     public SnapProperties modify(Graph graph){
-
 		SnapVertex snap =null;
         VertexViewEditor edit = new VertexViewEditor(this.vertex, this);
 
