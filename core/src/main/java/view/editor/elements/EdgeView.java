@@ -201,10 +201,11 @@ public class EdgeView extends ElementView {
     public SnapProperties modify(Graph graph) {
 
         EdgeViewEditor edit = new EdgeViewEditor(this.edge, graph, this);
-        SnapEdge snap = new SnapEdge();
+        SnapEdge snap = null; 
 
         if(!edit.isNotModified()) {
-
+                
+            snap = new SnapEdge();
             this.edge.setThickness(edit.getThickness());
             this.edge.setLabel(edit.getLabel());
             this.edge.setColor(edit.getColor());
