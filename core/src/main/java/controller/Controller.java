@@ -206,8 +206,10 @@ public class Controller {
             this.getGraph(this.window.getCurrentTabIndex()).removeGraphElement(e.getGraphElement());
             suppSelectedElements.add(e.getGraphElement());
         }
+        
         window.getCurrentTab().getUndoRedo().registerSuppEdit(suppSelectedElements);
         this.window.getCurrentSheet().clearSelectedElements();
+        this.graphs.get(this.window.getCurrentTabIndex()).setChanged();
     }
 
     /**
@@ -245,6 +247,7 @@ public class Controller {
                 this.graphs.get(this.window.getCurrentTabIndex()).addGraphElements(newElements);
             }
             window.getCurrentTab().getUndoRedo().registerAddEdit(newElements);
+            this.graphs.get(this.window.getCurrentTabIndex()).setChanged();
         }
     }
 
@@ -572,6 +575,7 @@ public class Controller {
 
                         this.getGraph(this.window.getCurrentTabIndex()).addGraphElements(generationThread.getElements());
                         this.window.getCurrentTab().getUndoRedo().registerAddEdit(generationThread.getElements());
+                        this.graphs.get(this.window.getCurrentTabIndex()).setChanged();
                     }
                 } catch (NumberFormatException nfe) { //Si l'utilisateur ne rentre pas un entier
                     JOptionPane.showMessageDialog(null, "Merci de rentrer une valeur entiere.", "Erreur", JOptionPane.ERROR_MESSAGE);

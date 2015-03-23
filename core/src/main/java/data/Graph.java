@@ -42,7 +42,6 @@ public class Graph extends Observable {
      */
     public void addGraphElements(ArrayList<GraphElement> elements) {
     	this.elements.addAll(elements);
-    	this.setChanged();
     }
     
     /**
@@ -275,7 +274,6 @@ public class Graph extends Observable {
             clearLinkedVertices((Edge) element);
         }
         this.elements.remove(element);
-        this.setChanged();
     }
 
     /**
@@ -302,7 +300,6 @@ public class Graph extends Observable {
 	public void createGraphElement(GraphElement element) {
 
 		this.elements.add(element);
-		this.setChanged();
 	}
 
 

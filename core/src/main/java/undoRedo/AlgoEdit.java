@@ -31,8 +31,11 @@ public class AlgoEdit extends AbstractUndoableEdit {
             graph.getVertexes().get(s.getIndex()).setSize(s.getSize());
             graph.getVertexes().get(s.getIndex()).setShape(s.getShape());
             graph.getVertexes().get(s.getIndex()).setPosition(s.getPosition());
-            graph.setChanged();
+            graph.getVertexes().get(s.getIndex()).setValue(s.getValue());
+
         }
+        graph.setChanged();
+
 
     }
 
@@ -47,7 +50,8 @@ public class AlgoEdit extends AbstractUndoableEdit {
                 graph.getVertexes().get(s.getIndex()).setSize(s.getSize());
                 graph.getVertexes().get(s.getIndex()).setShape(s.getShape());
                 graph.getVertexes().get(s.getIndex()).setPosition(s.getPosition());
-                graph.setChanged();
+                graph.getVertexes().get(s.getIndex()).setValue(s.getValue());
+
             }
 
             graph.setChanged();

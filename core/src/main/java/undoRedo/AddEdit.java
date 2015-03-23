@@ -33,6 +33,7 @@ public class AddEdit extends AbstractUndoableEdit{
         for(GraphElement e : elements) {
             graph.removeGraphElement(e);
         }
+        graph.setChanged();
     }
 
     /**
@@ -43,6 +44,7 @@ public class AddEdit extends AbstractUndoableEdit{
         for(GraphElement e : elements) {
             graph.createGraphElement(e);
         }
+        graph.setChanged();
 
     }
 
