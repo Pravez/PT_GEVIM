@@ -9,25 +9,29 @@ import javax.swing.undo.CannotUndoException;
 import java.util.ArrayList;
 
 /**
- * @author Benjamin Dos Santos
- * Classe AddEdit, à chaque création d'objets au sein d'un Graph, une instance de AddEdit est créée et associée à l'undoManager.
+ * Classe AddEdit, enregistre la création de {@link data.GraphElement} au sein d'un {@link data.Graph}.
+ * A chaque création d'objets au sein d'un {@link data.Graph}, une instance de AddEdit est créée.
  */
 public class AddEdit extends AbstractUndoableEdit{
 
 
-    private ArrayList <GraphElement> elements;
+    private ArrayList <GraphElement> elements; //ensemble des GraphElements venant d'être créés
 
-    private Graph graph;
+    private Graph graph; // le Graph dans lequel les nouveaux GraphElements ont été créés
 
+    /**
+     * Constructeur de la class AddEdit
+     * @param model le Graph d'où proviennent les GraphElements
+     * @param elements l'ensemble des GraphElements venant d'être créés
+     */
     public AddEdit(Graph model, ArrayList <GraphElement> elements) {
         graph=model;
-
         this.elements = elements;
     }
 
     /**
      * Action correspondante à l'annulation de cet AddEdit
-     * @throws CannotUndoException
+     * @throws CannotUndoException renvoyée lorsque l'undo est impossible
      */
     public void undo() throws CannotUndoException {
         for(GraphElement e : elements) {
@@ -38,7 +42,7 @@ public class AddEdit extends AbstractUndoableEdit{
 
     /**
      * Action correspondante au rétablissement de cet AddEdit précédemment annulé
-     * @throws CannotRedoException
+     * @throws CannotRedoException renvoyée lorsque le redo est impossible
      */
     public void redo() throws CannotRedoException {
         for(GraphElement e : elements) {
@@ -59,8 +63,5 @@ public class AddEdit extends AbstractUndoableEdit{
      * @return true
      */
     public boolean canRedo() { return true; }
-
-    //pas encore utilisée, permettrait de générer un historique
-    public String getPresentationName() { return "Add"; }
 
 }

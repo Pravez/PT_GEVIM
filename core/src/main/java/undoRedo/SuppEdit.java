@@ -24,8 +24,8 @@ public class SuppEdit extends AbstractUndoableEdit {
     }
 
     /**
-     * Action correspondante à l'annulation de cet SuppEdit
-     * @throws CannotUndoException
+     * Action correspondante à l'annulation de cet SuppEdit. On recrée les GraphElements supprimés
+     * @throws CannotUndoException renvoyée lorsque l'undo est impossible
      */
     public void undo() throws CannotUndoException {
         for(GraphElement e : elements) {
@@ -36,8 +36,8 @@ public class SuppEdit extends AbstractUndoableEdit {
     }
 
     /**
-     * Action correspondante au rétablissement de cet SuppEdit précédemment annulé
-     * @throws CannotRedoException
+     * Action correspondante au rétablissement de cet SuppEdit précédemment annulé. On supprime de nouveaux les GraphElements
+     * @throws CannotRedoException renvoyée lorsque le redo est impossible
      */
     public void redo() throws CannotRedoException {
         for(GraphElement e : elements) {
@@ -57,8 +57,5 @@ public class SuppEdit extends AbstractUndoableEdit {
      * @return true
      */
     public boolean canRedo() { return true; }
-
-    //pas encore utilisée, permettrait de générer un historique
-    public String getPresentationName() { return "Add"; }
 
 }

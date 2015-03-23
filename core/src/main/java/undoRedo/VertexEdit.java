@@ -31,6 +31,10 @@ public class VertexEdit extends AbstractUndoableEdit {
         vertexAfter=after;
     }
 
+    /**
+     * Action correspondante à l'annulation de ce VertexEdit.Les Vertices récupérent leurs propriétés avant modification
+     * @throws CannotUndoException renvoyée lorsque l'undo est impossible
+     */
     public void undo() throws CannotUndoException {
 
         for(SnapVertex s : verticesBefore) {
@@ -56,10 +60,13 @@ public class VertexEdit extends AbstractUndoableEdit {
 
     }
 
+    /**
+     * Action correspondante au rétablissement de ce VertexEdit. Les Vertices retrouvent leurs propriétés après modification
+     * @throws CannotUndoException renvoyée lorsque le redo est impossible
+     */
     public void redo() throws CannotUndoException {
 
         for(SnapVertex s : verticesBefore) {
-
 
             if (vertexAfter.getColor() != null)
                 graph.getVertexes().get(s.getIndex()).setColor(vertexAfter.getColor());
@@ -82,11 +89,16 @@ public class VertexEdit extends AbstractUndoableEdit {
         graph.setChanged();
 
     }
-
+    /**
+     * Indique que le VertexEdit est annulable
+     * @return true
+     */
     public boolean canUndo() { return true; }
 
+    /**
+     * Indique que l'on peut rétablir ce VertexEdit
+     * @return true
+     */
     public boolean canRedo() { return true; }
-
-    public String getPresentationName() { return "Vertex edited"; }
 
 }

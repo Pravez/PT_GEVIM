@@ -70,7 +70,7 @@ public class UndoPanel extends JPanel {
 
 
     /**
-     * Enregistre au sein du module UndoRedo la création d'un ou plusieurs {@link data.GraphElement} au sein du {@link data.Graph} associé
+     * Enregistre au sein du module UndoRedo la création d'un ou plusieurs {@link data.GraphElement} au sein du {@link data.Graph} associé.  Permet l'undoRedo sur la création
      * @param newElements les nouveaux objets créés
      */
     public void registerAddEdit(ArrayList<GraphElement> newElements) {
@@ -82,7 +82,7 @@ public class UndoPanel extends JPanel {
 
 
     /**
-     * Enregistre au sein du module UndoRedo la suppression d'un ou pluqieurs {@link data.GraphElement} au sein du {@link data.Graph} associé
+     * Enregistre au sein du module UndoRedo la suppression d'un ou pluqieurs {@link data.GraphElement} au sein du {@link data.Graph} associé.  Permet l'undoRedo sur la suppression
      * @param suppElements GraphElements venant d'être supprimés
      */
     public void registerSuppEdit(ArrayList<GraphElement> suppElements) {
@@ -113,7 +113,7 @@ public class UndoPanel extends JPanel {
     }
 
     /**
-     * Enregistre au sein du module UndoRedo la modification des propriétés d'un ensemble de {@link data.Edge} et de {@link data.Vertex}
+     * Enregistre au sein du module UndoRedo la modification des propriétés d'un ensemble de {@link data.Edge} et de {@link data.Vertex}.  Permet l'undoRedo sur l'édition multitype
      * @param propertiesBefore ensemble des propriétés des GraphElements concernés avant modification
      * @param snapAfter ensemble des nouvelles propriétés
      */
@@ -125,7 +125,7 @@ public class UndoPanel extends JPanel {
     }
 
     /**
-     * Enregistre au sein du module UndoRedo le déplacement d'un ensemble de {@link data.Vertex}
+     * Enregistre au sein du module UndoRedo le déplacement d'un ensemble de {@link data.Vertex}.  Permet l'undoRedo sur les déplacements
      * @param positionsBefore ensemble des positions avant déplacements
      * @param positionsAfter ensemble des positions après déplacements
      */
@@ -136,7 +136,7 @@ public class UndoPanel extends JPanel {
     }
 
     /**
-     * Enregistre au sein du module UndoRedo la modification des propriétés d'un ensemble composé uniquement de  {@link data.Vertex} ou de {@link data.Edge}
+     * Enregistre au sein du module UndoRedo la modification des propriétés d'un ensemble composé uniquement de {@link data.Vertex} ou de {@link data.Edge}
      * @param propertiesBefore ensemble des propriétés des GraphElements concernés avant modification
      * @param snapAfter  ensemble des nouvelles propriétés
      */
@@ -160,7 +160,7 @@ public class UndoPanel extends JPanel {
     }
 
     /**
-     * Enregistre au sein du module UndoRedo la modification des propriétés d'un seul {@link data.GraphElement}
+     * Enregistre au sein du module UndoRedo la modification des propriétés d'un seul {@link data.GraphElement}. Permet l'undoRedo sur l'édition monotype
      * @param propertiesBefore ensemble des propriétés du GraphElements concerné avant modification
      * @param snapAfter  ensemble des nouvelles propriétés
      */
@@ -179,7 +179,7 @@ public class UndoPanel extends JPanel {
     }
 
     /**
-     * Enregistre au sein du module UndoRedo l'application d'un {@link algorithm.IAlgorithm}
+     * Enregistre au sein du module UndoRedo l'application d'un {@link algorithm.IAlgorithm}. Permet l'undoRedo sur les Algorithmes.
      * @param verticesBefore propriétés de l'ensemble des Vertices du Graph avant application de l'algorithme
      * @param verticesAfter propriétés de l'ensemble des Vertices du Graph après application de l'algorithme
      */
