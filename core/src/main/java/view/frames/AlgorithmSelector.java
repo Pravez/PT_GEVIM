@@ -96,8 +96,8 @@ public class AlgorithmSelector extends JDialog {
 
             @Override
             public void itemStateChanged(ItemEvent itemEvent) {
-                if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
-                    switch ((String)itemEvent.getItem()) {
+                if (itemEvent.getStateChange() == ItemEvent.SELECTED)
+                    switch ((String) itemEvent.getItem()) {
                         case "Positionnement Aléatoire":
                             colorMax.setVisible(false);
                             colorMin.setVisible(false);
@@ -119,7 +119,20 @@ public class AlgorithmSelector extends JDialog {
                             maxColorLabel.setVisible(true);
                             changeSize("Color");
                             break;
-                    }
+                        case "Calcul des indices" :
+                            colorMax.setVisible(false);
+                            colorMin.setVisible(false);
+                            minColorLabel.setVisible(false);
+                            maxColorLabel.setVisible(false);
+                            changeSize("Random");
+                            break;
+                        case "Changement de la taille" :
+                            colorMax.setVisible(false);
+                            colorMin.setVisible(false);
+                            minColorLabel.setVisible(false);
+                            maxColorLabel.setVisible(false);
+                            changeSize("Random");
+                            break;
                 }
             }
         });
@@ -161,7 +174,8 @@ public class AlgorithmSelector extends JDialog {
             case "Nombre d'arêtes" : return Property.NBEDGES;
             case "Taille" : return Property.SIZE;
             case "Position" : return Property.POSITION;
-            case "indice" : return Property.VALUE;
+            case "Indice" : return Property.VALUE;
+            case "Aléatoire" : return Property.RANDOM;
             default : return Property.NBEDGES;
         }
     }

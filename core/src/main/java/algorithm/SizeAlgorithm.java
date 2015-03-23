@@ -28,12 +28,14 @@ public class SizeAlgorithm implements IAlgorithm {
         for (Vertex v : graph.getVertexes()){
             v.setSize(v.getValue() + MINIMAL_SIZE);
         }
+        graph.setChanged();
     }
 
     private void nbEdgesSize(Graph graph) {
         for (Vertex v : graph.getVertexes()){
             v.setSize(v.getEdges().size() + MINIMAL_SIZE);
         }
+        graph.setChanged();
     }
 
     public void run(Graph graph, Property p){
