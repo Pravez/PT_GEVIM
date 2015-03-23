@@ -5,15 +5,12 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 
 /**
- * Created by aledufrenne on 18/03/15.
+ * Classe CustomScrollBarUI permettant de modifier l'aspect graphique des ScrollBar de l'application selon le thème de l'application
  */
 public class CustomScrollBarUI extends BasicScrollBarUI {
 
     /**
      * Dessiner le cadre de la ScrollBar
-     * @param g
-     * @param c
-     * @param trackBounds
      */
     @Override
     protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
@@ -23,9 +20,6 @@ public class CustomScrollBarUI extends BasicScrollBarUI {
 
     /**
      * Dessiner la barre de la ScrollBar
-     * @param g
-     * @param c
-     * @param thumbBounds
      */
     @Override
     protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {

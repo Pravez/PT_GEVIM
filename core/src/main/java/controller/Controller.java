@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 /**
- *
  * Classe Controller, contrôleur principal de l'application
  */
 public class Controller {

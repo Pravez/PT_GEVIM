@@ -15,26 +15,9 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Created by aledufrenne on 09/03/15.
+ * Classe ButtonFactory permettant de créer les différents
  */
 public class ButtonFactory {
-
-    /**
-     * Méthode statique pour créer un bouton avec du texte destiné à un ToolBar
-     *
-     * @param buttonName le nom du bouton
-     * @param actionName l'action associé au buton
-     * @param helpMessage le message d'aide du bouton
-     * @return le JButton créé
-     */
-    public static JButton createToolBarButton(String buttonName, String actionName, String helpMessage) {
-        JButton button = new JButton(buttonName);
-        button.setActionCommand(actionName);
-        button.setToolTipText(helpMessage);
-        button.addActionListener(new ButtonActionListener(button, null, ""));
-        button.setFocusable(false);
-        return button;
-    } /**** A virer ??? *****/
 
     /**
      * Méthode statique pour créer une JToolBar

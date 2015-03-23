@@ -11,10 +11,11 @@ import java.awt.image.WritableRaster;
 import java.util.ArrayList;
 
 /**
- * Created by Admin on 19/03/2015.
+ * Classe CustomUIManager permettant d'agir directement sur l'aspect graphique des éléments de l'application, notamment pour le changement de thème
  */
 public class CustomUIManager {
 
+    /* Liste des Elements Swing à sauvegarder pour pouvoir modifier leurs propriétés */
     private static ArrayList<JMenuItem>   menuItems           = new ArrayList<>();
     private static ArrayList<JSeparator>  separators          = new ArrayList<>();
     private static ArrayList<JMenuBar>    menuBars            = new ArrayList<>();

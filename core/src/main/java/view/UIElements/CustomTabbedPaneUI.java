@@ -5,19 +5,22 @@ import java.awt.*;
 import java.awt.geom.Path2D;
 
 /**
- * Created by aledufrenne on 17/03/2015.
+ * Classe CustomTabbedPaneUI permettant de modifier l'aspect graphique des JTabbedPane de l'application selon le thème de l'application
  */
 public class CustomTabbedPaneUI extends BasicTabbedPaneUI {
 
-    private int anchoFocoH = 4;
-    private int anchoCarpetas = 18;
-
+    /**
+     * Override de la méthode permettant d'installer les paramètres par défaut du BasicTabbedPaneUI
+     */
     @Override
     protected void installDefaults() {
         super.installDefaults();
-        this.tabAreaInsets.right = this.anchoCarpetas;
+        this.tabAreaInsets.right = 18;
     }
 
+    /**
+     * Override de la méthode permettant de dessiner le background du JTabbedPane
+     */
     @Override
     protected void paintTabBackground(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected) {
         Graphics2D g2D = (Graphics2D) g;
@@ -31,15 +34,21 @@ public class CustomTabbedPaneUI extends BasicTabbedPaneUI {
         g2D.fill(shape);
     }
 
+    /**
+     * Override permettant de calculer le hauteur du Tab
+     */
     @Override
     protected int calculateTabHeight(int tabPlacement, int tabIndex, int fontHeight) {
         if (tabPlacement == LEFT || tabPlacement == RIGHT) {
             return super.calculateTabHeight(tabPlacement, tabIndex, fontHeight);
         } else {
-            return anchoFocoH + super.calculateTabHeight(tabPlacement, tabIndex, fontHeight);
+            return 4 + super.calculateTabHeight(tabPlacement, tabIndex, fontHeight);
         }
     }
 
+    /**
+     * Override de la méthode permettant de dessiner la bordure de l'onglet du Tab
+     */
     @Override
     protected void paintTabBorder(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected) {
         Graphics2D g2D = (Graphics2D) g;

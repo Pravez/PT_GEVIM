@@ -7,13 +7,22 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
- * Created by aledufrenne on 20/03/2015.
+ * Classe ImageMenuItem héritant de la classe ImageButton pour les JMenuItem
  */
 public class ImageMenuItem extends ImageButton {
+
+    /**
+     * Constructeur de la classe ImageMenuItem
+     * @param image l'image de base de l'ImageMenuItem
+     * @param size la taille de l'image de l'ImageMenuItem
+     */
     public ImageMenuItem(BufferedImage image, int size) {
         super(image, size);
     }
 
+    /**
+     * Override de la méthode paintComponent pour afficher l'image en mode hover selon le CustomUIManager
+     */
     @Override
     protected void paintComponent(Graphics g) {
         ButtonModel m = getModel();
