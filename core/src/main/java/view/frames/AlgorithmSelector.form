@@ -86,8 +86,8 @@
               <model>
                 <item value="Nombre d'arêtes"/>
                 <item value="Taille"/>
-                <item value="Position"/>
                 <item value="Indice"/>
+                <item value="Aléatoire"/>
               </model>
             </properties>
           </component>
@@ -100,6 +100,8 @@
                 <item value="Positionnement Aléatoire"/>
                 <item value="Positionnement Circulaire"/>
                 <item value="Coloration des Sommets"/>
+                <item value="Calcul des indices"/>
+                <item value="Changement de la taille"/>
               </model>
             </properties>
           </component>

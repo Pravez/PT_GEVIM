@@ -105,12 +105,12 @@ public class Window extends JFrame {
         Color buttonColor = new Color(205, 205, 205);
         JLabel background = new JLabel("");
         try {
-            background.setIcon(new ImageIcon(CustomUIManager.getColoredImage(ImageIO.read(new File("core/assets/Gevim.png")), logoColor)));
+            background.setIcon(new ImageIcon(CustomUIManager.getColoredImage(ImageIO.read(new File("assets/Gevim.png")), logoColor)));
         } catch (IOException e) { }
         background.setBounds(0, 0, 915, 379);
         this.startPanel.add(background, BorderLayout.NORTH);
         JPanel buttonPanel = new JPanel();
-        buttonPanel.add(ButtonFactory.createImageButton("New", "New", "core/assets/new-very-big.png", "Nouveau graphe", 128, ""));
+        buttonPanel.add(ButtonFactory.createImageButton("New", "New", "assets/new-very-big.png", "Nouveau graphe", 128, ""));
         JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
         separator.setBackground(buttonColor);
         separator.setPreferredSize(new Dimension(15, 128));
@@ -118,7 +118,7 @@ public class Window extends JFrame {
         buttonPanel.add(Box.createHorizontalStrut(5));
         buttonPanel.add(separator);
         buttonPanel.add(Box.createHorizontalStrut(5));
-        buttonPanel.add(ButtonFactory.createImageButton("Open", "Open", "core/assets/open-very-big.png", "Ouvrir un graphe", 128, ""));
+        buttonPanel.add(ButtonFactory.createImageButton("Open", "Open", "assets/open-very-big.png", "Ouvrir un graphe", 128, ""));
         this.startPanel.add(buttonPanel, BorderLayout.CENTER);
         showStartPanel();
     }
@@ -156,7 +156,7 @@ public class Window extends JFrame {
             }
         });
 
-        setIconImage(Toolkit.getDefaultToolkit().getImage("core/assets/LogoGevim.png")); //Icone de l'application
+        setIconImage(Toolkit.getDefaultToolkit().getImage("assets/LogoGevim.png")); //Icone de l'application
     }
 
     /**
@@ -193,14 +193,14 @@ public class Window extends JFrame {
         this.stateButtons = new ArrayList<>();
         toolBar.setFloatable(false);
 
-        toolBar.add(ButtonFactory.createImageMenuItem("New", "New", "core/assets/new.png", "Nouveau graphe", buttonSize));
-        addToolBarStateButton(toolBar, State.Mode.SELECTION.name(), "core/assets/cursor.png", "Mode édition");
-        addToolBarStateButton(toolBar, State.Mode.CREATION.name(), "core/assets/edit.png", "Mode création");
-        addToolBarStateButton(toolBar, State.Mode.ZOOM.name(), "core/assets/zoom.png",  "Mode Zoom");
-        toolBar.add(ButtonFactory.createImageMenuItem("Copy", "Copy", "core/assets/copy.png", "Copier", buttonSize));
-        toolBar.add(ButtonFactory.createImageMenuItem("Paste", "Paste", "core/assets/paste.png", "Coller", buttonSize));
-        this.undoButton = ButtonFactory.createImageMenuItem("Undo", "Undo", "core/assets/undo.png", "Annuler", buttonSize);
-        this.redoButton = ButtonFactory.createImageMenuItem("Redo", "Redo", "core/assets/redo.png", "Rétablir", buttonSize);
+        toolBar.add(ButtonFactory.createImageMenuItem("New", "New", "assets/new.png", "Nouveau graphe", buttonSize));
+        addToolBarStateButton(toolBar, State.Mode.SELECTION.name(), "assets/cursor.png", "Mode édition");
+        addToolBarStateButton(toolBar, State.Mode.CREATION.name(), "assets/edit.png", "Mode création");
+        addToolBarStateButton(toolBar, State.Mode.ZOOM.name(), "assets/zoom.png",  "Mode Zoom");
+        toolBar.add(ButtonFactory.createImageMenuItem("Copy", "Copy", "assets/copy.png", "Copier", buttonSize));
+        toolBar.add(ButtonFactory.createImageMenuItem("Paste", "Paste", "assets/paste.png", "Coller", buttonSize));
+        this.undoButton = ButtonFactory.createImageMenuItem("Undo", "Undo", "assets/undo.png", "Annuler", buttonSize);
+        this.redoButton = ButtonFactory.createImageMenuItem("Redo", "Redo", "assets/redo.png", "Rétablir", buttonSize);
 
         this.undoButton.setEnabled(false);
         this.redoButton.setEnabled(false);
@@ -299,7 +299,7 @@ public class Window extends JFrame {
         gbc.weightx = 0;
         titlePanel.add(Box.createHorizontalStrut(25));
         Color crossBackground = new Color(212, 0, 0);
-        titlePanel.add(ButtonFactory.createBoxContainer(ButtonFactory.createBasicReverseImageButton("Close", "Close", "core/assets/cross.png", "Fermer le graphe", 12, title), crossBackground, 12), gbc);
+        titlePanel.add(ButtonFactory.createBoxContainer(ButtonFactory.createBasicReverseImageButton("Close", "Close", "assets/cross.png", "Fermer le graphe", 12, title), crossBackground, 12), gbc);
 
         this.tabs.setTabComponentAt(this.tabs.indexOfTab(title), titlePanel);
         Window.tabIndex++;
