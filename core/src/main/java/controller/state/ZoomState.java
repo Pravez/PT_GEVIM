@@ -38,7 +38,7 @@ public class ZoomState extends State {
 
 	@Override
 	public void pressed(Tab tab, Graph grap, MouseEvent e) {
-        this.sourceDrag = e.getPoint(); // on récupère la position à laquelle on presse la souris
+        this.sourceDrag = e.getLocationOnScreen(); // on récupère la position à laquelle on presse la souris
 	}
 
 	@Override
