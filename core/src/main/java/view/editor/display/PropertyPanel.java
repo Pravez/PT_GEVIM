@@ -35,7 +35,7 @@ public class PropertyPanel extends JTabbedPane implements Observer {
      * Constructeur de la classe initialisant les données du {@link javax.swing.JTable} à partir d'un {@link Sheet} et de son {@link data.Graph} associé
      * @param sheet Le {@link Sheet} correspondant
      */
-    public PropertyPanel(Sheet sheet){
+    public PropertyPanel(final Sheet sheet){
         this.setUI(new CustomTabbedPaneUI());
 
         this.sheet = sheet;
@@ -178,7 +178,7 @@ public class PropertyPanel extends JTabbedPane implements Observer {
             this.graph.getFromID(id).setLabel(newLabel);
 
             if(mustVerifyIntegerDatas(newSize)){
-                int previousSize = ((Vertex)this.graph.getFromID(id)).getSize();
+                int previousSize = ((Vertex) this.graph.getFromID(id)).getSize();
                 vertexPropertyTable.getModel().setValueAt(String.valueOf(previousSize), i, 1);
             } else {
                 ((Vertex)this.graph.getFromID(id)).setSize(newSize);
@@ -203,7 +203,6 @@ public class PropertyPanel extends JTabbedPane implements Observer {
      */
     @Override
     public void update(Observable observable, Object object) {
-
         vertexDatas.clear();
         edgeDatas.clear();
 
