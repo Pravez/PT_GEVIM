@@ -230,6 +230,10 @@ public class EdgeViewEditor extends JDialog {
         return mustBeVerified;
     }
 
+    /**
+     * Méthode permettant de savoir si une modification a été réalisée dans la fenêtre
+     * @return True si au moins un élément a été modifié, false sinon
+     */
     private boolean hasBeenModified(){
 
         boolean modified = false;

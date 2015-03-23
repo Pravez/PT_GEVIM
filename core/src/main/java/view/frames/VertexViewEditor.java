@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.*;
 
 /**
- * Created by Paul Breton
  * Classe "visuelle" qui permet de modifier toutes les données d'un {@link data.Vertex} avec une interface graphique.
  */
 public class VertexViewEditor extends JDialog {
@@ -95,6 +94,10 @@ public class VertexViewEditor extends JDialog {
         this.setVisible(true);
     }
 
+    /**
+     * Méthode d'initialisation de la plupart des composants de la fenêtre
+     * @param v Le vertex à partir duquel initialiser les données
+     */
     private void initComponents(Vertex v){
 
         this.notModified = false;
@@ -252,6 +255,10 @@ public class VertexViewEditor extends JDialog {
         return mustBeVerified;
     }
 
+    /**
+     * Méthode vérifiant que les données ont été modifiées (utilisée plus tard par le manager d'Undo/Redo)
+     * @return True si une seule chose a été modifiée, false sinon
+     */
     private boolean hasBeenModified(){
 
         boolean modified = false;
