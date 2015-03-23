@@ -14,12 +14,17 @@ import java.awt.event.MouseWheelEvent;
 import java.util.HashMap;
 
 public abstract class State {
-	
+
+    /* Le Controller de l'application */
 	protected Controller controller;
+    /* Booléen permettant de savoir si on est en train d'effectuer un drag */
 	protected boolean    dragging;
+    /* Point permettant de stocker la position de départ du drag */
 	protected Point      sourceDrag;
 
+    /* Enumération listant les différents modes de l'application */
     public enum Mode { SELECTION, CREATION, ZOOM }
+
 	/**
 	 * Constructeur de la classe State
 	 * @param controller le controller principal de l'application

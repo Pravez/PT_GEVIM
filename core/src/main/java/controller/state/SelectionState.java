@@ -12,6 +12,10 @@ import java.util.HashMap;
 
 public class SelectionState extends State {
 
+    /**
+     * Constructeur de la classe SelectionState
+     * @param controller le Controller de l'application
+     */
 	public SelectionState(Controller controller) {
 		super(controller);
 	}
@@ -31,6 +35,14 @@ public class SelectionState extends State {
         this.controller.notifyRepaintTab();
 	}
 
+    /**
+     * Override de la méthode quand on clique sur la feuille de dessin :
+     * - si c'est un clic droit, on ouvre le PopUpMenu concernant le Tab
+     * - on clôt l'affichage de la zone de sélection
+     * @param tab le Tab qui a reçu l'événement souris clic
+     * @param graph le Graph correspondant au Tab
+     * @param e l'événement souris
+     */
 	@Override
 	public void click(Tab tab, Graph graph, MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
@@ -38,7 +50,13 @@ public class SelectionState extends State {
 		}
 		this.controller.notifyClearSelection();
 	}
-	
+
+    /**
+     * Override de la méthode quand on clique sur un ElementView :
+     * - si c'est un clic droit, on demande au Controller de le sélectionner et on ouvre le PopuMenu concernant l'ElementView
+     * @param element l'ElementView reçevant l'événement souris clic
+     * @param e l'événement souris
+     */
 	@Override
 	public void click(ElementView element, MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON3) { // Clic droit
@@ -50,7 +68,8 @@ public class SelectionState extends State {
 	}
 
     /**
-     * Méthode pour créer une zone de sélection
+     * Override la méthode quand on effectue un drag avec la souris sur le Tab :
+     * - on créé une zone de sélection en sélectionnant les éléments selon si la touche Ctrl est enfoncée ou non
      * @param tab le Tab qui a reçu l'événement souris drag
      * @param graph le Graph correspondant au Tab
      * @param e l'événement souris
@@ -66,7 +85,10 @@ public class SelectionState extends State {
 	}
 
 	/**
-	 * Méthode pour déplacer les VertexView sélectionnés
+	 * Override de la méthode quand on effectue un drag avec la souris sur un VertexView :
+     * - si on commence à faire le drag, on initialise le déplacement des ElementView sélectionnés
+     * - sinon on déplace les ElementView sélectionnés
+     * - on repeint le Tab et on sauvegarde la position actuelle du curseur
 	 * (non-Javadoc)
 	 * @see controller.state.State#drag(view.editor.elements.VertexView, java.awt.event.MouseEvent)
 	 */
@@ -83,7 +105,8 @@ public class SelectionState extends State {
 	}
 
     /**
-     * Méthode appelée lorsque l'on presse la souris sur la feuille de dessin
+     * Override de la méthode quand on presse le bouton de la souris sur la feuille de dessin :
+     * - si on n'a pas la touche Ctrl enfoncée, on déselectionne les ElementView sélectionnés
      * @param tab le Tab qui a reçu l'événement souris drag
      * @param graph le Graph correspondant au Tab
      * @param e l'événement souris
@@ -97,7 +120,8 @@ public class SelectionState extends State {
 	}
 
     /**
-     * Méthode appelée lorsque l'on presse la souris sur un ElementView
+     * Override de la méthode quand on presse le bouton de la souris sur un ElementView :
+     * - si c'est avec le clic gauche, on s'occupe de gérer la sélection de l'ElementView en fonction de l'état de la touche Ctrl
      * @param element l'ElementView reçevant l'événement souris pressed
      * @param e l'événement souris
      */
@@ -108,7 +132,14 @@ public class SelectionState extends State {
 			manageSelection(element, e);
 		}
 	}
-	
+
+    /**
+     * Override de la méthode quand on relâche le bouton de la souris sur la feuille de dessin :
+     * - si on était en train d'effectuer un drag, on sélectionne les ElementView à l'intérieur de la zone de sélection
+     * @param tab le Tab qui a reçu l'événement souris drag
+     * @param graph le Graph correspondant au Tab
+     * @param e l'événement souris
+     */
 	@Override
 	public void released(Tab tab, Graph graph, MouseEvent e) {
 		if (this.dragging) {
@@ -117,9 +148,15 @@ public class SelectionState extends State {
 		this.dragging = false;
 	}
 
+    /**
+     * Override de la méthode quand on relâche le bouton de la souris sur un ElementView :
+     * - si la touche Ctrl n'est pas enfoncée, on sélectionne l'ElementView
+     * - si on était en train de faire un drag, on clôt le déplacement des ElementView sélectionnés
+     * @param element l'ElementView reçevant l'événement souris released
+     * @param e l'événement souris
+     */
 	@Override
 	public void released(ElementView element, MouseEvent e) {
-		this.controller.notifyMoveSelectedElements(new Point(e.getX() - this.sourceDrag.x, e.getY() - this.sourceDrag.y));
 		if (!e.isControlDown()) {
 			this.controller.notifyHandleElement(element);
 		}
@@ -128,7 +165,11 @@ public class SelectionState extends State {
         }
 		this.dragging = false;
 	}
-	
+
+    /**
+     * Override de la méthode permettant de connaitre le Mode en cours
+     * @return SELECTION, on est en mode SELECTION
+     */
 	@Override
 	public String getMode() {
 		return "SELECTION";
